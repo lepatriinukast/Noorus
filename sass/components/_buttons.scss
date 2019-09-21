@@ -1,0 +1,58 @@
+// Universal button styles
+
+.btn {
+  &,
+  &:link,
+  &:visited {
+    display: inline-block;
+    font-family: inherit;
+    text-decoration: none;
+    border: none;
+    transition-property: transform;
+    transition-duration: 0.5s;
+
+    &:active,
+    &:hover,
+    &:focus {
+      outline: none;
+      transform: scale(1.1);
+    }
+
+    &:focus-visible {
+      outline: 2px blue solid;
+    }
+  }
+
+  // The main purple button
+
+  &--main {
+    padding: 1rem 3rem;
+    background-color: $color-primary-dark;
+    color: $color-white;
+    font-size: 1.6rem;
+    font-weight: 700;
+    border-radius: 10px;
+    transition-property: background-color;
+    transition-duration: 0.5s;
+    @include boxShadow;
+
+    &:active,
+    &:hover {
+      background-color: $color-primary-light;
+    }
+  }
+
+// The small dropdown button
+
+  &--menu {
+    position: relative;
+    padding: 0 2rem;
+    color: $color-white;
+    background-color: transparent;
+  }
+
+  &__icon {
+    font-size: 1.6rem;
+    font-weight: 700;
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "name": "noorus",
+  "version": "1.0.0",
+  "description": "segakoor Noorus koduleht",
+  "main": "index.js",
+  "scripts": {
+    "watch:sass": "node-sass sass/main.scss css/style.css -w"
+  },
+  "author": "Joosep Trumm",
+  "license": "ISC",
+  "dependencies": {
+    "node-sass": "^4.12.0"
+  }
+}

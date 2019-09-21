@@ -1,0 +1,69 @@
+// Hidden dropdown menus that appear on hover or click
+
+.dropdown {
+  position: absolute;
+  z-index: 3;
+  padding: 1.5rem 2rem;
+  border-radius: 10px;
+  transform: scale(0.9);
+  text-align: center;
+  @include boxShadow;
+
+  // Dropdown menu on the header navigation
+
+  &--header {
+    top: 5.2rem;
+    background-color: $color-primary-light;
+  }
+
+  // Dropdown menu on the hidden navigation (on smaller screens)
+
+  &--hidden {
+    left: 105%;
+    top: 1.5rem;
+    background-color: $color-primary-dark;
+    @media screen and (max-height: 18.75em) {
+      top: -1.5rem;
+    }
+  }
+
+  // Dropdown menu on the footer
+
+  &--footer {
+    top: -17.5rem;
+    background-color: $color-primary-light;
+    @media screen and (max-width: 43.75em), (max-height: 18.75em) {
+      top: -18rem;
+    }
+  }
+
+  // Dropdown elements
+
+  &__list {
+    list-style: none;
+  }
+
+  &__item {
+    transition-property: transform;
+    transition-duration: 0.5s;
+
+    &:not(:last-child) {
+      margin-bottom: 1.5rem;
+    }
+
+    &:active,
+    &:hover {
+      transform: scale(1.2);
+    }
+  }
+
+  &__link {
+    &:link,
+    &:visited {
+      text-decoration: none;
+      color: $color-white;
+      font-size: 1.6rem;
+      font-weight: 700;
+    }
+  }
+}

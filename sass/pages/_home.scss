@@ -1,0 +1,83 @@
+// Styles for the home page
+
+.section-features {
+  &__container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+  }
+
+  &__column {
+    padding: 6rem 4rem;
+    text-align: center;
+  }
+
+  &__item {
+    transition-property: transform, color;
+    transition-duration: 0.5s;
+
+    &:hover,
+    &:active {
+      transform: scale(1.1);
+    }
+
+    &:active .section-features__icon,
+    &:active .heading--purple,
+    &:hover .section-features__icon,
+    &:hover .heading--purple {
+      color: $color-primary-light;
+    }
+  }
+
+  &__icon {
+    font-size: 4rem;
+    color: $color-primary-dark;
+    margin-bottom: 1rem;
+    transition-property: color;
+    transition-duration: 0.5s;
+  }
+
+  &__link {
+    &:link,
+    &:visited {
+      text-decoration: none;
+      color: $color-primary-dark;
+      transition-property: color;
+      transition-duration: 0.5s;
+    }
+  }
+}
+
+.section-events {
+  position: relative;
+  min-height: 40rem;
+  margin-top: 2rem;
+
+  &__error-message {
+    display: none;
+    text-align: center;
+    @include absCenter;
+  }
+
+  &__heading-box {
+    text-align: center;
+  }
+
+  &__container {
+    display: flex;
+    height: 100%;
+    justify-content: space-around;
+    align-items: center;
+    padding: 5rem;
+    flex-wrap: wrap;
+  }
+}
+
+.section-history {
+  &__container {
+    margin: 0 auto;
+    max-width: 80rem;
+    text-align: center;
+    padding: 5rem;
+  }
+}

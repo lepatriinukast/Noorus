@@ -1,0 +1,22 @@
+@import "abstracts/mixins.scss";
+@import "abstracts/variables.scss";
+
+@import "base/animations.scss";
+@import "base/base.scss";
+@import "base/typography.scss";
+@import "base/utilities.scss";
+
+@import "components/buttons.scss";
+@import "components/card.scss";
+@import "components/dropdown.scss";
+@import "components/hidden-menu.scss";
+@import "components/navigation.scss";
+
+@import "layout/header.scss";
+@import "layout/footer.scss";
+
+@import "pages/home.scss";
+@import "pages/kontakt.scss";
+@import "pages/koorist.scss";
+@import "pages/sundmused.scss";
+@import "pages/vastuvott.scss";

@@ -1,0 +1,148 @@
+// Styles for the header navigation
+
+.navigation {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 4rem;
+  background-color: $color-primary-dark;
+  z-index: 1;
+  @include boxShadow;
+
+// Social icons on the navigation
+
+  &__social {
+    display: flex;
+    flex: 0 0 10%;
+    justify-content: space-between;
+    @media screen and (max-width: 43.75em) {
+      flex: 0 0 20%;
+    }
+  }
+
+  &__social-link {
+    &:link,
+    &:visited {
+      text-decoration: none;
+    }
+  }
+
+  &__social-icon {
+    font-size: 2.2rem;
+    font-weight: 400;
+    color: $color-white;
+    transition-property: transform;
+    transition-duration: 0.5s;
+
+    &:active,
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
+
+  // Language selection on the navigation
+
+  &__language-box {
+    display: flex;
+    flex: 0 0 10%;
+    justify-content: space-between;
+    @media screen and (max-width: 43.75em) {
+      flex: 0 0 20%;
+    }
+  }
+
+  &__language-link {
+    &:link,
+    &:visited {
+      color: $color-white;
+      text-decoration: none;
+      font-size: 1.2rem;
+      font-weight: 700;
+      transition-property: transform;
+      transition-duration: 0.5s;
+    }
+
+    &:active,
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
+
+  // Navigation menu
+
+  &__list {
+    display: flex;
+    flex: 0 0 50%;
+    justify-content: space-around;
+    align-items: center;
+    list-style: none;
+    @media screen and (max-width: 43.75em) {
+      display: none;
+    }
+  }
+
+  &__item {
+    position: relative;
+    padding: 2rem 0;
+    transition-property: transform;
+    transition-duration: 0.5s;
+
+    &:hover .dropdown--header {
+      @media (hover: hover) {
+        visibility: visible;
+        opacity: 1;
+      }
+    }
+
+    &:active,
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
+
+  &__link {
+    &:link,
+    &:visited {
+      text-decoration: none;
+      color: $color-white;
+      font-size: 1.6rem;
+      font-weight: 700;
+    }
+  }
+
+  // Hamburger button (on smaller screens)
+
+  &__hamburger-box {
+    display: none;
+    @media screen and (max-width: 43.75em) {
+      display: block;
+      flex: 0 0 20%;
+      padding: 2rem 0;
+      text-align: center;
+    }
+  }
+
+  &__hamburger-button {
+    &,
+    &:visited {
+      text-decoration: none;
+      background-color: transparent;
+      border: none;
+
+      &:active,
+      &:hover,
+      &:focus {
+        transform: scale(1.1);
+      }
+    }
+  }
+
+  &__hamburger-icon {
+    font-size: 2.2rem;
+    font-weight: 400;
+    color: $color-white;
+    transition-property: transform;
+    transition-duration: 0.5s;
+  }
+}

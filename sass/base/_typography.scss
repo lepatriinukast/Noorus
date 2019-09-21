@@ -1,0 +1,52 @@
+// Default font for the entire webpage
+
+body {
+  font-family: 'Montserrat', sans-serif;
+}
+
+// Heading and paragraph styles
+
+.heading {
+  &--purple {
+    color: $color-primary-dark;
+  }
+
+  &--white {
+    color: $color-white;
+    @include textShadow;
+  }
+
+  &--primary {
+    font-size: 7.2rem;
+    margin-bottom: 2rem;
+    @media screen and (max-height: 30em) {
+      font-size: 5rem,
+    }
+    @media screen and (max-height: 18.75em) {
+      margin-bottom: .5rem;
+    }
+  }
+
+  &--secondary {
+    font-size: 4.2rem;
+  }
+
+  &--tertiary {
+    font-size: 2.2rem;
+  }
+}
+
+.paragraph {
+  font-size: 1.6rem;
+  line-height: 2.5rem;
+  font-weight: 700;
+
+  &--purple {
+    color: $color-primary-dark;
+  }
+
+  &--white {
+    color: $color-white;
+    @include textShadow;
+  }
+}
