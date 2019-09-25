@@ -1,14 +1,23 @@
 {
   "name": "noorus",
   "version": "1.0.0",
-  "description": "segakoor Noorus koduleht",
-  "main": "index.js",
+  "description": "website for mixed choir Noorus",
+  "main": "app.js",
   "scripts": {
-    "watch:sass": "node-sass sass/main.scss css/style.css -w"
+    "watch:sass": "node-sass public/sass/main.scss public/css/style.css -w"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jooseptrumm/Noorus.git"
   },
   "author": "Joosep Trumm",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jooseptrumm/Noorus/issues"
+  },
+  "homepage": "https://github.com/jooseptrumm/Noorus#readme",
   "dependencies": {
+    "express": "^4.17.1",
     "node-sass": "^4.12.0"
   }
 }
