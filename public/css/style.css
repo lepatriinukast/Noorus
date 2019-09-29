@@ -503,15 +503,14 @@ body {
   padding: 5rem; }
 
 .body-container {
-  padding: 0 3rem 0 18rem; }
+  padding: 0 3rem 0 18rem;
+  text-align: justify; }
 
 .section-header {
-  padding: 3rem 0 1rem 0; }
-  .section-header__container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    align-items: center; }
+  padding: 3rem 0 3rem 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center; }
   .section-header__img {
     flex: 0 0 45%;
     height: 50rem;
@@ -522,11 +521,10 @@ body {
     background-repeat: no-repeat;
     background-position: center; }
   .section-header__text-box {
-    flex: 0 0 45%;
-    text-align: justify; }
+    flex: 0 0 45%; }
 
 .section-liikmed {
-  padding: 3rem 0 1rem 0; }
+  padding: 3rem 0 3rem 0; }
   .section-liikmed__text-box {
     display: flex;
     justify-content: space-around;
@@ -534,41 +532,21 @@ body {
     padding: 3rem 0; }
   .section-liikmed__small-box {
     flex: 0 0 40%;
-    text-align: center;
-    margin-bottom: 3rem; }
+    text-align: center; }
   .section-liikmed__smaller-box {
-    margin-bottom: 3rem; }
-  .section-liikmed__img {
-    height: 15rem;
-    width: 15rem;
-    background-color: purple;
-    box-shadow: 0 2px 5px rgba(26, 26, 26, 0.5);
-    margin: 0 auto 3rem;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover; }
-    .section-liikmed__img--1 {
-      background-image: url("../img/sopran.jpg"); }
-    .section-liikmed__img--2 {
-      background-image: url("../img/alt.jpg"); }
-    .section-liikmed__img--3 {
-      background-image: url("../img/tenor.jpg"); }
-    .section-liikmed__img--4 {
-      background-image: url("../img/bass.jpg"); }
-  .section-liikmed__paragraph {
-    display: inline; }
+    padding-top: 3rem; }
 
 .section-dirigendid {
-  padding: 3rem 0 1rem 0; }
+  padding: 3rem 0 3rem 0; }
   .section-dirigendid__container {
+    padding-top: 3rem;
     display: flex;
     justify-content: space-between;
     align-items: center; }
     .section-dirigendid__container:not(:last-child) {
       margin-bottom: 6rem; }
   .section-dirigendid__text-box {
-    flex: 0 0 70%;
-    text-align: justify; }
+    flex: 0 0 70%; }
   .section-dirigendid__img {
     flex: 0 0 20%;
     height: 30rem;

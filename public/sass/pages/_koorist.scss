@@ -1,16 +1,13 @@
 .body-container {
   padding: 0 3rem 0 18rem;
+  text-align: justify;
 }
 
 .section-header {
-padding: 3rem 0 1rem 0;
-
-  &__container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    align-items: center;
-  }
+padding: 3rem 0 3rem 0;
+display: flex;
+justify-content: space-between;
+align-items: center;
 
   &__img {
     flex: 0 0 45%;
@@ -25,15 +22,11 @@ padding: 3rem 0 1rem 0;
 
   &__text-box {
     flex: 0 0 45%;
-    text-align: justify;
   }
 }
 
 .section-liikmed {
-  padding: 3rem 0 1rem 0;
-
-  &__container {
-  }
+  padding: 3rem 0 3rem 0;
 
   &__text-box {
     display: flex;
@@ -45,49 +38,18 @@ padding: 3rem 0 1rem 0;
   &__small-box {
     flex: 0 0 40%;
     text-align: center;
-    margin-bottom: 3rem;
   }
 
   &__smaller-box {
-    margin-bottom: 3rem;
-  }
-
-  &__img {
-    height: 15rem;
-    width: 15rem;
-    background-color: purple;
-    @include boxShadow;
-    margin: 0 auto 3rem;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-
-    &--1 {
-      background-image: url("../img/sopran.jpg");
-    }
-
-    &--2 {
-      background-image: url("../img/alt.jpg");
-    }
-
-    &--3 {
-      background-image: url("../img/tenor.jpg");
-    }
-
-    &--4 {
-      background-image: url("../img/bass.jpg");
-    }
-  }
-
-  &__paragraph {
-    display: inline;
+   padding-top: 3rem;
   }
 }
 
 .section-dirigendid {
-  padding: 3rem 0 1rem 0;
+  padding: 3rem 0 3rem 0;
 
   &__container {
+    padding-top: 3rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -99,7 +61,6 @@ padding: 3rem 0 1rem 0;
 
   &__text-box {
     flex: 0 0 70%;
-    text-align: justify;
   }
 
   &__img {
