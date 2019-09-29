@@ -1,0 +1,36 @@
+.sidenav {
+  position: fixed;
+  top: 17%;
+  left: 1.5rem;
+
+  &__list {
+    list-style: none;
+  }
+
+  &__item {
+    text-align: center;
+    padding: 1rem 3rem;
+    margin-bottom: 1rem;
+    border-radius: 10px;
+    transition-property: background-color, box-shadow;
+    transition-duration: 0.5s;
+
+    &:hover {
+      background-color: $color-primary-light;
+      @include boxShadow;
+    }
+
+    &:hover .sidenav__link {
+      color: white;
+    }
+  }
+
+  &__link {
+    text-decoration: none;
+    color: $color-primary-dark;
+    font-size: 1.6rem;
+    font-weight: 700;
+    transition-property: color;
+    transition-duration: 0.5s;
+  }
+}

@@ -36,10 +36,20 @@ body {
   }
 }
 
+
 .paragraph {
-  font-size: 1.6rem;
-  line-height: 2.5rem;
-  font-weight: 700;
+
+  &--large {
+    font-size: 1.6rem;
+    line-height: 2.5rem;
+    font-weight: 700;
+  }
+
+  &--small {
+    font-size: 1.6rem;
+    line-height: 2.5rem;
+    font-weight: 200;
+  }
 
   &--purple {
     color: $color-primary-dark;

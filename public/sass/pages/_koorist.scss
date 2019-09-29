@@ -1,72 +1,125 @@
+.body-container {
+  padding-left: 18rem;
+}
+
 .section-header {
+  margin-bottom: 1rem;
+
   &__container {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
-    margin-left: 15rem;
-  }
-
-  &__navigation {
-    position: fixed;
-    top: 50%;
-    left: 1.5rem;
-    transform: translateY(-50%);
-  }
-
-  &__list {
-    list-style: none;
-  }
-
-  &__item {
-    padding: 1rem 3rem;
-    margin-bottom: 1rem;
-    border-radius: 10px;
-    transition-property: background-color, box-shadow;
-    transition-duration: 0.5s;
-
-    &:hover {
-      background-color: $color-primary-light;
-      @include boxShadow;
-    }
-
-    &:hover .section-header__link {
-      color: white;
-    }
-  }
-
-  &__link {
-    text-decoration: none;
-    color: $color-primary-dark;
-    font-size: 1.6rem;
-    font-weight: 700;
-    transition-property: color;
-    transition-duration: 0.5s;
-  }
-
-  &__img-box {
-    padding: 3rem 0;
-    flex: 0 0 40%;
+    padding: 3rem 3rem 0 0;
+    align-items: center;
   }
 
   &__img {
+    flex: 0 0 45%;
     height: 50rem;
+    width: 50rem;
     @include boxShadow;
+    background-image: url("../img/noorus2.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
   }
 
   &__text-box {
-    padding: 3rem 0;
-    flex: 0 0 40%;
+    flex: 0 0 45%;
+    text-align: justify;
   }
 }
 
-.section-intro {
+.section-liikmed {
+  padding-top: 3rem;
 
   &__container {
-    padding: 0 5rem 0 20rem;
+    padding: 3rem 3rem 0 0;
+    text-align: center;
   }
 
   &__text-box {
-    padding: 2rem 5rem;
-    border-radius: 10px;
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    padding: 3rem 0;
+  }
+
+  &__small-box {
+    flex: 0 0 40%;
+    margin-bottom: 3rem;
+  }
+
+  &__smaller-box {
+    text-align: left;
+    margin-bottom: 3rem;
+  }
+
+  &__img {
+    height: 15rem;
+    width: 15rem;
+    background-color: purple;
+    @include boxShadow;
+    margin: 0 auto 3rem;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+
+    &--1 {
+      background-image: url("../img/sopran.jpg");
+    }
+
+    &--2 {
+      background-image: url("../img/alt.jpg");
+    }
+
+    &--3 {
+      background-image: url("../img/tenor.jpg");
+    }
+
+    &--4 {
+      background-image: url("../img/bass.jpg");
+    }
+  }
+
+  &__paragraph {
+    display: inline;
+  }
+}
+
+.section-dirigendid {
+  padding-top: 3rem;
+
+  &__container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 3rem 3rem 0 0;
+
+    &:not(:last-child) {
+      margin-bottom: 6rem;
+    }
+  }
+
+  &__text-box {
+    flex: 0 0 70%;
+    text-align: justify;
+  }
+
+  &__img {
+    flex: 0 0 20%;
+    height: 30rem;
+    @include boxShadow;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+
+    &--1 {
+      background-image: url("../img/Maarja.jpg");
+    }
+
+    &--2 {
+      background-image: url("../img/Taavi.jpg");
+    }
   }
 }

@@ -62,15 +62,22 @@ body {
 .heading--tertiary {
   font-size: 2.2rem; }
 
-.paragraph {
+.paragraph--large {
   font-size: 1.6rem;
   line-height: 2.5rem;
   font-weight: 700; }
-  .paragraph--purple {
-    color: #32093F; }
-  .paragraph--white {
-    color: #FFFFFF;
-    text-shadow: 0 2px 5px rgba(26, 26, 26, 0.5); }
+
+.paragraph--small {
+  font-size: 1.6rem;
+  line-height: 2.5rem;
+  font-weight: 200; }
+
+.paragraph--purple {
+  color: #32093F; }
+
+.paragraph--white {
+  color: #FFFFFF;
+  text-shadow: 0 2px 5px rgba(26, 26, 26, 0.5); }
 
 .u-margin-top-big {
   margin-top: 2rem !important; }
@@ -338,6 +345,32 @@ body {
     transition-property: transform;
     transition-duration: 0.5s; }
 
+.sidenav {
+  position: fixed;
+  top: 17%;
+  left: 1.5rem; }
+  .sidenav__list {
+    list-style: none; }
+  .sidenav__item {
+    text-align: center;
+    padding: 1rem 3rem;
+    margin-bottom: 1rem;
+    border-radius: 10px;
+    transition-property: background-color, box-shadow;
+    transition-duration: 0.5s; }
+    .sidenav__item:hover {
+      background-color: #5F045F;
+      box-shadow: 0 2px 5px rgba(26, 26, 26, 0.5); }
+    .sidenav__item:hover .sidenav__link {
+      color: white; }
+  .sidenav__link {
+    text-decoration: none;
+    color: #32093F;
+    font-size: 1.6rem;
+    font-weight: 700;
+    transition-property: color;
+    transition-duration: 0.5s; }
+
 .header {
   position: relative;
   height: 100vh;
@@ -464,56 +497,86 @@ body {
   text-align: center;
   padding: 5rem; }
 
-.section-header__container {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  margin-left: 15rem; }
+.body-container {
+  padding-left: 18rem; }
 
-.section-header__navigation {
-  position: fixed;
-  top: 50%;
-  left: 1.5rem;
-  transform: translateY(-50%); }
+.section-header {
+  margin-bottom: 1rem; }
+  .section-header__container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 3rem 3rem 0 0;
+    align-items: center; }
+  .section-header__img {
+    flex: 0 0 45%;
+    height: 50rem;
+    width: 50rem;
+    box-shadow: 0 2px 5px rgba(26, 26, 26, 0.5);
+    background-image: url("../img/noorus2.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center; }
+  .section-header__text-box {
+    flex: 0 0 45%;
+    text-align: justify; }
 
-.section-header__list {
-  list-style: none; }
+.section-liikmed {
+  padding-top: 3rem; }
+  .section-liikmed__container {
+    padding: 3rem 3rem 0 0;
+    text-align: center; }
+  .section-liikmed__text-box {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    padding: 3rem 0; }
+  .section-liikmed__small-box {
+    flex: 0 0 40%;
+    margin-bottom: 3rem; }
+  .section-liikmed__smaller-box {
+    text-align: left;
+    margin-bottom: 3rem; }
+  .section-liikmed__img {
+    height: 15rem;
+    width: 15rem;
+    background-color: purple;
+    box-shadow: 0 2px 5px rgba(26, 26, 26, 0.5);
+    margin: 0 auto 3rem;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover; }
+    .section-liikmed__img--1 {
+      background-image: url("../img/sopran.jpg"); }
+    .section-liikmed__img--2 {
+      background-image: url("../img/alt.jpg"); }
+    .section-liikmed__img--3 {
+      background-image: url("../img/tenor.jpg"); }
+    .section-liikmed__img--4 {
+      background-image: url("../img/bass.jpg"); }
+  .section-liikmed__paragraph {
+    display: inline; }
 
-.section-header__item {
-  padding: 1rem 3rem;
-  margin-bottom: 1rem;
-  border-radius: 10px;
-  transition-property: background-color, box-shadow;
-  transition-duration: 0.5s; }
-  .section-header__item:hover {
-    background-color: #5F045F;
-    box-shadow: 0 2px 5px rgba(26, 26, 26, 0.5); }
-  .section-header__item:hover .section-header__link {
-    color: white; }
-
-.section-header__link {
-  text-decoration: none;
-  color: #32093F;
-  font-size: 1.6rem;
-  font-weight: 700;
-  transition-property: color;
-  transition-duration: 0.5s; }
-
-.section-header__img-box {
-  padding: 3rem 0;
-  flex: 0 0 40%; }
-
-.section-header__img {
-  height: 50rem;
-  box-shadow: 0 2px 5px rgba(26, 26, 26, 0.5); }
-
-.section-header__text-box {
-  padding: 3rem 0;
-  flex: 0 0 40%; }
-
-.section-intro__container {
-  padding: 0 5rem 0 20rem; }
-
-.section-intro__text-box {
-  padding: 2rem 5rem;
-  border-radius: 10px; }
+.section-dirigendid {
+  padding-top: 3rem; }
+  .section-dirigendid__container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 3rem 3rem 0 0; }
+    .section-dirigendid__container:not(:last-child) {
+      margin-bottom: 6rem; }
+  .section-dirigendid__text-box {
+    flex: 0 0 70%;
+    text-align: justify; }
+  .section-dirigendid__img {
+    flex: 0 0 20%;
+    height: 30rem;
+    box-shadow: 0 2px 5px rgba(26, 26, 26, 0.5);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center; }
+    .section-dirigendid__img--1 {
+      background-image: url("../img/Maarja.jpg"); }
+    .section-dirigendid__img--2 {
+      background-image: url("../img/Taavi.jpg"); }
