@@ -1,15 +1,14 @@
 .body-container {
-  padding-left: 18rem;
+  padding: 0 3rem 0 18rem;
 }
 
 .section-header {
-  margin-bottom: 1rem;
+padding: 3rem 0 1rem 0;
 
   &__container {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 3rem 3rem 0 0;
     align-items: center;
   }
 
@@ -31,11 +30,9 @@
 }
 
 .section-liikmed {
-  padding-top: 3rem;
+  padding: 3rem 0 1rem 0;
 
   &__container {
-    padding: 3rem 3rem 0 0;
-    text-align: center;
   }
 
   &__text-box {
@@ -47,11 +44,11 @@
 
   &__small-box {
     flex: 0 0 40%;
+    text-align: center;
     margin-bottom: 3rem;
   }
 
   &__smaller-box {
-    text-align: left;
     margin-bottom: 3rem;
   }
 
@@ -88,13 +85,12 @@
 }
 
 .section-dirigendid {
-  padding-top: 3rem;
+  padding: 3rem 0 1rem 0;
 
   &__container {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 3rem 3rem 0 0;
 
     &:not(:last-child) {
       margin-bottom: 6rem;

@@ -15,12 +15,14 @@
     transition-property: background-color, box-shadow;
     transition-duration: 0.5s;
 
-    &:hover {
+    &:hover,
+    &:active {
       background-color: $color-primary-light;
       @include boxShadow;
     }
 
-    &:hover .sidenav__link {
+    &:hover .sidenav__link,
+    &:active .sidenav__link {
       color: white;
     }
   }

@@ -71,6 +71,10 @@ body {
   font-size: 1.6rem;
   line-height: 2.5rem;
   font-weight: 200; }
+  .paragraph--small strong {
+    font-size: 1.6rem;
+    line-height: 2.5rem;
+    font-weight: 700; }
 
 .paragraph--purple {
   color: #32093F; }
@@ -358,10 +362,11 @@ body {
     border-radius: 10px;
     transition-property: background-color, box-shadow;
     transition-duration: 0.5s; }
-    .sidenav__item:hover {
+    .sidenav__item:hover, .sidenav__item:active {
       background-color: #5F045F;
       box-shadow: 0 2px 5px rgba(26, 26, 26, 0.5); }
-    .sidenav__item:hover .sidenav__link {
+    .sidenav__item:hover .sidenav__link,
+    .sidenav__item:active .sidenav__link {
       color: white; }
   .sidenav__link {
     text-decoration: none;
@@ -498,15 +503,14 @@ body {
   padding: 5rem; }
 
 .body-container {
-  padding-left: 18rem; }
+  padding: 0 3rem 0 18rem; }
 
 .section-header {
-  margin-bottom: 1rem; }
+  padding: 3rem 0 1rem 0; }
   .section-header__container {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 3rem 3rem 0 0;
     align-items: center; }
   .section-header__img {
     flex: 0 0 45%;
@@ -522,10 +526,7 @@ body {
     text-align: justify; }
 
 .section-liikmed {
-  padding-top: 3rem; }
-  .section-liikmed__container {
-    padding: 3rem 3rem 0 0;
-    text-align: center; }
+  padding: 3rem 0 1rem 0; }
   .section-liikmed__text-box {
     display: flex;
     justify-content: space-around;
@@ -533,9 +534,9 @@ body {
     padding: 3rem 0; }
   .section-liikmed__small-box {
     flex: 0 0 40%;
+    text-align: center;
     margin-bottom: 3rem; }
   .section-liikmed__smaller-box {
-    text-align: left;
     margin-bottom: 3rem; }
   .section-liikmed__img {
     height: 15rem;
@@ -558,12 +559,11 @@ body {
     display: inline; }
 
 .section-dirigendid {
-  padding-top: 3rem; }
+  padding: 3rem 0 1rem 0; }
   .section-dirigendid__container {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    padding: 3rem 3rem 0 0; }
+    align-items: center; }
     .section-dirigendid__container:not(:last-child) {
       margin-bottom: 6rem; }
   .section-dirigendid__text-box {
