@@ -28,6 +28,10 @@ align-items: center;
 .section-liikmed {
   padding: 3rem 0 3rem 0;
 
+  &__container {
+    padding-top: 5rem;
+  }
+
   &__text-box {
     display: flex;
     justify-content: space-around;
@@ -49,13 +53,13 @@ align-items: center;
   padding: 3rem 0 3rem 0;
 
   &__container {
-    padding-top: 3rem;
+    padding-top: 5rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
 
     &:not(:last-child) {
-      margin-bottom: 6rem;
+      margin-bottom: 5rem;
     }
   }
 
@@ -78,5 +82,13 @@ align-items: center;
     &--2 {
       background-image: url("../img/Taavi.jpg");
     }
+  }
+}
+
+.section-ajalugu {
+  padding: 3rem 0 3rem 0;
+
+  &__container {
+    padding-top: 5rem;
   }
 }

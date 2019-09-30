@@ -54,7 +54,7 @@ body {
       font-size: 5rem; } }
   @media screen and (max-height: 18.75em) {
     .heading--primary {
-      margin-bottom: .5rem; } }
+      margin-bottom: 0.5rem; } }
 
 .heading--secondary {
   font-size: 4.2rem; }
@@ -82,6 +82,19 @@ body {
 .paragraph--white {
   color: #FFFFFF;
   text-shadow: 0 2px 5px rgba(26, 26, 26, 0.5); }
+
+.list {
+  list-style: none; }
+  .list__item {
+    padding: 1rem 0 1rem 0;
+    color: #32093F;
+    font-size: 1.6rem;
+    line-height: 2.5rem;
+    font-weight: 200; }
+    .list__item strong {
+      font-size: 1.6rem;
+      line-height: 2.5rem;
+      font-weight: 700; }
 
 .u-margin-top-big {
   margin-top: 2rem !important; }
@@ -525,6 +538,8 @@ body {
 
 .section-liikmed {
   padding: 3rem 0 3rem 0; }
+  .section-liikmed__container {
+    padding-top: 5rem; }
   .section-liikmed__text-box {
     display: flex;
     justify-content: space-around;
@@ -539,12 +554,12 @@ body {
 .section-dirigendid {
   padding: 3rem 0 3rem 0; }
   .section-dirigendid__container {
-    padding-top: 3rem;
+    padding-top: 5rem;
     display: flex;
     justify-content: space-between;
     align-items: center; }
     .section-dirigendid__container:not(:last-child) {
-      margin-bottom: 6rem; }
+      margin-bottom: 5rem; }
   .section-dirigendid__text-box {
     flex: 0 0 70%; }
   .section-dirigendid__img {
@@ -558,3 +573,8 @@ body {
       background-image: url("../img/Maarja.jpg"); }
     .section-dirigendid__img--2 {
       background-image: url("../img/Taavi.jpg"); }
+
+.section-ajalugu {
+  padding: 3rem 0 3rem 0; }
+  .section-ajalugu__container {
+    padding-top: 5rem; }
