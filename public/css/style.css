@@ -578,3 +578,17 @@ body {
   padding: 3rem 0 3rem 0; }
   .section-ajalugu__container {
     padding-top: 5rem; }
+
+.section-toetajad {
+  padding: 3rem 0 3rem 0; }
+  .section-toetajad__container {
+    padding-top: 5rem;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap; }
+  .section-toetajad__logo-box {
+    padding: 2rem; }
+    .section-toetajad__logo-box a {
+      text-decoration: none; }
+  .section-toetajad__logo {
+    height: 6rem; }

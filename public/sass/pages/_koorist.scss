@@ -92,3 +92,27 @@ align-items: center;
     padding-top: 5rem;
   }
 }
+
+.section-toetajad {
+  padding: 3rem 0 3rem 0;
+
+  &__container {
+    padding-top: 5rem;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+  }
+
+  &__logo-box {
+    padding: 2rem;
+
+    a {
+      text-decoration: none;
+    }
+  }
+
+  &__logo {
+    height: 6rem;
+  }
+
+}
