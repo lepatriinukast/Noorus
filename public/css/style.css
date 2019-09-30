@@ -114,6 +114,7 @@ body {
   transition-duration: 0.5s; }
 
 .show {
+  display: block;
   visibility: visible !important;
   opacity: 1 !important;
   animation-name: fadeIn;
@@ -231,6 +232,8 @@ body {
     font-weight: 700; }
 
 .hidden-menu {
+  position: absolute;
+  top: 6rem;
   width: 100%;
   background-color: #5F045F;
   z-index: 2;
@@ -240,6 +243,7 @@ body {
       height: 100vh;
       height: calc(var(--vh, 1vh)*100);
       position: relative;
+      top: 0;
       flex: 1 0 80%; } }
   .hidden-menu__list {
     list-style: none;
@@ -276,6 +280,8 @@ body {
 
 .navigation {
   position: relative;
+  width: 100vw;
+  height: 6rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -357,7 +363,7 @@ body {
       transform: scale(1.1); }
   .navigation__hamburger-icon {
     font-size: 2.2rem;
-    font-weight: 400;
+    font-weight: 700;
     color: #FFFFFF;
     transition-property: transform;
     transition-duration: 0.5s; }

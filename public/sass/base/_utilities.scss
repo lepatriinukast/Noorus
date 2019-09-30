@@ -25,6 +25,7 @@
 }
 
 .show {
+  display: block;
   visibility: visible !important;
   opacity: 1 !important;
   animation-name: fadeIn;

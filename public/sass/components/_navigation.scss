@@ -2,6 +2,8 @@
 
 .navigation {
   position: relative;
+  width: 100vw;
+  height: 6rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -140,7 +142,7 @@
 
   &__hamburger-icon {
     font-size: 2.2rem;
-    font-weight: 400;
+    font-weight: 700;
     color: $color-white;
     transition-property: transform;
     transition-duration: 0.5s;

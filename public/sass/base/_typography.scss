@@ -3,7 +3,9 @@
 body {
   font-family: 'Montserrat', sans-serif;
 }
-// Heading and paragraph styles
+
+// Heading, paragraph and list styles
+
 .heading {
   &--purple {
     color: $color-primary-dark;
