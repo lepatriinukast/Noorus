@@ -76,8 +76,9 @@
   &__list {
     display: flex;
     flex: 0 0 50%;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
+    padding: 0 2rem;
     list-style: none;
     @media screen and (max-width: 43.75em) {
       display: none;

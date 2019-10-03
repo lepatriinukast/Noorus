@@ -156,7 +156,7 @@ body {
 
 .btn--menu {
   position: relative;
-  padding: 0 2rem;
+  padding-left: .5rem;
   color: #FFFFFF;
   background-color: transparent; }
 
@@ -244,32 +244,32 @@ body {
       height: calc(var(--vh, 1vh)*100);
       position: relative;
       top: 0;
-      flex: 1 0 80%; } }
-  .hidden-menu__list {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: center;
-    height: 100%; }
-  .hidden-menu__item {
-    display: inline-block;
-    padding: 2rem 0;
-    transition-property: transform;
-    transition-duration: 0.5s; }
-    @media screen and (max-height: 18.75em) {
+      flex: 1 0 80%; }
+      .hidden-menu__list {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+        height: 100%; }
+      .hidden-menu__item {
+        display: inline-block;
+        padding: 2rem 0;
+        transition-property: transform;
+        transition-duration: 0.5s; } }
+    @media screen and (max-height: 18.75em) and (max-height: 18.75em) {
       .hidden-menu__item {
         padding: 0; } }
-    .hidden-menu__item:active, .hidden-menu__item:hover {
-      transform: scale(1.1); }
-    @media (hover: hover) {
+  @media screen and (max-height: 18.75em) {
+        .hidden-menu__item:active, .hidden-menu__item:hover {
+          transform: scale(1.1); } }
+    @media screen and (max-height: 18.75em) and (hover: hover) {
       .hidden-menu__item:hover .dropdown--hidden {
         visibility: visible;
         opacity: 1; } }
-    .hidden-menu__item:first-child {
-      margin-left: 1.5rem; }
-      .hidden-menu__item:first-child:hover .btn--main {
-        transform: rotateZ(-90deg); }
+  @media screen and (max-height: 18.75em) {
+        .hidden-menu__item:hover .btn--main {
+          transform: rotateZ(-90deg); } }
   .hidden-menu__link:link, .hidden-menu__link:visited {
     text-decoration: none;
     font-size: 1.6rem;
@@ -325,8 +325,9 @@ body {
   .navigation__list {
     display: flex;
     flex: 0 0 50%;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
+    padding: 0 2rem;
     list-style: none; }
     @media screen and (max-width: 43.75em) {
       .navigation__list {
@@ -398,6 +399,7 @@ body {
 .header {
   position: relative;
   height: 100vh;
+  margin-top: -6rem;
   background-image: linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6)), url("../img/noorus1.jpg");
   background-size: cover;
   background-position: 50% 35%;
@@ -520,6 +522,9 @@ body {
   max-width: 80rem;
   text-align: center;
   padding: 5rem; }
+
+.page-kontakt__container {
+  padding: 3rem; }
 
 .body-container {
   padding: 0 3rem 0 18rem;
