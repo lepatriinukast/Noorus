@@ -1,0 +1,22 @@
+.page-vastuvott {
+  height: calc(100vh - 6rem);
+
+  &__content {
+      padding: 3rem;
+  }
+
+  &__container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__text-box {
+    flex: 0 0 50%;
+  }
+
+  &__form-box {
+    position: relative;
+    flex: 0 0 50%;
+  }
+}

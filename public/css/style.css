@@ -522,31 +522,32 @@ body {
   text-align: center;
   padding: 5rem; }
 
-.page-kontakt__container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 3rem;
+.page-kontakt {
   height: calc(100vh - 6rem); }
-
-.page-kontakt__text-box {
-  flex: 0 0 50%; }
-
-.page-kontakt__img-box {
-  position: relative;
-  flex: 0 0 50%; }
-
-.page-kontakt__img {
-  height: 40rem;
-  width: 60rem;
-  background-image: url("../img/noorus3.jpg");
-  background-size: cover;
-  background-repeat: no-repeat;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  box-shadow: 0 2px 5px rgba(26, 26, 26, 0.5); }
+  .page-kontakt__content {
+    padding: 3rem;
+    height: 100%;
+    width: 100%; }
+  .page-kontakt__container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; }
+  .page-kontakt__text-box {
+    flex: 0 0 50%; }
+  .page-kontakt__img-box {
+    position: relative;
+    flex: 0 0 50%; }
+  .page-kontakt__img {
+    height: 40rem;
+    width: 60rem;
+    background-image: url("../img/noorus3.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 2px 5px rgba(26, 26, 26, 0.5); }
 
 .body-container {
   padding: 0 3rem 0 18rem;
@@ -632,3 +633,17 @@ body {
       text-decoration: none; }
   .section-toetajad__logo {
     height: 6rem; }
+
+.page-vastuvott {
+  height: calc(100vh - 6rem); }
+  .page-vastuvott__content {
+    padding: 3rem; }
+  .page-vastuvott__container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; }
+  .page-vastuvott__text-box {
+    flex: 0 0 50%; }
+  .page-vastuvott__form-box {
+    position: relative;
+    flex: 0 0 50%; }
