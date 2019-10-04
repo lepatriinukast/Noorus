@@ -1,3 +1,28 @@
-.page-kontakt__container {
-  padding: 3rem;
+.page-kontakt {
+  &__container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 3rem;
+    height: calc(100vh - 6rem);
+  }
+
+  &__text-box {
+    flex: 0 0 50%;
+  }
+
+  &__img-box {
+    position: relative;
+    flex: 0 0 50%;
+  }
+
+  &__img {
+    height: 40rem;
+    width: 60rem;
+    background-image: url("../img/noorus3.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    @include absCenter;
+    @include boxShadow;
+  }
 }

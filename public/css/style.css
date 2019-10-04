@@ -254,7 +254,7 @@ body {
         height: 100%; }
       .hidden-menu__item {
         display: inline-block;
-        padding: 2rem 0;
+        padding: 88rem 0;
         transition-property: transform;
         transition-duration: 0.5s; } }
     @media screen and (max-height: 18.75em) and (max-height: 18.75em) {
@@ -329,7 +329,7 @@ body {
     align-items: center;
     padding: 0 2rem;
     list-style: none; }
-    @media screen and (max-width: 43.75em) {
+    @media screen and (max-width: 53.75em) {
       .navigation__list {
         display: none; } }
   .navigation__item {
@@ -350,7 +350,7 @@ body {
     font-weight: 700; }
   .navigation__hamburger-box {
     display: none; }
-    @media screen and (max-width: 43.75em) {
+    @media screen and (max-width: 53.75em) {
       .navigation__hamburger-box {
         display: block;
         flex: 0 0 20%;
@@ -524,31 +524,61 @@ body {
   padding: 5rem; }
 
 .page-kontakt__container {
-  padding: 3rem; }
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 3rem;
+  height: calc(100vh - 6rem); }
+
+.page-kontakt__text-box {
+  flex: 0 0 50%; }
+
+.page-kontakt__img-box {
+  position: relative;
+  flex: 0 0 50%; }
+
+.page-kontakt__img {
+  height: 40rem;
+  width: 60rem;
+  background-image: url("../img/noorus3.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 2px 5px rgba(26, 26, 26, 0.5); }
 
 .body-container {
   padding: 0 3rem 0 18rem;
   text-align: justify; }
 
 .section-header {
-  padding: 3rem 0 3rem 0;
+  height: calc(100vh - 6rem);
+  padding: 3rem 0;
   display: flex;
   justify-content: space-between;
   align-items: center; }
-  .section-header__img {
+  .section-header__img-box {
     flex: 0 0 45%;
+    position: relative; }
+  .section-header__img {
     height: 50rem;
     width: 50rem;
     box-shadow: 0 2px 5px rgba(26, 26, 26, 0.5);
     background-image: url("../img/noorus2.jpg");
     background-size: cover;
     background-repeat: no-repeat;
-    background-position: center; }
+    background-position: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); }
   .section-header__text-box {
     flex: 0 0 45%; }
 
 .section-liikmed {
-  padding: 3rem 0 3rem 0; }
+  padding: 3rem 0; }
   .section-liikmed__container {
     padding-top: 5rem; }
   .section-liikmed__text-box {
@@ -563,7 +593,7 @@ body {
     padding-top: 3rem; }
 
 .section-dirigendid {
-  padding: 3rem 0 3rem 0; }
+  padding: 3rem 0; }
   .section-dirigendid__container {
     padding-top: 5rem;
     display: flex;
@@ -586,12 +616,12 @@ body {
       background-image: url("../img/Taavi.jpg"); }
 
 .section-ajalugu {
-  padding: 3rem 0 3rem 0; }
+  padding: 3rem 0; }
   .section-ajalugu__container {
     padding-top: 5rem; }
 
 .section-toetajad {
-  padding: 3rem 0 3rem 0; }
+  padding: 3rem 0; }
   .section-toetajad__container {
     padding-top: 5rem;
     display: flex;
