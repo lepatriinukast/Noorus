@@ -243,32 +243,30 @@ body {
       height: calc(var(--vh, 1vh)*100);
       position: relative;
       top: 0;
-      flex: 1 0 80%; }
-      .hidden-menu__list {
-        list-style: none;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-around;
-        align-items: center;
-        height: 100%; }
-      .hidden-menu__item {
-        display: inline-block;
-        padding: 88rem 0;
-        transition-property: transform;
-        transition-duration: 0.5s; } }
-    @media screen and (max-height: 18.75em) and (max-height: 18.75em) {
+      flex: 1 0 80%; } }
+  .hidden-menu__list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    height: 100%; }
+  .hidden-menu__item {
+    display: inline-block;
+    padding: 2rem 0;
+    transition-property: transform;
+    transition-duration: 0.5s; }
+    @media screen and (max-height: 18.75em) {
       .hidden-menu__item {
         padding: 0; } }
-  @media screen and (max-height: 18.75em) {
-        .hidden-menu__item:active, .hidden-menu__item:hover {
-          transform: scale(1.1); } }
-    @media screen and (max-height: 18.75em) and (hover: hover) {
+    .hidden-menu__item:active, .hidden-menu__item:hover {
+      transform: scale(1.1); }
+    @media (hover: hover) {
       .hidden-menu__item:hover .dropdown--hidden {
         visibility: visible;
         opacity: 1; } }
-  @media screen and (max-height: 18.75em) {
-        .hidden-menu__item:hover .btn--main {
-          transform: rotateZ(-90deg); } }
+    .hidden-menu__item:hover .btn--main {
+      transform: rotateZ(-90deg); }
   .hidden-menu__link:link, .hidden-menu__link:visited {
     text-decoration: none;
     font-size: 1.6rem;
@@ -276,6 +274,23 @@ body {
     color: #FFFFFF; }
   .hidden-menu__link:active, .hidden-menu__link:hover {
     transform: scale(1.1); }
+
+.logo {
+  position: absolute;
+  top: 9rem;
+  left: 2rem; }
+  @media screen and (max-height: 18.75em) {
+    .logo {
+      top: 7rem;
+      left: 0; } }
+  .logo__link {
+    text-decoration: none; }
+  .logo__img {
+    display: inline-block;
+    height: 10rem; }
+    @media screen and (max-height: 18.75em) {
+      .logo__img {
+        height: 7rem; } }
 
 .navigation {
   position: relative;
@@ -370,8 +385,8 @@ body {
 
 .sidenav {
   position: fixed;
-  top: 17%;
-  left: 1.5rem; }
+  top: 35%;
+  left: 3.2rem; }
   .sidenav__list {
     list-style: none; }
   .sidenav__item {
@@ -405,20 +420,6 @@ body {
   background-repeat: no-repeat;
   display: flex;
   flex-direction: column; }
-  .header__logo-box {
-    position: absolute;
-    top: 9rem;
-    left: 2rem; }
-    @media screen and (max-height: 18.75em) {
-      .header__logo-box {
-        top: 7rem;
-        left: 0; } }
-  .header__logo {
-    display: inline-block;
-    height: 10rem; }
-    @media screen and (max-height: 18.75em) {
-      .header__logo {
-        height: 7rem; } }
   .header__heading-box {
     text-align: center;
     position: absolute;
@@ -523,34 +524,14 @@ body {
   padding: 5rem; }
 
 .page-kontakt {
-  height: calc(100vh - 6rem); }
-  .page-kontakt__content {
-    padding: 3rem;
-    height: 100%;
-    width: 100%; }
+  position: relative;
+  height: 100vh; }
   .page-kontakt__container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center; }
-  .page-kontakt__text-box {
-    flex: 0 0 50%; }
-  .page-kontakt__img-box {
-    position: relative;
-    flex: 0 0 50%; }
-  .page-kontakt__img {
-    height: 40rem;
-    width: 60rem;
-    background-image: url("../img/noorus3.jpg");
-    background-size: cover;
-    background-repeat: no-repeat;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    box-shadow: 0 2px 5px rgba(26, 26, 26, 0.5); }
+    padding: 3rem;
+    text-align: center; }
 
 .body-container {
-  padding: 0 3rem 0 18rem;
+  padding: 0 3rem 0 22rem;
   text-align: justify; }
 
 .section-header {
@@ -561,7 +542,9 @@ body {
   align-items: center; }
   .section-header__img-box {
     flex: 0 0 45%;
-    position: relative; }
+    height: 50rem;
+    position: relative;
+    overflow: hidden; }
   .section-header__img {
     height: 50rem;
     width: 50rem;

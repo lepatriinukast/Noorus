@@ -1,5 +1,5 @@
 .body-container {
-  padding: 0 3rem 0 18rem;
+  padding: 0 3rem 0 22rem;
   text-align: justify;
 }
 
@@ -12,7 +12,9 @@
 
   &__img-box {
     flex: 0 0 45%;
+    height: 50rem;
     position: relative;
+    overflow: hidden;
   }
 
   &__img {

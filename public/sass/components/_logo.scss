@@ -1,0 +1,23 @@
+// Styles for the header logo
+
+.logo {
+  position: absolute;
+  top: 9rem;
+  left: 2rem;
+  @media screen and (max-height: 18.75em) {
+    top: 7rem;
+    left: 0;
+  }
+
+  &__link {
+    text-decoration: none;
+  }
+
+  &__img {
+    display: inline-block;
+    height: 10rem;
+    @media screen and (max-height: 18.75em) {
+      height: 7rem;
+    }
+  }
+}
