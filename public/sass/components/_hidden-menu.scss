@@ -5,7 +5,7 @@
   top: 6rem;
   width: 100%;
   background-color: $color-primary-light;
-  z-index: 2;
+  z-index: 3;
   @include boxShadow;
   @media screen and (max-height: 18.75em) {
     height: 100vh;

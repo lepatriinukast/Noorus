@@ -9,17 +9,17 @@
   align-items: center;
   padding: 0 4rem;
   background-color: $color-primary-dark;
-  z-index: 1;
+  z-index: 2;
   @include boxShadow;
 
 // Social icons on the navigation
 
-  &__social {
+  &__icons {
     display: flex;
-    flex: 0 0 10%;
-    justify-content: space-between;
+    flex: 0 0 30%;
+    justify-content: space-around;
     @media screen and (max-width: 43.75em) {
-      flex: 0 0 20%;
+      flex: 0 0 70%;
     }
   }
 

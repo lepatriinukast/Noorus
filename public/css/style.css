@@ -193,7 +193,7 @@ body {
 
 .dropdown {
   position: absolute;
-  z-index: 3;
+  z-index: 4;
   padding: 1.5rem 2rem;
   border-radius: 10px;
   transform: scale(0.9);
@@ -235,7 +235,7 @@ body {
   top: 6rem;
   width: 100%;
   background-color: #5F045F;
-  z-index: 2;
+  z-index: 3;
   box-shadow: 0 2px 5px rgba(26, 26, 26, 0.5); }
   @media screen and (max-height: 18.75em) {
     .hidden-menu {
@@ -278,7 +278,8 @@ body {
 .logo {
   position: absolute;
   top: 9rem;
-  left: 2rem; }
+  left: 2rem;
+  z-index: 1; }
   @media screen and (max-height: 18.75em) {
     .logo {
       top: 7rem;
@@ -301,15 +302,15 @@ body {
   align-items: center;
   padding: 0 4rem;
   background-color: #32093F;
-  z-index: 1;
+  z-index: 2;
   box-shadow: 0 2px 5px rgba(26, 26, 26, 0.5); }
-  .navigation__social {
+  .navigation__icons {
     display: flex;
-    flex: 0 0 10%;
-    justify-content: space-between; }
+    flex: 0 0 30%;
+    justify-content: space-around; }
     @media screen and (max-width: 43.75em) {
-      .navigation__social {
-        flex: 0 0 20%; } }
+      .navigation__icons {
+        flex: 0 0 70%; } }
   .navigation__social-link:link, .navigation__social-link:visited {
     text-decoration: none; }
   .navigation__social-icon {
