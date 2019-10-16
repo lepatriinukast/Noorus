@@ -37,7 +37,7 @@
   padding: 3rem 0;
 
   &__container {
-    padding-top: 5rem;
+    text-align: center;
   }
 
   &__text-box {
@@ -49,11 +49,11 @@
 
   &__small-box {
     flex: 0 0 40%;
-    text-align: center;
   }
 
   &__smaller-box {
     padding-top: 3rem;
+    text-align: left;
   }
 }
 

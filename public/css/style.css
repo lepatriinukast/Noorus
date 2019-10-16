@@ -203,7 +203,7 @@ body {
     top: 5.2rem;
     background-color: #5F045F; }
   .dropdown--hidden {
-    left: 105%;
+    left: 110%;
     top: 1.5rem;
     background-color: #32093F; }
     @media screen and (max-height: 18.75em) {
@@ -564,17 +564,17 @@ body {
 .section-liikmed {
   padding: 3rem 0; }
   .section-liikmed__container {
-    padding-top: 5rem; }
+    text-align: center; }
   .section-liikmed__text-box {
     display: flex;
     justify-content: space-around;
     width: 100%;
     padding: 3rem 0; }
   .section-liikmed__small-box {
-    flex: 0 0 40%;
-    text-align: center; }
+    flex: 0 0 40%; }
   .section-liikmed__smaller-box {
-    padding-top: 3rem; }
+    padding-top: 3rem;
+    text-align: left; }
 
 .section-dirigendid {
   padding: 3rem 0; }
