@@ -6,17 +6,12 @@
   }
 
   &__container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    text-align: center;
   }
 
   &__text-box {
-    flex: 0 0 50%;
   }
 
   &__form-box {
-    position: relative;
-    flex: 0 0 50%;
   }
 }

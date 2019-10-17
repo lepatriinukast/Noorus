@@ -304,13 +304,25 @@ body {
   background-color: #32093F;
   z-index: 2;
   box-shadow: 0 2px 5px rgba(26, 26, 26, 0.5); }
+  .navigation__logo {
+    display: flex;
+    justify-content: center;
+    flex: 0 0 20%;
+    transition-property: transform;
+    transition-duration: .5s; }
+    .navigation__logo:active, .navigation__logo:hover {
+      transform: scale(1.1); }
+  .navigation__logo-link {
+    text-decoration: none; }
+  .navigation__logo-img {
+    width: 4rem; }
   .navigation__icons {
     display: flex;
-    flex: 0 0 30%;
+    flex: 0 0 40%;
     justify-content: space-around; }
     @media screen and (max-width: 43.75em) {
       .navigation__icons {
-        flex: 0 0 70%; } }
+        flex: 0 0 60%; } }
   .navigation__social-link:link, .navigation__social-link:visited {
     text-decoration: none; }
   .navigation__social-icon {
@@ -339,7 +351,7 @@ body {
     transform: scale(1.1); }
   .navigation__list {
     display: flex;
-    flex: 0 0 50%;
+    flex: 0 0 40%;
     justify-content: space-between;
     align-items: center;
     padding: 0 2rem;
@@ -375,7 +387,7 @@ body {
     text-decoration: none;
     background-color: transparent;
     border: none; }
-    .navigation__hamburger-button:active, .navigation__hamburger-button:hover, .navigation__hamburger-button:focus, .navigation__hamburger-button:visited:active, .navigation__hamburger-button:visited:hover, .navigation__hamburger-button:visited:focus {
+    .navigation__hamburger-button:active, .navigation__hamburger-button:focus, .navigation__hamburger-button:hover, .navigation__hamburger-button:visited:active, .navigation__hamburger-button:visited:focus, .navigation__hamburger-button:visited:hover {
       transform: scale(1.1); }
   .navigation__hamburger-icon {
     font-size: 2.2rem;
@@ -623,11 +635,4 @@ body {
   .page-vastuvott__content {
     padding: 3rem; }
   .page-vastuvott__container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center; }
-  .page-vastuvott__text-box {
-    flex: 0 0 50%; }
-  .page-vastuvott__form-box {
-    position: relative;
-    flex: 0 0 50%; }
+    text-align: center; }
