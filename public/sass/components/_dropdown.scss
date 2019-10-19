@@ -3,7 +3,7 @@
 .dropdown {
   position: absolute;
   z-index: 4;
-  padding: 1.5rem 2rem;
+  padding: 2.5rem 3.5rem;
   border-radius: 10px;
   transform: scale(0.9);
   text-align: center;
@@ -20,7 +20,7 @@
 
   &--hidden {
     left: 110%;
-    top: 1.5rem;
+    top: 0;
     background-color: $color-primary-dark;
     @media screen and (max-height: 18.75em) {
       top: -1.5rem;
@@ -30,7 +30,7 @@
   // Dropdown menu on the footer
 
   &--footer {
-    top: -17.5rem;
+    bottom: 5rem;
     background-color: $color-primary-light;
     @media screen and (max-width: 43.75em), (max-height: 18.75em) {
       top: -18rem;
@@ -48,7 +48,7 @@
     transition-duration: 0.5s;
 
     &:not(:last-child) {
-      margin-bottom: 1.5rem;
+      margin-bottom: 2.5rem;
     }
 
     &:active,

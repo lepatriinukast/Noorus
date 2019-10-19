@@ -132,8 +132,9 @@ body {
   font-family: inherit;
   text-decoration: none;
   border: none;
-  transition-property: transform;
-  transition-duration: 0.5s; }
+  transition-property: transform, background-color;
+  transition-duration: 0.5s;
+  cursor: pointer; }
   .btn:active, .btn:hover, .btn:focus, .btn:link:active, .btn:link:hover, .btn:link:focus, .btn:visited:active, .btn:visited:hover, .btn:visited:focus {
     outline: none;
     transform: scale(1.1); }
@@ -147,8 +148,6 @@ body {
   font-size: 1.6rem;
   font-weight: 700;
   border-radius: 10px;
-  transition-property: background-color;
-  transition-duration: 0.5s;
   box-shadow: 0 2px 5px rgba(26, 26, 26, 0.5); }
   .btn--main:active, .btn--main:hover {
     background-color: #5F045F; }
@@ -194,7 +193,7 @@ body {
 .dropdown {
   position: absolute;
   z-index: 4;
-  padding: 1.5rem 2rem;
+  padding: 2.5rem 3.5rem;
   border-radius: 10px;
   transform: scale(0.9);
   text-align: center;
@@ -204,13 +203,13 @@ body {
     background-color: #5F045F; }
   .dropdown--hidden {
     left: 110%;
-    top: 1.5rem;
+    top: 0;
     background-color: #32093F; }
     @media screen and (max-height: 18.75em) {
       .dropdown--hidden {
         top: -1.5rem; } }
   .dropdown--footer {
-    top: -17.5rem;
+    bottom: 5rem;
     background-color: #5F045F; }
     @media screen and (max-width: 43.75em), (max-height: 18.75em) {
       .dropdown--footer {
@@ -221,7 +220,7 @@ body {
     transition-property: transform;
     transition-duration: 0.5s; }
     .dropdown__item:not(:last-child) {
-      margin-bottom: 1.5rem; }
+      margin-bottom: 2.5rem; }
     .dropdown__item:active, .dropdown__item:hover {
       transform: scale(1.2); }
   .dropdown__link:link, .dropdown__link:visited {
@@ -229,6 +228,41 @@ body {
     color: #FFFFFF;
     font-size: 1.6rem;
     font-weight: 700; }
+
+.form {
+  display: flex;
+  align-self: flex-end;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  padding: 3rem 5rem;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #E0E0E0;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(26, 26, 26, 0.5);
+  font-family: inherit; }
+  .form__input {
+    display: inline-block;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(26, 26, 26, 0.5);
+    margin: .5rem 0;
+    padding: .5rem;
+    font-size: 1.6rem;
+    line-height: 2.5rem;
+    font-weight: 700;
+    color: #32093F; }
+    .form__input:focus {
+      outline: none;
+      border-bottom: 2px #5F045F solid; }
+    .form__input:focus:invalid {
+      outline: none;
+      border-bottom: 2px #E91E63 solid; }
+    .form__input::placeholder {
+      font-weight: 200; }
 
 .hidden-menu {
   position: absolute;
@@ -284,8 +318,6 @@ body {
     .logo {
       top: 7rem;
       left: 0; } }
-  .logo__link {
-    text-decoration: none; }
   .logo__img {
     display: inline-block;
     height: 10rem; }
@@ -398,7 +430,7 @@ body {
 
 .sidenav {
   position: fixed;
-  top: 35%;
+  top: 15%;
   left: 3.2rem; }
   .sidenav__list {
     list-style: none; }
@@ -540,8 +572,7 @@ body {
   position: relative;
   height: 100vh; }
   .page-kontakt__container {
-    padding: 3rem;
-    text-align: center; }
+    padding: 3rem; }
 
 .body-container {
   padding: 0 3rem 0 22rem;
@@ -630,9 +661,44 @@ body {
   .section-toetajad__logo {
     height: 6rem; }
 
+.page-sundmused__container {
+  padding: 3rem; }
+
+.page-sundmused__event {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5rem; }
+
+.page-sundmused__img {
+  flex: 0 0 40%;
+  height: 40rem;
+  width: 40rem;
+  margin-right: 5rem;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  box-shadow: 0 2px 5px rgba(26, 26, 26, 0.5); }
+  .page-sundmused__img--1 {
+    background-image: url("../img/img1.jpg"); }
+  .page-sundmused__img--2 {
+    background-image: url("../img/img2.jpg"); }
+  .page-sundmused__img--3 {
+    background-image: url("../img/img3.jpg"); }
+
+.page-sundmused__text-box {
+  flex: 0 0 40%; }
+
 .page-vastuvott {
   height: calc(100vh - 6rem); }
-  .page-vastuvott__content {
-    padding: 3rem; }
   .page-vastuvott__container {
-    text-align: center; }
+    height: 100%;
+    padding: 3rem;
+    display: flex;
+    justify-content: space-between; }
+  .page-vastuvott__text-box {
+    flex: 0 0 40%; }
+  .page-vastuvott__form-box {
+    flex: 0 0 40%;
+    position: relative;
+    align-self: center; }

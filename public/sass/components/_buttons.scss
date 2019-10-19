@@ -8,8 +8,9 @@
     font-family: inherit;
     text-decoration: none;
     border: none;
-    transition-property: transform;
+    transition-property: transform, background-color;
     transition-duration: 0.5s;
+    cursor: pointer;
 
     &:active,
     &:hover,
@@ -32,8 +33,6 @@
     font-size: 1.6rem;
     font-weight: 700;
     border-radius: 10px;
-    transition-property: background-color;
-    transition-duration: 0.5s;
     @include boxShadow;
 
     &:active,

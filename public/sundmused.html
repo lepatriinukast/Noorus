@@ -7,9 +7,9 @@
   <meta charset="utf-8">
   <link rel="shortcut icon" type="image/png" href="img/logo-lilla.png">
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,900&display=swap" rel="stylesheet">
-    <script src="https://kit.fontawesome.com/0c359ba9fc.js"></script>
-    <link rel="stylesheet" href="css/style.css">
-    <title>Segakoor Noorus | Sündmused</title>
+  <script src="https://kit.fontawesome.com/0c359ba9fc.js"></script>
+  <link rel="stylesheet" href="css/style.css">
+  <title>Segakoor Noorus | Sündmused</title>
 </head>
 
 <body>
@@ -37,6 +37,11 @@
     <div class="navigation__hamburger-box">
       <a href="#" class="navigation__hamburger-button">
         <i class="fas fa-bars navigation__hamburger-icon" id="hamburger-button"></i>
+      </a>
+    </div>
+    <div class="navigation__logo">
+      <a href="index.html" class="navigation__logo-link">
+        <img src="img/logo-vaike.png" alt="Väike logo" class="navigation__logo-img">
       </a>
     </div>
     <div class="navigation__icons">
@@ -67,11 +72,60 @@
       <li class="hidden-menu__item"><a href="kontakt.html" class="hidden-menu__link">Kontakt</a></li>
     </ul>
   </nav>
-  <div class="logo">
-    <a href="index.html" class="logo__link">
-      <img class="logo__img" src="img/logo-lilla.png" alt="logo">
-    </a>
+  <div class="page-sundmused__container">
+    <h2 class="heading--secondary heading--purple">Sündmused</h2>
+    <div class="page-sundmused__event" id="1">
+        <div class="page-sundmused__img page-sundmused__img--1"></div>
+      <div class="page-sundmused__text-box">
+        <h3 class="heading--tertiary heading--purple u-margin-bottom-big">Stalin 150</h3>
+        <p class="paragraph--small paragraph--purple">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi
+          ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
+          laborum.</p>
+      </div>
+    </div>
+    <div class="page-sundmused__event" id="2">
+        <div class="page-sundmused__img page-sundmused__img--2"></div>
+      <div class="page-sundmused__text-box">
+        <h3 class="heading--tertiary heading--purple u-margin-bottom-big">Hiljutisurnud heliloojad</h3>
+        <p class="paragraph--small paragraph--purple">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi
+          ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
+          laborum.</p>
+      </div>
+    </div>
+    <div class="page-sundmused__event" id="3">
+        <div class="page-sundmused__img page-sundmused__img--3"></div>
+      <div class="page-sundmused__text-box">
+        <h3 class="heading--tertiary heading--purple u-margin-bottom-big">Noorus ja Dave Benton</h3>
+        <p class="paragraph--small paragraph--purple">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi
+          ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
+          laborum.</p>
+      </div>
+    </div>
   </div>
+  <footer class="footer">
+    <nav class="footer__navigation">
+      <ul class="footer__list">
+        <li class="footer__item">
+          <a href="koorist.html" class="footer__link">Koorist</a>
+          <a href="#" class="btn btn--menu" id="dropdown-button-footer">
+            <i class="fas fa-caret-up btn__icon" id="dropdown-icon-footer"></i>
+          </a>
+          <div class="dropdown dropdown--footer hide" id="dropdown-menu-footer">
+            <ul class="dropdown__list">
+              <li class="dropdown__item"><a href="koorist.html#section-liikmed" class="dropdown__link">Liikmed</a></li>
+              <li class="dropdown__item"><a href="koorist.html#section-dirigendid" class="dropdown__link">Dirigendid</a></li>
+              <li class="dropdown__item"><a href="koorist.html#section-ajalugu" class="dropdown__link">Ajalugu</a></li>
+              <li class="dropdown__item"><a href="koorist.html#section-meedia" class="dropdown__link">Meedia</a></li>
+              <li class="dropdown__item"><a href="koorist.html#section-toetajad" class="dropdown__link">Toetajad</a></li>
+            </ul>
+          </div>
+        </li>
+        <li class="footer__item"><a href="vastuvott.html" class="footer__link">Vastuvõtt</a></li>
+        <li class="footer__item"><a href="sundmused.html" class="footer__link">Sündmused</a></li>
+        <li class="footer__item"><a href="kontakt.html" class="footer__link">Kontakt</a></li>
+      </ul>
+    </nav>
+  </footer>
   <script src="js/index.js" charset="utf-8"></script>
 </body>
 

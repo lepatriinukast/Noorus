@@ -1,0 +1,40 @@
+.form {
+  display: flex;
+  align-self: flex-end;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  padding: 3rem 5rem;
+  @include absCenter;
+  background-color: $color-grey-light;
+  border-radius: 5px;
+  @include boxShadow;
+  font-family: inherit;
+
+  &__input {
+    display: inline-block;
+    border: none;
+    border-radius: 5px;
+    @include boxShadow;
+    margin: .5rem 0;
+    padding: .5rem;
+    font-size: 1.6rem;
+    line-height: 2.5rem;
+    font-weight: 700;
+    color: $color-primary-dark;
+
+    &:focus {
+      outline: none;
+      border-bottom: 2px $color-primary-light solid;
+    }
+
+    &:focus:invalid {
+      outline: none;
+      border-bottom: 2px #E91E63 solid;
+    }
+
+    &::placeholder {
+      font-weight: 200;
+    }
+  }
+}
