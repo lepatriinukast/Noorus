@@ -1,11 +1,11 @@
 .page-vastuvott {
-  height: calc(100vh - 6rem);
 
   &__container {
     height: 100%;
-    padding: 3rem;
+    padding: 3rem 5rem;
     display: flex;
     justify-content: space-between;
+    align-content: flex-start;
   }
 
   &__text-box {
@@ -13,8 +13,8 @@
   }
 
   &__form-box {
-    flex: 0 0 40%;
+    flex: 0 0 30%;
     position: relative;
-    align-self: center;
+
   }
 }

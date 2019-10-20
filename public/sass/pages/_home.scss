@@ -53,12 +53,6 @@
   min-height: 40rem;
   margin-top: 2rem;
 
-  &__error-message {
-    display: none;
-    text-align: center;
-    @include absCenter;
-  }
-
   &__heading-box {
     text-align: center;
   }

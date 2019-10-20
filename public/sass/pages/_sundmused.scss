@@ -1,6 +1,19 @@
 .page-sundmused {
+  &__section {
+    padding-top: 3rem;
+    &:not(:last-child) {
+      margin-bottom: 2rem;
+    }
+  }
+
   &__container {
-    padding: 3rem;
+    padding: 3rem 5rem;
+    text-align: center;
+  }
+
+  &__intro-box {
+    width: 70%;
+    margin: 0 auto 3rem;
   }
 
   &__event {
@@ -20,6 +33,10 @@
     background-size: cover;
     @include boxShadow;
 
+    &--past {
+      filter: grayscale(100%);
+    }
+
     &--1 {
       background-image: url("../img/img1.jpg");
     }
@@ -31,9 +48,14 @@
     &--3 {
       background-image: url("../img/img3.jpg");
     }
+
+    &--past1 {
+      background-image: url("../img/past1.jpg");
+    }
   }
 
   &__text-box {
     flex: 0 0 40%;
+    text-align: justify;
   }
 }

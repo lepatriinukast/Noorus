@@ -5,7 +5,6 @@
   justify-content: space-around;
   align-items: center;
   padding: 3rem 5rem;
-  @include absCenter;
   background-color: $color-grey-light;
   border-radius: 5px;
   @include boxShadow;
@@ -13,11 +12,12 @@
 
   &__input {
     display: inline-block;
+    width: 30rem;
     border: none;
     border-radius: 5px;
     @include boxShadow;
-    margin: .5rem 0;
-    padding: .5rem;
+    margin: .7rem 0;
+    padding: .5rem 1.2rem;
     font-size: 1.6rem;
     line-height: 2.5rem;
     font-weight: 700;
