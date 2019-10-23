@@ -2,8 +2,17 @@
 
 .sidenav {
   position: fixed;
-  top: 15%;
+  top: 12rem;
   left: 3.2rem;
+  @media screen and (max-width: 79.375em) {
+    top: 15rem;
+  }
+  @media screen and (max-width: 70.9375em) {
+    top: 10rem;
+  }
+  @media screen and (max-width: 53.75em) {
+    display: none;
+  }
 
   &__list {
     list-style: none;
@@ -36,5 +45,20 @@
     font-weight: 700;
     transition-property: color;
     transition-duration: 0.5s;
+  }
+
+  &__button {
+    display: none;
+    width: 5rem;
+    height: 5rem;
+    background-color: $color-grey-light;
+    position: fixed;
+    top: 10rem;
+    left: 1.6rem;
+    border-radius: 100%;
+    @include boxShadow;
+    @media screen and (max-width: 53.75em) {
+      display: inline-block;
+    }
   }
 }

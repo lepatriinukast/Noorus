@@ -3,7 +3,6 @@
 body {
   font-family: 'Montserrat', sans-serif;
 }
-
 // Heading, paragraph and list styles
 
 .heading {
@@ -69,7 +68,7 @@ body {
   list-style: none;
 
   &__item {
-    padding: 1rem 0 1rem 0;
+    padding: 1rem 0;
     color: $color-primary-dark;
     font-size: 1.6rem;
     line-height: 2.5rem;
@@ -80,5 +79,9 @@ body {
       line-height: 2.5rem;
       font-weight: 700;
     }
+  }
+
+  &__link {
+    text-decoration: underline;
   }
 }

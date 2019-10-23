@@ -6,15 +6,27 @@
     display: flex;
     justify-content: space-between;
     align-content: flex-start;
+    flex-wrap: wrap;
+    @media screen and (max-width: 53.75em) {
+      justify-content: center;
+    }
   }
 
   &__text-box {
     flex: 0 0 40%;
+    @media screen and (max-width: 53.75em) {
+      flex: 0 0 100%;
+      margin-bottom: 5rem;
+    }
   }
 
   &__form-box {
     flex: 0 0 30%;
     position: relative;
-
+    max-width: 40rem;
+    @media screen and (max-width: 53.75em) {
+      flex: 0 0 100%;
+      margin-bottom: 5rem;
+    }
   }
 }

@@ -1,6 +1,6 @@
 // VARIABLES for the hamburger button and hidden menu (for smaller screens)
 
-var hamburgerButton = document.getElementById("hamburger-button");
+var menuButton = document.getElementById("menu-button");
 var hiddenMenu = document.getElementById("hidden-menu");
 
 // FUNCTION that makes hidden menu visible
@@ -64,7 +64,7 @@ function removeDropdownMenuFooter() {
 // EXECUTION CODE- Activates one of the above functions if the right button is clicked and closes the hidden menus if anything else is clicked
 
 document.addEventListener("click", function(event) {
-  if (event.target === hamburgerButton) {
+  if (event.target === menuButton) {
     event.preventDefault();
     toggleHiddenMenu();
     removeDropdownMenuHeader();

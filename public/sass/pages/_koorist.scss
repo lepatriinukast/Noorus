@@ -1,35 +1,44 @@
 .body-container {
-  padding: 0 3rem 0 22rem;
+  width: 100vw;
+  padding: 0 5rem 0 22rem;
   text-align: justify;
+  overflow-x: hidden;
+  @media screen and (max-width: 53.75em) {
+    padding: 0 5rem 0 8rem;
+  }
 }
 
 .section-header {
-  height: calc(100vh - 6rem);
+  min-height: calc(100vh - 6rem);
   padding: 3rem 0;
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
 
-  &__img-box {
-    flex: 0 0 45%;
-    height: 50rem;
-    position: relative;
-    overflow: hidden;
-  }
-
   &__img {
-    height: 50rem;
-    width: 50rem;
-    @include boxShadow;
-    background-image: url("../img/noorus2.jpg");
+    flex: 0 0 45%;
+    height: 45rem;
+    margin-right: 3rem;
+    background-image: url(../img/noorus2.jpg);
     background-size: cover;
-    background-repeat: no-repeat;
     background-position: center;
-    @include absCenter;
+    @include boxShadow;
+    @media screen and (max-width: 79.375em) {
+      height: 55rem;
+    }
+    @media screen and (max-width: 70.9375em) {
+      height: 45rem;
+      margin-bottom: 3rem;
+      flex: 100%;
+    }
   }
 
   &__text-box {
     flex: 0 0 45%;
+    @media screen and (max-width: 70.9375em) {
+      flex: 100%;
+    }
   }
 }
 
@@ -43,6 +52,7 @@
   &__text-box {
     display: flex;
     justify-content: space-around;
+    flex-wrap: wrap;
     width: 100%;
     padding: 3rem 0;
   }
@@ -94,6 +104,14 @@
 }
 
 .section-ajalugu {
+  padding: 3rem 0;
+
+  &__container {
+    padding-top: 5rem;
+  }
+}
+
+.section-meedia {
   padding: 3rem 0;
 
   &__container {
