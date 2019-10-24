@@ -156,13 +156,16 @@ body {
 
 .btn--menu {
   position: relative;
-  padding-left: .5rem;
+  padding-left: 1rem;
   color: #FFFFFF;
   background-color: transparent; }
 
 .btn__icon {
   font-size: 1.6rem;
   font-weight: 700; }
+  @media screen and (max-width: 26.875em) {
+    .btn__icon {
+      font-size: 2rem; } }
 
 .card {
   display: inline-block;
@@ -200,9 +203,6 @@ body {
   transform: scale(0.9);
   text-align: center;
   box-shadow: 0 2px 5px rgba(26, 26, 26, 0.5); }
-  @media screen and (max-width: 30em), (max-height: 25em) {
-    .dropdown {
-      padding: 3rem 4rem; } }
   .dropdown--header {
     top: 5.2rem;
     background-color: #5F045F; }
@@ -226,6 +226,9 @@ body {
     transition-duration: 0.5s; }
     .dropdown__item:not(:last-child) {
       margin-bottom: 2.5rem; }
+      @media screen and (max-width: 26.875), (max-height: 25em) {
+        .dropdown__item:not(:last-child) {
+          margin-bottom: 3.5rem; } }
     .dropdown__item:active, .dropdown__item:hover {
       transform: scale(1.2); }
   .dropdown__link:link, .dropdown__link:visited {
@@ -326,6 +329,10 @@ body {
     .iframe {
       width: 48.6rem;
       height: 26.55rem; } }
+  @media screen and (max-width: 21.875em) {
+    .iframe {
+      width: 32.4rem;
+      height: 17.7rem; } }
 
 .logo {
   position: absolute;
@@ -341,7 +348,7 @@ body {
   width: 100vw;
   height: 6rem;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
   padding: 0 4rem;
   background-color: #32093F;
@@ -366,7 +373,7 @@ body {
     align-items: center; }
     @media screen and (max-width: 53.75em) {
       .navigation__icons {
-        flex: 0 0 50%; } }
+        flex: 0 0 33.333%; } }
   .navigation__social-link:link, .navigation__social-link:visited {
     text-decoration: none; }
   .navigation__social-icon {
@@ -416,10 +423,10 @@ body {
     display: none; }
     @media screen and (max-width: 53.75em) {
       .navigation__menu-button, .navigation__menu-button:visited {
-        display: block;
-        flex: 0 0 20%;
+        display: inline-block;
+        flex: 0 0 33.333%;
         padding: 2rem 0;
-        text-align: center; } }
+        text-align: left; } }
     .navigation__menu-button:active, .navigation__menu-button:focus, .navigation__menu-button:hover, .navigation__menu-button:visited:active, .navigation__menu-button:visited:focus, .navigation__menu-button:visited:hover {
       transform: scale(1.1); }
 
@@ -458,19 +465,6 @@ body {
     font-weight: 700;
     transition-property: color;
     transition-duration: 0.5s; }
-  .sidenav__button {
-    display: none;
-    width: 5rem;
-    height: 5rem;
-    background-color: #E0E0E0;
-    position: fixed;
-    top: 10rem;
-    left: 1.6rem;
-    border-radius: 100%;
-    box-shadow: 0 2px 5px rgba(26, 26, 26, 0.5); }
-    @media screen and (max-width: 53.75em) {
-      .sidenav__button {
-        display: inline-block; } }
 
 .header {
   position: relative;
@@ -609,21 +603,28 @@ body {
   justify-content: space-between;
   align-items: center; }
   .section-header__img {
-    flex: 0 0 45%;
     height: 45rem;
+    width: 50rem;
     margin-right: 3rem;
     background-image: url("../img/noorus2.jpg");
     background-size: cover;
     background-position: center;
     box-shadow: 0 2px 5px rgba(26, 26, 26, 0.5); }
-    @media screen and (max-width: 79.375em) {
-      .section-header__img {
-        height: 55rem; } }
     @media screen and (max-width: 70.9375em) {
       .section-header__img {
-        height: 45rem;
-        margin-bottom: 3rem;
-        flex: 100%; } }
+        height: 45rem; } }
+    @media screen and (max-width: 76.25em) {
+      .section-header__img {
+        height: 54rem;
+        width: auto;
+        flex: 0 0 100%;
+        margin-bottom: 3rem; } }
+    @media screen and (max-width: 23.125em) {
+      .section-header__img {
+        height: 32.5rem; } }
+    @media screen and (max-width: 16.875em) {
+      .section-header__img {
+        height: 23.5rem; } }
   .section-header__text-box {
     flex: 0 0 45%; }
     @media screen and (max-width: 70.9375em) {

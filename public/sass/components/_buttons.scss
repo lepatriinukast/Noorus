@@ -45,7 +45,7 @@
 
   &--menu {
     position: relative;
-    padding-left: .5rem;
+    padding-left: 1rem;
     color: $color-white;
     background-color: transparent;
   }
@@ -53,5 +53,8 @@
   &__icon {
     font-size: 1.6rem;
     font-weight: 700;
+    @media screen and (max-width: 26.875em) {
+      font-size: 2rem;
+    }
   }
 }

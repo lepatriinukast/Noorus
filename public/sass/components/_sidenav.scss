@@ -46,19 +46,4 @@
     transition-property: color;
     transition-duration: 0.5s;
   }
-
-  &__button {
-    display: none;
-    width: 5rem;
-    height: 5rem;
-    background-color: $color-grey-light;
-    position: fixed;
-    top: 10rem;
-    left: 1.6rem;
-    border-radius: 100%;
-    @include boxShadow;
-    @media screen and (max-width: 53.75em) {
-      display: inline-block;
-    }
-  }
 }

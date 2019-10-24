@@ -17,21 +17,29 @@
   align-items: center;
 
   &__img {
-    flex: 0 0 45%;
     height: 45rem;
+    width: 50rem;
     margin-right: 3rem;
     background-image: url("../img/noorus2.jpg");
     background-size: cover;
     background-position: center;
     @include boxShadow;
-    @media screen and (max-width: 79.375em) {
-      height: 55rem;
-    }
     @media screen and (max-width: 70.9375em) {
       height: 45rem;
-      margin-bottom: 3rem;
-      flex: 100%;
     }
+    @media screen and (max-width: 76.25em) {
+      height: 54rem;
+      width: auto;
+      flex: 0 0 100%;
+      margin-bottom: 3rem;
+    }
+    @media screen and (max-width: 23.125em) {
+      height: 32.5rem;
+    }
+    @media screen and (max-width: 16.875em) {
+      height: 23.5rem;
+    }
+
   }
 
   &__text-box {

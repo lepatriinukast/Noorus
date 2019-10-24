@@ -8,9 +8,6 @@
   transform: scale(0.9);
   text-align: center;
   @include boxShadow;
-  @media screen and (max-width: 30em), (max-height: 25em) {
-    padding: 3rem 4rem;
-  }
 
   // Dropdown menu on the header navigation
 
@@ -52,6 +49,9 @@
 
     &:not(:last-child) {
       margin-bottom: 2.5rem;
+      @media screen and (max-width: 26.875), (max-height: 25em) {
+        margin-bottom: 3.5rem;
+      }
     }
 
     &:active,
