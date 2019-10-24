@@ -2,4 +2,8 @@
     margin-bottom: 3rem;
     width: 54rem;
     height: 29.5rem;
+    @media screen and (max-width: 53.75em) {
+      width: 48.6rem;
+      height: 26.55rem;
+    }
 }

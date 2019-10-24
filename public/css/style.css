@@ -51,7 +51,7 @@ body {
   @media screen and (max-height: 30em) {
     .heading--primary {
       font-size: 5rem; } }
-  @media screen and (max-height: 18.75em) {
+  @media screen and (max-height: 30em) {
     .heading--primary {
       margin-bottom: 0.5rem; } }
 
@@ -200,6 +200,9 @@ body {
   transform: scale(0.9);
   text-align: center;
   box-shadow: 0 2px 5px rgba(26, 26, 26, 0.5); }
+  @media screen and (max-width: 30em), (max-height: 25em) {
+    .dropdown {
+      padding: 3rem 4rem; } }
   .dropdown--header {
     top: 5.2rem;
     background-color: #5F045F; }
@@ -207,13 +210,13 @@ body {
     left: 110%;
     top: 0;
     background-color: #32093F; }
-    @media screen and (max-height: 18.75em) {
+    @media screen and (max-height: 25em) {
       .dropdown--hidden {
         top: -1.5rem; } }
   .dropdown--footer {
     bottom: 5rem;
     background-color: #5F045F; }
-    @media screen and (max-width: 43.75em), (max-height: 18.75em) {
+    @media screen and (max-width: 43.75em), (max-height: 25em) {
       .dropdown--footer {
         top: -18rem; } }
   .dropdown__list {
@@ -278,12 +281,11 @@ body {
   background-color: #5F045F;
   z-index: 3;
   box-shadow: 0 2px 5px rgba(26, 26, 26, 0.5); }
-  @media screen and (max-height: 18.75em) {
+  @media screen and (max-height: 25em) {
     .hidden-menu {
-      height: 100vh;
-      height: calc(var(--vh, 1vh)*100);
-      position: relative;
-      top: 0;
+      height: calc(100vh - 6rem);
+      height: calc((var(--vh, 1vh)*100) - 6rem);
+      top: 6rem;
       flex: 1 0 80%; } }
   .hidden-menu__list {
     list-style: none;
@@ -297,7 +299,7 @@ body {
     padding: 2rem 0;
     transition-property: transform;
     transition-duration: 0.5s; }
-    @media screen and (max-height: 18.75em) {
+    @media screen and (max-height: 25em) {
       .hidden-menu__item {
         padding: 0; } }
     .hidden-menu__item:active, .hidden-menu__item:hover {
@@ -320,22 +322,19 @@ body {
   margin-bottom: 3rem;
   width: 54rem;
   height: 29.5rem; }
+  @media screen and (max-width: 53.75em) {
+    .iframe {
+      width: 48.6rem;
+      height: 26.55rem; } }
 
 .logo {
   position: absolute;
   top: 9rem;
   left: 2rem;
   z-index: 1; }
-  @media screen and (max-height: 18.75em) {
-    .logo {
-      top: 7rem;
-      left: 0; } }
   .logo__img {
     display: inline-block;
     height: 10rem; }
-    @media screen and (max-height: 18.75em) {
-      .logo__img {
-        height: 7rem; } }
 
 .navigation {
   position: relative;
@@ -488,13 +487,13 @@ body {
     top: 47%;
     left: 50%;
     transform: translateX(-47%); }
-    @media screen and (max-height: 18.75em) {
+    @media screen and (max-height: 25em) {
       .header__heading-box {
         top: 45%;
         width: 90%; } }
   .header__paragraph {
     margin-bottom: 1rem; }
-    @media screen and (max-height: 18.75em) {
+    @media screen and (max-height: 25em) {
       .header__paragraph {
         margin-bottom: .5rem;
         font-size: 1.3rem; } }
@@ -612,7 +611,7 @@ body {
     flex: 0 0 45%;
     height: 45rem;
     margin-right: 3rem;
-    background-image: url(../img/noorus2.jpg);
+    background-image: url("../img/noorus2.jpg");
     background-size: cover;
     background-position: center;
     box-shadow: 0 2px 5px rgba(26, 26, 26, 0.5); }
@@ -642,6 +641,11 @@ body {
     padding: 3rem 0; }
   .section-liikmed__small-box {
     flex: 0 0 40%; }
+    @media screen and (max-width: 43.75em) {
+      .section-liikmed__small-box {
+        flex: 0 0 100%; } }
+    .section-liikmed__small-box:not(:last-child) {
+      margin-bottom: 6rem; }
   .section-liikmed__smaller-box {
     padding-top: 3rem;
     text-align: left; }
@@ -652,13 +656,18 @@ body {
     padding-top: 5rem;
     display: flex;
     justify-content: space-between;
-    align-items: center; }
+    align-items: center;
+    flex-wrap: wrap; }
     .section-dirigendid__container:not(:last-child) {
       margin-bottom: 5rem; }
   .section-dirigendid__text-box {
     flex: 0 0 70%; }
+    @media screen and (max-width: 62.5em) {
+      .section-dirigendid__text-box {
+        flex: 0 0 100%;
+        margin-bottom: 3rem; } }
   .section-dirigendid__img {
-    flex: 0 0 20%;
+    width: 20rem;
     height: 30rem;
     box-shadow: 0 2px 5px rgba(26, 26, 26, 0.5);
     background-size: cover;
