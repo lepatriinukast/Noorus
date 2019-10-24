@@ -20,18 +20,24 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-wrap: wrap;
     padding: 5rem;
   }
 
   &__img {
-    flex: 0 0 40%;
     height: 40rem;
-    width: 40rem;
+    width: 60rem;
     margin-right: 5rem;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
     @include boxShadow;
+    @media screen and (max-width: 42.5em) {
+      margin-right: 0;
+    height: 24rem;
+    width: 36rem;
+    }
+
 
     &--past {
       filter: grayscale(100%);
@@ -57,5 +63,10 @@
   &__text-box {
     flex: 0 0 40%;
     text-align: justify;
+    @media screen and (max-width: 64.5em) {
+      flex: 0 0 100%;
+      margin-top: 3rem;
+      text-align: center;
+    }
   }
 }
