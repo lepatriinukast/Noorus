@@ -9,12 +9,13 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
+    flex-wrap: wrap;
     list-style: none;
   }
 
   &__item {
     position: relative;
-    padding: 2rem 0;
+    padding: 2rem 2rem;
     transition-property: transform;
     transition-duration: 0.5s;
 

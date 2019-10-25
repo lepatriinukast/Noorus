@@ -20,7 +20,6 @@
 html {
   box-sizing: border-box;
   font-size: 62.5%;
-  overflow-x: hidden;
   @media screen and (max-width: 79.375em) {
     font-size: 50%;
   }
@@ -32,4 +31,9 @@ html {
 
 body {
   background-color: $color-white;
+}
+
+.body-wrapper {
+  overflow-x: hidden;
+  position: relative;
 }

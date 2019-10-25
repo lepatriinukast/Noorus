@@ -9,6 +9,9 @@
   &__container {
     padding: 3rem 5rem;
     text-align: center;
+    @media screen and (max-width: 22.5em) {
+      padding: 3rem 3rem;
+    }
   }
 
   &__intro-box {
@@ -37,6 +40,15 @@
     height: 24rem;
     width: 36rem;
     }
+    @media screen and (max-width: 22.5em) {
+      height: 20rem;
+      width: 30rem;
+    }
+    @media screen and (max-width: 22.5em) {
+      height: 16rem;
+      width: 24rem;
+    }
+
 
 
     &--past {

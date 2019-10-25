@@ -9,5 +9,8 @@
   &__img {
     display: inline-block;
     height: 10rem;
+    @media screen and (max-width: 26.875em), (max-height: 25em) {
+      height: 7rem;
+    }
   }
 }

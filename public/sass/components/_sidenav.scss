@@ -11,11 +11,19 @@
     top: 10rem;
   }
   @media screen and (max-width: 53.75em) {
-    display: none;
+    position: relative;
+    top: 0;
+    left: 0;
   }
 
   &__list {
     list-style: none;
+    @media screen and (max-width: 53.75em) {
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      padding-top: 3rem;
+    }
   }
 
   &__item {
@@ -25,6 +33,9 @@
     border-radius: 10px;
     transition-property: background-color, box-shadow;
     transition-duration: 0.5s;
+    @media screen and (max-width: 53.75em) {
+      display: inline-block;
+    }
 
     &:hover,
     &:active {

@@ -22,6 +22,9 @@
     line-height: 2.5rem;
     font-weight: 700;
     color: $color-primary-dark;
+    @media screen and (max-width: 18.75em) {
+      width: 20rem;
+    }
 
     &:focus {
       outline: none;
