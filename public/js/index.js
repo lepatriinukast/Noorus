@@ -57,8 +57,12 @@ function toggleDropdownMenuFooter() {
 }
 
 function removeDropdownMenuFooter() {
-  dropdownMenuFooter.classList.remove("show");
-  dropdownMenuFooter.classList.add("hide");
+  if (dropdownMenuFooter !== null) {
+    dropdownMenuFooter.classList.remove("show");
+    dropdownMenuFooter.classList.add("hide");
+  } else {
+    return false;
+  }
 }
 
 // EXECUTION CODE- Activates one of the above functions if the right button is clicked and closes the hidden menus if anything else is clicked
@@ -70,7 +74,7 @@ document.addEventListener("click", function(event) {
     removeDropdownMenuHeader();
     removeDropdownMenuHidden();
     removeDropdownMenuFooter();
-  } else if (event.target === dropdownButtonHeader || event.target ===dropdownIconHeader) {
+  } else if (event.target === dropdownButtonHeader || event.target === dropdownIconHeader) {
     event.preventDefault();
     removeHiddenMenu();
     toggleDropdownMenuHeader();
@@ -97,10 +101,14 @@ document.addEventListener("click", function(event) {
 
 // VARIABLE for the current viewport height
 
-var vh = window.innerHeight * 0.01;
+var vh = window.innerHeight * 0.01;/
 
-// EXECUTION CODE- a css variable is set to the document, which equals the variable above
+// FUNCTION for setting the --vh css variable to current viewport height
 
-window.addEventListener("orientationchange", function() {
+function setViewportHeight() {
   document.documentElement.style.setProperty("--vh", "&{vh}px");
-});
+}
+
+// EXECUTION CODE- the code below updates the variables above continuously
+
+  window.setTimeout(setViewportHeight(), 100);

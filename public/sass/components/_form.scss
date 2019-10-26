@@ -10,7 +10,12 @@
   @include boxShadow;
   font-family: inherit;
 
+  &__text-area {
+    font-family: inherit;
+  }
+
   &__input {
+    position: relative;
     display: inline-block;
     width: 30rem;
     border: none;

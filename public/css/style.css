@@ -256,7 +256,10 @@ body {
   border-radius: 5px;
   box-shadow: 0 2px 5px rgba(26, 26, 26, 0.5);
   font-family: inherit; }
+  .form__text-area {
+    font-family: inherit; }
   .form__input {
+    position: relative;
     display: inline-block;
     width: 30rem;
     border: none;
@@ -424,7 +427,7 @@ body {
     padding: 2rem 0;
     transition-property: transform;
     transition-duration: 0.5s; }
-    @media (hover: hover) {
+    @media screen and (hover: hover) {
       .navigation__item:hover .dropdown--header {
         visibility: visible;
         opacity: 1; } }
@@ -533,7 +536,7 @@ body {
     padding: 2rem 2rem;
     transition-property: transform;
     transition-duration: 0.5s; }
-    @media (hover: hover) {
+    @media screen and (hover: hover) {
       .footer__item:hover .dropdown--footer {
         visibility: visible;
         opacity: 1; } }

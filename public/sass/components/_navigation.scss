@@ -109,7 +109,7 @@
     transition-duration: 0.5s;
 
     &:hover .dropdown--header {
-      @media (hover: hover) {
+      @media screen and (hover: hover) {
         visibility: visible;
         opacity: 1;
       }
