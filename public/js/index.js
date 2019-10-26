@@ -101,7 +101,7 @@ document.addEventListener("click", function(event) {
 
 // VARIABLE for the current viewport height
 
-var vh = window.innerHeight * 0.01;/
+var vh = window.innerHeight * 0.01;
 
 // FUNCTION for setting the --vh css variable to current viewport height
 
