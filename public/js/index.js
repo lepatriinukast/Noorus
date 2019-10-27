@@ -99,16 +99,16 @@ document.addEventListener("click", function(event) {
   }
 });
 
-// VARIABLE for the current viewport height
-
-var vh = window.innerHeight * 0.01;
-
-// FUNCTION for setting the --vh css variable to current viewport height
-
-function setViewportHeight() {
-  document.documentElement.style.setProperty("--vh", "&{vh}px");
-}
-
-// EXECUTION CODE- the code below updates the variables above continuously
-
-  window.setTimeout(setViewportHeight(), 100);
+// // VARIABLE for the current viewport height
+//
+// var vh = window.innerHeight * 0.01;
+//
+// // FUNCTION for setting the --vh css variable to current viewport height
+//
+// function setViewportHeight() {
+//   document.documentElement.style.setProperty("--vh", "&{vh}px");
+// }
+//
+// // EXECUTION CODE- the code below updates the variables above continuously
+//
+//   window.setInterval(setViewportHeight(), 100);

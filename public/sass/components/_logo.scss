@@ -5,6 +5,10 @@
   top: 9rem;
   left: 2rem;
   z-index: 1;
+  @media screen and (max-height: 12.5em), (max-width: 12.5em) {
+    top: 7rem;
+    left: 1rem;
+  }
 
   &__img {
     display: inline-block;

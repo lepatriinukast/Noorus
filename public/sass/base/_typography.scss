@@ -19,10 +19,11 @@ body {
     font-size: 7.2rem;
     margin-bottom: 2rem;
     @media screen and (max-height: 30em) {
-      font-size: 5rem,;
-    }
-    @media screen and (max-height: 30em) {
+      font-size: 5rem;
       margin-bottom: 0.5rem;
+    }
+    @media screen and  (max-width: 18.75em) and (max-height: 13.75em) {
+      font-size: 3rem;
     }
   }
 

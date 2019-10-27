@@ -10,13 +10,16 @@
     padding: 3rem 5rem;
     text-align: center;
     @media screen and (max-width: 22.5em) {
-      padding: 3rem 3rem;
+      padding: 3rem;
     }
   }
 
   &__intro-box {
     width: 70%;
     margin: 0 auto 3rem;
+    @media screen and (max-width: 23.75em) {
+      width: 100%;
+    }
   }
 
   &__event {
@@ -25,6 +28,9 @@
     align-items: center;
     flex-wrap: wrap;
     padding: 5rem;
+    @media screen and (max-width: 22.5em) {
+      padding: 0rem;
+    }
   }
 
   &__img {
@@ -40,16 +46,10 @@
     height: 24rem;
     width: 36rem;
     }
-    @media screen and (max-width: 22.5em) {
+    @media screen and (max-width: 17.5em) {
       height: 20rem;
       width: 30rem;
     }
-    @media screen and (max-width: 22.5em) {
-      height: 16rem;
-      width: 24rem;
-    }
-
-
 
     &--past {
       filter: grayscale(100%);
@@ -77,8 +77,9 @@
     text-align: justify;
     @media screen and (max-width: 64.5em) {
       flex: 0 0 100%;
-      margin-top: 3rem;
+      margin: 3rem 0 0rem;
       text-align: center;
     }
+
   }
 }

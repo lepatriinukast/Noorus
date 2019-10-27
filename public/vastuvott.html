@@ -36,7 +36,9 @@
         <li class="navigation__item"><a href="kontakt.html" class="navigation__link">Kontakt</a></li>
       </ul>
       <div class="navigation__item navigation__menu-button">
-        <a href="#" class="navigation__link" id="menu-button">Valikud</a>
+        <a href="#" class="navigation__link">
+          <i class="fas fa-bars navigation__menu-icon" id="menu-button"></i>
+        </a>
       </div>
       <div class="navigation__logo">
         <a href="index.html" class="navigation__logo-link">
@@ -44,8 +46,12 @@
         </a>
       </div>
       <div class="navigation__icons">
-        <a href="https://www.facebook.com/segakoorNoorus/" class="navigation__social-link"><i class="fab fa-facebook-f navigation__social-icon"></i></a>
-        <a href="https://www.instagram.com/segakoornoorus/" class="navigation__social-link"><i class="fab fa-instagram navigation__social-icon"></i></a>
+        <a href="https://www.facebook.com/segakoorNoorus/" class="navigation__social-link">
+          <i class="fab fa-facebook-f navigation__social-icon"></i>
+        </a>
+        <a href="https://www.instagram.com/segakoornoorus/" class="navigation__social-link">
+          <i class="fab fa-instagram navigation__social-icon"></i>
+        </a>
         <a href="index-en.html" class="navigation__language-link">EN</a>
       </div>
     </nav>
@@ -74,7 +80,7 @@
       <div class="page-vastuvott__text-box">
         <h2 class="heading--secondary heading--purple u-margin-bottom-big">Vastuvõtt</h2>
         <p class="paragraph--large paragraph--purple u-margin-bottom-big">Hetkel on avatud vastuvõtt tenori, baritoni ja bassi häälerühmadesse</p>
-        <p class="paragraph--small paragraph--purple u-margin-bottom-big">Lisainfo saamiseks ja ettelaulmisele registreerumiseks palun täida ankeet (paremal) või võta ühendust meie dirigendiga: <strong>maarja.helstein@gmail.com</strong></p>
+        <p class="paragraph--small paragraph--purple u-margin-bottom-big">Lisainfo saamiseks ja ettelaulmisele registreerumiseks palun täida ankeet või võta ühendust meie dirigendiga: <strong>maarja.helstein@gmail.com</strong></p>
         <p class="paragraph--large paragraph--purple">Meie ootame juba väga Sinuga kohtumist!</p>
       </div>
       <div class="page-vastuvott__form-box">
@@ -84,7 +90,9 @@
           <input type="text" class="form__input" placeholder="Perekonnanimi" required>
           <input type="number" class="form__input" placeholder="Vanus" required>
           <input type="text" class="form__input" placeholder="Hääleliik" required>
-          <textarea class="form__input form__text-area" name="vastuvott" rows="1" placeholder="Eelnev laulukogemus" required></textarea>
+          <div class="form__text-wrapper">
+            <textarea class="form__input form__text-area" id="text-area-form" name="vastuvott" rows="1" placeholder="Eelnev laulukogemus" required></textarea>
+          </div>
           <input type="email" class="form__input" placeholder="E-maili aadress" required>
           <input type="tel" class="form__input u-margin-bottom-big" placeholder="Telefoninumber" required>
           <button class="btn btn--main" type="submit" name="submit">Saada</button>
