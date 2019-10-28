@@ -101,14 +101,16 @@ document.addEventListener("click", function(event) {
 
 // // VARIABLE for the current viewport height
 //
-// var vh = window.innerHeight * 0.01;
+
+
 //
 // // FUNCTION for setting the --vh css variable to current viewport height
 //
-// function setViewportHeight() {
-//   document.documentElement.style.setProperty("--vh", "&{vh}px");
-// }
+function setViewportHeight() {
+  var vh = window.innerHeight;
+  hiddenMenu.style.height = "calc(" + vh + "px - 6rem)";
+}
 //
 // // EXECUTION CODE- the code below updates the variables above continuously
 //
-//   window.setInterval(setViewportHeight(), 100);
+  window.addEventListener("resize", setViewportHeight);

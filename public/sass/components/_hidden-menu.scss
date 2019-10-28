@@ -9,6 +9,7 @@
   @include boxShadow;
   @media screen and (max-height: 25em) {
     height: calc(100vh - 6rem);
+    height: var(--vh);
     top: 6rem;
   }
 
@@ -32,6 +33,9 @@
     padding: 2rem 0;
     transition-property: transform;
     transition-duration: 0.5s;
+    @media screen and (max-height: 10.625em) {
+      padding: 0;
+    }
 
     &:active,
     &:hover {

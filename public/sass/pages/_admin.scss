@@ -1,0 +1,17 @@
+.page-admin {
+  &__navigation {
+    padding: 2rem;
+    background-color: $color-grey-dark;
+  }
+
+  &__list {
+    display: flex;
+    justify-content: space-between;
+    list-style-type: none;
+  }
+
+  &__link {
+color: $color-white;
+text-decoration: none;
+  }
+}

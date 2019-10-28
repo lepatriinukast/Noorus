@@ -37,15 +37,21 @@
       display: inline-block;
     }
 
-    &:hover,
-    &:active {
+    &:active,
+    &:hover {
       background-color: $color-primary-light;
       @include boxShadow;
     }
 
-    &:hover .sidenav__link,
-    &:active .sidenav__link {
+    &:active .sidenav__link,
+    &:hover .sidenav__link {
       color: white;
+    }
+  }
+
+  &__special-item {
+    @media screen and (max-width: 53.75em) {
+      display: none;
     }
   }
 
