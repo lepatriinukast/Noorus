@@ -3,7 +3,7 @@
   padding: 0 5rem 0 22rem;
   text-align: justify;
   @media screen and (max-width: 53.75em) {
-    padding: 0 5rem 0 8rem;
+    padding: 0 5rem;
   }
 }
 
@@ -15,7 +15,7 @@
   justify-content: space-between;
   align-items: center;
   @media screen and (max-width: 53.75em) {
-    padding: 1rem;
+    min-height: auto;
   }
 
   &__img {
@@ -42,7 +42,6 @@
     @media screen and (max-width: 16.875em) {
       height: 23.5rem;
     }
-
   }
 
   &__text-box {

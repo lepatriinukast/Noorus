@@ -667,7 +667,7 @@ body {
   text-align: justify; }
   @media screen and (max-width: 53.75em) {
     .body-container {
-      padding: 0 5rem 0 8rem; } }
+      padding: 0 5rem; } }
 
 .section-header {
   min-height: calc(100vh - 6rem);
@@ -678,7 +678,7 @@ body {
   align-items: center; }
   @media screen and (max-width: 53.75em) {
     .section-header {
-      padding: 1rem; } }
+      min-height: auto; } }
   .section-header__img {
     height: 45rem;
     width: 50rem;
