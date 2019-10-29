@@ -22,7 +22,7 @@ body {
       font-size: 5rem;
       margin-bottom: 0.5rem;
     }
-    @media screen and  (max-width: 18.75em) and (max-height: 13.75em) {
+    @media screen and (max-width: 18.75em) and (max-height: 13.75em) {
       font-size: 3rem;
     }
   }
@@ -84,5 +84,15 @@ body {
 
   &__link {
     text-decoration: underline;
+  }
+}
+
+.form {
+  &,
+  &__input {
+    font-family: inherit;
+    font-size: 1.6rem;
+    line-height: 2.5rem;
+    font-weight: 700;
   }
 }

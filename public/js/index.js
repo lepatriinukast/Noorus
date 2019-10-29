@@ -98,19 +98,3 @@ document.addEventListener("click", function(event) {
     removeDropdownMenuFooter();
   }
 });
-
-// // VARIABLE for the current viewport height
-//
-
-
-//
-// // FUNCTION for setting the --vh css variable to current viewport height
-//
-function setViewportHeight() {
-  var vh = window.innerHeight;
-  hiddenMenu.style.height = "calc(" + vh + "px - 6rem)";
-}
-//
-// // EXECUTION CODE- the code below updates the variables above continuously
-//
-  window.addEventListener("resize", setViewportHeight);

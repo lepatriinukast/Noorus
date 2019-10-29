@@ -101,6 +101,12 @@ body {
   .list__link {
     text-decoration: underline; }
 
+.form, .form__input {
+  font-family: inherit;
+  font-size: 1.6rem;
+  line-height: 2.5rem;
+  font-weight: 700; }
+
 .u-margin-top-big {
   margin-top: 2rem !important; }
 
@@ -261,23 +267,17 @@ body {
   padding: 3rem 5rem;
   background-color: #E0E0E0;
   border-radius: 5px;
-  box-shadow: 0 2px 5px rgba(26, 26, 26, 0.5);
-  font-family: inherit; }
-  .form__text-area {
-    font-family: inherit; }
+  box-shadow: 0 2px 5px rgba(26, 26, 26, 0.5); }
   .form__input {
     position: relative;
     display: inline-block;
+    height: 4.5rem;
     width: 30rem;
     border: none;
     border-radius: 5px;
+    padding: 0 1.2rem;
     box-shadow: 0 2px 5px rgba(26, 26, 26, 0.5);
-    margin: .7rem 0;
-    padding: .5rem 1.2rem;
-    font-size: 1.6rem;
-    line-height: 2.5rem;
-    font-weight: 700;
-    color: #32093F; }
+    margin: 0.7rem 0; }
     @media screen and (max-width: 18.75em) {
       .form__input {
         width: 20rem; } }
@@ -289,6 +289,12 @@ body {
       border-bottom: 2px #E91E63 solid; }
     .form__input::placeholder {
       font-weight: 200; }
+  .form__text-area {
+    padding-top: 1rem;
+    transition-property: height;
+    transition-duration: .5s; }
+    .form__text-area:focus {
+      height: 13.5rem; }
 
 .hidden-menu {
   position: absolute;
@@ -297,11 +303,6 @@ body {
   background-color: #5F045F;
   z-index: 3;
   box-shadow: 0 2px 5px rgba(26, 26, 26, 0.5); }
-  @media screen and (max-height: 25em) {
-    .hidden-menu {
-      height: calc(100vh - 6rem);
-      height: var(--vh);
-      top: 6rem; } }
   .hidden-menu__list {
     list-style: none;
     display: flex;
@@ -493,7 +494,7 @@ body {
         display: flex;
         justify-content: space-around;
         flex-wrap: wrap;
-        padding-top: 3rem; } }
+        padding: 3rem; } }
   .sidenav__item {
     text-align: center;
     padding: 1rem 3rem;
@@ -503,7 +504,8 @@ body {
     transition-duration: 0.5s; }
     @media screen and (max-width: 53.75em) {
       .sidenav__item {
-        display: inline-block; } }
+        display: inline-block;
+        margin: 0; } }
     .sidenav__item:active, .sidenav__item:hover {
       background-color: #5F045F;
       box-shadow: 0 2px 5px rgba(26, 26, 26, 0.5); }
@@ -689,6 +691,7 @@ body {
         height: 54rem;
         width: auto;
         flex: 0 0 100%;
+        margin-right: 0;
         margin-bottom: 3rem; } }
     @media screen and (max-width: 70.9375em) {
       .section-header__img {
@@ -808,7 +811,7 @@ body {
   padding: 5rem; }
   @media screen and (max-width: 22.5em) {
     .page-sundmused__event {
-      padding: 0rem; } }
+      padding: 3rem 0 0; } }
 
 .page-sundmused__img {
   height: 40rem;

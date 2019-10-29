@@ -7,11 +7,6 @@
   background-color: $color-primary-light;
   z-index: 3;
   @include boxShadow;
-  @media screen and (max-height: 25em) {
-    height: calc(100vh - 6rem);
-    height: var(--vh);
-    top: 6rem;
-  }
 
   // Hidden menu elements
 
