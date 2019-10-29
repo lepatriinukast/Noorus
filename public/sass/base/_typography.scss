@@ -84,6 +84,12 @@ body {
 
   &__link {
     text-decoration: underline;
+    color: $color-primary-dark;
+
+    &:focus {
+      outline-color: blue;
+      outline-width: thick;
+    }
   }
 }
 

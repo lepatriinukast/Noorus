@@ -40,5 +40,10 @@
       color: $color-white;
       text-decoration: none;
     }
+
+    &:focus {
+      outline-color: blue;
+      outline-width: thick;
+    }
   }
 }

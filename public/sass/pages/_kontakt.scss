@@ -23,7 +23,9 @@
     }
   }
 
-  &__list {
-    margin-top: 5rem;
+  &__small-box {
+    &:not(:last-child) {
+      margin-bottom: 5rem;
+    }
   }
 }

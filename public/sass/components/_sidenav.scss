@@ -63,5 +63,10 @@
     font-weight: 700;
     transition-property: color;
     transition-duration: 0.5s;
+
+    &:focus {
+      outline-color: blue;
+      outline-width: thick;
+    }
   }
 }

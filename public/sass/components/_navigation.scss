@@ -26,11 +26,20 @@
 
   &__logo-link {
     text-decoration: none;
+
+    &:focus {
+      outline-color: blue;
+      outline-width: thick;
+    }
   }
 
   &__logo-img {
     width: 4rem;
-    @include absCenter;
+
+    &:focus {
+      outline-color: blue;
+      outline-width: thick;
+    }
   }
 
   // Social icons on the navigation
@@ -49,6 +58,11 @@
       @media screen and (max-width: 53.75em) {
         display: none;
       }
+    }
+
+    &:focus {
+      outline-color: blue;
+      outline-width: thick;
     }
   }
 
@@ -80,6 +94,11 @@
     &:active,
     &:hover {
       transform: scale(1.1);
+    }
+
+    &:focus {
+      outline-color: blue;
+      outline-width: thick;
     }
   }
   // Navigation menu
@@ -122,6 +141,11 @@
       font-size: 1.6rem;
       font-weight: 700;
     }
+
+    &:focus {
+      outline-color: blue;
+      outline-width: thick;
+    }
   }
 
   // Menu button (on smaller screens)
@@ -139,9 +163,13 @@
     }
 
       &:active &__menu-icon,
-      &:focus &__menu-icon,
       &:hover &__menu-icon {
         transform: scale(1.1);
+      }
+
+      &:focus {
+        outline-color: blue;
+        outline-width: thick;
       }
     }
   }
