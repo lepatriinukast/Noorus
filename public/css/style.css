@@ -290,11 +290,12 @@ body {
     .form__input::placeholder {
       font-weight: 200; }
   .form__text-area {
+    resize: none;
     padding-top: 1rem;
     transition-property: height;
     transition-duration: .5s; }
     .form__text-area:focus {
-      height: 13.5rem; }
+      height: 9rem; }
 
 .hidden-menu {
   position: absolute;

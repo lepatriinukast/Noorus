@@ -39,12 +39,13 @@
   }
 
   &__text-area {
+    resize: none;
     padding-top: 1rem;
     transition-property: height;
     transition-duration: .5s;
 
     &:focus {
-      height: 13.5rem;
+      height: 9rem;
     }
   }
 }
