@@ -14,12 +14,9 @@
 
   &__text-box {
     flex: 0 0 40%;
-
-    &:not(:last-child) {
-      margin-right: 3rem;
-      @media screen and (max-width: 19.375em) {
-        margin-bottom: 3rem;
-      }
+    margin-right: 3rem;
+    @media screen and (max-width: 36.5625em) {
+      margin-bottom: 3rem;
     }
   }
 

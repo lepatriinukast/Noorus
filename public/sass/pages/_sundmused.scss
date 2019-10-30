@@ -1,85 +1,68 @@
 .page-sundmused {
+  text-align: center;
+
   &__section {
-    padding-top: 3rem;
     &:not(:last-child) {
-      margin-bottom: 2rem;
+      margin-bottom: 5rem;
     }
   }
 
   &__container {
     padding: 3rem 5rem;
-    text-align: center;
     @media screen and (max-width: 22.5em) {
       padding: 3rem;
     }
   }
 
   &__intro-box {
+    margin: auto;
     width: 70%;
-    margin: 0 auto 3rem;
-    @media screen and (max-width: 23.75em) {
+    @media screen and (max-width: 43.75em) {
       width: 100%;
     }
   }
 
   &__event {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-    padding: 5rem;
+    margin: 3rem 0;
     @media screen and (max-width: 22.5em) {
       padding: 3rem 0 0;
     }
   }
 
   &__img {
-    height: 40rem;
-    width: 60rem;
-    margin-right: 5rem;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
+    margin: 3rem 0;
     @include boxShadow;
-    @media screen and (max-width: 42.5em) {
-      margin-right: 0;
-    height: 24rem;
-    width: 36rem;
+
+    &--portrait {
+      width: 30%;
+      @media screen and (max-width: 75em) {
+        width: 50%;
+      }
+      @media screen and (max-width: 43.75em) {
+        width: 70%;
+      }
     }
-    @media screen and (max-width: 17.5em) {
-      height: 20rem;
-      width: 30rem;
+
+    &--landscape {
+      width: 50%;
+      @media screen and (max-width: 75em) {
+        width: 70%;
+      }
+      @media screen and (max-width: 43.75em) {
+        width: 100%;
+      }
     }
 
     &--past {
       filter: grayscale(100%);
     }
-
-    &--1 {
-      background-image: url("../img/img1.jpg");
-    }
-
-    &--2 {
-      background-image: url("../img/img2.jpg");
-    }
-
-    &--3 {
-      background-image: url("../img/img3.jpg");
-    }
-
-    &--past1 {
-      background-image: url("../img/past1.jpg");
-    }
   }
 
   &__text-box {
-    flex: 0 0 40%;
-    text-align: justify;
-    @media screen and (max-width: 64.5em) {
-      flex: 0 0 100%;
-      margin: 3rem 0 0rem;
-      text-align: center;
+    margin: auto;
+    width: 70%;
+    @media screen and (max-width: 43.75em) {
+      width: 100%;
     }
-
   }
 }

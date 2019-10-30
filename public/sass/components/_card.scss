@@ -14,18 +14,13 @@
     height: 60%;
     width: 100%;
     background-size: cover;
+    background-image: url(../img/placeholder.jpg);
 
-    &--1 {
-      background-image: url("../img/img1.jpg");
-    }
+    &--1 {}
 
-    &--2 {
-      background-image: url("../img/img2.jpg");
-    }
+    &--2 {}
 
-    &--3 {
-      background-image: url("../img/img3.jpg");
-    }
+    &--3 {}
   }
 
   &__lower {
