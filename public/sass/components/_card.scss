@@ -9,12 +9,17 @@
   border-radius: 10px;
   overflow: hidden;
   @include boxShadow;
+  @media screen and (max-width: 18.75em) {
+    height: 31.5rem;
+    width: 24.5rem;
+  }
 
   &__upper {
     height: 60%;
     width: 100%;
     background-size: cover;
-    background-image: url(../img/placeholder.jpg);
+    background-color: $color-primary-light;
+    background-image: url(../img/logo-vaike.jpg);
 
     &--1 {}
 

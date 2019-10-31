@@ -193,11 +193,16 @@ body {
   border-radius: 10px;
   overflow: hidden;
   box-shadow: 0 2px 5px rgba(26, 26, 26, 0.5); }
+  @media screen and (max-width: 18.75em) {
+    .card {
+      height: 31.5rem;
+      width: 24.5rem; } }
   .card__upper {
     height: 60%;
     width: 100%;
     background-size: cover;
-    background-image: url(../img/placeholder.jpg); }
+    background-color: #5F045F;
+    background-image: url(../img/logo-vaike.jpg); }
   .card__lower {
     display: flex;
     flex-direction: column;
@@ -682,6 +687,19 @@ body {
         margin-bottom: 3rem; } }
   .page-kontakt__small-box:not(:last-child) {
     margin-bottom: 5rem; }
+  .page-kontakt__icons {
+    display: flex;
+    justify-content: space-between;
+    width: 50%; }
+    @media screen and (max-width: 36.5625em) {
+      .page-kontakt__icons {
+        width: 25%; } }
+  .page-kontakt__link {
+    text-decoration: none; }
+  .page-kontakt__icon {
+    font-size: 2.6rem;
+    font-weight: 700;
+    color: #32093F; }
 
 .body-container {
   width: 100vw;

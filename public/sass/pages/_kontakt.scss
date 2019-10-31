@@ -28,4 +28,23 @@
       margin-bottom: 5rem;
     }
   }
+
+  &__icons {
+    display: flex;
+    justify-content: space-between;
+    width: 50%;
+    @media screen and (max-width: 36.5625em) {
+    width: 25%;
+    }
+  }
+
+  &__link {
+    text-decoration: none;
+  }
+
+  &__icon {
+    font-size: 2.6rem;
+    font-weight: 700;
+    color: $color-primary-dark;
+  }
 }
