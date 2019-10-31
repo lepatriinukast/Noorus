@@ -27,7 +27,7 @@ html {
   @media screen and (max-width: 79.375em) {
     html {
       font-size: 50%; } }
-  @media screen and (max-width: 26.875em), (max-height: 25em) {
+  @media screen and (max-width: 26.875em), (max-height: 20em) {
     html {
       font-size: 37.5%; } }
 
@@ -39,7 +39,7 @@ body {
   position: relative; }
 
 body {
-  font-family: 'Montserrat', sans-serif; }
+  font-family: "Montserrat", sans-serif; }
 
 .heading--purple {
   color: #32093F; }
@@ -293,9 +293,9 @@ body {
       font-weight: 200; }
   .form__text-area {
     resize: none;
-    padding-top: .5rem;
+    padding-top: 0.5rem;
     transition-property: height;
-    transition-duration: .5s; }
+    transition-duration: 0.5s; }
     .form__text-area:focus {
       height: 6rem; }
 

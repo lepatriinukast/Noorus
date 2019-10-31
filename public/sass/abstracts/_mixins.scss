@@ -16,21 +16,3 @@
 @mixin textShadow {
   text-shadow: 0 2px 5px rgba($color-grey-dark, .5);
 }
-
-// Media query manager
-
-@mixin respond($breakpoint) {
-  @if $breakpoint == tab {
-    @media (max-width: 79.375em) {
-      @content
-    };
-  }
-
-  @if $breakpoint == phone {
-    @media (max-width: 26.875em) {
-      @content
-    };
-  }
-
-
-}

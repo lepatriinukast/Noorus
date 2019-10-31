@@ -1,3 +1,5 @@
+// Styles for the application form
+
 .form {
   display: flex;
   align-self: flex-end;
@@ -37,12 +39,13 @@
       font-weight: 200;
     }
   }
+  // The resizing input
 
   &__text-area {
     resize: none;
-    padding-top: .5rem;
+    padding-top: 0.5rem;
     transition-property: height;
-    transition-duration: .5s;
+    transition-duration: 0.5s;
 
     &:focus {
       height: 6rem;

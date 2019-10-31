@@ -42,7 +42,7 @@
     }
   }
 
-  // Social icons on the navigation
+  // Icons on the right of the navigation
 
   &__icons {
     display: flex;
@@ -50,6 +50,8 @@
     justify-content: space-around;
     align-items: center;
   }
+
+  // Social media links
 
   &__social-link {
     &:link,
