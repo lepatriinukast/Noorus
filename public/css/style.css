@@ -864,7 +864,7 @@ body {
           width: 70%; } }
       @media screen and (max-width: 43.75em) {
         .page-sundmused__img--landscape {
-          width: 100%; } }
+          width: 90%; } }
     .page-sundmused__img--past {
       filter: grayscale(100%); }
   .page-sundmused__text-box {
