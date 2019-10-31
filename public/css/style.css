@@ -345,17 +345,17 @@ body {
     transform: scale(1.1); }
 
 .iframe {
-  margin-bottom: 3rem;
+  margin: 0 3rem 3rem 0;
   width: 54rem;
   height: 29.5rem; }
   @media screen and (max-width: 53.75em) {
     .iframe {
       width: 48.6rem;
       height: 26.55rem; } }
-  @media screen and (max-width: 21.875em) {
+  @media screen and (max-width: 29.875em) {
     .iframe {
-      width: 32.4rem;
-      height: 17.7rem; } }
+      width: 37.8rem;
+      height: 20.2rem; } }
   @media screen and (max-width: 16.875em) {
     .iframe {
       width: 27rem;
