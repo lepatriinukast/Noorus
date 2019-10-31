@@ -690,7 +690,7 @@ body {
   .page-kontakt__icons {
     display: flex;
     justify-content: space-between;
-    width: 50%; }
+    width: 35%; }
     @media screen and (max-width: 36.5625em) {
       .page-kontakt__icons {
         width: 25%; } }
