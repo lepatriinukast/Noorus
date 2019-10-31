@@ -678,6 +678,7 @@ body {
     margin-right: 3rem; }
     @media screen and (max-width: 36.5625em) {
       .page-kontakt__text-box {
+        flex: 0 0 100%;
         margin-bottom: 3rem; } }
   .page-kontakt__small-box:not(:last-child) {
     margin-bottom: 5rem; }
