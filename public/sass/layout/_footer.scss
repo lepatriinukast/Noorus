@@ -11,13 +11,13 @@
     align-items: center;
     flex-wrap: wrap;
     list-style: none;
-    padding: 2rem 2rem;
   }
 
   &__item {
     position: relative;
     transition-property: transform;
     transition-duration: 0.5s;
+    padding: 2rem 1rem;
 
     &:hover .dropdown--footer {
       @media screen and (hover: hover) {

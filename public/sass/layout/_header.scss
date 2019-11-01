@@ -2,6 +2,7 @@
 
 .header {
   position: relative;
+  height: 65rem;
   height: 100vh;
   margin-top: -6rem;
   background-image: linear-gradient(rgba($color-white, .6), rgba($color-white, .6)), url("../img/noorus1.jpg");
@@ -27,7 +28,6 @@
     margin-bottom: 1rem;
     @media screen and (max-height: 25em) {
       margin-bottom: .5rem;
-      font-size: 1.3rem;
     }
   }
 }

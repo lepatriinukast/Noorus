@@ -1,6 +1,15 @@
 // Styles for the home page
 
+.homepage__container {
+  padding: 0 3rem;
+  @media screen and (max-width: 17.5em) {
+    padding: 0 1rem;
+  }
+}
+// Sections on the home page
 .section-features {
+  padding-top: 3rem;
+
   &__container {
     display: flex;
     justify-content: space-around;
@@ -8,7 +17,7 @@
   }
 
   &__column {
-    padding: 6rem 4rem;
+    padding: 3rem 4rem;
     text-align: center;
   }
 
@@ -16,15 +25,15 @@
     transition-property: transform, color;
     transition-duration: 0.5s;
 
-    &:hover,
-    &:active {
+    &:active,
+    &:hover {
       transform: scale(1.1);
     }
 
-    &:active .section-features__icon,
     &:active .heading--purple,
-    &:hover .section-features__icon,
-    &:hover .heading--purple {
+    &:active .section-features__icon,
+    &:hover .heading--purple,
+    &:hover .section-features__icon {
       color: $color-primary-light;
     }
   }
@@ -32,7 +41,7 @@
   &__icon {
     font-size: 4rem;
     color: $color-primary-dark;
-    margin-bottom: 1rem;
+    margin-bottom: 2rem;
     transition-property: color;
     transition-duration: 0.5s;
   }
@@ -55,8 +64,7 @@
 
 .section-events {
   position: relative;
-  min-height: 40rem;
-  margin-top: 2rem;
+  padding-top: 3rem;
 
   &__heading-box {
     text-align: center;
@@ -64,19 +72,16 @@
 
   &__container {
     display: flex;
-    height: 100%;
     justify-content: space-around;
     align-items: center;
-    padding: 5rem;
     flex-wrap: wrap;
   }
 }
 
 .section-history {
+  padding-top: 3rem;
+
   &__container {
-    margin: 0 auto;
-    max-width: 80rem;
     text-align: center;
-    padding: 5rem;
   }
 }
