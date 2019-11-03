@@ -201,7 +201,9 @@ body {
     width: 100%;
     background-size: cover;
     background-color: #5F045F;
-    background-image: url(../img/logo-vaike.jpg); }
+    background-image: url("../img/placeholder.jpg");
+    background-repeat: no-repeat;
+    background-position: center; }
   .card__lower {
     display: flex;
     flex-direction: column;
