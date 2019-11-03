@@ -31,15 +31,17 @@
 
   &__icons {
     display: flex;
-    justify-content: space-between;
-    width: 35%;
+    justify-content: flex-start;
     @media screen and (max-width: 36.5625em) {
-    width: 25%;
+    justify-content: center;
     }
   }
 
   &__link {
     text-decoration: none;
+    &:last-child {
+      padding: 0 3rem;
+    }
   }
 
   &__icon {

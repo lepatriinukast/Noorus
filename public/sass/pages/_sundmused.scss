@@ -36,22 +36,16 @@
     @include boxShadow;
 
     &--portrait {
-      width: 30%;
-      @media screen and (max-width: 75em) {
-        width: 50%;
-      }
+      width: 40rem;
       @media screen and (max-width: 43.75em) {
-        width: 70%;
+        width: 66.666%;
       }
     }
 
     &--landscape {
-      width: 50%;
-      @media screen and (max-width: 75em) {
-        width: 70%;
-      }
+      width: 60rem;
       @media screen and (max-width: 43.75em) {
-        width: 90%;
+        width: 100%;
       }
     }
 

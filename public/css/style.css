@@ -270,7 +270,7 @@ body {
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
-  padding: 2rem 5rem;
+  padding: 2rem 3rem;
   background-color: #E0E0E0;
   border-radius: 5px;
   box-shadow: 0 2px 5px rgba(26, 26, 26, 0.5); }
@@ -278,7 +278,7 @@ body {
     position: relative;
     display: inline-block;
     height: 3.5rem;
-    width: 30rem;
+    width: 25rem;
     border: none;
     border-radius: 5px;
     padding: 0 1.2rem;
@@ -286,7 +286,7 @@ body {
     margin: 0.7rem 0; }
     @media screen and (max-width: 18.75em) {
       .form__input {
-        width: 20rem; } }
+        width: 22rem; } }
     .form__input:focus {
       outline: none;
       border-bottom: 2px #5F045F solid; }
@@ -351,7 +351,7 @@ body {
     .iframe {
       width: 48.6rem;
       height: 26.55rem; } }
-  @media screen and (max-width: 29.875em) {
+  @media screen and (max-width: 34.375em) {
     .iframe {
       width: 37.8rem;
       height: 20.2rem; } }
@@ -488,29 +488,26 @@ body {
 .sidenav {
   position: fixed;
   top: 12rem;
-  left: 3.2rem; }
-  @media screen and (max-width: 79.375em) {
-    .sidenav {
-      top: 15rem; } }
-  @media screen and (max-width: 70.9375em) {
-    .sidenav {
-      top: 10rem; } }
+  left: 3rem; }
   @media screen and (max-width: 53.75em) {
     .sidenav {
       position: relative;
       top: 0;
       left: 0; } }
+  @media screen and (max-width: 18.75em) {
+    .sidenav {
+      display: none; } }
   .sidenav__list {
     list-style: none; }
     @media screen and (max-width: 53.75em) {
       .sidenav__list {
         display: flex;
-        justify-content: space-around;
-        flex-wrap: wrap;
-        padding: 3rem; } }
+        justify-content: space-between;
+        flex-wrap: nowrap;
+        padding: 2rem; } }
   .sidenav__item {
     text-align: center;
-    padding: 1rem 3rem;
+    padding: 1rem .4rem;
     margin-bottom: 1rem;
     border-radius: 10px;
     transition-property: background-color, box-shadow;
@@ -683,13 +680,14 @@ body {
     margin-bottom: 5rem; }
   .page-kontakt__icons {
     display: flex;
-    justify-content: space-between;
-    width: 35%; }
+    justify-content: flex-start; }
     @media screen and (max-width: 36.5625em) {
       .page-kontakt__icons {
-        width: 25%; } }
+        justify-content: center; } }
   .page-kontakt__link {
     text-decoration: none; }
+    .page-kontakt__link:last-child {
+      padding: 0 3rem; }
   .page-kontakt__icon {
     font-size: 2.6rem;
     font-weight: 700;
@@ -697,52 +695,52 @@ body {
 
 .body-container {
   width: 100vw;
-  padding: 0 5rem 0 22rem;
+  padding: 0 5rem 0 16rem;
   text-align: justify; }
   @media screen and (max-width: 53.75em) {
     .body-container {
-      padding: 0 5rem; } }
+      padding: 0 3rem; } }
 
 .section-header {
   min-height: calc(100vh - 6rem);
   padding: 3rem 0;
   display: flex;
-  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center; }
+  @media screen and (max-width: 66.875em) {
+    .section-header {
+      flex-wrap: wrap; } }
   @media screen and (max-width: 53.75em) {
     .section-header {
-      padding: 0;
+      padding: 0 0 3rem;
       min-height: auto; } }
+  @media screen and (max-width: 18.75em) {
+    .section-header {
+      padding: 3rem 0; } }
   .section-header__img {
-    height: 45rem;
-    width: 50rem;
+    flex: 2 2 50rem;
     margin-right: 3rem;
+    height: 45rem;
     background-image: url("../img/noorus2.jpg");
-    background-size: cover;
+    background-repeat: no-repeat;
     background-position: center;
+    background-size: cover;
     box-shadow: 0 2px 5px rgba(26, 26, 26, 0.5); }
-    @media screen and (max-width: 76.25em) {
+    @media screen and (max-width: 76.5625em) {
       .section-header__img {
-        height: 54rem;
-        width: auto;
-        flex: 0 0 100%;
+        height: 35rem; } }
+    @media screen and (max-width: 66.875em) {
+      .section-header__img {
         margin-right: 0;
         margin-bottom: 3rem; } }
-    @media screen and (max-width: 70.9375em) {
-      .section-header__img {
-        height: 45rem; } }
-    @media screen and (max-width: 23.125em) {
-      .section-header__img {
-        height: 32.5rem; } }
     @media screen and (max-width: 16.875em) {
       .section-header__img {
-        height: 23.5rem; } }
+        height: 25rem; } }
+    @media screen and (max-width: 12.5em) {
+      .section-header__img {
+        height: 20rem; } }
   .section-header__text-box {
-    flex: 0 0 45%; }
-    @media screen and (max-width: 70.9375em) {
-      .section-header__text-box {
-        flex: 100%; } }
+    flex: 1 1 50rem; }
 
 .section-liikmed {
   padding: 3rem 0; }
@@ -771,13 +769,13 @@ body {
 .section-dirigendid {
   padding: 3rem 0; }
   .section-dirigendid__container {
-    padding-top: 5rem;
+    padding-top: 3rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap; }
     .section-dirigendid__container:not(:last-child) {
-      margin-bottom: 5rem; }
+      margin-bottom: 3rem; }
   .section-dirigendid__text-box {
     flex: 0 0 70%; }
     @media screen and (max-width: 62.5em) {
@@ -797,14 +795,14 @@ body {
       background-image: url("../img/Taavi.jpg"); }
 
 .section-ajalugu {
-  padding: 3rem 0; }
+  padding-top: 3rem; }
   .section-ajalugu__container {
-    padding-top: 5rem; }
+    padding-top: 3rem; }
 
 .section-meedia {
   padding: 3rem 0; }
   .section-meedia__container {
-    padding-top: 5rem; }
+    padding-top: 3rem; }
 
 .section-toetajad {
   padding: 3rem 0; }
@@ -844,21 +842,15 @@ body {
     margin: 3rem 0;
     box-shadow: 0 2px 5px rgba(26, 26, 26, 0.5); }
     .page-sundmused__img--portrait {
-      width: 30%; }
-      @media screen and (max-width: 75em) {
-        .page-sundmused__img--portrait {
-          width: 50%; } }
+      width: 40rem; }
       @media screen and (max-width: 43.75em) {
         .page-sundmused__img--portrait {
-          width: 70%; } }
+          width: 66.666%; } }
     .page-sundmused__img--landscape {
-      width: 50%; }
-      @media screen and (max-width: 75em) {
-        .page-sundmused__img--landscape {
-          width: 70%; } }
+      width: 60rem; }
       @media screen and (max-width: 43.75em) {
         .page-sundmused__img--landscape {
-          width: 90%; } }
+          width: 100%; } }
     .page-sundmused__img--past {
       filter: grayscale(100%); }
   .page-sundmused__text-box {
@@ -870,7 +862,7 @@ body {
 
 .page-vastuvott__container {
   height: 100%;
-  padding: 3rem 5rem;
+  padding: 3rem;
   display: flex;
   justify-content: space-between;
   align-content: flex-start;

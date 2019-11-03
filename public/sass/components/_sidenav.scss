@@ -3,32 +3,29 @@
 .sidenav {
   position: fixed;
   top: 12rem;
-  left: 3.2rem;
-  @media screen and (max-width: 79.375em) {
-    top: 15rem;
-  }
-  @media screen and (max-width: 70.9375em) {
-    top: 10rem;
-  }
+  left: 3rem;
   @media screen and (max-width: 53.75em) {
     position: relative;
     top: 0;
     left: 0;
+  }
+  @media screen and (max-width: 18.75em) {
+    display: none;
   }
 
   &__list {
     list-style: none;
     @media screen and (max-width: 53.75em) {
       display: flex;
-      justify-content: space-around;
-      flex-wrap: wrap;
-      padding: 3rem;
+      justify-content: space-between;
+      flex-wrap: nowrap;
+      padding: 2rem;
     }
   }
 
   &__item {
     text-align: center;
-    padding: 1rem 3rem;
+    padding: 1rem .4rem;
     margin-bottom: 1rem;
     border-radius: 10px;
     transition-property: background-color, box-shadow;
