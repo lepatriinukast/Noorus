@@ -23,7 +23,7 @@
     top: 0;
     background-color: $color-primary-dark;
     @media screen and (max-height: 25em) {
-      top: -1.5rem;
+      top: -1rem;
     }
     @media screen and (max-height: 12.8125em) {
   top: 0;
@@ -33,7 +33,7 @@
   // Dropdown menu on the footer
 
   &--footer {
-    bottom: 3rem;
+    bottom: 5rem;
     background-color: $color-primary-light;
   }
 

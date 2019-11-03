@@ -146,6 +146,19 @@
   &__container {
     padding-top: 3rem;
   }
+
+  &__iframe {
+    position: relative;
+    overflow: hidden;
+    margin: 0 3rem 3rem 0;
+    width: 54rem;
+    height: 29.5rem;
+    @media screen and (max-width: 37.5em) {
+      padding-bottom: 56.25%;
+      width: 100%;
+      height: 100%;
+    }
+  }
 }
 
 .section-toetajad {
