@@ -507,7 +507,7 @@ body {
         padding: 2rem; } }
   .sidenav__item {
     text-align: center;
-    padding: 1rem .4rem;
+    padding: 1rem 3rem;
     margin-bottom: 1rem;
     border-radius: 10px;
     transition-property: background-color, box-shadow;
@@ -695,7 +695,7 @@ body {
 
 .body-container {
   width: 100vw;
-  padding: 0 5rem 0 16rem;
+  padding: 0 5rem 0 21rem;
   text-align: justify; }
   @media screen and (max-width: 53.75em) {
     .body-container {
@@ -795,8 +795,10 @@ body {
       background-image: url("../img/Taavi.jpg"); }
 
 .section-ajalugu {
-  padding-top: 3rem; }
+  padding: 3rem 0; }
   .section-ajalugu__container {
+    padding-top: 3rem; }
+  .section-ajalugu__text-box {
     padding-top: 3rem; }
 
 .section-meedia {

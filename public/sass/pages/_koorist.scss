@@ -2,7 +2,7 @@
 
 .body-container {
   width: 100vw;
-  padding: 0 5rem 0 16rem;
+  padding: 0 5rem 0 21rem;
   text-align: justify;
   @media screen and (max-width: 53.75em) {
     padding: 0 3rem;
@@ -132,9 +132,13 @@
 }
 
 .section-ajalugu {
-  padding-top: 3rem;
+  padding: 3rem 0;
 
   &__container {
+    padding-top: 3rem;
+  }
+
+  &__text-box {
     padding-top: 3rem;
   }
 }
