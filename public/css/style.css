@@ -24,7 +24,7 @@
 html {
   box-sizing: border-box;
   font-size: 62.5%; }
-  @media screen and (max-width: 26.875em) {
+  @media screen and (max-width: 26.875em), (max-height: 25em) {
     html {
       font-size: 50%; } }
   @media screen and (max-width: 21.875em) {
@@ -487,14 +487,10 @@ body {
 
 .sidenav {
   position: fixed;
-  top: 12rem;
-  left: 3rem; }
+  top: 50%;
+  left: 3rem;
+  transform: translateY(-50%); }
   @media screen and (max-width: 53.75em) {
-    .sidenav {
-      position: relative;
-      top: 0;
-      left: 0; } }
-  @media screen and (max-width: 18.75em) {
     .sidenav {
       display: none; } }
   .sidenav__list {
@@ -681,9 +677,6 @@ body {
   .page-kontakt__icons {
     display: flex;
     justify-content: flex-start; }
-    @media screen and (max-width: 36.5625em) {
-      .page-kontakt__icons {
-        justify-content: center; } }
   .page-kontakt__link {
     text-decoration: none; }
     .page-kontakt__link:last-child {
@@ -694,9 +687,8 @@ body {
     color: #32093F; }
 
 .body-container {
-  width: 100vw;
-  padding: 0 5rem 0 21rem;
-  text-align: justify; }
+  padding: 0 3rem 0 21rem;
+  text-align: left; }
   @media screen and (max-width: 53.75em) {
     .body-container {
       padding: 0 3rem; } }
@@ -712,11 +704,7 @@ body {
       flex-wrap: wrap; } }
   @media screen and (max-width: 53.75em) {
     .section-header {
-      padding: 0 0 3rem;
       min-height: auto; } }
-  @media screen and (max-width: 18.75em) {
-    .section-header {
-      padding: 3rem 0; } }
   .section-header__img {
     flex: 2 2 50rem;
     margin-right: 3rem;
@@ -755,16 +743,20 @@ body {
     flex-wrap: wrap;
     width: 100%;
     padding: 3rem 0; }
+    @media screen and (max-width: 43.75em) {
+      .section-liikmed__text-box {
+        padding: 0; } }
   .section-liikmed__small-box {
     flex: 0 0 40%; }
     @media screen and (max-width: 43.75em) {
       .section-liikmed__small-box {
         flex: 0 0 100%; } }
-    .section-liikmed__small-box:not(:last-child) {
-      margin-bottom: 6rem; }
   .section-liikmed__smaller-box {
     padding-top: 3rem;
     text-align: left; }
+    @media screen and (max-width: 43.75em) {
+      .section-liikmed__smaller-box {
+        flex: 0 0 100%; } }
 
 .section-dirigendid {
   padding: 3rem 0; }

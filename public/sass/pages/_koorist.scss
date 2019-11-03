@@ -1,9 +1,8 @@
 // Styles for the koorist page
 
 .body-container {
-  width: 100vw;
-  padding: 0 5rem 0 21rem;
-  text-align: justify;
+  padding: 0 3rem 0 21rem;
+  text-align: left;
   @media screen and (max-width: 53.75em) {
     padding: 0 3rem;
   }
@@ -19,11 +18,7 @@
     flex-wrap: wrap;
   }
   @media screen and (max-width: 53.75em) {
-    padding: 0 0 3rem;
     min-height: auto;
-  }
-  @media screen and (max-width: 18.75em) {
-    padding: 3rem 0;
   }
 
   &__img {
@@ -71,6 +66,9 @@
     flex-wrap: wrap;
     width: 100%;
     padding: 3rem 0;
+    @media screen and (max-width: 43.75em) {
+      padding: 0;
+    }
   }
 
   &__small-box {
@@ -78,15 +76,14 @@
     @media screen and (max-width: 43.75em) {
       flex: 0 0 100%;
     }
-
-    &:not(:last-child) {
-      margin-bottom: 6rem;
-    }
   }
 
   &__smaller-box {
     padding-top: 3rem;
     text-align: left;
+    @media screen and (max-width: 43.75em) {
+      flex: 0 0 100%;
+    }
   }
 }
 

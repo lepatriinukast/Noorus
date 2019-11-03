@@ -2,14 +2,10 @@
 
 .sidenav {
   position: fixed;
-  top: 12rem;
+  top: 50%;
   left: 3rem;
+  transform: translateY(-50%);
   @media screen and (max-width: 53.75em) {
-    position: relative;
-    top: 0;
-    left: 0;
-  }
-  @media screen and (max-width: 18.75em) {
     display: none;
   }
 

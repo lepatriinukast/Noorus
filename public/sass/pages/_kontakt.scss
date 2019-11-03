@@ -32,9 +32,6 @@
   &__icons {
     display: flex;
     justify-content: flex-start;
-    @media screen and (max-width: 36.5625em) {
-    justify-content: center;
-    }
   }
 
   &__link {
