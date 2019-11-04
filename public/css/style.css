@@ -583,17 +583,12 @@ body {
   .page-admin__navigation {
     padding: 2rem;
     background-color: #1A1A1A;
-    height: 100vh;
-    display: inline-block;
     box-shadow: 0 2px 5px rgba(26, 26, 26, 0.5); }
   .page-admin__list {
     display: flex;
-    flex-direction: column;
     justify-content: space-around;
     align-items: center;
-    list-style-type: none;
-    height: 100%;
-    width: 100%; }
+    list-style-type: none; }
   .page-admin__link {
     color: #FFFFFF;
     text-decoration: none; }
