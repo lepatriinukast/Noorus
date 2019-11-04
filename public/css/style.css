@@ -599,7 +599,7 @@ body {
       padding: 0 1rem; } }
 
 .section-features {
-  padding-top: 3rem; }
+  padding-top: 5rem; }
   .section-features__container {
     display: flex;
     justify-content: space-around;
@@ -634,17 +634,18 @@ body {
 
 .section-events {
   position: relative;
-  padding-top: 3rem; }
+  padding-top: 5rem; }
   .section-events__heading-box {
     text-align: center; }
   .section-events__container {
+    padding: 3rem;
     display: flex;
     justify-content: space-around;
     align-items: center;
     flex-wrap: wrap; }
 
 .section-history {
-  padding-top: 3rem; }
+  padding-top: 5rem; }
   .section-history__container {
     text-align: center; }
 

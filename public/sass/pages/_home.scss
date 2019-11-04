@@ -8,7 +8,7 @@
 }
 // Sections on the home page
 .section-features {
-  padding-top: 3rem;
+  padding-top: 5rem;
 
   &__container {
     display: flex;
@@ -64,13 +64,14 @@
 
 .section-events {
   position: relative;
-  padding-top: 3rem;
+  padding-top: 5rem;
 
   &__heading-box {
     text-align: center;
   }
 
   &__container {
+    padding: 3rem;
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -79,7 +80,7 @@
 }
 
 .section-history {
-  padding-top: 3rem;
+  padding-top: 5rem;
 
   &__container {
     text-align: center;
