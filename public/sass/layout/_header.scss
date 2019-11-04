@@ -15,10 +15,9 @@
     position: absolute;
     top: 47%;
     left: 50%;
-    transform: translateX(-47%);
+    transform: translateX(-50%);
     @media screen and (max-height: 25em) {
       top: 45%;
-      width: 90%;
     }
   }
 
