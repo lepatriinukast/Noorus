@@ -2,7 +2,7 @@
   "name": "noorus",
   "version": "1.0.0",
   "description": "website for mixed choir Noorus",
-  "main": "app.js",
+  "main": "server.js",
   "scripts": {
     "watch:sass": "node-sass public/sass/main.scss public/css/style.css -w"
   },
@@ -20,6 +20,7 @@
     "body-parser": "^1.19.0",
     "ejs": "^2.7.1",
     "express": "^4.17.1",
+    "express-ejs-layouts": "^2.5.0",
     "node-sass": "^4.12.0"
   }
 }

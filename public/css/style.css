@@ -817,47 +817,51 @@ body {
   .section-toetajad__logo {
     height: 6rem; }
 
-.page-sundmused {
+.page-sundmused__section:not(:last-child) {
+  margin-bottom: 5rem; }
+
+.page-sundmused__container {
+  padding: 3rem 5rem;
   text-align: center; }
-  .page-sundmused__section:not(:last-child) {
-    margin-bottom: 5rem; }
-  .page-sundmused__container {
-    padding: 3rem 5rem; }
-    @media screen and (max-width: 22.5em) {
-      .page-sundmused__container {
-        padding: 3rem; } }
-  .page-sundmused__intro-box {
-    margin: auto;
-    width: 70%; }
+  @media screen and (max-width: 22.5em) {
+    .page-sundmused__container {
+      padding: 3rem; } }
+
+.page-sundmused__intro-box {
+  margin: auto;
+  width: 70%; }
+  @media screen and (max-width: 43.75em) {
+    .page-sundmused__intro-box {
+      width: 100%; } }
+
+.page-sundmused__event {
+  margin: 3rem 0; }
+  @media screen and (max-width: 22.5em) {
+    .page-sundmused__event {
+      padding: 3rem 0 0; } }
+
+.page-sundmused__img {
+  margin: 3rem 0;
+  box-shadow: 0 2px 5px rgba(26, 26, 26, 0.5); }
+  .page-sundmused__img--portrait {
+    width: 40rem; }
     @media screen and (max-width: 43.75em) {
-      .page-sundmused__intro-box {
-        width: 100%; } }
-  .page-sundmused__event {
-    margin: 3rem 0; }
-    @media screen and (max-width: 22.5em) {
-      .page-sundmused__event {
-        padding: 3rem 0 0; } }
-  .page-sundmused__img {
-    margin: 3rem 0;
-    box-shadow: 0 2px 5px rgba(26, 26, 26, 0.5); }
-    .page-sundmused__img--portrait {
-      width: 40rem; }
-      @media screen and (max-width: 43.75em) {
-        .page-sundmused__img--portrait {
-          width: 66.666%; } }
-    .page-sundmused__img--landscape {
-      width: 60rem; }
-      @media screen and (max-width: 43.75em) {
-        .page-sundmused__img--landscape {
-          width: 100%; } }
-    .page-sundmused__img--past {
-      filter: grayscale(100%); }
-  .page-sundmused__text-box {
-    margin: auto;
-    width: 70%; }
+      .page-sundmused__img--portrait {
+        width: 66.666%; } }
+  .page-sundmused__img--landscape {
+    width: 60rem; }
     @media screen and (max-width: 43.75em) {
-      .page-sundmused__text-box {
+      .page-sundmused__img--landscape {
         width: 100%; } }
+  .page-sundmused__img--past {
+    filter: grayscale(100%); }
+
+.page-sundmused__text-box {
+  margin: auto;
+  width: 70%; }
+  @media screen and (max-width: 43.75em) {
+    .page-sundmused__text-box {
+      width: 100%; } }
 
 .page-vastuvott__container {
   height: 100%;

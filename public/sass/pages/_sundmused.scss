@@ -1,7 +1,6 @@
 // Styles for the sündmused page
 
 .page-sundmused {
-  text-align: center;
 
   &__section {
     &:not(:last-child) {
@@ -11,6 +10,7 @@
 
   &__container {
     padding: 3rem 5rem;
+    text-align: center;
     @media screen and (max-width: 22.5em) {
       padding: 3rem;
     }

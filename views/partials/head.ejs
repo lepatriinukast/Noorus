@@ -5,74 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="viewport" content="height=device-height, initial-scale=1.0">
   <meta charset="utf-8">
-  <link rel="shortcut icon" type="image/png" href="<%- favicon %>">
+  <link rel="shortcut icon" type="image/png" href="/img/favicon.png">
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,900&display=swap" rel="stylesheet">
-  <script src="https://kit.fontawesome.com/0c359ba9fc.js"></script>
+  <link rel="stylesheet" href="css/all.css">
   <link rel="stylesheet" href="css/style.css">
-  <title>Segakoor Noorus | <%- title %></title>
+  <title>Segakoor Noorus | <%=pageTitle%></title>
 </head>
-
-<body>
-  <div class="body-wrapper">
-    <nav class="navigation">
-      <ul class="navigation__list">
-        <li class="navigation__item">
-          <a href="koorist.html" class="navigation__link">Koorist</a>
-          <a href="" class="btn btn--menu" id="dropdown-button-header">
-            <i class="fas fa-caret-down btn__icon" id="dropdown-icon-header"></i>
-          </a>
-          <div class="dropdown dropdown--header hide" id="dropdown-menu-header">
-            <ul class="dropdown__list">
-              <li class="dropdown__item"><a href="koorist.html#section-liikmed" class="dropdown__link">Liikmed</a></li>
-              <li class="dropdown__item"><a href="koorist.html#section-dirigendid" class="dropdown__link">Dirigendid</a></li>
-              <li class="dropdown__item"><a href="koorist.html#section-ajalugu" class="dropdown__link">Ajalugu</a></li>
-              <li class="dropdown__item"><a href="koorist.html#section-meedia" class="dropdown__link">Meedia</a></li>
-              <li class="dropdown__item"><a href="koorist.html#section-toetajad" class="dropdown__link">Toetajad</a></li>
-            </ul>
-          </div>
-        </li>
-        <li class="navigation__item"><a href="vastuvott.html" class="navigation__link">Vastuvõtt</a></li>
-        <li class="navigation__item"><a href="sundmused.html" class="navigation__link">Sündmused</a></li>
-        <li class="navigation__item"><a href="kontakt.html" class="navigation__link">Kontakt</a></li>
-      </ul>
-      <div class="navigation__item navigation__menu-button">
-        <a href="#" class="navigation__link">
-          <i class="fas fa-bars navigation__menu-icon" id="menu-button"></i>
-        </a>
-      </div>
-      <div class="navigation__logo">
-        <a href="index.html" class="navigation__logo-link">
-          <img src="img/logo-vaike.png" alt="Väike logo" class="navigation__logo-img">
-        </a>
-      </div>
-      <div class="navigation__icons">
-        <a href="https://www.facebook.com/segakoorNoorus/" class="navigation__social-link">
-          <i class="fab fa-facebook-f navigation__social-icon"></i>
-        </a>
-        <a href="https://www.instagram.com/segakoornoorus/" class="navigation__social-link">
-          <i class="fab fa-instagram navigation__social-icon"></i>
-        </a>
-        <a href="index-en.html" class="navigation__language-link">EN</a>
-      </div>
-    </nav>
-    <nav class="hidden-menu hide" id="hidden-menu">
-      <ul class="hidden-menu__list">
-        <li class="hidden-menu__item"><a href="koorist.html" class="hidden-menu__link">Koorist</a>
-          <a href="#" class="btn btn--menu" id="dropdown-button-hidden">
-            <i class="fas fa-caret-down btn__icon" id="dropdown-icon-hidden"></i>
-          </a>
-          <div class="dropdown dropdown--hidden" id="dropdown-menu-hidden">
-            <ul class="dropdown__list">
-              <li class="dropdown__item"><a href="koorist.html#section-liikmed" class="dropdown__link">Liikmed</a></li>
-              <li class="dropdown__item"><a href="koorist.html#section-dirigendid" class="dropdown__link">Dirigendid</a></li>
-              <li class="dropdown__item"><a href="koorist.html#section-ajalugu" class="dropdown__link">Ajalugu</a></li>
-              <li class="dropdown__item"><a href="koorist.html#section-meedia" class="dropdown__link">Meedia</a></li>
-              <li class="dropdown__item"><a href="koorist.html#section-toetajad" class="dropdown__link">Toetajad</a></li>
-            </ul>
-          </div>
-        </li>
-        <li class="hidden-menu__item"><a href="vastuvott.html" class="hidden-menu__link">Vastuvõtt</a></li>
-        <li class="hidden-menu__item"><a href="sundmused.html" class="hidden-menu__link">Sündmused</a></li>
-        <li class="hidden-menu__item"><a href="kontakt.html" class="hidden-menu__link">Kontakt</a></li>
-      </ul>
-    </nav>
