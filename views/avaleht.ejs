@@ -1,5 +1,5 @@
 <%- include partials/head {pageTitle: pageTitle} -%>
-<%- include partials/navigation -%>
+<%- include partials/navigation {currentPage: currentPage} -%>
 <div class="logo">
   <img class="logo__img" src="img/logo-lilla.png" alt="logo">
 </div>
@@ -7,7 +7,7 @@
   <div class="header__heading-box">
     <h1 class="heading--purple heading--primary">Segakoor Noorus</h1>
     <p class="paragraph--large paragraph--purple header__paragraph"> ...on hulk toredaid inimesi, kes armastavad üle kõige laulda!</p>
-    <a href="koorist.html" class="btn btn--main">Loe edasi</a>
+    <a href="/koorist" class="btn btn--main">Loe edasi</a>
   </div>
 </header>
 <main class="homepage__container">
@@ -15,7 +15,7 @@
     <div class="section-features__container">
       <div class="section-features__column">
         <div class="section-features__item">
-          <a class="section-features__link" href="koorist.html#section-liikmed">
+          <a class="section-features__link" href="/koorist#section-liikmed">
             <i class="fas fa-music section-features__icon"></i>
             <h3 class="heading--purple heading--tertiary">Liikmed</h3>
           </a>
@@ -23,7 +23,7 @@
       </div>
       <div class="section-features__column">
         <div class="section-features__item">
-          <a class="section-features__link" href="vastuvott.html">
+          <a class="section-features__link" href="/vastuvott">
             <i class="fas fa-user section-features__icon"></i>
             <h3 class="heading--purple heading--tertiary">Vastuvõtt</h3>
           </a>
@@ -31,7 +31,7 @@
       </div>
       <div class="section-features__column">
         <div class="section-features__item">
-          <a class="section-features__link" href="kontakt.html">
+          <a class="section-features__link" href="/kontakt">
             <i class="fas fa-envelope section-features__icon"></i>
             <h3 class="heading--purple heading--tertiary">Kontakt</h3>
           </a>
@@ -53,7 +53,7 @@
         </div>
         <div class="card__lower">
           <h3 class="heading--white heading--tertiary">Noorus 60</h3>
-          <a href="sundmused.html#1" class="btn btn--main">Loe edasi</a>
+          <a href="/sundmused#1" class="btn btn--main">Loe edasi</a>
         </div>
       </div>
     </div>
@@ -62,8 +62,9 @@
     <div class="section-history__container">
       <h2 class="heading--purple heading--secondary u-margin-bottom-big">Möödunud sündmused</h2>
       <p class="paragraph--large paragraph--purple header__paragraph u-margin-bottom-big">Segakoor Nooruse hooaja jooksul toimub mitmeid traditsioonilisi või vähem traditsioonilisi üritusi. Vaata, millistest projektides oleme kaasa löönud!</p>
-      <a href="sundmused.html#moodunud-sundmused" class="btn btn--main">Loe edasi</a>
+      <a href="/sundmused#moodunud-sundmused" class="btn btn--main">Loe edasi</a>
     </div>
   </section>
 </main>
+<%- include partials/footnav -%>
 <%- include partials/footer -%>

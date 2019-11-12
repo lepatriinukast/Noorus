@@ -1,49 +1,13 @@
-// Styles for the footer
-
 .footer {
-  margin-top: 3rem;
-  background-color: $color-primary-light;
-  @include boxShadow;
-  // Footer menu
-  &__list {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    flex-wrap: wrap;
-    list-style: none;
+  background-color: $color-grey-dark;
+
+  &__text-box {
+    margin: auto;
+    text-align: center;
   }
 
-  &__item {
-    position: relative;
-    transition-property: transform;
-    transition-duration: 0.5s;
-    padding: 2rem 1rem;
-
-    &:hover .dropdown--footer {
-      @media screen and (hover: hover) {
-        visibility: visible;
-        opacity: 1;
-      }
-    }
-
-    &:active,
-    &:hover {
-      transform: scale(1.1);
-    }
-  }
-
-  &__link {
-    &:link,
-    &:visited {
-      font-size: 1.6rem;
-      font-weight: 700;
-      color: $color-white;
-      text-decoration: none;
-    }
-
-    &:focus {
-      outline-color: blue;
-      outline-width: thick;
-    }
+  &__text {
+    color: $color-white;
+    font-size: 1.2rem;
   }
 }

@@ -83,6 +83,11 @@
   padding-top: 5rem;
 
   &__container {
+    margin: auto;
+    width: 70%;
     text-align: center;
+    @media screen and (max-width: 62.5em) {
+      width: 100%;
+    }
   }
 }

@@ -19,7 +19,7 @@
   // Dropdown menu on the hidden navigation (on smaller screens)
 
   &--hidden {
-    left: 120%;
+    left: 110%;
     top: 0;
     background-color: $color-primary-dark;
     @media screen and (max-height: 25em) {

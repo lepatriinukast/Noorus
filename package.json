@@ -4,7 +4,12 @@
   "description": "website for mixed choir Noorus",
   "main": "server.js",
   "scripts": {
-    "watch:sass": "node-sass public/sass/main.scss public/css/style.css -w"
+    "watch:sass": "node-sass public/sass/main.scss public/css/style.css -w",
+    "compile:sass": "node-sass public/sass/main.scss public/css/style.comp.css",
+    "concat:sass": "concat -o public/css/style.conc.scss public/css/style.comp.css public/css/all.css",
+    "prexix:sass": "postcss --use autoprefixer -b 'last 10 versions' public/css/style.conc.scss -o public/css/style.pref.css",
+    "compress:sass": "node-sass public/css/style.pref.css public/css/style.css --output-style compressed",
+    "build:sass": "npm-run-all compile:sass concat:sass prefix:sass compress:sass"
   },
   "repository": {
     "type": "git",
@@ -18,9 +23,11 @@
   "homepage": "https://github.com/jooseptrumm/Noorus#readme",
   "dependencies": {
     "body-parser": "^1.19.0",
+    "concat": "^1.0.3",
     "ejs": "^2.7.1",
     "express": "^4.17.1",
     "express-ejs-layouts": "^2.5.0",
-    "node-sass": "^4.12.0"
+    "node-sass": "^4.12.0",
+    "postcss": "^7.0.21"
   }
 }

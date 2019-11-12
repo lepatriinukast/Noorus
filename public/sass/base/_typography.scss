@@ -37,6 +37,7 @@ body {
 }
 
 .paragraph {
+  white-space: pre-line;
   &--large {
     font-size: 1.6rem;
     line-height: 2.5rem;

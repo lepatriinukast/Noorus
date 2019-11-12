@@ -65,26 +65,25 @@ body {
 .heading--tertiary {
   font-size: 2.2rem; }
 
-.paragraph--large {
-  font-size: 1.6rem;
-  line-height: 2.5rem;
-  font-weight: 700; }
-
-.paragraph--small {
-  font-size: 1.6rem;
-  line-height: 2.5rem;
-  font-weight: 200; }
-  .paragraph--small strong {
+.paragraph {
+  white-space: pre-line; }
+  .paragraph--large {
     font-size: 1.6rem;
     line-height: 2.5rem;
     font-weight: 700; }
-
-.paragraph--purple {
-  color: #32093F; }
-
-.paragraph--white {
-  color: #FFFFFF;
-  text-shadow: 0 2px 5px rgba(26, 26, 26, 0.5); }
+  .paragraph--small {
+    font-size: 1.6rem;
+    line-height: 2.5rem;
+    font-weight: 200; }
+    .paragraph--small strong {
+      font-size: 1.6rem;
+      line-height: 2.5rem;
+      font-weight: 700; }
+  .paragraph--purple {
+    color: #32093F; }
+  .paragraph--white {
+    color: #FFFFFF;
+    text-shadow: 0 2px 5px rgba(26, 26, 26, 0.5); }
 
 .list {
   list-style: none; }
@@ -201,7 +200,7 @@ body {
     width: 100%;
     background-size: cover;
     background-color: #5F045F;
-    background-image: url("../img/placeholder.jpg");
+    background-image: url("../img/noorus2.jpg");
     background-repeat: no-repeat;
     background-position: center; }
   .card__lower {
@@ -225,7 +224,7 @@ body {
     top: 5.2rem;
     background-color: #5F045F; }
   .dropdown--hidden {
-    left: 120%;
+    left: 110%;
     top: 0;
     background-color: #32093F; }
     @media screen and (max-height: 25em) {
@@ -265,6 +264,36 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%); }
+
+.footnav {
+  margin-top: 3rem;
+  background-color: #5F045F;
+  box-shadow: 0 2px 5px rgba(26, 26, 26, 0.5); }
+  .footnav__list {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+    list-style: none; }
+  .footnav__item {
+    position: relative;
+    transition-property: transform;
+    transition-duration: 0.5s;
+    padding: 2rem 1rem; }
+    @media screen and (hover: hover) {
+      .footnav__item:hover .dropdown--footer {
+        visibility: visible;
+        opacity: 1; } }
+    .footnav__item:active, .footnav__item:hover {
+      transform: scale(1.1); }
+  .footnav__link:link, .footnav__link:visited {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #FFFFFF;
+    text-decoration: none; }
+  .footnav__link:focus {
+    outline-color: blue;
+    outline-width: thick; }
 
 .form {
   display: flex;
@@ -533,6 +562,9 @@ body {
   background-size: cover;
   background-position: 50% 35%;
   background-repeat: no-repeat; }
+  @media screen and (max-width: 500px) {
+    .header {
+      background-image: linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6)), url("../img/optimized-noorus1.jpg"); } }
   .header__heading-box {
     text-align: center;
     position: absolute;
@@ -549,34 +581,13 @@ body {
         margin-bottom: .5rem; } }
 
 .footer {
-  margin-top: 3rem;
-  background-color: #5F045F;
-  box-shadow: 0 2px 5px rgba(26, 26, 26, 0.5); }
-  .footer__list {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    flex-wrap: wrap;
-    list-style: none; }
-  .footer__item {
-    position: relative;
-    transition-property: transform;
-    transition-duration: 0.5s;
-    padding: 2rem 1rem; }
-    @media screen and (hover: hover) {
-      .footer__item:hover .dropdown--footer {
-        visibility: visible;
-        opacity: 1; } }
-    .footer__item:active, .footer__item:hover {
-      transform: scale(1.1); }
-  .footer__link:link, .footer__link:visited {
-    font-size: 1.6rem;
-    font-weight: 700;
+  background-color: #1A1A1A; }
+  .footer__text-box {
+    margin: auto;
+    text-align: center; }
+  .footer__text {
     color: #FFFFFF;
-    text-decoration: none; }
-  .footer__link:focus {
-    outline-color: blue;
-    outline-width: thick; }
+    font-size: 1.2rem; }
 
 .page-admin {
   background-color: #E0E0E0; }
@@ -648,7 +659,12 @@ body {
 .section-history {
   padding-top: 5rem; }
   .section-history__container {
+    margin: auto;
+    width: 70%;
     text-align: center; }
+    @media screen and (max-width: 62.5em) {
+      .section-history__container {
+        width: 100%; } }
 
 .page-kontakt {
   position: relative; }
@@ -721,6 +737,9 @@ body {
     @media screen and (max-width: 12.5em) {
       .section-header__img {
         height: 20rem; } }
+    @media screen and (max-width: 500px) {
+      .section-header__img {
+        background-image: url("../img/optimized-noorus2.jpg"); } }
   .section-header__text-box {
     flex: 1 1 50rem; }
 
@@ -777,8 +796,14 @@ body {
     background-position: center; }
     .section-dirigendid__img--1 {
       background-image: url("../img/Maarja.jpg"); }
+      @media screen and (max-width: 500px) {
+        .section-dirigendid__img--1 {
+          background-image: url("../img/Optimized-Taavi.jpg"); } }
     .section-dirigendid__img--2 {
       background-image: url("../img/Taavi.jpg"); }
+      @media screen and (max-width: 500px) {
+        .section-dirigendid__img--2 {
+          background-image: url("../img/Optimized-Taavi.jpg"); } }
 
 .section-ajalugu {
   padding: 3rem 0; }

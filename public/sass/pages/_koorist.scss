@@ -43,6 +43,9 @@
     @media screen and (max-width: 12.5em) {
       height: 20rem;
     }
+    @media screen and (max-width: 500px) {
+      background-image: url("../img/optimized-noorus2.jpg");
+    }
   }
 
   &__text-box {
@@ -120,10 +123,16 @@
 
     &--1 {
       background-image: url("../img/Maarja.jpg");
+      @media screen and (max-width: 500px) {
+        background-image: url("../img/Optimized-Taavi.jpg");
+      }
     }
 
     &--2 {
       background-image: url("../img/Taavi.jpg");
+      @media screen and (max-width: 500px) {
+      background-image: url("../img/Optimized-Taavi.jpg");  
+      }
     }
   }
 }

@@ -1,0 +1,70 @@
+<%- include partials/head-en {pageTitle: pageTitle} -%>
+<%- include partials/navigation-en {currentPage: currentPage} -%>
+<div class="logo">
+  <img class="logo__img" src="img/logo-lilla.png" alt="logo">
+</div>
+<header class="header">
+  <div class="header__heading-box">
+    <h1 class="heading--purple heading--primary">Mixed choir Noorus</h1>
+    <p class="paragraph--large paragraph--purple header__paragraph"> ...is a group of wonderful people, who above all else enjoy singing!</p>
+    <a href="/en/about-us" class="btn btn--main">Read more</a>
+  </div>
+</header>
+<main class="homepage__container">
+  <section class="section-features">
+    <div class="section-features__container">
+      <div class="section-features__column">
+        <div class="section-features__item">
+          <a class="section-features__link" href="/en/about-us#section-members">
+            <i class="fas fa-music section-features__icon"></i>
+            <h3 class="heading--purple heading--tertiary">Members</h3>
+          </a>
+        </div>
+      </div>
+      <div class="section-features__column">
+        <div class="section-features__item">
+          <a class="section-features__link" href="/en/join-us">
+            <i class="fas fa-user section-features__icon"></i>
+            <h3 class="heading--purple heading--tertiary">Join us</h3>
+          </a>
+        </div>
+      </div>
+      <div class="section-features__column">
+        <div class="section-features__item">
+          <a class="section-features__link" href="/en/contact">
+            <i class="fas fa-envelope section-features__icon"></i>
+            <h3 class="heading--purple heading--tertiary">Contact</h3>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="section-events">
+    <div class="section-events__heading-box">
+      <h2 class="heading--purple heading--secondary u-margin-bottom-big">Upcoming events</h2>
+    </div>
+    <div class="section-events__container">
+      <div class="error-message">
+        <h3 class="heading--purple heading--tertiary u-margin-bottom-big">Oh darn!</h3>
+        <p class="paragraph--large paragraph--purple">Unfortunately there are no events to show at the moment.</p>
+      </div>
+      <div class="card card--1">
+        <div class="card__upper card__upper--1">
+        </div>
+        <div class="card__lower">
+          <h3 class="heading--white heading--tertiary">Noorus 60</h3>
+          <a href="/en/events#1" class="btn btn--main">Read more</a>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="section-history" id="section-history">
+    <div class="section-history__container">
+      <h2 class="heading--purple heading--secondary u-margin-bottom-big">Past events</h2>
+      <p class="paragraph--large paragraph--purple header__paragraph u-margin-bottom-big">Throughout its season, mixed choir Noorus has taken part in a lot of traditional and not so traditional events. Have a look at the kinds of projects we have been involved in over the years!</p>
+      <a href="/en/events#past-events" class="btn btn--main">Read more</a>
+    </div>
+  </section>
+</main>
+<%- include partials/footnav-en -%>
+<%- include partials/footer -%>

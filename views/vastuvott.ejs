@@ -1,5 +1,5 @@
 <%- include partials/head {pageTitle: pageTitle} -%>
-<%- include partials/navigation -%>
+<%- include partials/navigation {currentPage: currentPage} -%>
 <div class="page-vastuvott__container">
   <div class="page-vastuvott__text-box">
     <h2 class="heading--secondary heading--purple u-margin-bottom-big">Vastuvõtt</h2>
@@ -22,6 +22,4 @@
   </div>
 </div>
 </div>
-</body>
-<script src="js/index.js" charset="utf-8"></script>
-</html>
+<%- include partials/footer -%>
