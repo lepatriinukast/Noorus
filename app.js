@@ -1,5 +1,4 @@
 const express = require("express");
-const expressLayouts = require("express-ejs-layouts");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
 
@@ -8,13 +7,9 @@ const app = express();
 app.set('view engine', 'ejs');
 app.use(express.static("public"));
 
-app.get("/", function(req, res) {
-  res.send("s");
-});
-
 // estonian routes
 
-app.get("/avaleht", function(req, res) {
+app.get("/", function(req, res) {
   var pageTitle = "Avaleht";
   var currentPage = "en";
   res.render("avaleht", {
@@ -63,7 +58,7 @@ app.get("/kontakt", function(req, res) {
 
 app.get("/en", function(req, res) {
   var pageTitle = "Home";
-  var currentPage = "avaleht";
+  var currentPage = "";
   res.render("home", {
     pageTitle: pageTitle,
     currentPage: currentPage
@@ -105,9 +100,6 @@ app.get("/en/contact", function(req, res) {
     currentPage: currentPage
   });
 });
-
-
-
 
 app.listen(3000, function() {
   console.log("Server is now running on port 3000");
