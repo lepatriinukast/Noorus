@@ -564,7 +564,7 @@ body {
   background-repeat: no-repeat; }
   @media screen and (max-width: 500px) {
     .header {
-      background-image: linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6)), url("../img/optimized-noorus1.jpg"); } }
+      background-image: linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6)), url("../img/Optimized-noorus1.jpg"); } }
   .header__heading-box {
     text-align: center;
     position: absolute;
@@ -798,7 +798,7 @@ body {
       background-image: url("../img/Maarja.jpg"); }
       @media screen and (max-width: 500px) {
         .section-dirigendid__img--1 {
-          background-image: url("../img/Optimized-Taavi.jpg"); } }
+          background-image: url("../img/Optimized-Maarja.jpg"); } }
     .section-dirigendid__img--2 {
       background-image: url("../img/Taavi.jpg"); }
       @media screen and (max-width: 500px) {
