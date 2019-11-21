@@ -15,6 +15,23 @@ function removeHiddenMenu() {
   hiddenMenu.classList.add("hide");
 }
 
+// VARIABLES for the popup
+
+var popup = document.getElementById("popup");
+var popupForm = document.getElementById("popup-form");
+
+// FUNCTIONS for toggling the popup
+
+function addPopup() {
+  popup.classList.add("show");
+  popup.classList.remove("hide");
+}
+
+function removePopup() {
+popup.classList.remove("show");
+popup.classList.add("hide");
+}
+
 // VARIABLES for the dropdown buttons and menus
 
 var dropdownButtonHeader = document.getElementById("dropdown-button-header");
@@ -68,7 +85,9 @@ function removeDropdownMenuFooter() {
 // EXECUTION CODE- Activates one of the above functions if the right button is clicked and closes the hidden menus if anything else is clicked
 
 document.addEventListener("click", function(event) {
-  if (event.target === menuButton) {
+  if (event.target.parentNode !== popupForm && event.target !== popupForm) {
+    removePopup();
+  } else if (event.target === menuButton) {
     event.preventDefault();
     toggleHiddenMenu();
     removeDropdownMenuHeader();

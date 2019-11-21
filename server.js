@@ -58,7 +58,7 @@ app.get("/kontakt", function(req, res) {
 
 app.get("/en", function(req, res) {
   var pageTitle = "Home";
-  var currentPage = "";
+  var currentPage = "/";
   res.render("home", {
     pageTitle: pageTitle,
     currentPage: currentPage
@@ -101,6 +101,6 @@ app.get("/en/contact", function(req, res) {
   });
 });
 
-app.listen(process.env.PORT || 3000, function() {
+app.listen(3000, function() {
   console.log("Server is now running on port 3000");
 });
