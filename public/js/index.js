@@ -100,35 +100,41 @@ window.addEventListener("scroll", noScroll);
 // EXECUTION CODE- Activates one of the above functions if the right button is clicked and closes the hidden menus if anything else is clicked
 
 document.addEventListener("click", function(event) {
-  if (event.target !== popupForm) {
-    removePopup();
-  } else if (event.target === menuButton) {
-    event.preventDefault();
-    toggleHiddenMenu();
-    removeDropdownMenuHeader();
-    removeDropdownMenuHidden();
-    removeDropdownMenuFooter();
-  } else if (event.target === dropdownButtonHeader || event.target === dropdownIconHeader) {
-    event.preventDefault();
-    removeHiddenMenu();
-    toggleDropdownMenuHeader();
-    removeDropdownMenuHidden();
-    removeDropdownMenuFooter();
-  } else if (event.target === dropdownButtonHidden || event.target === dropdownIconHidden) {
-    event.preventDefault();
-    removeDropdownMenuHeader();
-    toggleDropdownMenuHidden();
-    removeDropdownMenuFooter();
-  } else if (event.target === dropdownButtonFooter || event.target === dropdownIconFooter) {
-    event.preventDefault();
-    removeHiddenMenu();
-    toggleDropdownMenuFooter();
-    removeDropdownMenuHidden();
-    removeDropdownMenuHeader();
+  if (popup.classList.contains("show")) {
+    if (event.target.parentNode !== popupForm && event.target !== popupForm) {
+      removePopup();
+    } else {
+      return false;
+    }
   } else {
-    removeHiddenMenu();
-    removeDropdownMenuHeader();
-    removeDropdownMenuHidden();
-    removeDropdownMenuFooter();
+    if (event.target === menuButton) {
+      event.preventDefault();
+      toggleHiddenMenu();
+      removeDropdownMenuHeader();
+      removeDropdownMenuHidden();
+      removeDropdownMenuFooter();
+    } else if (event.target === dropdownButtonHeader || event.target === dropdownIconHeader) {
+      event.preventDefault();
+      removeHiddenMenu();
+      toggleDropdownMenuHeader();
+      removeDropdownMenuHidden();
+      removeDropdownMenuFooter();
+    } else if (event.target === dropdownButtonHidden || event.target === dropdownIconHidden) {
+      event.preventDefault();
+      removeDropdownMenuHeader();
+      toggleDropdownMenuHidden();
+      removeDropdownMenuFooter();
+    } else if (event.target === dropdownButtonFooter || event.target === dropdownIconFooter) {
+      event.preventDefault();
+      removeHiddenMenu();
+      toggleDropdownMenuFooter();
+      removeDropdownMenuHidden();
+      removeDropdownMenuHeader();
+    } else {
+      removeHiddenMenu();
+      removeDropdownMenuHeader();
+      removeDropdownMenuHidden();
+      removeDropdownMenuFooter();
+    }
   }
 });

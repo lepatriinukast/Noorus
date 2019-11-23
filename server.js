@@ -58,7 +58,7 @@ app.get("/kontakt", function(req, res) {
 
 app.get("/en", function(req, res) {
   var pageTitle = "Home";
-  var currentPage = "/";
+  var currentPage = "";
   res.render("home", {
     pageTitle: pageTitle,
     currentPage: currentPage
