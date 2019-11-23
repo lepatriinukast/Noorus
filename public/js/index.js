@@ -20,6 +20,17 @@ function removeHiddenMenu() {
 var popup = document.getElementById("popup");
 var popupForm = document.getElementById("popup-form");
 
+
+// FUNCTION to prevent scrolling on popup
+
+function noScroll() {
+  if (popup.classList.contains("show")) {
+    window.scrollTo(0, 0);
+  } else {
+    return false;
+  }
+}
+
 // FUNCTIONS for toggling the popup
 
 function addPopup() {
@@ -28,8 +39,8 @@ function addPopup() {
 }
 
 function removePopup() {
-popup.classList.remove("show");
-popup.classList.add("hide");
+  popup.classList.remove("show");
+  popup.classList.add("hide");
 }
 
 // VARIABLES for the dropdown buttons and menus
@@ -82,10 +93,14 @@ function removeDropdownMenuFooter() {
   }
 }
 
+// EXECUTION CODE- Prevents scrolling on popup
+
+window.addEventListener("scroll", noScroll);
+
 // EXECUTION CODE- Activates one of the above functions if the right button is clicked and closes the hidden menus if anything else is clicked
 
 document.addEventListener("click", function(event) {
-  if (event.target.parentNode !== popupForm && event.target !== popupForm) {
+  if (event.target !== popupForm) {
     removePopup();
   } else if (event.target === menuButton) {
     event.preventDefault();
