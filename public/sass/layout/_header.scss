@@ -9,9 +9,6 @@
   background-size: cover;
   background-position: 50% 35%;
   background-repeat: no-repeat;
-  @media screen and (max-width: 500px) {
-    background-image: linear-gradient(rgba($color-white, .6), rgba($color-white, .6)), url("../img/Optimized-noorus1.jpg");
-  }
 
   &__heading-box {
     text-align: center;
