@@ -758,20 +758,17 @@ body {
 
 .section-liikmed {
   padding: 3rem 0; }
-  .section-liikmed__container {
-    text-align: center; }
-    @media screen and (max-width: 43.75em) {
-      .section-liikmed__container {
-        text-align: left; } }
   .section-liikmed__text-box {
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
+    text-align: center;
     width: 100%;
     padding: 3rem 0; }
     @media screen and (max-width: 43.75em) {
       .section-liikmed__text-box {
-        padding: 0; } }
+        padding: 0;
+        text-align: left; } }
   .section-liikmed__small-box {
     flex: 0 0 40%; }
     @media screen and (max-width: 43.75em) {

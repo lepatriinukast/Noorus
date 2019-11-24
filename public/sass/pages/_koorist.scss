@@ -57,20 +57,18 @@
   padding: 3rem 0;
 
   &__container {
-    text-align: center;
-    @media screen and (max-width: 43.75em) {
-      text-align: left;
-    }
   }
 
   &__text-box {
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
+    text-align: center;
     width: 100%;
     padding: 3rem 0;
     @media screen and (max-width: 43.75em) {
       padding: 0;
+      text-align: left;
     }
   }
 
