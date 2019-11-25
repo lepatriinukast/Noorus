@@ -139,7 +139,7 @@ document.addEventListener("click", function(event) {
   }
 });
 
-document.addEventListener("touchstart", function(event) {
+document.addEventListener("touchend", function(event) {
   if (popup !== null && popup.classList.contains("show")) {
     if (event.target.parentNode !== popupForm && event.target !== popupForm) {
       removePopup();
