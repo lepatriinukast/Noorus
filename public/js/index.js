@@ -100,7 +100,7 @@ window.addEventListener("scroll", noScroll);
 // EXECUTION CODE- Activates one of the above functions if the right button is clicked and closes the hidden menus if anything else is clicked
 
 document.addEventListener("click", function(event) {
-  if (popup.classList.contains("show")) {
+  if (popup !== null && popup.classList.contains("show")) {
     if (event.target.parentNode !== popupForm && event.target !== popupForm) {
       removePopup();
     } else {
@@ -140,7 +140,7 @@ document.addEventListener("click", function(event) {
 });
 
 document.addEventListener("touchstart", function(event) {
-  if (popup.classList.contains("show")) {
+  if (popup !== null && popup.classList.contains("show")) {
     if (event.target.parentNode !== popupForm && event.target !== popupForm) {
       removePopup();
     } else {
