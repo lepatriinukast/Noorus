@@ -224,12 +224,18 @@ body {
     top: 5.2rem;
     background-color: #5F045F; }
   .dropdown--hidden {
-    left: 110%;
+    left: 55%;
     top: 0;
     background-color: #32093F; }
+    @media screen and (max-height: 50em) {
+      .dropdown--hidden {
+        left: 62%; } }
     @media screen and (max-height: 25em) {
       .dropdown--hidden {
         top: -1rem; } }
+    @media screen and (max-height: 18.75em) {
+      .dropdown--hidden {
+        left: 45%; } }
     @media screen and (max-height: 12.8125em) {
       .dropdown--hidden {
         top: 0; } }
