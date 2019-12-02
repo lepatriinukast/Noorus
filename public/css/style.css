@@ -622,6 +622,10 @@ body {
   .page-admin__link {
     color: #FFFFFF;
     text-decoration: none; }
+  .page-admin__form-box {
+    height: 100%;
+    width: 100%;
+    padding: 3rem; }
 
 .homepage__container {
   padding: 0 3rem; }
@@ -723,17 +727,13 @@ body {
       padding: 0 3rem; } }
 
 .section-header {
-  min-height: calc(100vh - 6rem);
-  padding: 3rem 0;
+  padding: 5rem 0 0 0;
   display: flex;
   justify-content: space-between;
   align-items: center; }
   @media screen and (max-width: 66.875em) {
     .section-header {
       flex-wrap: wrap; } }
-  @media screen and (max-width: 53.75em) {
-    .section-header {
-      min-height: auto; } }
   .section-header__img {
     flex: 2 2 50rem;
     margin-right: 3rem;

@@ -9,16 +9,12 @@
 }
 
 .section-header {
-  min-height: calc(100vh - 6rem);
-  padding: 3rem 0;
+  padding: 5rem 0 0 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
   @media screen and (max-width: 66.875em) {
     flex-wrap: wrap;
-  }
-  @media screen and (max-width: 53.75em) {
-    min-height: auto;
   }
 
   &__img {
