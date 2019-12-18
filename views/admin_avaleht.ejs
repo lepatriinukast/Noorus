@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="height=device-height, initial-scale=1.0">
+  <meta charset="utf-8">
+  <link rel="shortcut icon" type="image/png" href="img/favicon.png">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,900&display=swap" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/0c359ba9fc.js"></script>
+  <link rel="stylesheet" href="../css/style.css">
+  <title>Segakoor Noorus | <%= pageTitle %></title>
+</head>
+
+<body class="page-admin">
+  <nav class="page-admin__navigation">
+    <ul class="page-admin__list">
+      <li class="page-admin__item"><a href="" class="page-admin__link">Avaleht</a></li>
+      <li class="page-admin__item"><a href="" class="page-admin__link">Koorist</a></li>
+      <li class="page-admin__item"><a href="" class="page-admin__link">Vastuvõtt</a></li>
+      <li class="page-admin__item"><a href="" class="page-admin__link">Sündmused</a></li>
+      <li class="page-admin__item"><a href="" class="page-admin__link">Kontakt</a></li>
+    </ul>
+  </nav>
+  <form action="/admin/avaleht" method="post" class="page-admin__form">
+    <input type="hidden" name="formInstance" value="avalehtPildid">
+    <h3 class="page-admin__title">Pildid</h3>
+    <div class="page-admin__form-box">
+      <div class="page-admin__form-field">
+        <h3 class="page-admin__heading">Päiseikoon</h3>
+        <input type="text" class="page-admin__input">
+        <img class="page-admin__icon" src="/img/favicon.png" alt="">
+        <input type="text" class="page-admin__input">
+      </div>
+      <div class="page-admin__form-field">
+        <h3 class="page-admin__heading">Logo</h3>
+        <input type="text" class="page-admin__input">
+        <img class="page-admin__icon" src="/img/logo-lilla.png" alt="">
+        <input type="text" class="page-admin__input">
+      </div>
+      <div class="page-admin__form-field">
+        <h3 class="page-admin__heading">Taustapilt</h3>
+        <input type="text" class="page-admin__input">
+        <img class="page-admin__icon" src="/img/noorus1.jpg" alt="">
+        <input type="text" class="page-admin__input">
+      </div>
+    </div>
+    <button class="page-admin__btn" type="submit" name="button">Salvesta</button>
+  </form>
+  <form action="/admin/avaleht" method="post" class="page-admin__form">
+    <input type="hidden" name="formInstance" value="avalehtTekstid">
+    <h3 class="page-admin__title">Tekstid</h3>
+    <div class="page-admin__form-box">
+      <div class="page-admin__form-field">
+        <h3 class="page-admin__heading">Suur pealkiri</h3>
+        <p class="page-admin__text">EST</p>
+        <input type="text" class="page-admin__input" name="suurPealkiriEst" value="<%= avalehtData.suurPealkiri.est %>">
+        <p class="page-admin__text">EN</p>
+        <input type="text" class="page-admin__input" name="suurPealkiriEn" value="<%= avalehtData.suurPealkiri.en %>">
+      </div>
+      <div class="page-admin__form-field">
+        <h3 class="page-admin__heading">Jätkupealkiri</h3>
+        <p class="page-admin__text">EST</p>
+        <textarea class="page-admin__input page-admin__text-area" name="jatkuPealkiriEst" rows="1"><%= avalehtData.jatkuPealkiri.est %></textarea>
+        <p class="page-admin__text">EN</p>
+        <textarea class="page-admin__input page-admin__text-area" name="jatkuPealkiriEn" rows="1"><%= avalehtData.jatkuPealkiri.en %></textarea>
+      </div>
+      <div class="page-admin__form-field">
+        <h3 class="page-admin__heading">Sektsiooni pealkiri 1</h3>
+        <p class="page-admin__text">EST</p>
+        <input type="text" class="page-admin__input" name="sektsiooniPealkiri1Est" value="<%= avalehtData.sektsiooniPealkiri1.est %>">
+        <p class="page-admin__text">EN</p>
+        <input type="text" class="page-admin__input" name="sektsiooniPealkiri1En" value="<%= avalehtData.sektsiooniPealkiri1.en %>">
+      </div>
+      <div class="page-admin__form-field">
+        <h3 class="page-admin__heading">Sektsiooni tekst 1</h3>
+        <p class="page-admin__text">EST</p>
+        <textarea class="page-admin__input page-admin__text-area" name="sektsiooniTekst1Est" rows="1"><%= avalehtData.sektsiooniTekst1.est %></textarea>
+        <p class="page-admin__text">EN</p>
+        <textarea class="page-admin__input page-admin__text-area" name="sektsiooniTekst1En" rows="1"><%= avalehtData.sektsiooniTekst1.en %></textarea>
+      </div>
+      <div class="page-admin__form-field">
+        <h3 class="page-admin__heading">Sektsiooni pealkiri 2</h3>
+        <p class="page-admin__text">EST</p>
+        <input type="text" class="page-admin__input" name="sektsiooniPealkiri2Est" value="<%= avalehtData.sektsiooniPealkiri2.est %>">
+        <p class="page-admin__text">EN</p>
+        <input type="text" class="page-admin__input" name="sektsiooniPealkiri2En" value="<%= avalehtData.sektsiooniPealkiri2.en %>">
+      </div>
+      <div class="page-admin__form-field">
+        <h3 class="page-admin__heading">Sektsiooni tekst 2</h3>
+        <p class="page-admin__text">EST</p>
+        <textarea class="page-admin__input page-admin__text-area" name="sektsiooniTekst2Est" rows="1"><%= avalehtData.sektsiooniTekst2.est %></textarea>
+        <p class="page-admin__text">EN</p>
+        <textarea class="page-admin__input page-admin__text-area" name="sektsiooniTekst2En" rows="1"><%= avalehtData.sektsiooniTekst2.en %></textarea>
+      </div>
+    </div>
+    <button class="page-admin__btn" type="submit" name="button">Salvesta</button>
+  </form>
+  <h3 class="page-admin__title">Hüpikaken</h3>
+  <form action="/admin/avaleht" method="post" class="page-admin__form">
+    <input type="hidden" name="formInstance" value="avalehtHupikaken">
+    <button class="page-admin__small-btn" type="button" name="button">Peida hüpikaken</button>
+      <div class="page-admin__form-box">
+        <div class="page-admin__form-field">
+          <h3 class="page-admin__heading">Hüpikakna pealkiri</h3>
+          <p class="page-admin__text">EST</p>
+          <textarea class="page-admin__input page-admin__text-area" name="" rows="1"></textarea>
+          <p class="page-admin__text">EN</p>
+          <textarea class="page-admin__input page-admin__text-area" name="" rows="1"></textarea>
+        </div>
+      </div>
+      <h3 class="page-admin__heading">Hüpikakna tabeliväljad</h3>
+      <button class="page-admin__small-btn" type="button" name="button">Lisa uus</button>
+    <div class="page-admin__form-box">
+      <div class="page-admin__list-box">
+        <div class="page-admin__form-field">
+          <p class="page-admin__text">EST</p>
+          <input type="text" class="page-admin__input" name="marguAnneEst1" value="">
+          <p class="page-admin__text">EN</p>
+          <input type="text" class="page-admin__input" name="marguAnneEn1" value="">
+          <button class="page-admin__small-btn" type="button" name="button">Kustuta</button>
+        </div>
+        <div class="page-admin__form-field">
+          <p class="page-admin__text">EST</p>
+          <input type="text" class="page-admin__input" name="marguAnneEst2" value="">
+          <p class="page-admin__text">EN</p>
+          <input type="text" class="page-admin__input" name="marguAnneEn2" value="">
+          <button class="page-admin__small-btn" type="button" name="button">Kustuta</button>
+        </div>
+        <div class="page-admin__form-field">
+          <p class="page-admin__text">EST</p>
+          <input type="text" class="page-admin__input" name="marguAnneEst3" value="">
+          <p class="page-admin__text">EN</p>
+          <input type="text" class="page-admin__input" name="marguAnneEn3" value="">
+          <button class="page-admin__small-btn" type="button" name="button">Kustuta</button>
+        </div>
+        <div class="page-admin__form-field">
+          <p class="page-admin__text">EST</p>
+          <input type="text" class="page-admin__input" name="marguAnneEst4" value="">
+          <p class="page-admin__text">EN</p>
+          <input type="text" class="page-admin__input" name="marguAnneEn4" value="">
+          <button class="page-admin__small-btn" type="button" name="button">Kustuta</button>
+        </div>
+      </div>
+    </div>
+    <button class="page-admin__btn" type="submit" name="button">Salvesta</button>
+  </form>
+</body>

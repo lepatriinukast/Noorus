@@ -2,8 +2,8 @@
 
 .header {
   position: relative;
-  height: 65rem;
-  height: 100vh;
+  min-height: 65rem;
+  min-height: 100vh;
   margin-top: -6rem;
   background-image: linear-gradient(rgba($color-white, .6), rgba($color-white, .6)), url("../img/noorus1.jpg");
   background-size: cover;

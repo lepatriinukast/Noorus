@@ -18,8 +18,8 @@
 </div>
 <header class="header" id="header">
   <div class="header__heading-box">
-    <h1 class="heading--purple heading--primary">Segakoor Noorus</h1>
-    <p class="paragraph--large paragraph--purple header__paragraph"> ...on hulk toredaid inimesi, kes armastavad üle kõige laulda!</p>
+    <h1 class="heading--purple heading--primary"><%= avalehtData.suurPealkiri.est %></h1>
+    <p class="paragraph--large paragraph--purple header__paragraph"><%= avalehtData.jatkuPealkiri.est %></p>
     <a href="/koorist" class="btn btn--main">Loe edasi</a>
   </div>
 </header>
@@ -54,7 +54,8 @@
   </section>
   <section class="section-events" id="section-events">
     <div class="section-events__heading-box">
-      <h2 class="heading--purple heading--secondary u-margin-bottom-big">Tulevad sündmused</h2>
+      <h2 class="heading--purple heading--secondary u-margin-bottom-big"><%= avalehtData.sektsiooniPealkiri1.est %></h2>
+      <p class="paragraph--large paragraph--purple u-margin-bottom-big"><%= avalehtData.sektsiooniTekst1.est %></p>
     </div>
     <div class="section-events__container">
       <div class="error-message">
@@ -73,8 +74,8 @@
   </section>
   <section class="section-history" id="section-history">
     <div class="section-history__container">
-      <h2 class="heading--purple heading--secondary u-margin-bottom-big">Möödunud sündmused</h2>
-      <p class="paragraph--large paragraph--purple header__paragraph u-margin-bottom-big">Segakoor Nooruse hooaja jooksul toimub mitmeid traditsioonilisi või vähem traditsioonilisi üritusi. Vaata, millistes projektides oleme kaasa löönud!</p>
+      <h2 class="heading--purple heading--secondary u-margin-bottom-big"><%= avalehtData.sektsiooniPealkiri2.est %></h2>
+      <p class="paragraph--large paragraph--purple u-margin-bottom-big"><%= avalehtData.sektsiooniTekst2.est %></p>
       <a href="/sundmused#moodunud-sundmused" class="btn btn--main">Loe edasi</a>
     </div>
   </section>

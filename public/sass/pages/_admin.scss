@@ -1,32 +1,165 @@
 .page-admin {
   background-color: $color-grey-light;
+  text-align: center;
+
+  &__title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin: 3rem;
+  }
+
+  &__heading {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 1.2rem;
+  }
+
+  &__text {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.7rem;
+  }
 
   &__navigation {
-    padding: 2rem;
+    font-size: 1.2rem;
+    padding: 0 2rem;
     background-color: $color-grey-dark;
     @include boxShadow;
   }
 
   &__list {
     display: flex;
-    justify-content: space-around;
+    flex: 0 0 40%;
+    justify-content: space-between;
     align-items: center;
-    list-style-type: none;
+    padding: 0 2rem;
+    list-style: none;
+  }
+
+  &__item {
+    position: relative;
+    padding: 2rem 0;
+    transition-property: transform;
+    transition-duration: 0.5s;
   }
 
   &__link {
-color: $color-white;
-text-decoration: none;
-  }
-
-  &__form-box {
-    height: 100%;
-    width: 100%;
-    padding: 3rem;
+    text-decoration: none;
+    color: $color-white;
   }
 
   &__form {
+    height: 100%;
+    width: 100%;
+    font-family: inherit;
+    padding-bottom: 3rem;
   }
 
+  &__form-box {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
 
+  &__list-box {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    flex-wrap: wrap;
+  }
+
+  &__form-field {
+    display: flex;
+    flex: 0 0 20%;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    margin: 1.2rem;
+  }
+
+  &__input {
+    position: relative;
+    display: inline-block;
+    height: 2.4rem;
+    width: 15rem;
+    border: none;
+    border-radius: 5px;
+    padding: 0 0.5rem;
+    margin-bottom: 1.2rem;
+    font-family: inherit;
+    line-height: 1.7rem;
+    font-size: 1rem;
+    border: 1px $color-grey-dark solid;
+    @include boxShadow;
+
+    &:focus {
+      outline: none;
+      border: 2px $color-primary-light solid;
+    }
+
+    &:focus:invalid {
+      outline: none;
+      border-bottom: 2px #E91E63 solid;
+    }
+  }
+
+  &__text-area {
+    resize: none;
+    padding-top: 0.3rem;
+    transition-property: height;
+    transition-duration: 0.5s;
+    overflow: hidden;
+
+    &:focus {
+      height: 9rem;
+      overflow-y: scroll;
+    }
+  }
+
+  &__btn {
+    display: inline-block;
+    padding: 1rem 3rem;
+    margin: 3rem;
+    background-color: $color-grey-dark;
+    color: $color-white;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition-property: background-color;
+    transition-duration: 0.2s;
+    @include boxShadow;
+
+    &:active,
+    &:hover {
+      background-color: $color-black;
+    }
+  }
+
+  &__small-btn {
+    display: inline-block;
+    padding: .5rem 1.5rem;
+    margin: 1.5rem;
+    background-color: $color-grey-dark;
+    color: $color-white;
+    border: none;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: 10px;
+    transition-property: background-color;
+    transition-duration: 0.2s;
+    @include boxShadow;
+
+    &:active,
+    &:hover {
+      background-color: $color-black;
+    }
+  }
+
+  &__icon {
+    height: 5rem;
+    margin-bottom: 1.2rem;
+  }
 }
