@@ -97,11 +97,6 @@
       outline: none;
       border: 2px $color-primary-light solid;
     }
-
-    &:focus:invalid {
-      outline: none;
-      border-bottom: 2px #E91E63 solid;
-    }
   }
 
   &__text-area {
@@ -110,10 +105,12 @@
     transition-property: height;
     transition-duration: 0.5s;
     overflow: hidden;
+    border-bottom: 2px $color-grey-dark solid;
 
     &:focus {
       height: 9rem;
       overflow-y: scroll;
+      border-bottom: 2px $color-primary-light solid;
     }
   }
 

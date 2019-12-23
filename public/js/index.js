@@ -19,7 +19,7 @@ function removeHiddenMenu() {
 
 var popup = document.getElementById("popup");
 var popupForm = document.getElementById("popup-form");
-
+var popupButton = document.getElementById("popup-button");
 
 // FUNCTION to prevent scrolling on popup
 
@@ -101,7 +101,7 @@ window.addEventListener("scroll", noScroll);
 
 document.addEventListener("click", function(event) {
   if (popup !== null && popup.classList.contains("show")) {
-    if (event.target.parentNode !== popupForm && event.target !== popupForm) {
+    if (event.target.parentNode !== popupForm && event.target !== popupForm || event.target === popupButton) {
       removePopup();
     } else {
       return false;

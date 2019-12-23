@@ -29,6 +29,8 @@ con.connect(function(err) {
   console.log("Connected!");
 });
 
+// ajax calls
+
 // estonian routes
 
 app.get("/", function(req, res) {
@@ -36,7 +38,7 @@ app.get("/", function(req, res) {
   var currentPage = "en";
   con.query("SELECT * FROM avalehtTekstid", function(err, result) {
     if (err) throw err;
-    var avalehtData = {
+    var avalehtTekstidData = {
       suurPealkiri: {
         est: result[0].est,
         en: result[0].en
@@ -62,10 +64,34 @@ app.get("/", function(req, res) {
         en: result[5].en
       }
     };
-    res.render("avaleht", {
-      pageTitle: pageTitle,
-      currentPage: currentPage,
-      avalehtData: avalehtData
+    con.query("SELECT * FROM avalehtHupikaken", function(err, result) {
+      if (err) throw err;
+      var avalehtHupikaknaPealkiri = {
+        est: result[0].est,
+        en: result[0].en
+      };
+      var avalehtHupikakenData = [avalehtHupikaknaPealkiri];
+
+      function AvalehtHupikaken(nameEst, nameEn, est, en) {
+        this.nameEst = nameEst;
+        this.nameEn = nameEn;
+        this.est = est;
+        this.en = en;
+      }
+      for (var i = 1; i < result.length; i++) {
+        var varName = {
+          est: "avalehtHupikaken" + i + "Est",
+          en: "avalehtHupikaken" + i + "En",
+        };
+        var newAvalehtHupikaken = new AvalehtHupikaken(varName.est, varName.en, result[i].est, result[i].en);
+        avalehtHupikakenData.push(newAvalehtHupikaken);
+      }
+      res.render("avaleht", {
+        pageTitle: pageTitle,
+        currentPage: currentPage,
+        avalehtTekstidData: avalehtTekstidData,
+        avalehtHupikakenData: avalehtHupikakenData
+      });
     });
   });
 });
@@ -113,7 +139,7 @@ app.get("/en", function(req, res) {
   var currentPage = "";
   con.query("SELECT * FROM avalehtTekstid", function(err, result) {
     if (err) throw err;
-    var avalehtData = {
+    var avalehtTekstidData = {
       suurPealkiri: {
         est: result[0].est,
         en: result[0].en
@@ -139,10 +165,33 @@ app.get("/en", function(req, res) {
         en: result[5].en
       }
     };
-    res.render("home", {
-      pageTitle: pageTitle,
-      currentPage: currentPage,
-      avalehtData: avalehtData
+    con.query("SELECT * FROM avalehtHupikaken", function(err, result) {
+      if (err) throw err;
+      var avalehtHupikaknaPealkiri = {
+        est: result[0].est,
+        en: result[0].en
+      };
+      var avalehtHupikakenData = [avalehtHupikaknaPealkiri];
+      function AvalehtHupikaken(nameEst, nameEn, est, en) {
+        this.nameEst = nameEst;
+        this.nameEn = nameEn;
+        this.est = est;
+        this.en = en;
+      }
+      for (var i = 1; i < result.length; i++) {
+        var varName = {
+          est: "avalehtHupikaken" + i + "Est",
+          en: "avalehtHupikaken" + i + "En",
+        };
+        var newAvalehtHupikaken = new AvalehtHupikaken(varName.est, varName.en, result[i].est, result[i].en);
+        avalehtHupikakenData.push(newAvalehtHupikaken);
+      }
+      res.render("home", {
+        pageTitle: pageTitle,
+        currentPage: currentPage,
+        avalehtTekstidData: avalehtTekstidData,
+        avalehtHupikakenData: avalehtHupikakenData
+      });
     });
   });
 });
@@ -191,71 +240,94 @@ app.get("/admin", function(req, res) {
 
 app.get("/admin/avaleht", function(req, res) {
   var pageTitle = "admin/avaleht";
-    con.query("SELECT * FROM avalehtTekstid", function(err, result) {
+  con.query("SELECT * FROM avalehtTekstid", function(err, result) {
+    if (err) throw err;
+    var avalehtTekstidData = {
+      suurPealkiri: {
+        est: result[0].est,
+        en: result[0].en
+      },
+      jatkuPealkiri: {
+        est: result[1].est,
+        en: result[1].en
+      },
+      sektsiooniPealkiri1: {
+        est: result[2].est,
+        en: result[2].en
+      },
+      sektsiooniTekst1: {
+        est: result[3].est,
+        en: result[3].en
+      },
+      sektsiooniPealkiri2: {
+        est: result[4].est,
+        en: result[4].en
+      },
+      sektsiooniTekst2: {
+        est: result[5].est,
+        en: result[5].en
+      }
+    };
+    con.query("SELECT * FROM avalehtHupikaken", function(err, result) {
       if (err) throw err;
-      var avalehtData = {
-        suurPealkiri: {
-          est: result[0].est,
-          en: result[0].en
-        },
-        jatkuPealkiri: {
-          est: result[1].est,
-          en: result[1].en
-        },
-        sektsiooniPealkiri1: {
-          est: result[2].est,
-          en: result[2].en
-        },
-        sektsiooniTekst1: {
-          est: result[3].est,
-          en: result[3].en
-        },
-        sektsiooniPealkiri2: {
-          est: result[4].est,
-          en: result[4].en
-        },
-        sektsiooniTekst2: {
-          est: result[5].est,
-          en: result[5].en
-        }
+      var avalehtHupikaknaPealkiri = {
+        est: result[0].est,
+        en: result[0].en
       };
+      var avalehtHupikakenData = [avalehtHupikaknaPealkiri];
+      function AvalehtHupikaken(nameEst, nameEn, est, en) {
+        this.nameEst = nameEst;
+        this.nameEn = nameEn;
+        this.est = est;
+        this.en = en;
+      }
+      for (var i = 1; i < result.length; i++) {
+        var varName = {
+          est: "avalehtHupikaken" + i + "Est",
+          en: "avalehtHupikaken" + i + "En",
+        };
+        var newAvalehtHupikaken = new AvalehtHupikaken(varName.est, varName.en, result[i].est, result[i].en);
+        avalehtHupikakenData.push(newAvalehtHupikaken);
+      }
       res.render("admin_avaleht", {
         pageTitle: pageTitle,
-        avalehtData: avalehtData
+        avalehtTekstidData: avalehtTekstidData,
+        avalehtHupikakenData: avalehtHupikakenData
       });
     });
+  });
 });
-
 // post routes
 
 app.post("/admin/avaleht", function(req, res) {
   var formInstance = req.body.formInstance;
-
+  var formButton = req.body.formButton;
   if (formInstance === "avalehtPildid") {
     console.log(formInstance);
+    console.log(formButton);
   } else if (formInstance === "avalehtTekstid") {
+    var names = ["suurPealkiri", "jatkuPealkiri", "sektsiooniPealkiri1", "sektsiooniTekst1", "sektsiooniPealkiri2", "sektsiooniTekst2"];
+    for (var i = 0; i < names.length; i++) {
+      var nameProperty = names[i];
+      var estProperty = eval("req.body." + names[i] + "Est");
+      var enProperty = eval("req.body." + names[i] + "En");
+      var sql = "UPDATE avalehtTekstid SET est = '" + estProperty + "', en = '" + enProperty + "' WHERE name = '" + nameProperty + "'";
+      con.query(sql, function(err, result) {
+        if (err) throw err;
+        console.log("Database updated!");
+      });
+    }
+  } else if (formInstance === "avalehtHupikaken") {
+    if (formButton === "hupikakenLisaUus") {
+      res.render("/admin_avaleht", {
+      });
+    }
+  } else {
     console.log(formInstance);
-  var names = ["suurPealkiri", "jatkuPealkiri", "sektsiooniPealkiri1", "sektsiooniTekst1", "sektsiooniPealkiri2", "sektsiooniTekst2"];
-  for (var i = 0; i < names.length; i++) {
-    var nameProperty = names[i];
-    var estProperty = eval("req.body." + names[i] + "Est");
-    var enProperty = eval("req.body." + names[i] + "En");
-    var sql = "UPDATE avalehtTekstid SET est = '" + estProperty + "', en = '" + enProperty + "' WHERE name = '" + nameProperty + "'";
-    con.query(sql, function(err, result) {
-      if (err) throw err;
-      console.log("Database updated!");
-    });
   }
-} else if (formInstance === "avalehtHupikaken") {
-  console.log(formInstance);
-} else {
-  console.log(formInstance);
-}
-  res.redirect("/");
 });
 
 // start server
-
 app.listen(process.env.PORT || 3000, function() {
   console.log("Server is now running on port 3000");
 });

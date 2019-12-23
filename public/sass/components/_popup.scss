@@ -9,7 +9,26 @@
   backdrop-filter: blur(1px);
 
   &__form {
-    position: absolute;
+    width: 40rem;
+    text-align: center;
     @include absCenter;
+    @media screen and (max-width: 18.75em) {
+      width: 30rem;
+    }
+  }
+
+  &__btn {
+    position: absolute;
+    top: .5rem;
+    right: 1rem;
+    color: $color-grey-dark;
+    cursor: pointer;
+    transition-property: transform;
+    transition-duration: .5s;
+
+   &:hover,
+   &:active {
+     transform: scale(1.2);
+   }
   }
 }

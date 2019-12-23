@@ -53,44 +53,44 @@
       <div class="page-admin__form-field">
         <h3 class="page-admin__heading">Suur pealkiri</h3>
         <p class="page-admin__text">EST</p>
-        <input type="text" class="page-admin__input" name="suurPealkiriEst" value="<%= avalehtData.suurPealkiri.est %>">
+        <textarea class="page-admin__input page-admin__text-area" name="suurPealkiriEst" rows="1"><%= avalehtTekstidData.suurPealkiri.est %></textarea>
         <p class="page-admin__text">EN</p>
-        <input type="text" class="page-admin__input" name="suurPealkiriEn" value="<%= avalehtData.suurPealkiri.en %>">
+        <textarea class="page-admin__input page-admin__text-area" name="suurPealkiriEn" rows="1"><%= avalehtTekstidData.suurPealkiri.en %></textarea>
       </div>
       <div class="page-admin__form-field">
         <h3 class="page-admin__heading">Jätkupealkiri</h3>
         <p class="page-admin__text">EST</p>
-        <textarea class="page-admin__input page-admin__text-area" name="jatkuPealkiriEst" rows="1"><%= avalehtData.jatkuPealkiri.est %></textarea>
+        <textarea class="page-admin__input page-admin__text-area" name="jatkuPealkiriEst" rows="1"><%= avalehtTekstidData.jatkuPealkiri.est %></textarea>
         <p class="page-admin__text">EN</p>
-        <textarea class="page-admin__input page-admin__text-area" name="jatkuPealkiriEn" rows="1"><%= avalehtData.jatkuPealkiri.en %></textarea>
+        <textarea class="page-admin__input page-admin__text-area" name="jatkuPealkiriEn" rows="1"><%= avalehtTekstidData.jatkuPealkiri.en %></textarea>
       </div>
       <div class="page-admin__form-field">
         <h3 class="page-admin__heading">Sektsiooni pealkiri 1</h3>
         <p class="page-admin__text">EST</p>
-        <input type="text" class="page-admin__input" name="sektsiooniPealkiri1Est" value="<%= avalehtData.sektsiooniPealkiri1.est %>">
+        <textarea class="page-admin__input page-admin__text-area" name="sektsiooniPealkiri1Est" rows="1"><%= avalehtTekstidData.sektsiooniPealkiri1.est %></textarea>
         <p class="page-admin__text">EN</p>
-        <input type="text" class="page-admin__input" name="sektsiooniPealkiri1En" value="<%= avalehtData.sektsiooniPealkiri1.en %>">
+        <textarea class="page-admin__input page-admin__text-area" name="sektsiooniPealkiri1En" rows="1"><%= avalehtTekstidData.sektsiooniPealkiri1.en %></textarea>
       </div>
       <div class="page-admin__form-field">
         <h3 class="page-admin__heading">Sektsiooni tekst 1</h3>
         <p class="page-admin__text">EST</p>
-        <textarea class="page-admin__input page-admin__text-area" name="sektsiooniTekst1Est" rows="1"><%= avalehtData.sektsiooniTekst1.est %></textarea>
+        <textarea class="page-admin__input page-admin__text-area" name="sektsiooniTekst1Est" rows="1"><%= avalehtTekstidData.sektsiooniTekst1.est %></textarea>
         <p class="page-admin__text">EN</p>
-        <textarea class="page-admin__input page-admin__text-area" name="sektsiooniTekst1En" rows="1"><%= avalehtData.sektsiooniTekst1.en %></textarea>
+        <textarea class="page-admin__input page-admin__text-area" name="sektsiooniTekst1En" rows="1"><%= avalehtTekstidData.sektsiooniTekst1.en %></textarea>
       </div>
       <div class="page-admin__form-field">
         <h3 class="page-admin__heading">Sektsiooni pealkiri 2</h3>
         <p class="page-admin__text">EST</p>
-        <input type="text" class="page-admin__input" name="sektsiooniPealkiri2Est" value="<%= avalehtData.sektsiooniPealkiri2.est %>">
+        <textarea class="page-admin__input page-admin__text-area" name="sektsiooniPealkiri2Est" rows="1"><%= avalehtTekstidData.sektsiooniPealkiri2.est %></textarea>
         <p class="page-admin__text">EN</p>
-        <input type="text" class="page-admin__input" name="sektsiooniPealkiri2En" value="<%= avalehtData.sektsiooniPealkiri2.en %>">
+        <textarea class="page-admin__input page-admin__text-area" name="sektsiooniPealkiri2En" rows="1"><%= avalehtTekstidData.sektsiooniPealkiri2.en %></textarea>
       </div>
       <div class="page-admin__form-field">
         <h3 class="page-admin__heading">Sektsiooni tekst 2</h3>
         <p class="page-admin__text">EST</p>
-        <textarea class="page-admin__input page-admin__text-area" name="sektsiooniTekst2Est" rows="1"><%= avalehtData.sektsiooniTekst2.est %></textarea>
+        <textarea class="page-admin__input page-admin__text-area" name="sektsiooniTekst2Est" rows="1"><%= avalehtTekstidData.sektsiooniTekst2.est %></textarea>
         <p class="page-admin__text">EN</p>
-        <textarea class="page-admin__input page-admin__text-area" name="sektsiooniTekst2En" rows="1"><%= avalehtData.sektsiooniTekst2.en %></textarea>
+        <textarea class="page-admin__input page-admin__text-area" name="sektsiooniTekst2En" rows="1"><%= avalehtTekstidData.sektsiooniTekst2.en %></textarea>
       </div>
     </div>
     <button class="page-admin__btn" type="submit" name="button">Salvesta</button>
@@ -99,47 +99,27 @@
   <form action="/admin/avaleht" method="post" class="page-admin__form">
     <input type="hidden" name="formInstance" value="avalehtHupikaken">
     <button class="page-admin__small-btn" type="button" name="button">Peida hüpikaken</button>
-      <div class="page-admin__form-box">
-        <div class="page-admin__form-field">
-          <h3 class="page-admin__heading">Hüpikakna pealkiri</h3>
-          <p class="page-admin__text">EST</p>
-          <textarea class="page-admin__input page-admin__text-area" name="" rows="1"></textarea>
-          <p class="page-admin__text">EN</p>
-          <textarea class="page-admin__input page-admin__text-area" name="" rows="1"></textarea>
-        </div>
+    <div class="page-admin__form-box">
+      <div class="page-admin__form-field">
+        <h3 class="page-admin__heading">Hüpikakna pealkiri</h3>
+        <p class="page-admin__text">EST</p>
+        <textarea class="page-admin__input page-admin__text-area" name="hupikaknaPealkiriEst" rows="1"><%= avalehtHupikakenData[0].est %></textarea>
+        <p class="page-admin__text">EN</p>
+        <textarea class="page-admin__input page-admin__text-area" name="hupikaknaPealkiriEn" rows="1"><%= avalehtHupikakenData[0].en %></textarea>
       </div>
-      <h3 class="page-admin__heading">Hüpikakna tabeliväljad</h3>
-      <button class="page-admin__small-btn" type="button" name="button">Lisa uus</button>
+    </div>
+    <h3 class="page-admin__heading">Hüpikakna tabeliväljad</h3>
+    <button class="page-admin__small-btn" type="submit" name="formButton" value="hupikakenLisaUus">Lisa uus</button>
     <div class="page-admin__form-box">
       <div class="page-admin__list-box">
+        <% for (var i = 1; i < avalehtHupikakenData.length; i++) { %>
         <div class="page-admin__form-field">
           <p class="page-admin__text">EST</p>
-          <input type="text" class="page-admin__input" name="marguAnneEst1" value="">
+          <textarea type="text" class="page-admin__input page-admin__text-area" name="<%= avalehtHupikakenData[i].nameEst %>"><%= avalehtHupikakenData[i].est %></textarea>
           <p class="page-admin__text">EN</p>
-          <input type="text" class="page-admin__input" name="marguAnneEn1" value="">
-          <button class="page-admin__small-btn" type="button" name="button">Kustuta</button>
+          <textarea type="text" class="page-admin__input page-admin__text-area" name="<%= avalehtHupikakenData[i].nameEn %>"><%= avalehtHupikakenData[i].en %></textarea>
         </div>
-        <div class="page-admin__form-field">
-          <p class="page-admin__text">EST</p>
-          <input type="text" class="page-admin__input" name="marguAnneEst2" value="">
-          <p class="page-admin__text">EN</p>
-          <input type="text" class="page-admin__input" name="marguAnneEn2" value="">
-          <button class="page-admin__small-btn" type="button" name="button">Kustuta</button>
-        </div>
-        <div class="page-admin__form-field">
-          <p class="page-admin__text">EST</p>
-          <input type="text" class="page-admin__input" name="marguAnneEst3" value="">
-          <p class="page-admin__text">EN</p>
-          <input type="text" class="page-admin__input" name="marguAnneEn3" value="">
-          <button class="page-admin__small-btn" type="button" name="button">Kustuta</button>
-        </div>
-        <div class="page-admin__form-field">
-          <p class="page-admin__text">EST</p>
-          <input type="text" class="page-admin__input" name="marguAnneEst4" value="">
-          <p class="page-admin__text">EN</p>
-          <input type="text" class="page-admin__input" name="marguAnneEn4" value="">
-          <button class="page-admin__small-btn" type="button" name="button">Kustuta</button>
-        </div>
+        <% } %>
       </div>
     </div>
     <button class="page-admin__btn" type="submit" name="button">Salvesta</button>

@@ -11,14 +11,13 @@ var con = mysql.createConnection({
 
 con.connect(function(err) {
   if (err) throw err;
-  var sql = "INSERT INTO avalehtTekstid (name, est, en) VALUES ?";
+  var sql = "INSERT INTO avalehtHupikaken (name, est, en) VALUES ?";
   var values = [
-    ["suurPealkiri", "Segakoor Noorus", "Mixed Choir Noorus"],
-    ["jatkuPealkiri", "...on hulk toredaid inimesi, kes armastavad üle kõige laulda!", "...is a group of wonderful people, who above all else enjoy singing!"],
-    ["sektsiooniPealkiri1", "Tulevased sündmused", "Upcoming events"],
-    ["sektsiooniTekst1", "", ""],
-    ["sektsiooniPealkiri2", "Möödunud sündmused", "Past events"],
-    ["sektsiooniTekst2", "Segakoor Nooruse hooaja jooksul toimub mitmeid traditsioonilisi või vähem traditsioonilisi üritusi. Vaata, millistes projektides oleme kaasa löönud!", "Throughout its season, mixed choir Noorus has taken part in a lot of traditional and not so traditional events. Have a look at the kinds of projects we have been involved in over the years!"],
+    ["avalehtHupikaknaPealkiri", "Oled Nooruse vilistlane? Registreeri end meililisti!", "Former singer of Noorus? Sign up for the mailing list!"],
+    ["avalehtHupikaken1", "Eesnimi", "First name"],
+    ["avalehtHupikaken2", "Perekonnanimi", "Family name"],
+    ["avalehtHupikaken3", "E-maili aadress", "E-mail"],
+    ["avalehtHupikaken4", "Millal laulsid Nooruses", "When did you sing for us?"],
   ];
   con.query(sql, [values], function(err, result) {
     if (err) throw err;
