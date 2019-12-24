@@ -178,3 +178,25 @@ document.addEventListener("touchend", function(event) {
     }
   }
 });
+
+// Admin buttons
+
+// var adminPopupAddButton = document.getElementById("adminPopupAddButton");
+//
+// function loadResponse(event) {
+//   event.preventDefault();
+//   event.stopPropagation();
+//   var xhr = new XMLHttpRequest();
+//   xhr.onreadystatechange = function() {
+//     if (this.readyState == 4 && this.status == 200) {
+//       alert(this.responseText);
+//     }
+//     else {
+//       console.log(this.readyState);
+//     }
+//   };
+//   xhr.open("GET", "localhost:3000", true);
+//   xhr.send();
+// }
+//
+// adminPopupAddButton.addEventListener("click", loadResponse);

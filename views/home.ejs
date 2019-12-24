@@ -5,14 +5,15 @@
 </div>
 <div class="popup show" id="popup">
   <div class="popup__form">
-    <form class="form" action="https://docs.google.com/forms/u/0/d/e/1FAIpQLSeuzEaVgkRN1W4aoT9HQeEZ4JGaQ4Q76QOq6_eOQZ_JqHwfKw/formResponse" method="post" id="popup-form">
-      <p class="popup__btn" id="popup-button">&#10006;</p>
-      <h3 class="heading--tertiary heading--white u-margin-bottom-small"><%= avalehtHupikakenData[0].en %></h3>
-      <% for (var i = 1; i < avalehtHupikakenData.length; i++) { %>
-        <input class="form__input" type="text" name="" placeholder="<%= avalehtHupikakenData[i].en %>" required value="">
-    <% } %>
+  <form class="form" action="https://docs.google.com/forms/u/0/d/e/1FAIpQLSeuzEaVgkRN1W4aoT9HQeEZ4JGaQ4Q76QOq6_eOQZ_JqHwfKw/formResponse" method="post" id="popup-form">
+      <h3 class="heading--tertiary heading--white">Former singer of Noorus?</h3>
+      <h3 class="heading--tertiary heading--white u-margin-bottom-small">Sign up for the mailing list!</h3>
+      <input class="form__input" type="text" name="entry.492397759" placeholder="First name" required="" value="">
+      <input class="form__input" type="text" name="entry.629908172" placeholder="Family name" required="" value="">
+      <input class="form__input" type="email" name="entry.239882331" placeholder="E-mail" required="" value="">
+      <textarea class="form__input form__text-area" id="text-area" name="entry.1134328921" rows="1" placeholder="When did you sing for us?" aria-label="When did you sing for us?"></textarea>
       <button class="btn btn--main u-margin-top-small" type="submit" name="submit">Send</button>
-    </form>
+  </form>
   </div>
 </div>
 <header class="header">

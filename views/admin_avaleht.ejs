@@ -21,27 +21,30 @@
       <li class="page-admin__item"><a href="" class="page-admin__link">Kontakt</a></li>
     </ul>
   </nav>
-  <form action="/admin/avaleht" method="post" class="page-admin__form">
+  <form action="/upload" method="post" enctype="multipart/form-data" class="page-admin__form">
     <input type="hidden" name="formInstance" value="avalehtPildid">
     <h3 class="page-admin__title">Pildid</h3>
     <div class="page-admin__form-box">
       <div class="page-admin__form-field">
         <h3 class="page-admin__heading">Päiseikoon</h3>
-        <input type="text" class="page-admin__input">
+        <input type="file" name="avalehtPaiseikoon" id="avalehtPaiseikoon" class="page-admin__hidden-input">
+        <label for="avalehtPaiseikoon" class="page-admin__small-btn">Vali fail</label>
+        <p class="page-admin__input-placeholder"></p>
         <img class="page-admin__icon" src="/img/favicon.png" alt="">
-        <input type="text" class="page-admin__input">
       </div>
       <div class="page-admin__form-field">
         <h3 class="page-admin__heading">Logo</h3>
-        <input type="text" class="page-admin__input">
+        <input type="file" name="avalehtLogo" id="avalehtLogo" class="page-admin__hidden-input">
+        <label for="avalehtLogo" class="page-admin__small-btn">Vali fail</label>
+        <p class="page-admin__input-placeholder"></p>
         <img class="page-admin__icon" src="/img/logo-lilla.png" alt="">
-        <input type="text" class="page-admin__input">
       </div>
       <div class="page-admin__form-field">
         <h3 class="page-admin__heading">Taustapilt</h3>
-        <input type="text" class="page-admin__input">
+        <input type="file" name="avalehtTaustapilt" id="avalehtTaustapilt" class="page-admin__hidden-input">
+        <label for="avalehtTaustapilt" class="page-admin__small-btn">Vali fail</label>
+        <p class="page-admin__input-placeholder"></p>
         <img class="page-admin__icon" src="/img/noorus1.jpg" alt="">
-        <input type="text" class="page-admin__input">
       </div>
     </div>
     <button class="page-admin__btn" type="submit" name="button">Salvesta</button>
@@ -53,9 +56,9 @@
       <div class="page-admin__form-field">
         <h3 class="page-admin__heading">Suur pealkiri</h3>
         <p class="page-admin__text">EST</p>
-        <textarea class="page-admin__input page-admin__text-area" name="suurPealkiriEst" rows="1"><%= avalehtTekstidData.suurPealkiri.est %></textarea>
+        <input type="text" class="page-admin__input" name="suurPealkiriEst" value="<%= avalehtTekstidData.suurPealkiri.est %>">
         <p class="page-admin__text">EN</p>
-        <textarea class="page-admin__input page-admin__text-area" name="suurPealkiriEn" rows="1"><%= avalehtTekstidData.suurPealkiri.en %></textarea>
+        <input type="text" class="page-admin__input" name="suurPealkiriEn" value="<%= avalehtTekstidData.suurPealkiri.en %>">
       </div>
       <div class="page-admin__form-field">
         <h3 class="page-admin__heading">Jätkupealkiri</h3>
@@ -67,9 +70,9 @@
       <div class="page-admin__form-field">
         <h3 class="page-admin__heading">Sektsiooni pealkiri 1</h3>
         <p class="page-admin__text">EST</p>
-        <textarea class="page-admin__input page-admin__text-area" name="sektsiooniPealkiri1Est" rows="1"><%= avalehtTekstidData.sektsiooniPealkiri1.est %></textarea>
+        <input type="text" class="page-admin__input" name="sektsiooniPealkiri1Est" value="<%= avalehtTekstidData.sektsiooniPealkiri1.est %>">
         <p class="page-admin__text">EN</p>
-        <textarea class="page-admin__input page-admin__text-area" name="sektsiooniPealkiri1En" rows="1"><%= avalehtTekstidData.sektsiooniPealkiri1.en %></textarea>
+        <input type="text" class="page-admin__input" name="sektsiooniPealkiri1En" value="<%= avalehtTekstidData.sektsiooniPealkiri1.en %>">
       </div>
       <div class="page-admin__form-field">
         <h3 class="page-admin__heading">Sektsiooni tekst 1</h3>
@@ -81,9 +84,9 @@
       <div class="page-admin__form-field">
         <h3 class="page-admin__heading">Sektsiooni pealkiri 2</h3>
         <p class="page-admin__text">EST</p>
-        <textarea class="page-admin__input page-admin__text-area" name="sektsiooniPealkiri2Est" rows="1"><%= avalehtTekstidData.sektsiooniPealkiri2.est %></textarea>
+        <input type="text" class="page-admin__input" name="sektsiooniPealkiri2Est" value="<%= avalehtTekstidData.sektsiooniPealkiri2.est %>">
         <p class="page-admin__text">EN</p>
-        <textarea class="page-admin__input page-admin__text-area" name="sektsiooniPealkiri2En" rows="1"><%= avalehtTekstidData.sektsiooniPealkiri2.en %></textarea>
+        <input type="text" class="page-admin__input" name="sektsiooniPealkiri2En" value="<%= avalehtTekstidData.sektsiooniPealkiri2.en %>">
       </div>
       <div class="page-admin__form-field">
         <h3 class="page-admin__heading">Sektsiooni tekst 2</h3>
@@ -94,7 +97,7 @@
       </div>
     </div>
     <button class="page-admin__btn" type="submit" name="button">Salvesta</button>
-  </form>
+  <!-- </form>
   <h3 class="page-admin__title">Hüpikaken</h3>
   <form action="/admin/avaleht" method="post" class="page-admin__form">
     <input type="hidden" name="formInstance" value="avalehtHupikaken">
@@ -115,13 +118,13 @@
         <% for (var i = 1; i < avalehtHupikakenData.length; i++) { %>
         <div class="page-admin__form-field">
           <p class="page-admin__text">EST</p>
-          <textarea type="text" class="page-admin__input page-admin__text-area" name="<%= avalehtHupikakenData[i].nameEst %>"><%= avalehtHupikakenData[i].est %></textarea>
+          <input type="text" class="page-admin__input" name="<%= avalehtHupikakenData[i].nameEst %>" value="<%= avalehtHupikakenData[i].est %>">
           <p class="page-admin__text">EN</p>
-          <textarea type="text" class="page-admin__input page-admin__text-area" name="<%= avalehtHupikakenData[i].nameEn %>"><%= avalehtHupikakenData[i].en %></textarea>
+          <input type="text" class="page-admin__input" name="<%= avalehtHupikakenData[i].nameEn %>" value="<%= avalehtHupikakenData[i].en %>">
         </div>
         <% } %>
       </div>
     </div>
     <button class="page-admin__btn" type="submit" name="button">Salvesta</button>
-  </form>
+  </form> -->
 </body>

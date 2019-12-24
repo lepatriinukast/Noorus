@@ -1,7 +1,9 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
-const mysql = require('mysql');
+const mysql = require("mysql");
+const multer = require("multer");
+const path = require("path");
 
 // setup express and body-parser
 
@@ -28,6 +30,23 @@ con.connect(function(err) {
   if (err) throw err;
   console.log("Connected!");
 });
+
+// setup multer storage engine
+
+var storage = multer.diskStorage({
+  destination: function(req, file, cb) {
+    cb(null, "public/img");
+  },
+  filename: function(req, file, callback) {
+    cb(null, file.fieldname + path.extname(file.originalname));
+  }
+});
+
+// initialize multer upload
+
+var upload = multer({
+  storage: storage
+}).single("noorus0");
 
 // ajax calls
 
@@ -172,6 +191,7 @@ app.get("/en", function(req, res) {
         en: result[0].en
       };
       var avalehtHupikakenData = [avalehtHupikaknaPealkiri];
+
       function AvalehtHupikaken(nameEst, nameEn, est, en) {
         this.nameEst = nameEst;
         this.nameEn = nameEn;
@@ -275,6 +295,7 @@ app.get("/admin/avaleht", function(req, res) {
         en: result[0].en
       };
       var avalehtHupikakenData = [avalehtHupikaknaPealkiri];
+
       function AvalehtHupikaken(nameEst, nameEn, est, en) {
         this.nameEst = nameEst;
         this.nameEn = nameEn;
@@ -300,31 +321,24 @@ app.get("/admin/avaleht", function(req, res) {
 // post routes
 
 app.post("/admin/avaleht", function(req, res) {
-  var formInstance = req.body.formInstance;
   var formButton = req.body.formButton;
-  if (formInstance === "avalehtPildid") {
-    console.log(formInstance);
-    console.log(formButton);
-  } else if (formInstance === "avalehtTekstid") {
-    var names = ["suurPealkiri", "jatkuPealkiri", "sektsiooniPealkiri1", "sektsiooniTekst1", "sektsiooniPealkiri2", "sektsiooniTekst2"];
-    for (var i = 0; i < names.length; i++) {
-      var nameProperty = names[i];
-      var estProperty = eval("req.body." + names[i] + "Est");
-      var enProperty = eval("req.body." + names[i] + "En");
-      var sql = "UPDATE avalehtTekstid SET est = '" + estProperty + "', en = '" + enProperty + "' WHERE name = '" + nameProperty + "'";
-      con.query(sql, function(err, result) {
-        if (err) throw err;
-        console.log("Database updated!");
-      });
-    }
-  } else if (formInstance === "avalehtHupikaken") {
-    if (formButton === "hupikakenLisaUus") {
-      res.render("/admin_avaleht", {
-      });
-    }
-  } else {
-    console.log(formInstance);
+
+  var names = ["suurPealkiri", "jatkuPealkiri", "sektsiooniPealkiri1", "sektsiooniTekst1", "sektsiooniPealkiri2", "sektsiooniTekst2"];
+  for (var i = 0; i < names.length; i++) {
+    var nameProperty = names[i];
+    var estProperty = eval("req.body." + names[i] + "Est");
+    var enProperty = eval("req.body." + names[i] + "En");
+    var sql = "UPDATE avalehtTekstid SET est = '" + estProperty + "', en = '" + enProperty + "' WHERE name = '" + nameProperty + "'";
+    con.query(sql, function(err, result) {
+      if (err) throw err;
+      console.log("Database updated!");
+    });
   }
+});
+
+app.post('/upload', upload.single('avalehtTaustapilt'), function (req, res, next) {
+  console.log(req.file);
+  console.log(req.body);
 });
 
 // start server

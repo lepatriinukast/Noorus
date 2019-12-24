@@ -657,6 +657,8 @@ body {
   .page-admin__link {
     text-decoration: none;
     color: #FFFFFF; }
+    .page-admin__link:focus {
+      outline: 2px blue solid; }
   .page-admin__form {
     height: 100%;
     width: 100%;
@@ -696,17 +698,24 @@ body {
     .page-admin__input:focus {
       outline: none;
       border: 2px #5F045F solid; }
+  .page-admin__hidden-input {
+    position: relative;
+    height: .1px;
+    width: .1px;
+    opacity: 0; }
+    .page-admin__hidden-input:focus + .page-admin__small-btn {
+      outline: 2px blue solid; }
+  .page-admin__input-placeholder {
+    margin-bottom: 1.2rem; }
   .page-admin__text-area {
     resize: none;
     padding-top: 0.3rem;
     transition-property: height;
     transition-duration: 0.5s;
-    overflow: hidden;
-    border-bottom: 2px #1A1A1A solid; }
+    overflow: hidden; }
     .page-admin__text-area:focus {
       height: 9rem;
-      overflow-y: scroll;
-      border-bottom: 2px #5F045F solid; }
+      overflow-y: scroll; }
   .page-admin__btn {
     display: inline-block;
     padding: 1rem 3rem;
@@ -722,6 +731,8 @@ body {
     box-shadow: 0 2px 5px rgba(26, 26, 26, 0.5); }
     .page-admin__btn:active, .page-admin__btn:hover {
       background-color: #000000; }
+    .page-admin__btn:focus {
+      outline: 2px blue solid; }
   .page-admin__small-btn {
     display: inline-block;
     padding: .5rem 1.5rem;
@@ -738,6 +749,8 @@ body {
     box-shadow: 0 2px 5px rgba(26, 26, 26, 0.5); }
     .page-admin__small-btn:active, .page-admin__small-btn:hover {
       background-color: #000000; }
+    .page-admin__small-btn:focus {
+      outline: 2px blue solid; }
   .page-admin__icon {
     height: 5rem;
     margin-bottom: 1.2rem; }
