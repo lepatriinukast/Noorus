@@ -11,13 +11,11 @@ var con = mysql.createConnection({
 
 con.connect(function(err) {
   if (err) throw err;
-  var sql = "INSERT INTO avalehtHupikaken (name, est, en) VALUES ?";
+  var sql = "INSERT INTO avalehtPildid (name, url) VALUES ?";
   var values = [
-    ["avalehtHupikaknaPealkiri", "Oled Nooruse vilistlane? Registreeri end meililisti!", "Former singer of Noorus? Sign up for the mailing list!"],
-    ["avalehtHupikaken1", "Eesnimi", "First name"],
-    ["avalehtHupikaken2", "Perekonnanimi", "Family name"],
-    ["avalehtHupikaken3", "E-maili aadress", "E-mail"],
-    ["avalehtHupikaken4", "Millal laulsid Nooruses", "When did you sing for us?"],
+    ["paiseikoon", "/img/paiseikoon.png"],
+    ["avalehtLogo", "/img/avalehtLogo.png"],
+    ["avalehtTaustapilt", "/img/avalehtTaustapilt.jpg"]
   ];
   con.query(sql, [values], function(err, result) {
     if (err) throw err;

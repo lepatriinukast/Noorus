@@ -41,6 +41,11 @@
     padding: 2rem 0;
     transition-property: transform;
     transition-duration: 0.5s;
+
+    &:active,
+    &:hover {
+      transform: scale(1.1);
+    }
   }
 
   &__link {
@@ -50,6 +55,12 @@
     &:focus {
       outline: 2px blue solid;
     }
+  }
+
+  &__btn-box {
+    position: absolute;
+    top: 6rem;
+    left: 0;
   }
 
   &__form {
@@ -105,8 +116,8 @@
 
   &__hidden-input {
     position: relative;
-    height: .1px;
-    width: .1px;
+    height: 0.1px;
+    width: 0.1px;
     opacity: 0;
 
     &:focus + .page-admin__small-btn {
@@ -132,56 +143,75 @@
   }
 
   &__btn {
-    display: inline-block;
-    padding: 1rem 3rem;
-    margin: 3rem;
-    background-color: $color-grey-dark;
-    color: $color-white;
-    border: none;
-    border-radius: 10px;
-    font-weight: 600;
-    cursor: pointer;
-    transition-property: background-color;
-    transition-duration: 0.2s;
-    @include boxShadow;
+    &,
+    &:link,
+    &:visited {
+      display: inline-block;
+      padding: 1rem 3rem;
+      margin: 3rem;
+      font-size: 1.4rem;
+      background-color: $color-grey-dark;
+      color: $color-white;
+      text-decoration: none;
+      border: none;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      transition-property: background-color;
+      transition-duration: 0.2s;
+      @include boxShadow;
 
-    &:active,
-    &:hover {
-      background-color: $color-black;
-    }
+      &:active,
+      &:hover {
+        background-color: $color-black;
+      }
 
-    &:focus {
-      outline: 2px blue solid;
+      &:focus {
+        outline: 2px blue solid;
+      }
     }
   }
 
   &__small-btn {
-    display: inline-block;
-    padding: .5rem 1.5rem;
-    margin: 1.5rem;
-    background-color: $color-grey-dark;
-    color: $color-white;
-    border: none;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    border-radius: 10px;
-    transition-property: background-color;
-    transition-duration: 0.2s;
-    @include boxShadow;
+    &,
+    &:link,
+    &:visited {
+      display: inline-block;
+      padding: 0.5rem 1.5rem;
+      margin: 1.5rem;
+      background-color: $color-grey-dark;
+      color: $color-white;
+      border: none;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      border-radius: 10px;
+      transition-property: background-color;
+      transition-duration: 0.2s;
+      @include boxShadow;
 
-    &:active,
-    &:hover {
-      background-color: $color-black;
-    }
+      &:active,
+      &:hover {
+        background-color: $color-black;
+      }
 
-    &:focus {
-      outline: 2px blue solid;
+      &:focus {
+        outline: 2px blue solid;
+      }
     }
   }
 
   &__icon {
     height: 5rem;
-    margin-bottom: 1.2rem;
+    margin-bottom: 3.5rem;
+    background-color: $color-grey-light;
+    transition-property: transform, outline;
+    transition-duration: 0.5s;
+
+    &:hover {
+      transform: scale(3.5);
+      outline: 2px rgba($color-grey-dark, 0.8) solid;
+      outline-offset: 1px;
+    }
   }
 }

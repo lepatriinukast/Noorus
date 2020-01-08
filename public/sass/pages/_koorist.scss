@@ -9,7 +9,7 @@
 }
 
 .section-header {
-  padding: 5rem 0 0 0;
+  padding: 5rem 0 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -39,9 +39,6 @@
     @media screen and (max-width: 12.5em) {
       height: 15rem;
     }
-    @media screen and (max-width: 500px) {
-      background-image: url("../img/Optimized-noorus2.jpg");
-    }
   }
 
   &__text-box {
@@ -52,8 +49,7 @@
 .section-liikmed {
   padding: 3rem 0;
 
-  &__container {
-  }
+  &__container {}
 
   &__text-box {
     display: flex;
@@ -117,16 +113,10 @@
 
     &--1 {
       background-image: url("../img/Maarja.jpg");
-      @media screen and (max-width: 500px) {
-        background-image: url("../img/Optimized-Maarja.jpg");
-      }
     }
 
     &--2 {
       background-image: url("../img/Taavi.jpg");
-      @media screen and (max-width: 500px) {
-      background-image: url("../img/Optimized-Taavi.jpg");
-      }
     }
   }
 }

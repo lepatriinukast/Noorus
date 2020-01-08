@@ -1,7 +1,7 @@
-<%- include partials/head-en {pageTitle: pageTitle} -%>
+<%- include partials/head {pageTitle: pageTitle, paiseikoon: paiseikoon} -%>
 <%- include partials/navigation-en {currentPage: currentPage} -%>
 <div class="logo">
-  <img class="logo__img" src="img/logo-lilla.png" alt="logo">
+  <img class="logo__img" src="<%= avalehtPildidData.avalehtLogo.url %>" alt="The logo of Mixed choir Noorus">
 </div>
 <div class="popup show" id="popup">
   <div class="popup__form">
@@ -16,7 +16,7 @@
   </form>
   </div>
 </div>
-<header class="header">
+<header class="header" style="background-image: linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6)), url('<%= avalehtPildidData.avalehtTaustapilt.url %>')">
   <div class="header__heading-box">
     <h1 class="heading--purple heading--primary"><%= avalehtTekstidData.suurPealkiri.en %></h1>
     <p class="paragraph--large paragraph--purple header__paragraph"><%= avalehtTekstidData.jatkuPealkiri.en %></p>

@@ -11,7 +11,7 @@ var con = mysql.createConnection({
 
 con.connect(function(err) {
   if (err) throw err;
-  var sql = "DROP TABLE avalehtHupikaken";
+  var sql = "DROP TABLE avalehtTekstid";
   con.query(sql, function (err, result) {
     if (err) throw err;
     console.log(result);
