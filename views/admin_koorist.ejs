@@ -1,31 +1,30 @@
 <%- include partials/head {pageTitle: pageTitle, paiseikoon: paiseikoon} -%>
 <%- include partials/adminnav -%>
-  <form action="/upload/avaleht" method="post" enctype="multipart/form-data" class="page-admin__form" id="kooristPildid">
+  <form action="/upload/koorist" method="post" enctype="multipart/form-data" class="page-admin__form" id="kooristPildid">
     <h3 class="page-admin__title">Pildid</h3>
     <div class="page-admin__form-box">
       <div class="page-admin__form-field">
-        <h3 class="page-admin__heading">Päiseikoon</h3>
-        <input type="file" name="paiseikoon" id="paiseikoon" class="page-admin__hidden-input file">
-        <label for="paiseikoon" class="page-admin__small-btn" id="paiseikoonLabel">Vali fail</label>
-        <p class="page-admin__input-placeholder" id="paiseikoonPlaceholder"></p>
-        <img class="page-admin__icon" src="" id="paiseikoonImg" alt="Päiseikoon">
+        <h3 class="page-admin__heading">Avapilt</h3>
+        <input type="file" name="avapilt" id="avapilt" class="page-admin__hidden-input file">
+        <label for="avapilt" class="page-admin__small-btn" id="avapiltLabel">Vali fail</label>
+        <p class="page-admin__input-placeholder" id="avapiltPlaceholder"></p>
+        <img class="page-admin__icon" src="" id="avapiltImg" alt="Avapilt">
       </div>
       <div class="page-admin__form-field">
-        <h3 class="page-admin__heading">Logo</h3>
-        <input type="file" name="avalehtLogo" id="avalehtLogo" class="page-admin__hidden-input file">
-        <label for="avalehtLogo" class="page-admin__small-btn" id="avalehtLogoLabel">Vali fail</label>
-        <p class="page-admin__input-placeholder" id="avalehtLogoPlaceholder"></p>
-        <img class="page-admin__icon" src="" id="avalehtLogoImg" alt="Avalehe logo">
-      </div>
-      <div class="page-admin__form-field">
-        <h3 class="page-admin__heading">Taustapilt</h3>
-        <input type="file" name="avalehtTaustapilt" id="avalehtTaustapilt" class="page-admin__hidden-input file">
-        <label for="avalehtTaustapilt" class="page-admin__small-btn" id="avalehtTaustapiltLabel">Vali fail</label>
-        <p class="page-admin__input-placeholder" id="avalehtTaustapiltPlaceholder"></p>
-        <img class="page-admin__icon" src="" id="avalehtTaustapiltImg" alt="Avalehe taustapilt">
-      </div>
+        <h3 class="page-admin__heading">Dirigent 1</h3>
+        <input type="file" name="dirigent1" id="dirigent1" class="page-admin__hidden-input file">
+        <label for="dirigent1" class="page-admin__small-btn" id="dirigent1Label">Vali fail</label>
+        <p class="page-admin__input-placeholder" id="dirigent1Placeholder"></p>
+        <img class="page-admin__icon" src="" id="dirigent1Img" alt="Dirigent 1">
     </div>
-    <button class="page-admin__btn" type="submit" name="button" id="avalehtPildidBtn">Salvesta</button>
+    <div class="page-admin__form-field">
+      <h3 class="page-admin__heading">Dirigent 1</h3>
+      <input type="file" name="dirigent2" id="dirigent2" class="page-admin__hidden-input file">
+      <label for="dirigent2" class="page-admin__small-btn" id="dirigent2Label">Vali fail</label>
+      <p class="page-admin__input-placeholder" id="dirigent2Placeholder"></p>
+      <img class="page-admin__icon" src="" id="dirigent2Img" alt="Dirigent 2">
+  </div>
+    <button class="page-admin__btn" type="submit" name="button" id="kooristPildidBtn">Salvesta</button>
     <h3 class="page-admin__heading message" id="avalehtPildidMessage"></h3>
   </form>
   <form action="/admin/avaleht" method="post" class="page-admin__form" id="avalehtTekstid">

@@ -325,54 +325,13 @@ app.get("/admin/koorist", function(req, res) {
       url: result[0].url,
       filename: result[0].url.slice(5)
     };
-    con.query("SELECT * FROM avalehtPildid", function query(err, result) {
-      if (err) throw err;
-      var avalehtPildidData = {
-        avalehtLogo: {
-          url: result[1].url,
-          filename: result[1].url.slice(5)
-        },
-        avalehtTaustapilt: {
-          url: result[2].url,
-          filename: result[2].url.slice(5)
-        }
-      };
-      con.query("SELECT * FROM avalehtTekstid", function(err, result) {
-        if (err) throw err;
-        var avalehtTekstidData = {
-          suurPealkiri: {
-            est: result[0].est,
-            en: result[0].en
-          },
-          jatkuPealkiri: {
-            est: result[1].est,
-            en: result[1].en
-          },
-          sektsiooniPealkiri1: {
-            est: result[2].est,
-            en: result[2].en
-          },
-          sektsiooniTekst1: {
-            est: result[3].est,
-            en: result[3].en
-          },
-          sektsiooniPealkiri2: {
-            est: result[4].est,
-            en: result[4].en
-          },
-          sektsiooniTekst2: {
-            est: result[5].est,
-            en: result[5].en
-          }
-        };
-        res.render("admin_koorist", {
-          pageTitle: pageTitle,
-          paiseikoon: paiseikoon
-        });
-      });
+    res.render("admin_koorist", {
+      pageTitle: pageTitle,
+      paiseikoon: paiseikoon
     });
   });
 });
+
 
 // POST ROUTES FOR HANDLING DATA POSTED FROM THE CLIENT-SIDE
 
@@ -448,6 +407,30 @@ app.post("/upload/avaleht", function(req, res) {
         var urlProperty = "/img/" + files[i][0].originalname;
         var nameProperty = files[i][0].fieldname;
         var sql = "UPDATE avalehtPildid SET url = '" + urlProperty + "' WHERE name = '" + nameProperty + "'";
+        con.query(sql, function(err, result) {
+          if (err) throw err;
+          console.log("DB updated!");
+        });
+      }
+    }
+  });
+  res.redirect("/admin/avaleht");
+});
+
+app.post("/upload/koorist", function(req, res) {
+  var array = [];
+  var avapilt = {
+    name: "avapilt",
+    maxCount: 1
+  }
+  array.push(avapilt);
+
+  var upload = multer({
+    storage: storage
+  }).fields(array);
+  upload(req, res, function(err) {
+    if (err) throw err;
+        var sql = "UPDATE kooristPildid SET url = '" + urlProperty + "' WHERE name = '"+nameProperty""'";
         con.query(sql, function(err, result) {
           if (err) throw err;
           console.log("DB updated!");
