@@ -58,9 +58,14 @@
   }
 
   &__btn-box {
-    position: absolute;
+    position: fixed;
     top: 6rem;
     left: 0;
+  }
+
+  &__form-btn-box {
+    display: flex;
+    justify-content: space-between;
   }
 
   &__form {
@@ -71,10 +76,12 @@
   }
 
   &__form-box {
+    flex: 0 0 100%;
     display: flex;
     justify-content: center;
     align-items: flex-start;
     flex-wrap: wrap;
+    margin: 2rem;
   }
 
   &__list-box {

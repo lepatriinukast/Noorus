@@ -51,13 +51,13 @@ app.get("/", function(req, res) {
   var pageTitle = "Avaleht";
   var currentPage = "en";
 
-  con.query("SELECT * FROM avalehtPildid", function(err, result) {
+  con.query("SELECT * FROM avalehtPildid ORDER BY id", function(err, result) {
     if (err) throw err;
     var paiseikoon = {
       url: result[0].url,
       filename: result[0].url.slice(5)
     };
-    con.query("SELECT * FROM avalehtPildid", function query(err, result) {
+    con.query("SELECT * FROM avalehtPildid ORDER BY id", function query(err, result) {
       if (err) throw err;
       var avalehtPildidData = {
         avalehtLogo: {
@@ -69,7 +69,7 @@ app.get("/", function(req, res) {
           filename: result[2].url.slice(5)
         }
       };
-      con.query("SELECT * FROM avalehtTekstid", function(err, result) {
+      con.query("SELECT * FROM avalehtTekstid ORDER BY id", function(err, result) {
         if (err) throw err;
         var avalehtTekstidData = {
           suurPealkiri: {
@@ -112,10 +112,42 @@ app.get("/", function(req, res) {
 app.get("/koorist", function(req, res) {
   var pageTitle = "Koorist";
   var currentPage = "en/about-us";
-  res.render("koorist", {
-    pageTitle: pageTitle,
-    currentPage: currentPage,
-    paiseikoon: paiseikoon
+  con.query("SELECT * FROM avalehtPildid ORDER BY id", function(err, result) {
+    if (err) throw err;
+    var paiseikoon = {
+      url: result[0].url,
+      filename: result[0].url.slice(5)
+    };
+    con.query("SELECT * FROM sissejuhatusPildid ORDER BY id", function(err, result) {
+      if (err) throw err;
+      var avapilt = {
+        url: result[0].url,
+        filename: result[0].url.slice(5)
+      };
+      con.query("SELECT * FROM sissejuhatusTekstid ORDER BY id", function(err, result) {
+        var sissejuhatusData = {
+          pealkiri: {
+            est: result[0].est,
+            en: result[0].en
+          },
+          loigud: []
+        };
+        for (var i = 1; i < result.length; i++) {
+          var loik = {
+            est: result[i].est,
+            en: result[i].en
+          };
+          sissejuhatusData.loigud.push(loik);
+        }
+        res.render("koorist", {
+          pageTitle: pageTitle,
+          currentPage: currentPage,
+          paiseikoon: paiseikoon,
+          avapilt: avapilt,
+          sissejuhatusData: sissejuhatusData
+        });
+      });
+    });
   });
 });
 
@@ -154,13 +186,13 @@ app.get("/kontakt", function(req, res) {
 app.get("/en", function(req, res) {
   var pageTitle = "Home";
   var currentPage = "";
-  con.query("SELECT * FROM avalehtPildid", function(err, result) {
+  con.query("SELECT * FROM avalehtPildid ORDER BY id", function(err, result) {
     if (err) throw err;
     var paiseikoon = {
       url: result[0].url,
       filename: result[0].url.slice(5)
     };
-    con.query("SELECT * FROM avalehtPildid", function query(err, result) {
+    con.query("SELECT * FROM avalehtPildid ORDER BY id", function query(err, result) {
       if (err) throw err;
       var avalehtPildidData = {
         avalehtLogo: {
@@ -172,7 +204,7 @@ app.get("/en", function(req, res) {
           filename: result[2].url.slice(5)
         }
       };
-      con.query("SELECT * FROM avalehtTekstid", function(err, result) {
+      con.query("SELECT * FROM avalehtTekstid ORDER BY id", function(err, result) {
         if (err) throw err;
         var avalehtTekstidData = {
           suurPealkiri: {
@@ -215,10 +247,42 @@ app.get("/en", function(req, res) {
 app.get("/en/about-us", function(req, res) {
   var pageTitle = "About us";
   var currentPage = "koorist";
-  res.render("about-us", {
-    pageTitle: pageTitle,
-    currentPage: currentPage,
-    paiseikoon: paiseikoon
+  con.query("SELECT * FROM avalehtPildid ORDER BY id", function(err, result) {
+    if (err) throw err;
+    var paiseikoon = {
+      url: result[0].url,
+      filename: result[0].url.slice(5)
+    };
+    con.query("SELECT * FROM sissejuhatusPildid ORDER BY id", function(err, result) {
+      if (err) throw err;
+      var avapilt = {
+        url: result[0].url,
+        filename: result[0].url.slice(5)
+      };
+      con.query("SELECT * FROM sissejuhatusTekstid ORDER BY id", function(err, result) {
+        var sissejuhatusData = {
+          pealkiri: {
+            est: result[0].est,
+            en: result[0].en
+          },
+          loigud: []
+        };
+        for (var i = 1; i < result.length; i++) {
+          var loik = {
+            est: result[i].est,
+            en: result[i].en
+          };
+          sissejuhatusData.loigud.push(loik);
+        }
+        res.render("about-us", {
+          pageTitle: pageTitle,
+          currentPage: currentPage,
+          paiseikoon: paiseikoon,
+          avapilt: avapilt,
+          sissejuhatusData: sissejuhatusData
+        });
+      });
+    });
   });
 });
 
@@ -260,13 +324,13 @@ app.get("/admin", function(req, res) {
 
 app.get("/admin/avaleht", function(req, res) {
   var pageTitle = "admin/avaleht";
-  con.query("SELECT * FROM avalehtPildid", function(err, result) {
+  con.query("SELECT * FROM avalehtPildid ORDER BY id", function(err, result) {
     if (err) throw err;
     var paiseikoon = {
       url: result[0].url,
       filename: result[0].url.slice(5)
     };
-    con.query("SELECT * FROM avalehtPildid", function query(err, result) {
+    con.query("SELECT * FROM avalehtPildid ORDER BY id", function query(err, result) {
       if (err) throw err;
       var avalehtPildidData = {
         avalehtLogo: {
@@ -278,7 +342,7 @@ app.get("/admin/avaleht", function(req, res) {
           filename: result[2].url.slice(5)
         }
       };
-      con.query("SELECT * FROM avalehtTekstid", function(err, result) {
+      con.query("SELECT * FROM avalehtTekstid ORDER BY id", function(err, result) {
         if (err) throw err;
         var avalehtTekstidData = {
           suurPealkiri: {
@@ -319,15 +383,42 @@ app.get("/admin/avaleht", function(req, res) {
 
 app.get("/admin/koorist", function(req, res) {
   var pageTitle = "admin/koorist";
-  con.query("SELECT * FROM avalehtPildid", function(err, result) {
+  con.query("SELECT * FROM avalehtPildid ORDER BY id", function(err, result) {
     if (err) throw err;
     var paiseikoon = {
       url: result[0].url,
       filename: result[0].url.slice(5)
     };
-    res.render("admin_koorist", {
-      pageTitle: pageTitle,
-      paiseikoon: paiseikoon
+    con.query("SELECT * FROM sissejuhatusPildid ORDER BY id", function(err, result) {
+      if (err) throw err;
+      var avapilt = {
+        url: result[0].url,
+        filename: result[0].url.slice(5)
+      };
+      con.query("SELECT * FROM sissejuhatusTekstid ORDER BY id", function(err, result) {
+        if (err) throw err;
+        var sissejuhatusData = {
+          pealkiri: {
+            est: result[0].est,
+            en: result[0].en
+          },
+          loigud: []
+        };
+        for (var i = 1; i < result.length; i++) {
+          var loik = {
+            name: result[i].name,
+            est: result[i].est,
+            en: result[i].en
+          };
+          sissejuhatusData.loigud.push(loik);
+        }
+        res.render("admin_koorist", {
+          pageTitle: pageTitle,
+          paiseikoon: paiseikoon,
+          avapilt: avapilt,
+          sissejuhatusData: sissejuhatusData
+        });
+      });
     });
   });
 });
@@ -335,9 +426,70 @@ app.get("/admin/koorist", function(req, res) {
 
 // POST ROUTES FOR HANDLING DATA POSTED FROM THE CLIENT-SIDE
 
-// handle the data that is posted to /admin/avaleht
+app.post("/upload/avaleht-pildid", function(req, res) {
 
-app.post("/admin/avaleht", function(req, res) {
+  // setup the upload function using the module "multer, also specifying the storage engine and the names of the file inputs"
+
+  var upload = multer({
+    storage: storage
+  }).fields([{
+      name: "paiseikoon",
+      maxCount: 1
+    },
+    {
+      name: "avalehtLogo",
+      maxCount: 1
+    },
+    {
+      name: "avalehtTaustapilt",
+      maxCount: 1
+    }
+  ]);
+
+  // initialize the upload
+
+  upload(req, res, function(err) {
+    if (err) throw err;
+
+    // create an array of the values of all the file inputs on the form
+
+    var files = [req.files.paiseikoon, req.files.avalehtLogo, req.files.avalehtTaustapilt];
+
+    // loop through the array
+
+    for (var i = 0; i < files.length; i++) {
+
+      // for each file, check if it is specified and then setup the database update
+
+      if (files[i] !== undefined) {
+
+        // create variables for each file's filename and also for the name by which it will be referred to in the database
+
+        var urlProperty = "/img/" + files[i][0].originalname;
+        var nameProperty = files[i][0].fieldname;
+
+        // store the urlProperty in a variable in order to pass it into the sql function
+
+        var value = [urlProperty];
+
+        // create the sql text for updating the database (question mark will be replaced by the "value" variable created above)
+
+        var sql = "UPDATE avalehtPildid SET url = ? WHERE name = '" + nameProperty + "'";
+
+        // update the database using the sql text created above
+
+        con.query(sql, value, function(err, result) {
+          if (err) throw err;
+        });
+      }
+    }
+  });
+
+  // reload the page
+
+  res.redirect("/admin/avaleht");
+});
+app.post("/upload/avaleht-tekstid", function(req, res) {
 
   // convert the JSON data received from the client-side into js objects
 
@@ -355,24 +507,22 @@ app.post("/admin/avaleht", function(req, res) {
 
     var nameProperty = names[i];
 
-    // for each name in the array create an "estString" and "enString", which are strings that will contain the code needed for the next step
+    // for each name in the array create an "estProperty" and "enProperty" which contain the admin-inputted strings (in estonian and english)
 
-    var estString = "avalehtTekstidData." + names[i] + ".est";
-    var enString = "avalehtTekstidData." + names[i] + ".en";
+    var estProperty = avalehtTekstidData[names[i]].est;
+    var enProperty = avalehtTekstidData[names[i]].en;
 
-    // run those two strings as js code which gets the necessary data from the client-side
-    // for updating the values of "est" and "en" for each entry in the database and
+    // create a variable for passing the retrieved information to the sql text
 
-    var estProperty = eval(estString);
-    var enProperty = eval(enString);
+    var values = [estProperty, enProperty];
 
-    // create the sql code to update each entry in the database using the data created above
+    // create the sql code to update each entry in the database using the data created above (question marks will be replaced by the values in the above variable)
 
-    var sql = "UPDATE avalehtTekstid SET est = '" + estProperty + "', en = '" + enProperty + "' WHERE name = '" + nameProperty + "'";
+    var sql = "UPDATE avalehtTekstid SET est = ?, en = ? WHERE name = '" + nameProperty + "'";
 
-    // run the sql code with node.js
+    // run the sql code
 
-    con.query(sql, function(err, result) {
+    con.query(sql, values, function(err, result) {
       if (err) throw err;
     });
   }
@@ -382,67 +532,122 @@ app.post("/admin/avaleht", function(req, res) {
   res.redirect("/admin/avaleht");
 });
 
-app.post("/upload/avaleht", function(req, res) {
-  var names = ["paiseikoon", "avalehtLogo", "avalehtTaustapilt"];
-  var upload = multer({
-    storage: storage
-  }).fields([{
-      name: "paiseikoon",
-      maxCount: 1
-    },
-    {
-      name: "avalehtLogo",
-      maxCount: 1
-    },
-    {
-      name: "avalehtTaustapilt",
-      maxCount: 1
-    }
-  ]);
-  upload(req, res, function(err) {
+
+app.post("/upload/sissejuhatus", function(req, res) {
+
+// setup a picture upload function with the "multer" module and specify the name and storage method of the uploaded files
+
+var upload = multer({
+  storage: storage
+}).single("avapilt");
+
+// initialize the upload
+
+upload(req, res, function(err) {
     if (err) throw err;
-    var files = [req.files.paiseikoon, req.files.avalehtLogo, req.files.avalehtTaustapilt];
-    for (var i = 0; i < files.length; i++) {
-      if (files[i] !== undefined) {
-        var urlProperty = "/img/" + files[i][0].originalname;
-        var nameProperty = files[i][0].fieldname;
-        var sql = "UPDATE avalehtPildid SET url = '" + urlProperty + "' WHERE name = '" + nameProperty + "'";
-        con.query(sql, function(err, result) {
-          if (err) throw err;
-          console.log("DB updated!");
-        });
-      }
+
+    // if there is a file to be uploaded, update the database as follows:
+
+    if (req.file !== undefined) {
+
+      // get the original filename of the uploaded file and store it in a variable
+
+      var urlProperty = "/img/" + req.file.originalname;
+
+      // create a variable for passing the retrieved value into the sql function
+
+      var valuePilt = [urlProperty];
+
+      // create the sql text for updating the database, using the value stored in "urlProperty"
+
+      var sqlPilt = "UPDATE sissejuhatusPildid SET url = ? WHERE name = 'avapilt'";
+
+      // update the database using the sql text
+
+      con.query(sqlPilt, valuePilt, function(err, result) {
+        if (err) throw err;
+      });
     }
-  });
-  res.redirect("/admin/avaleht");
+
+    // retrieve the values of the text inputs for "Pealkiri" and store them in variables
+
+    var estPropertyPealkiri = req.body.pealkiriEst;
+    var enPropertyPealkiri = req.body.pealkiriEn;
+
+    // create a values variable for the sql text
+
+    var valuesPealkiri = [estPropertyPealkiri, enPropertyPealkiri];
+
+    // create the sql text where question marks will be replaced by values in the above variable
+
+    var sqlPealkiri = "UPDATE sissejuhatusTekstid SET est = ?, en =  ? WHERE name = 'pealkiri'";
+
+    // update the database using the sql text and passing in the "valuesPealkiri" variable
+
+    con.query(sqlPealkiri, valuesPealkiri, function(err, result) {
+      if (err) throw err;
+    });
+
+    // get the input names from the submitted data as an array (They have been sent to the server as object keys)
+
+    var keys = Object.keys(req.body);
+
+    // Get the index of the last element in the keys array
+
+    var index = keys.length - 1;
+
+    // select the last input name in the array and get its last character (which is a number) and also convert it to number data type
+
+    var number = Number(keys[index].slice(6));
+
+con.query("SELECT * FROM sissejuhatusTekstid", function(err, result) {
+
+console.log(result);
 });
 
-app.post("/upload/koorist", function(req, res) {
-  var array = [];
-  var avapilt = {
-    name: "avapilt",
-    maxCount: 1
-  }
-  array.push(avapilt);
+// reload the page
 
-  var upload = multer({
-    storage: storage
-  }).fields(array);
-  upload(req, res, function(err) {
-    if (err) throw err;
-        var sql = "UPDATE kooristPildid SET url = '" + urlProperty + "' WHERE name = '"+nameProperty""'";
-        con.query(sql, function(err, result) {
-          if (err) throw err;
-          console.log("DB updated!");
-        });
-      }
-    }
-  });
-  res.redirect("/admin/avaleht");
+res.redirect("/admin/koorist");
+});
 });
 
+app.post("/upload/uus-loik", function(req, res) {
 
+    var nameProperty = "loik" + Date.now();
+    var estProperty = "";
+    var enProperty = "";
 
+    var sql = "INSERT INTO sissejuhatusTekstid (name, est, en) VALUES ('" + nameProperty + "', '" + estProperty + "', '" + enProperty + "')";
+    con.query(sql, function(err, result) {
+      if (err) throw err;
+    });
+
+  res.redirect("/admin/koorist");
+});
+
+app.post("/upload/kustuta", function(req, res) {
+
+  var deleteLoikData = JSON.parse(req.body.data);
+
+  con.query("SELECT * FROM sissejuhatusTekstid ORDER by id", function(err, result) {
+
+    var currentIndex = deleteLoikData.idNumber - 1;
+    var realIndex = currentIndex + 1;
+
+    var currentResult = result[realIndex];
+
+    var nameProperty = currentResult.name;
+    console.log(nameProperty);
+    var sql = "DELETE FROM sissejuhatusTekstid WHERE name = ?";
+    var value = nameProperty;
+
+    con.query(sql, value, function(err, result) {
+      if (err) throw err;
+    });
+  });
+
+  res.redirect("/admin/koorist");
+});
 
 
 

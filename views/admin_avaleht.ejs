@@ -1,6 +1,7 @@
 <%- include partials/head {pageTitle: pageTitle, paiseikoon: paiseikoon} -%>
-<%- include partials/adminnav -%>
-  <form action="/upload/avaleht" method="post" enctype="multipart/form-data" class="page-admin__form" id="avalehtPildid">
+<%- include partials/admin-nav -%>
+<%- include partials/admin-popup -%>
+  <form action="/upload/avalehtPildid" method="post" enctype="multipart/form-data" class="page-admin__form" id="avalehtPildid">
     <h3 class="page-admin__title">Pildid</h3>
     <div class="page-admin__form-box">
       <div class="page-admin__form-field">
@@ -26,9 +27,8 @@
       </div>
     </div>
     <button class="page-admin__btn" type="submit" name="button" id="avalehtPildidBtn">Salvesta</button>
-    <h3 class="page-admin__heading message" id="avalehtPildidMessage"></h3>
   </form>
-  <form action="/admin/avaleht" method="post" class="page-admin__form" id="avalehtTekstid">
+  <form action="/upload/avalehtTekstid" method="post" class="page-admin__form" id="avalehtTekstid">
     <h3 class="page-admin__title">Tekstid</h3>
     <div class="page-admin__form-box">
       <div class="page-admin__form-field">
@@ -75,5 +75,4 @@
       </div>
     </div>
     <button class="page-admin__btn" type="submit" name="button" id="avalehtTekstidBtn">Salvesta</button>
-    <h3 class="page-admin__heading message" id="avalehtTekstidMessage"></h3>
     <%- include partials/footer -%>

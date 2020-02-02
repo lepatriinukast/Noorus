@@ -1,78 +1,39 @@
 <%- include partials/head {pageTitle: pageTitle, paiseikoon: paiseikoon} -%>
-<%- include partials/adminnav -%>
-  <form action="/upload/koorist" method="post" enctype="multipart/form-data" class="page-admin__form" id="kooristPildid">
-    <h3 class="page-admin__title">Pildid</h3>
-    <div class="page-admin__form-box">
-      <div class="page-admin__form-field">
-        <h3 class="page-admin__heading">Avapilt</h3>
-        <input type="file" name="avapilt" id="avapilt" class="page-admin__hidden-input file">
-        <label for="avapilt" class="page-admin__small-btn" id="avapiltLabel">Vali fail</label>
-        <p class="page-admin__input-placeholder" id="avapiltPlaceholder"></p>
-        <img class="page-admin__icon" src="" id="avapiltImg" alt="Avapilt">
-      </div>
-      <div class="page-admin__form-field">
-        <h3 class="page-admin__heading">Dirigent 1</h3>
-        <input type="file" name="dirigent1" id="dirigent1" class="page-admin__hidden-input file">
-        <label for="dirigent1" class="page-admin__small-btn" id="dirigent1Label">Vali fail</label>
-        <p class="page-admin__input-placeholder" id="dirigent1Placeholder"></p>
-        <img class="page-admin__icon" src="" id="dirigent1Img" alt="Dirigent 1">
+<%- include partials/admin-nav -%>
+<%- include partials/admin-popup {sissejuhatusData: sissejuhatusData} -%>
+<form action="/upload/sissejuhatus" method="post" enctype="multipart/form-data" class="page-admin__form" id="kooristSissejuhatus">
+  <h3 class="page-admin__title">Sissejuhatus</h3>
+  <div class="page-admin__form-box">
+    <div class="page-admin__form-field">
+      <h3 class="page-admin__heading">Avapilt</h3>
+      <input type="file" id="avapilt" name="avapilt" class="page-admin__hidden-input file">
+      <label for="avapilt" class="page-admin__small-btn" id="avapiltLabel">Vali fail</label>
+      <p class="page-admin__input-placeholder" id="avapiltPlaceholder"></p>
+      <img class="page-admin__icon" src="<%= avapilt.url %>" id="avapiltImg" alt="Avapilt">
     </div>
     <div class="page-admin__form-field">
-      <h3 class="page-admin__heading">Dirigent 1</h3>
-      <input type="file" name="dirigent2" id="dirigent2" class="page-admin__hidden-input file">
-      <label for="dirigent2" class="page-admin__small-btn" id="dirigent2Label">Vali fail</label>
-      <p class="page-admin__input-placeholder" id="dirigent2Placeholder"></p>
-      <img class="page-admin__icon" src="" id="dirigent2Img" alt="Dirigent 2">
-  </div>
-    <button class="page-admin__btn" type="submit" name="button" id="kooristPildidBtn">Salvesta</button>
-    <h3 class="page-admin__heading message" id="avalehtPildidMessage"></h3>
-  </form>
-  <form action="/admin/avaleht" method="post" class="page-admin__form" id="avalehtTekstid">
-    <h3 class="page-admin__title">Tekstid</h3>
-    <div class="page-admin__form-box">
-      <div class="page-admin__form-field">
-        <h3 class="page-admin__heading">Suur pealkiri</h3>
-        <p class="page-admin__text">EST</p>
-        <input type="text" class="page-admin__input input" name="suurPealkiriEst" id="suurPealkiriEst" value="">
-        <p class="page-admin__text">EN</p>
-        <input type="text" class="page-admin__input input" name="suurPealkiriEn" id="suurPealkiriEn" value="">
-      </div>
-      <div class="page-admin__form-field">
-        <h3 class="page-admin__heading">Jätkupealkiri</h3>
-        <p class="page-admin__text">EST</p>
-        <textarea class="page-admin__input page-admin__text-area input" name="jatkuPealkiriEst" id="jatkuPealkiriEst" rows="1"></textarea>
-        <p class="page-admin__text">EN</p>
-        <textarea class="page-admin__input page-admin__text-area input" name="jatkuPealkiriEn" id="jatkuPealkiriEn" rows="1"></textarea>
-      </div>
-      <div class="page-admin__form-field">
-        <h3 class="page-admin__heading">Sektsiooni pealkiri 1</h3>
-        <p class="page-admin__text">EST</p>
-        <input type="text" class="page-admin__input input" name="sektsiooniPealkiri1Est" id="sektsiooniPealkiri1Est" value="">
-        <p class="page-admin__text">EN</p>
-        <input type="text" class="page-admin__input input" name="sektsiooniPealkiri1En" id="sektsiooniPealkiri1En" value="">
-      </div>
-      <div class="page-admin__form-field">
-        <h3 class="page-admin__heading">Sektsiooni tekst 1</h3>
-        <p class="page-admin__text">EST</p>
-        <textarea class="page-admin__input page-admin__text-area input" name="sektsiooniTekst1Est" id="sektsiooniTekst1Est" rows="1"></textarea>
-        <p class="page-admin__text">EN</p>
-        <textarea class="page-admin__input page-admin__text-area input" name="sektsiooniTekst1En" id="sektsiooniTekst1En" rows="1"></textarea>
-      </div>
-      <div class="page-admin__form-field">
-        <h3 class="page-admin__heading">Sektsiooni pealkiri 2</h3>
-        <p class="page-admin__text">EST</p>
-        <input type="text" class="page-admin__input input" name="sektsiooniPealkiri2Est" id="sektsiooniPealkiri2Est" value="">
-        <p class="page-admin__text">EN</p>
-        <input type="text" class="page-admin__input input" name="sektsiooniPealkiri2En" id="sektsiooniPealkiri2En" value="">
-      </div>
-      <div class="page-admin__form-field">
-        <h3 class="page-admin__heading">Sektsiooni tekst 2</h3>
-        <p class="page-admin__text">EST</p>
-        <textarea class="page-admin__input page-admin__text-area input" name="sektsiooniTekst2Est" id="sektsiooniTekst2Est" rows="1"></textarea>
-        <p class="page-admin__text">EN</p>
-        <textarea class="page-admin__input page-admin__text-area input" name="sektsiooniTekst2En" id="sektsiooniTekst2En" rows="1"></textarea>
-      </div>
+      <h3 class="page-admin__heading">Pealkiri</h3>
+      <p class="page-admin__text">EST</p>
+      <input type="text" class="page-admin__input input" id="pealkiriEst" name="pealkiriEst" value="<%= sissejuhatusData.pealkiri.est %>">
+      <p class="page-admin__text">EN</p>
+      <input type="text" class="page-admin__input input" id="pealkiriEn" name="pealkiriEn" value="<%= sissejuhatusData.pealkiri.en %>">
     </div>
-    <button class="page-admin__btn" type="submit" name="button" id="avalehtTekstidBtn">Salvesta</button>
-    <h3 class="page-admin__heading message" id="avalehtTekstidMessage"></h3>
-    <%- include partials/footer -%>
+  </div>
+  <div class="page-admin__form-box" id="loik-form">
+    <% for (var i = 0; i < sissejuhatusData.loigud.length; i++) { %>
+    <div class="page-admin__form-field loik" id="loik<%= i + 1 %>" data-heading="Lõik">
+      <h3 class="page-admin__heading loik-heading">Lõik <%= i + 1 %></h3>
+      <p class="page-admin__text">EST</p>
+      <textarea class="page-admin__input page-admin__text-area input loik-input-est" id="loikEst<%= i + 1 %>" name="loikEst<%= i + 1 %>" rows="1"><%= sissejuhatusData.loigud[i].est %></textarea>
+      <p class="page-admin__text">EN</p>
+      <textarea class="page-admin__input page-admin__text-area input loik-input-en" id="loikEn<%= i + 1 %>" name="loikEn<%= i + 1 %>" rows="1"><%= sissejuhatusData.loigud[i].en %></textarea>
+      <button class="page-admin__small-btn loik-delete-btn" type="button" id="loikDeleteBtn<%= i + 1 %>" name="loikDeleteBtn<%= i + 1 %>">Kustuta</button>
+    </div>
+    <% } %>
+  </div>
+  <div class="page-admin__form-box">
+    <button class="page-admin__small-btn" type="button" id="loikAddBtn">Lisa lõik</button>
+  </div>
+  <button class="page-admin__btn" type="submit" id="kooristSissejuhatusBtn">Salvesta</button>
+</form>
+<%- include partials/footer -%>

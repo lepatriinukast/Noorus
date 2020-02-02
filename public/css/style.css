@@ -513,7 +513,7 @@ body {
     transition-duration: 0.5s; }
 
 .popup {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
@@ -530,17 +530,23 @@ body {
     transform: translate(-50%, -50%); }
     @media screen and (max-width: 18.75em) {
       .popup__form {
-        width: 30rem; } }
-  .popup__btn {
+        width: 30rem;
+        transform: scale(1.2); } }
+  .popup__button-box {
     position: absolute;
-    top: .5rem;
-    right: 1rem;
-    color: #1A1A1A;
-    cursor: pointer;
+    top: 1rem;
+    right: 1.2rem;
     transition-property: transform;
     transition-duration: .5s; }
-    .popup__btn:hover, .popup__btn:active {
-      transform: scale(1.2); }
+    .popup__button-box:hover, .popup__button-box:active {
+      transform: scale(1.5); }
+  .popup__button {
+    text-decoration: none;
+    color: #1A1A1A;
+    font-size: 1.5rem;
+    cursor: pointer; }
+    .popup__button:focus {
+      outline: 2px blue solid; }
 
 .sidenav {
   position: fixed;
@@ -661,19 +667,24 @@ body {
     .page-admin__link:focus {
       outline: 2px blue solid; }
   .page-admin__btn-box {
-    position: absolute;
+    position: fixed;
     top: 6rem;
     left: 0; }
+  .page-admin__form-btn-box {
+    display: flex;
+    justify-content: space-between; }
   .page-admin__form {
     height: 100%;
     width: 100%;
     font-family: inherit;
     padding-bottom: 3rem; }
   .page-admin__form-box {
+    flex: 0 0 100%;
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    flex-wrap: wrap; }
+    flex-wrap: wrap;
+    margin: 2rem; }
   .page-admin__list-box {
     display: flex;
     justify-content: center;

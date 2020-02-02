@@ -11,11 +11,10 @@ var con = mysql.createConnection({
 
 con.connect(function(err) {
   if (err) throw err;
-  var sql = "INSERT INTO avalehtPildid (name, url) VALUES ?";
+  var sql = "INSERT INTO sissejuhatusTekstid (name, est, en) VALUES ?";
   var values = [
-    ["paiseikoon", "/img/paiseikoon.png"],
-    ["avalehtLogo", "/img/avalehtLogo.png"],
-    ["avalehtTaustapilt", "/img/avalehtTaustapilt.jpg"]
+    ["pealkiri", "weess", "hdoru"],
+    ["loik" + Date.now(), "aaa", "bsd"]
   ];
   con.query(sql, [values], function(err, result) {
     if (err) throw err;

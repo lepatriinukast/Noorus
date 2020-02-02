@@ -1,5 +1,5 @@
 .popup {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
@@ -14,21 +14,31 @@
     @include absCenter;
     @media screen and (max-width: 18.75em) {
       width: 30rem;
-    }
+     transform: scale(1.2);
+   }
   }
 
-  &__btn {
+  &__button-box {
     position: absolute;
-    top: .5rem;
-    right: 1rem;
-    color: $color-grey-dark;
-    cursor: pointer;
+    top: 1rem;
+    right: 1.2rem;
     transition-property: transform;
     transition-duration: .5s;
 
-   &:hover,
-   &:active {
-     transform: scale(1.2);
-   }
+    &:hover,
+    &:active {
+      transform: scale(1.5);
+    }
+  }
+
+  &__button {
+    text-decoration: none;
+    color: $color-grey-dark;
+    font-size: 1.5rem;
+    cursor: pointer;
+
+    &:focus {
+      outline: 2px blue solid;
+    }
   }
 }
