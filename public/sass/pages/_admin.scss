@@ -8,6 +8,12 @@
     margin: 3rem;
   }
 
+  &__subtitle {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1.2rem;
+  }
+
   &__heading {
     font-size: 1.2rem;
     font-weight: 700;
@@ -57,10 +63,29 @@
     }
   }
 
-  &__btn-box {
+  &__fixed-box {
     position: fixed;
+    z-index: 2;
     top: 6rem;
     left: 0;
+  }
+
+  &__btn-box {
+    display: block;
+    position: relative;
+  }
+
+  &__iframe-box {
+    display: block;
+    position: relative;
+    height: 10vh;
+    width: 10vw;
+
+    &:hover {
+      height: 50vh;
+      width: 50vw;
+      @include absCenter;
+    }
   }
 
   &__form-btn-box {

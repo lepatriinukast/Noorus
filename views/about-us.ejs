@@ -1,74 +1,71 @@
 <%- include partials/head-en {pageTitle: pageTitle} -%>
-<%- include partials/navigation-en {currentPage: currentPage} -%>
+<%- include partials/navigation-en {currentPage: currentPage, pealkirjadData: pealkirjadData} -%>
 <nav class="sidenav">
   <ul class="sidenav__list">
-    <li class="sidenav__item sidenav__special-item"><a href="#" class="sidenav__link">About us</a></li>
-    <li class="sidenav__item"><a href="#section-members" class="sidenav__link">Members</a></li>
-    <li class="sidenav__item"><a href="#section-conductors" class="sidenav__link">Conductors</a></li>
-    <li class="sidenav__item"><a href="#section-history" class="sidenav__link">History</a></li>
-    <li class="sidenav__item"><a href="#section-media" class="sidenav__link">Media</a></li>
-    <li class="sidenav__item"><a href="#section-sponsors" class="sidenav__link">Sponsors</a></li>
+    <li class="sidenav__item sidenav__special-item"><a href="#" class="sidenav__link"><%= pealkirjadData[0].en %></a></li>
+    <li class="sidenav__item"><a href="#section-members" class="sidenav__link"><%= pealkirjadData[1].en %></a></li>
+    <li class="sidenav__item"><a href="#section-conductors" class="sidenav__link"><%= pealkirjadData[2].en %></a></li>
+    <li class="sidenav__item"><a href="#section-history" class="sidenav__link"><%= pealkirjadData[3].en %></a></li>
+    <li class="sidenav__item"><a href="#section-media" class="sidenav__link"><%= pealkirjadData[4].en %></a></li>
+    <li class="sidenav__item"><a href="#section-sponsors" class="sidenav__link"><%= pealkirjadData[5].en %></a></li>
   </ul>
 </nav>
 <div class="body-container">
   <header class="section-header">
     <div class="section-header__img"></div>
     <div class="section-header__text-box">
-      <h2 class="heading--secondary heading--purple u-margin-bottom-big">About us</h2>
-      <h3 class="heading--tertiary heading--purple u-margin-bottom-big">Mixed choir Noorus…</h3>
-      <p class="paragraph--small paragraph--purple u-margin-bottom-small">
-        ...is a collection of singing enthusiasts, that as a group first came together more than half a century ago. Due to the restrictions set by its name (Noorus means "Youth" in English), and because sadly, none of us can be young for more than
-        30-40 years, the choir's membership is an ever-changing entity. New "young" singers are auditioned every autumn and winter, regardless of their gender, occupation and marital status. Certain prerequisites apply however, such as an aspiration to sing and an ear
-        for music. Of course it never hurts, if you can handle a little prima vista or if you are punctual about attending rehearsals and passionate about performing on stage.</p>
+      <h2 class="heading--secondary heading--purple u-margin-bottom-big"><%= pealkirjadData[0].en %></h2>
+      <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= sissejuhatusData.pealkiri.en %></h3>
+      <div class="section-header__paragraphs">
+        <% for (var i = 0; i < sissejuhatusData.loigud.length; i++) {
+          %> <p class="paragraph--small paragraph--purple"><%= sissejuhatusData.loigud[i].en %></p>
+      <% } %>
+      </div>
     </div>
   </header>
   <section class="section-liikmed" id="section-members">
     <div class="section-liikmed__container">
-      <h2 class="heading--secondary heading--purple u-margin-bottom-big">Members</h2>
-      <p class="paragraph--small paragraph--purple u-margin-bottom-big">A singer of mixed choir Noorus is characterised by unparalleled concentration levels when rehearsing, vast amounts of sharpness when attending choir camps, and limitless joy and
-        passion when performing on stage. Furthermore, all of our members have more than perfect pitch and boast deep academic knowledge of music theory. Everyone of us has a prodigy's memory and not one piece shall ever be forgotten once learned.
-        So, if every once in a while an instance should occur, in which a simple harmonic minor scale proves to be too difficult to sing- do not be fooled! It is just that our singers are much too talented for this kind of children's play.</p>
-      <div class="section-liikmed__text-box">
-        <div class="section-liikmed__small-box">
-          <h3 class="heading--tertiary heading--purple u-margin-bottom-big">The soprano voice group</h3>
-          <p class="paragraph--small paragraph--purple u-margin-bottom-big">...brings together a most gracious set of beauty queens, whose voices are the sweetest and highest. Their song is a gleeful glimpse of sun on wind-polished crystals, softly
-            moistened by fresh snowmelt. Each and every one of them is a shimmering star in the limitless expanse of choir singing, glimmering and glowing brightly until the soul-inspiring melodies turn into an eternal bliss. </p>
-        </div>
-        <div class="section-liikmed__small-box">
-          <h3 class="heading--tertiary heading--purple u-margin-bottom-big">The altos'</h3>
-          <p class="paragraph--small paragraph--purple u-margin-bottom-big">warm and mild timbre embarks the listeners on a trip to the winding pathways of childhood. It provides a motherly sense of trust and security, which can sometimes seem so
-            scarce in our world today. The voices of our altos wrap you in a warm cashmere scarf, which leaves you sensing the sunny warmth of a sunny summer afternoon on the wooded meadows of our dear homeland.</p>
-        </div>
+      <h2 class="heading--secondary heading--purple u-margin-bottom-big"><%= pealkirjadData[1].en %></h2>
+      <div class="section-header__paragraphs">
+        <% for (var i = 0; i < liikmedData.loigud.length; i++) {
+          %> <p class="paragraph--small paragraph--purple"><%= liikmedData.loigud[i].en %></p>
+      <% } %>
       </div>
       <div class="section-liikmed__text-box">
         <div class="section-liikmed__small-box">
-          <h3 class="heading--tertiary heading--purple u-margin-bottom-big">The tenor group</h3>
-          <p class="paragraph--small paragraph--purple u-margin-bottom-big">...is only made up of world-class soloists, which every opera house in the world would be lucky to have on their payroll. Their timber is like the dramatic cry of a faun
-            awaiting death, or like a lovely poem, that a well-rested knight has eagerly composed for his sweetheart. Not a single role in the opera world is such that our tenors cannot perfectly interpret it for the audience..</p>
+          <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= liikmedData.haaleruhmaNimed[0].en %></h3>
+          <p class="paragraph--small paragraph--purple u-margin-bottom-big"><%= liikmedData.haaleruhmaTutvustused[0].en %></p>
         </div>
         <div class="section-liikmed__small-box">
-          <h3 class="heading--tertiary heading--purple u-margin-bottom-big">Basses and baritones</h3>
-          <p class="paragraph--small paragraph--purple u-margin-bottom-big">...with their strict and powerful war cry can pierce the bones and muscles of every rival. Their strong and masculine voices carry the responsibility of being the backbone,
-            base and foundation of the choir. They stand steadfast and firm like Atlas, carrying the whole weight of the world on their shoulders.</p>
+          <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= liikmedData.haaleruhmaNimed[1].en %></h3>
+          <p class="paragraph--small paragraph--purple u-margin-bottom-big"><%= liikmedData.haaleruhmaTutvustused[1].en %></p>
+        </div>
+      </div>
+      <div class="section-liikmed__text-box">
+        <div class="section-liikmed__small-box">
+          <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= liikmedData.haaleruhmaNimed[2].en %></h3>
+          <p class="paragraph--small paragraph--purple u-margin-bottom-big"><%= liikmedData.haaleruhmaTutvustused[2].en %></p>
+        </div>
+        <div class="section-liikmed__small-box">
+          <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= liikmedData.haaleruhmaNimed[3].en %></h3>
+          <p class="paragraph--small paragraph--purple u-margin-bottom-big"><%= liikmedData.haaleruhmaTutvustused[3].en %></p>
         </div>
       </div>
       <div class="section-liikmed__smaller-box">
-        <h3 class="heading--tertiary heading--purple u-margin-bottom-big">The spirit of Noorus is embodied by:</h3>
-        <p class="paragraph--small paragraph--purple u-margin-bottom-big"><strong>Sopranos - </strong>Heidi Pähn, Kaisa Laht, Kati Päike, Katri-Helena Siirak, Katrin-Kriss Siibak, Mari Kareda, Marilis Aasa, Sandra Laura Luhtein, Tene-Riin
-          Vaarmann</p>
-        <p class="paragraph--small paragraph--purple u-margin-bottom-big"><strong>Altos - </strong>Alexandra Anett Sannik, Ann Tammoja, Grete Taro, Helen Kommussar, Ingrid Põldoja, Juuli Puusepp, Mari-Liis Dolenko, Merit Rist, Pille Adra, Piret
-          Lepik, Signe Luuk</p>
-        <p class="paragraph--small paragraph--purple u-margin-bottom-big"> <strong>Tenors - </strong>Ake Lang, Artur Laasik, Sander Paling, Tõnis Sarap</p>
-        <p class="paragraph--small paragraph--purple u-margin-bottom-big"><strong>Basses/baritones - </strong>Adam Cullen, Asko Aasa, Johannes-Madis Aasmäe, Madis Linnamägi, Martin Miido, Reimo Piir</p>
+        <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= liikmedData.lauljadPealkiri.en %></h3>
+        <p class="paragraph--small paragraph--purple u-margin-bottom-big"><strong>Sopranos - </strong><%= liikmedData.sopranid %></p>
+        <p class="paragraph--small paragraph--purple u-margin-bottom-big"><strong>Altos - </strong><%= liikmedData.aldid %></p>
+        <p class="paragraph--small paragraph--purple u-margin-bottom-big"> <strong>Tenors - </strong><%= liikmedData.tenorid %></p>
+        <p class="paragraph--small paragraph--purple u-margin-bottom-big"><strong>Basses/baritones - </strong><%= liikmedData.bassid %></p>
       </div>
       <div class="section-liikmed__smaller-box">
-        <h3 class="heading--tertiary heading--purple u-margin-bottom-big">The most famous of our alumni:</h3>
-        <p class="paragraph--small paragraph--purple">Anneli Peebo, Boris Lehtlaan, Valdur Laid, Priit Pajusaar, Imre Sooäär, Aivar Surva, Tauri Tallermaa, Krista Lensin, Mikk Üleoja, Sulo Tintse, Priit Rebane ja paljud, väga paljud teised.</p>
+        <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= liikmedData.vilistlastePealkiri.en %></h3>
+        <p class="paragraph--small paragraph--purple"><%= liikmedData.vilistlasteNimekiri.en %></p>
       </div>
     </div>
   </section>
   <section class="section-dirigendid" id="section-conductors">
-    <h2 class="heading--secondary heading--purple">Conductors</h2>
+    <h2 class="heading--secondary heading--purple"><%= pealkirjadData[2].en %></h2>
     <div class="section-dirigendid__container">
       <div class="section-dirigendid__text-box">
         <h3 class="heading--tertiary heading--purple u-margin-bottom-big">Maarja Helstein</h3>
@@ -99,7 +96,7 @@
     </div>
   </section>
   <section class="section-ajalugu" id="section-history">
-    <h2 class="heading--secondary heading--purple">History</h2>
+    <h2 class="heading--secondary heading--purple"><%= pealkirjadData[3].en %></h2>
     <div class="section-ajalugu__container">
       <h3 class="heading--tertiary heading--purple u-margin-bottom-big">60 years of youthful Noorus:</h3>
       <ul class="list">
@@ -157,7 +154,7 @@ In 2013, A new concert series called "Luuletajad Eesti Muusikas" ("Poets in Esto
     </div>
   </section>
   <section class="section-meedia" id="section-media">
-    <h2 class="heading--secondary heading--purple">Media</h2>
+    <h2 class="heading--secondary heading--purple"><%= pealkirjadData[4].en %></h2>
     <div class="section-meedia__container">
       <div class="section-meedia__iframe">
         <iframe class="iframe" src="https://www.youtube.com/embed/pQvOhzc4uGo" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
@@ -178,7 +175,7 @@ In 2013, A new concert series called "Luuletajad Eesti Muusikas" ("Poets in Esto
     </div>
   </section>
   <section class="section-toetajad" id="section-sponsors">
-    <h2 class="heading--secondary heading--purple">Sponsors</h2>
+    <h2 class="heading--secondary heading--purple"><%= pealkirjadData[5].en %></h2>
     <div class="section-toetajad__container">
       <div class="section-toetajad__logo-box">
         <a href="http://www.kooriyhing.ee/"><img src="/img/logo1.png" alt="" class="section-toetajad__logo"></a>
@@ -198,5 +195,5 @@ In 2013, A new concert series called "Luuletajad Eesti Muusikas" ("Poets in Esto
     </div>
   </section>
 </div>
-<%- include partials/footnav-en -%>
+<%- include partials/footnav-en {pealkirjadData: pealkirjadData} -%>
 <%- include partials/footer -%>

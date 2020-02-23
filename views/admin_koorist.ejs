@@ -1,6 +1,21 @@
 <%- include partials/head {pageTitle: pageTitle, paiseikoon: paiseikoon} -%>
-<%- include partials/admin-nav -%>
+<%- include partials/admin-nav {routeName: routeName} -%>
 <%- include partials/admin-popup {sissejuhatusData: sissejuhatusData} -%>
+<form action="/upload/pealkirjad" method="post" enctype="multipart/form-data" class="page-admin__form" id="kooristPealkirjad">
+  <h3 class="page-admin__title">Sektsioonipealkirjad</h3>
+  <div class="page-admin__form-box" id="pealkiri-form">
+    <% for (var i = 0; i < pealkirjadData.length; i++) { %>
+    <div class="page-admin__form-field pealkiri" id="pealkiri<%= i + 1 %>" data-heading="Pealkiri">
+      <h3 class="page-admin__heading pealkiri-heading">Pealkiri <%= i + 1 %></h3>
+      <p class="page-admin__text">EST</p>
+      <input type="text" class="page-admin__input input" id="pealkiriEst<%= i + 1 %>" name="pealkiriEst<%= i + 1 %>" value="<%= pealkirjadData[i].est %>">
+      <p class="page-admin__text">EN</p>
+      <input type="text" class="page-admin__input input" id="pealkiriEn<%= i + 1 %>" name="pealkiriEn<%= i + 1 %>" value="<%= pealkirjadData[i].en %>">
+    </div>
+    <% } %>
+  </div>
+  <button class="page-admin__btn" type="submit" id="pealkiriBtn">Salvesta</button>
+</form>
 <form action="/upload/sissejuhatus" method="post" enctype="multipart/form-data" class="page-admin__form" id="kooristSissejuhatus">
   <h3 class="page-admin__title">Sissejuhatus</h3>
   <div class="page-admin__form-box">
@@ -14,26 +29,191 @@
     <div class="page-admin__form-field">
       <h3 class="page-admin__heading">Pealkiri</h3>
       <p class="page-admin__text">EST</p>
-      <input type="text" class="page-admin__input input" id="pealkiriEst" name="pealkiriEst" value="<%= sissejuhatusData.pealkiri.est %>">
+      <input type="text" class="page-admin__input input" id="sissejuhatusPealkiriEst" name="sissejuhatusPealkiriEst" value="<%= sissejuhatusData.pealkiri.est %>">
       <p class="page-admin__text">EN</p>
-      <input type="text" class="page-admin__input input" id="pealkiriEn" name="pealkiriEn" value="<%= sissejuhatusData.pealkiri.en %>">
+      <input type="text" class="page-admin__input input" id="sissejuhatusPealkiriEn" name="sissejuhatusPealkiriEn" value="<%= sissejuhatusData.pealkiri.en %>">
     </div>
   </div>
-  <div class="page-admin__form-box" id="loik-form">
+  <div class="page-admin__form-box" id="sissejuhatusLoik-form">
     <% for (var i = 0; i < sissejuhatusData.loigud.length; i++) { %>
-    <div class="page-admin__form-field loik" id="loik<%= i + 1 %>" data-heading="Lõik">
-      <h3 class="page-admin__heading loik-heading">Lõik <%= i + 1 %></h3>
+    <div class="page-admin__form-field sissejuhatusLoik" id="sissejuhatusLoik<%= i + 1 %>" data-heading="Lõik">
+      <h3 class="page-admin__heading sissejuhatusLoik-heading">Lõik <%= i + 1 %></h3>
       <p class="page-admin__text">EST</p>
-      <textarea class="page-admin__input page-admin__text-area input loik-input-est" id="loikEst<%= i + 1 %>" name="loikEst<%= i + 1 %>" rows="1"><%= sissejuhatusData.loigud[i].est %></textarea>
+      <textarea type="text" class="page-admin__input page-admin__text-area input sissejuhatusLoik-input-est" id="sissejuhatusLoikEst<%= i + 1 %>" name="sissejuhatusLoikEst<%= i + 1 %>" value="<%= sissejuhatusData.loigud[i].est %>"
+        rows="1"><%= sissejuhatusData.loigud[i].est %></textarea>
       <p class="page-admin__text">EN</p>
-      <textarea class="page-admin__input page-admin__text-area input loik-input-en" id="loikEn<%= i + 1 %>" name="loikEn<%= i + 1 %>" rows="1"><%= sissejuhatusData.loigud[i].en %></textarea>
-      <button class="page-admin__small-btn loik-delete-btn" type="button" id="loikDeleteBtn<%= i + 1 %>" name="loikDeleteBtn<%= i + 1 %>">Kustuta</button>
+      <textarea type="text" class="page-admin__input page-admin__text-area input sissejuhatusLoik-input-en" id="sissejuhatusLoikEn<%= i + 1 %>" name="sissejuhatusLoikEn<%= i + 1 %>" rows="1"
+        <%= sissejuhatusData.loigud[i].en %>><%= sissejuhatusData.loigud[i].en %></textarea>
+      <button class="page-admin__small-btn sissejuhatusLoik-delete-btn" type="button" id="sissejuhatusLoikDeleteBtn<%= i + 1 %>" name="sissejuhatusLoikDeleteBtn<%= i + 1 %>">Kustuta</button>
     </div>
     <% } %>
   </div>
   <div class="page-admin__form-box">
-    <button class="page-admin__small-btn" type="button" id="loikAddBtn">Lisa lõik</button>
+    <button class="page-admin__small-btn" type="button" id="sissejuhatusLoikAddBtn">Lisa lõik</button>
   </div>
   <button class="page-admin__btn" type="submit" id="kooristSissejuhatusBtn">Salvesta</button>
+</form>
+<form action="/upload/liikmed" method="post" enctype="multipart/form-data" class="page-admin__form" id="kooristLiikmed">
+  <h3 class="page-admin__title">Liikmed</h3>
+  <div class="page-admin__form-box" id="liikmedLoik-form">
+    <% for (var i = 0; i < liikmedData.loigud.length; i++) { %>
+    <div class="page-admin__form-field liikmedLoik" id="liikmedLoik<%= i + 1 %>" data-heading="Sissejuhatav lõik">
+      <h3 class="page-admin__heading liikmedLoik-heading">Sissejuhatav lõik <%= i + 1 %></h3>
+      <p class="page-admin__text">EST</p>
+      <textarea type="text" class="page-admin__input page-admin__text-area input liikmedLoik-input-est" id="liikmedLoikEst<%= i + 1 %>" name="liikmedLoikEst<%= i + 1 %>" rows="1"><%= liikmedData.loigud[i].est %></textarea>
+      <p class="page-admin__text">EN</p>
+      <textarea type="text" class="page-admin__input page-admin__text-area input liikmedLoik-input-en" id="liikmedLoikEn<%= i + 1 %>" name="liikmedLoikEn<%= i + 1 %>" rows="1"><%= liikmedData.loigud[i].en %></textarea>
+      <button class="page-admin__small-btn liikmedLoik-delete-btn" type="button" id="liikmedLoikDeleteBtn<%= i + 1 %>" name="liikmedLoikDeleteBtn<%= i + 1 %>">Kustuta</button>
+    </div>
+    <% } %>
+  </div>
+  <div class="page-admin__form-box">
+    <button class="page-admin__small-btn" type="button" id="liikmedLoikAddBtn">Lisa lõik</button>
+  </div>
+  <div class="page-admin__form-box">
+    <div class="page-admin__form-field">
+      <h3 class="page-admin__heading">Häälerühma nimi 1</h3>
+      <p class="page-admin__text">EST</p>
+      <input type="text" class="page-admin__input input" name="haaleruhmaNimiEst1" id="haaleruhmaNimiEst1" value="<%= liikmedData.haaleruhmaNimed[0].est %>">
+      <p class="page-admin__text">EN</p>
+      <input type="text" class="page-admin__input input" name="haaleruhmaNimiEn1" id="haaleruhmaNimiEn1" value="<%= liikmedData.haaleruhmaNimed[0].en %>">
+    </div>
+    <div class="page-admin__form-field">
+      <h3 class="page-admin__heading">Häälerühma nimi 2</h3>
+      <p class="page-admin__text">EST</p>
+      <input type="text" class="page-admin__input input" name="haaleruhmaNimiEst2" id="haaleruhmaNimiEst2" value="<%= liikmedData.haaleruhmaNimed[1].est %>">
+      <p class="page-admin__text">EN</p>
+      <input type="text" class="page-admin__input input" name="haaleruhmaNimiEn2" id="haaleruhmaNimiEn2" value="<%= liikmedData.haaleruhmaNimed[1].en %>">
+    </div>
+    <div class="page-admin__form-field">
+      <h3 class="page-admin__heading">Häälerühma nimi 3</h3>
+      <p class="page-admin__text">EST</p>
+      <input type="text" class="page-admin__input input" name="haaleruhmaNimiEst3" id="haaleruhmaNimiEst3" value="<%= liikmedData.haaleruhmaNimed[2].est %>">
+      <p class="page-admin__text">EN</p>
+      <input type="text" class="page-admin__input input" name="haaleruhmaNimiEn3" id="haaleruhmaNimiEn3" value="<%= liikmedData.haaleruhmaNimed[2].en %>">
+    </div>
+    <div class="page-admin__form-field">
+      <h3 class="page-admin__heading">Häälerühma nimi 4</h3>
+      <p class="page-admin__text">EST</p>
+      <input type="text" class="page-admin__input input" name="haaleruhmaNimiEst4" id="haaleruhmaNimiEst4" value="<%= liikmedData.haaleruhmaNimed[3].est %>">
+      <p class="page-admin__text">EN</p>
+      <input type="text" class="page-admin__input input" name="haaleruhmaNimiEn4" id="haaleruhmaNimiEn4" value="<%= liikmedData.haaleruhmaNimed[3].en %>">
+    </div>
+    <div class="page-admin__form-field">
+      <h3 class="page-admin__heading">Häälerühma tutvustus 1</h3>
+      <p class="page-admin__text">EST</p>
+      <textarea class="page-admin__input page-admin__text-area input" name="haaleruhmaTutvustusEst1" id="haaleruhmaTutvustusEst1" rows="1"><%= liikmedData.haaleruhmaTutvustused[0].est %></textarea>
+      <p class="page-admin__text">EN</p>
+      <textarea class="page-admin__input page-admin__text-area input" name="haaleruhmaTutvustusEn1" id="haaleruhmaTutvustusEn1" rows="1"><%= liikmedData.haaleruhmaTutvustused[0].en %></textarea>
+    </div>
+    <div class="page-admin__form-field">
+      <h3 class="page-admin__heading">Häälerühma tutvustus 2</h3>
+      <p class="page-admin__text">EST</p>
+      <textarea class="page-admin__input page-admin__text-area input" name="haaleruhmaTutvustusEst2" id="haaleruhmaTutvustusEst2" rows="1"><%= liikmedData.haaleruhmaTutvustused[1].est %></textarea>
+      <p class="page-admin__text">EN</p>
+      <textarea class="page-admin__input page-admin__text-area input" name="haaleruhmaTutvustusEn2" id="haaleruhmaTutvustusEn2" rows="1"><%= liikmedData.haaleruhmaTutvustused[1].en %></textarea>
+    </div>
+    <div class="page-admin__form-field">
+      <h3 class="page-admin__heading">Häälerühma tutvustus 3</h3>
+      <p class="page-admin__text">EST</p>
+      <textarea class="page-admin__input page-admin__text-area input" name="haaleruhmaTutvustusEst3" id="haaleruhmaTutvustusEst3" rows="1"><%= liikmedData.haaleruhmaTutvustused[2].est %></textarea>
+      <p class="page-admin__text">EN</p>
+      <textarea class="page-admin__input page-admin__text-area input" name="haaleruhmaTutvustusEn3" id="haaleruhmaTutvustusEn3" rows="1"><%= liikmedData.haaleruhmaTutvustused[2].en %></textarea>
+    </div>
+    <div class="page-admin__form-field">
+      <h3 class="page-admin__heading">Häälerühma tutvustus 4</h3>
+      <p class="page-admin__text">EST</p>
+      <textarea class="page-admin__input page-admin__text-area input" name="haaleruhmaTutvustusEst4" id="haaleruhmaTutvustusEst4" rows="1"><%= liikmedData.haaleruhmaTutvustused[3].est %></textarea>
+      <p class="page-admin__text">EN</p>
+      <textarea class="page-admin__input page-admin__text-area input" name="haaleruhmaTutvustusEn4" id="haaleruhmaTutvustusEn4" rows="1"><%= liikmedData.haaleruhmaTutvustused[3].en %></textarea>
+    </div>
+  </div>
+  <div class="page-admin__form-box">
+    <div class="page-admin__form-field">
+      <h3 class="page-admin__heading">Lauljate nimekirja pealkiri</h3>
+      <p class="page-admin__text">EST</p>
+      <input type="text" class="page-admin__input input" name="lauljadPealkiriEst" id="lauljadPealkiriEst" value="<%= liikmedData.lauljadPealkiri.est %>">
+      <p class="page-admin__text">EN</p>
+      <input type="text" class="page-admin__input input" name="lauljadPealkiriEn" id="lauljadPealkiriEn" value="<%= liikmedData.lauljadPealkiri.en %>">
+    </div>
+  </div>
+  <div class="page-admin__form-box">
+    <div class="page-admin__form-field">
+      <h3 class="page-admin__heading">Sopranid</h3>
+      <textarea class="page-admin__input page-admin__text-area input" name="sopranid" id="sopranid" rows="1"><%= liikmedData.sopranid %></textarea>
+    </div>
+    <<div class="page-admin__form-field">
+      <h3 class="page-admin__heading">Aldid</h3>
+      <textarea class="page-admin__input page-admin__text-area input" name="aldid" id="aldid" rows="1"><%= liikmedData.aldid %></textarea>
+  </div>
+  <div class="page-admin__form-field">
+    <h3 class="page-admin__heading">Tenorid</h3>
+    <textarea class="page-admin__input page-admin__text-area input" name="tenorid" id="tenorid" rows="1"><%= liikmedData.tenorid %></textarea>
+  </div>
+  <div class="page-admin__form-field">
+    <h3 class="page-admin__heading">Bassid/baritonid</h3>
+    <textarea class="page-admin__input page-admin__text-area input" name="bassid" id="bassid" rows="1"><%= liikmedData.bassid %></textarea>
+  </div>
+  </div>
+  <div class="page-admin__form-box">
+    <div class="page-admin__form-field">
+      <h3 class="page-admin__heading">Vilistlaste nimekirja pealkiri</h3>
+      <p class="page-admin__text">EST</p>
+      <input type="text" class="page-admin__input input" name="vilistlastePealkiriEst" id="vilistlastePealkiriEst" value="<%= liikmedData.vilistlastePealkiri.est %>">
+      <p class="page-admin__text">EN</p>
+      <input type="text" class="page-admin__input input" name="vilistlastePealkiriEn" id="vilistlastePealkiriEn" value="<%= liikmedData.vilistlastePealkiri.en %>">
+    </div>
+    <div class="page-admin__form-field">
+      <h3 class="page-admin__heading">Vilistlaste nimekiri</h3>
+      <p class="page-admin__text">EST</p>
+      <textarea class="page-admin__input page-admin__text-area input" name="vilistlasteNimekiriEst" id="vilistlasteNimekiriEst" rows="1"><%= liikmedData.vilistlasteNimekiri.est %></textarea>
+      <p class="page-admin__text">EN</p>
+      <textarea class="page-admin__input page-admin__text-area input" name="vilistlasteNimekiriEn" id="vilistlasteNimekiriEn" rows="1"><%= liikmedData.vilistlasteNimekiri.en %></textarea>
+    </div>
+  </div>
+  <button class="page-admin__btn" type="submit" id="kooristLiikmedBtn">Salvesta</button>
+</form>
+<form action="/upload/dirigendid" method="post" enctype="multipart/form-data" class="page-admin__form" id="kooristDirigendid">
+  <h3 class="page-admin__title">Dirigendid</h3>
+  <% for (var a = 0; a < dirigendidData.length; a++) { %>
+  <div class="page-admin__form-wrapper" id="dirigendid-form">
+    <div class="page-admin__subform dirigendid-subform" name="dirigendid<%= a + 1 %>Subform" id="dirigendid<%= a + 1 %>Subform">
+      <h2 class="page-admin__subheading">Dirigent <%= a + 1 %></h2>
+      <div class="page-admin__form-box">
+        <div class="page-admin__form-field">
+          <h3 class="page-admin__heading">Portree</h3>
+          <input type="file" id="portree<%= a + 1 %>" name="portree<%= a + 1 %>" class="page-admin__hidden-input file portree">
+          <label for="portree<%= a + 1 %>" class="page-admin__small-btn" id="portree<%= a + 1 %>Label">Vali fail</label>
+          <p class="page-admin__input-placeholder" id="portree<%= a + 1 %>Placeholder"><%= portreed[a].filename %></p>
+          <img class="page-admin__icon" src="<%= portreed[a].url %>" id="portree<%= a + 1 %>Img" alt="Portree<%= a + 1 %>">
+        </div>
+        <div class="page-admin__form-field">
+          <h3 class="page-admin__heading">Nimi</h3>
+          <input type="text" class="page-admin__input input dirigendidNimi" name="dirigendid<%= a + 1 %>Nimi" id="dirigendid<%= a + 1 %>Nimi" value="<%= %>">
+        </div>
+      </div>
+      <div class="page-admin__form-box dirigendidLoik-form" id="dirigendid<%= a + 1 %>Loik-form">
+        <% for (var i = 0; i < dirigendidData[a].loigud.length; i++) { %>
+        <div class="page-admin__form-field dirigendid<%= a + 1 %>Loik" id="dirigendid<%= a + 1 %>Loik<%= i + 1 %>" data-heading="Lõik">
+          <h3 class="page-admin__heading dirigendid<%= a + 1 %>Loik-heading">Lõik <%= i + 1 %></h3>
+          <p class="page-admin__text">EST</p>
+          <textarea type="text" class="page-admin__input page-admin__text-area input dirigendid<%= a + 1 %>Loik-input-est" id="dirigendid<%= a + 1 %>LoikEst<%= i + 1 %>" name="dirigendid<%= a + 1 %>LoikEst<%= i + 1 %>" rows="1"></textarea>
+          <p class="page-admin__text">EN</p>
+          <textarea type="text" class="page-admin__input page-admin__text-area input dirigendid<%= a + 1 %>Loik-input-en" id="dirigendid<%= a + 1 %>LoikEn<%= i + 1 %>" name="dirigendid<%= a + 1 %>LoikEn<%= i + 1 %>" rows="1"></textarea>
+          <button class="page-admin__small-btn dirigendid<%= a + 1 %>Loik-delete-btn" type="button" id="dirigendid<%= a + 1 %>LoikDeleteBtn<%= i + 1 %>" name="dirigendid<%= a + 1 %>LoikDeleteBtn<%= i + 1 %>">Kustuta</button>
+        </div>
+        <% } %>
+      </div>
+      <div class="page-admin__form-box">
+        <button class="page-admin__small-btn dirigendidLoik-add-btn" type="button" id="dirigendid<%= a + 1 %>LoikAddBtn">Lisa lõik</button>
+      </div>
+      <div class="page-admin__form-box">
+        <button class="page-admin__small-btn dirigendid-delete-btn" type="button" id="dirigendid<%= a + 1 %>DeleteBtn">Kustuta dirigent</button>
+      </div>
+      <% } %>
+      <button class="page-admin__btn" id="dirigendidAddBtn">Lisa dirigent</button>
+    </div>
+  </div>
+  <button class="page-admin__btn" type="submit" id="kooristDirigendidBtn">Salvesta</button>
 </form>
 <%- include partials/footer -%>

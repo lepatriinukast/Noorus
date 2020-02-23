@@ -11,10 +11,9 @@ var con = mysql.createConnection({
 
 con.connect(function(err) {
   if (err) throw err;
-  var sql = "INSERT INTO sissejuhatusTekstid (name, est, en) VALUES ?";
+  var sql = "INSERT INTO dirigendidPildid (name, url) VALUES ?";
   var values = [
-    ["pealkiri", "weess", "hdoru"],
-    ["loik" + Date.now(), "aaa", "bsd"]
+    ["a", "a"]
   ];
   con.query(sql, [values], function(err, result) {
     if (err) throw err;

@@ -5,10 +5,13 @@
   <img class="logo__img" src="<%= avalehtPildidData.avalehtLogo.url %>" alt="The logo of Mixed choir Noorus">
 </div>
 <header class="header" style="background-image: linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6)), url('<%= avalehtPildidData.avalehtTaustapilt.url %>')">
+  <div class="header__btn-box">
+    <a class="btn btn--main btn--light" href="https://www.hooandja.ee/projekt/n60rus-juubelikontserdid-cd-raamat">N60RUS at HOOANDJA!</a>
+  </div>
   <div class="header__heading-box">
     <h1 class="heading--purple heading--primary"><%= avalehtTekstidData.suurPealkiri.en %></h1>
     <p class="paragraph--large paragraph--purple header__paragraph"><%= avalehtTekstidData.jatkuPealkiri.en %></p>
-    <a href="/en/about-us" class="btn btn--main">Read more</a>
+    <a href="/en/about-us" class="btn btn--main btn--dark">Read more</a>
   </div>
 </header>
 <main class="homepage__container">
@@ -55,7 +58,7 @@
         </div>
         <div class="card__lower">
           <h3 class="heading--white heading--tertiary">Noorus 60</h3>
-          <a href="/en/events#1" class="btn btn--main">Read more</a>
+          <a href="/en/events#1" class="btn btn--main btn--dark">Read more</a>
         </div>
       </div>
     </div>
@@ -64,7 +67,7 @@
     <div class="section-history__container">
       <h2 class="heading--purple heading--secondary u-margin-bottom-big"><%= avalehtTekstidData.sektsiooniPealkiri2.en %></h2>
       <p class="paragraph--large paragraph--purple header__paragraph u-margin-bottom-big"><%= avalehtTekstidData.sektsiooniTekst2.en %></p>
-      <a href="/en/events#past-events" class="btn btn--main">Read more</a>
+      <a href="/en/events#past-events" class="btn btn--main btn--dark">Read more</a>
     </div>
   </section>
 </main>

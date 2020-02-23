@@ -17,6 +17,12 @@
     flex-wrap: wrap;
   }
 
+  &__paragraphs {
+    p:not(:last-child) {
+      margin-bottom: 1rem;
+    }
+  }
+
   &__img {
     flex: 2 2 50rem;
     margin-right: 3rem;

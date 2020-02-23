@@ -2,12 +2,19 @@
 
 .header {
   position: relative;
-  min-height: 65rem;
-  min-height: 100vh;
+  height: 65rem;
+  height: 100vh;
   margin-top: -6rem;
+  background-image: linear-gradient(rgba($color-white, .6), rgba($color-white, .6)), url("../img/noorus1.jpg");
   background-size: cover;
   background-position: 50% 35%;
   background-repeat: no-repeat;
+
+  &__btn-box {
+    position: absolute;
+    top: 8rem;
+    right: 2rem;
+  }
 
   &__heading-box {
     text-align: center;

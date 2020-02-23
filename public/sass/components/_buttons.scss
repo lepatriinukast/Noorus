@@ -8,7 +8,7 @@
     font-family: inherit;
     text-decoration: none;
     border: none;
-    transition-property: transform, background-color;
+    transition-property: transform;
     transition-duration: 0.5s;
     cursor: pointer;
 
@@ -33,11 +33,20 @@
     font-weight: 700;
     border-radius: 10px;
     @include boxShadow;
+  }
+
+  &--dark {
+    background-color: $color-primary-dark;
+    transition-property: background-color;
 
     &:active,
     &:hover {
       background-color: $color-primary-light;
     }
+  }
+
+  &--light {
+    background-color: $color-primary-light;
   }
 
 // The small dropdown button

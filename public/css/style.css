@@ -150,7 +150,7 @@ body {
   font-family: inherit;
   text-decoration: none;
   border: none;
-  transition-property: transform, background-color;
+  transition-property: transform;
   transition-duration: 0.5s;
   cursor: pointer; }
   .btn:active, .btn:hover, .btn:link:active, .btn:link:hover, .btn:visited:active, .btn:visited:hover {
@@ -167,8 +167,15 @@ body {
   font-weight: 700;
   border-radius: 10px;
   box-shadow: 0 2px 5px rgba(26, 26, 26, 0.5); }
-  .btn--main:active, .btn--main:hover {
+
+.btn--dark {
+  background-color: #32093F;
+  transition-property: background-color; }
+  .btn--dark:active, .btn--dark:hover {
     background-color: #5F045F; }
+
+.btn--light {
+  background-color: #5F045F; }
 
 .btn--menu {
   position: relative;
@@ -185,16 +192,16 @@ body {
 
 .card {
   display: inline-block;
-  height: 45rem;
-  width: 35rem;
+  height: 35rem;
+  width: 45rem;
   background-color: #E0E0E0;
   border-radius: 10px;
   overflow: hidden;
   box-shadow: 0 2px 5px rgba(26, 26, 26, 0.5); }
   @media screen and (max-width: 35em) {
     .card {
-      height: 36rem;
-      width: 28rem; } }
+      height: 28rem;
+      width: 36rem; } }
   .card__upper {
     height: 60%;
     width: 100%;
@@ -209,8 +216,11 @@ body {
     align-items: center;
     justify-content: space-between;
     height: 40%;
-    padding: 3rem;
+    padding: 2rem 2rem 3rem;
     text-align: center; }
+    @media screen and (max-width: 35em) {
+      .card__lower {
+        padding: 1rem 1rem 2rem; } }
 
 .dropdown {
   position: absolute;
@@ -597,12 +607,17 @@ body {
 
 .header {
   position: relative;
-  min-height: 65rem;
-  min-height: 100vh;
+  height: 65rem;
+  height: 100vh;
   margin-top: -6rem;
+  background-image: linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6)), url("../img/noorus1.jpg");
   background-size: cover;
   background-position: 50% 35%;
   background-repeat: no-repeat; }
+  .header__btn-box {
+    position: absolute;
+    top: 8rem;
+    right: 2rem; }
   .header__heading-box {
     text-align: center;
     position: absolute;
@@ -634,6 +649,10 @@ body {
     font-size: 2.5rem;
     font-weight: 700;
     margin: 3rem; }
+  .page-admin__subtitle {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1.2rem; }
   .page-admin__heading {
     font-size: 1.2rem;
     font-weight: 700;
@@ -666,10 +685,26 @@ body {
     color: #FFFFFF; }
     .page-admin__link:focus {
       outline: 2px blue solid; }
-  .page-admin__btn-box {
+  .page-admin__fixed-box {
     position: fixed;
+    z-index: 2;
     top: 6rem;
     left: 0; }
+  .page-admin__btn-box {
+    display: block;
+    position: relative; }
+  .page-admin__iframe-box {
+    display: block;
+    position: relative;
+    height: 10vh;
+    width: 10vw; }
+    .page-admin__iframe-box:hover {
+      height: 50vh;
+      width: 50vw;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%); }
   .page-admin__form-btn-box {
     display: flex;
     justify-content: space-between; }
@@ -892,6 +927,8 @@ body {
   @media screen and (max-width: 66.875em) {
     .section-header {
       flex-wrap: wrap; } }
+  .section-header__paragraphs p:not(:last-child) {
+    margin-bottom: 1rem; }
   .section-header__img {
     flex: 2 2 50rem;
     margin-right: 3rem;

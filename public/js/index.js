@@ -178,10 +178,12 @@ document.addEventListener("keydown", function(event) {
 var avalehtPildid = document.getElementById("avalehtPildid");
 var avalehtTekstid = document.getElementById("avalehtTekstid");
 var kooristSissejuhatus = document.getElementById("kooristSissejuhatus");
+var kooristLiikmed = document.getElementById("kooristLiikmed");
+var kooristDirigendid = document.getElementById("kooristDirigendid");
 
 // subforms
 
-var loikForm = document.getElementById("loik-form");
+var dirigendidSubformArray = Array.from(document.querySelectorAll(".dirigendid-subform"));
 
 // image upload inputs
 
@@ -189,6 +191,10 @@ var paiseikoon = document.getElementById("paiseikoon");
 var avalehtLogo = document.getElementById("avalehtLogo");
 var avalehtTaustapilt = document.getElementById("avalehtTaustapilt");
 var avapilt = document.getElementById("avapilt");
+
+// arrays of image upload inputs
+
+var portreeArray = Array.from(document.querySelectorAll(".portree"));
 
 // message popups on the admin pages
 
@@ -203,27 +209,37 @@ var deleteNoBtn = document.getElementById("deleteNoBtn");
 var successBtn = document.getElementById("successBtn");
 var failureBtn = document.getElementById("failureBtn");
 
-// other buttons
+// add "loik" buttons
 
-var loikAddBtn = document.getElementById("loikAddBtn");
+var sissejuhatusLoikAddBtn = document.getElementById("sissejuhatusLoikAddBtn");
+var liikmedLoikAddBtn = document.getElementById("liikmedLoikAddBtn");
 
-// get subform headings as an array
+// arrays of add buttons
 
-var loikHeadingArray = Array.from(document.querySelectorAll(".loik-heading"));
+var dirigendidLoikAddBtnArray = Array.from(document.querySelectorAll(".dirigendidLoik-add-btn"));
 
-// get input groups as an array
+// add subform buttons
 
-var loikArray = Array.from(document.querySelectorAll(".loik"));
+var dirigendidAddBtn = document.getElementById("dirigendidAddBtn");
 
-// get text inputs as an array
+// get delete "loik" buttons as an array
 
-var loikEstArray = Array.from(document.querySelectorAll(".loik-input-est"));
-var loikEnArray = Array.from(document.querySelectorAll(".loik-input-en"));
+var sissejuhatusLoikDeleteBtnArray = Array.from(document.querySelectorAll(".sissejuhatusLoik-delete-btn"));
+var liikmedLoikDeleteBtnArray = Array.from(document.querySelectorAll(".liikmedLoik-delete-btn"));
 
-// get delete buttons as an array
+// get delete "loik" button arrays as an array
 
-var loikDeleteBtnArray = Array.from(document.querySelectorAll(".loik-delete-btn"));
+var dirigendidLoikDeleteBtnArrays = [];
 
+for (var i = 0; i < dirigendidSubformArray.length; i++) {
+  var indexNumber = i + 1;
+  var dirigendidLoikDeleteBtnArray = Array.from(document.querySelectorAll("dirigendid" + indexNumber + "LoikDeleteBtn"));
+  dirigendidLoikDeleteBtnArrays.push(dirigendidLoikDeleteBtnArray);
+}
+
+// get delete subform buttons as an array
+
+var dirigendidDeleteBtnArray = Array.from(document.querySelectorAll(".dirigendid-delete-btn"));
 
 
 
@@ -267,7 +283,7 @@ function createFailureMessage() {
 
 // are you sure you want to delete this?
 
-function createDeleteMessage(previousEvent) {
+function createDeleteMessage(previousEvent, destination) {
   deletePopup.classList.remove("hide");
   deletePopup.classList.add("show");
   deleteNoBtn.focus();
@@ -279,8 +295,7 @@ function createDeleteMessage(previousEvent) {
   // add an event listener to the "Yes" button on the delete popup and pass in the parent subform as an argument
 
   deleteYesBtn.addEventListener("click", function(event) {
-
-    commenceDelete(event, parent);
+    commenceDelete(event, parent, destination);
   });
 }
 
@@ -341,7 +356,7 @@ if (deleteNoBtn !== null) {
 
 
 
-// create an array of image inputs on all the admin pages
+// create an array of single image inputs on all the admin pages
 
 var images = [paiseikoon, avalehtLogo, avalehtTaustapilt, avapilt];
 
@@ -377,6 +392,12 @@ function changePreview(imgInput) {
 
 for (var i = 0; i < images.length; i++) {
   changePreview(images[i]);
+}
+
+// for images in an array, call the function in separate for loops
+
+for (var i = 0; i < portreeArray.length; i++) {
+  changePreview(portreeArray[i]);
 }
 
 
@@ -424,17 +445,36 @@ function getArrays(elementName) {
   // construct an object out of the arrays
 
   var arrays = {
-    array: eval(elementName + "Array"),
-    arrayEst: eval(elementName + "EstArray"),
-    arrayEn: eval(elementName + "EnArray"),
-    arrayHeading: eval(elementName + "HeadingArray"),
-    arrayDeleteBtn: eval(elementName + "DeleteBtnArray")
+    array: Array.from(document.querySelectorAll("." + elementName)),
+    arrayEst: Array.from(document.querySelectorAll("." + elementName + "-input-est")),
+    arrayEn: Array.from(document.querySelectorAll("." + elementName + "-input-en")),
+    arrayHeading: Array.from(document.querySelectorAll("." + elementName + "-heading")),
+    arrayDeleteBtn: Array.from(document.querySelectorAll("." + elementName + "-delete-btn")),
   };
 
   // return the arrays object
 
   return arrays;
 }
+
+// function for getting the relevant DOM arrays specifically for the "dirigendid" subforms
+
+function getDirigendidSubform() {
+
+  // construct an object out of the elements on the "dirigendid" subform
+
+  var arraysDirigendidSubform = {
+    array: Array.from(document.querySelectorAll(".dirigendid-subform")),
+    arrayPortree: Array.from(document.querySelectorAll(".portree")),
+    arrayNimi: Array.from(document.querySelectorAll(".dirigendidNimi")),
+    arrayLoikForm: Array.from(document.querySelectorAll(".dirigendidLoik-form")),
+  };
+
+  // return the object
+
+  return arraysDirigendidSubform;
+}
+
 
 // function for getting the names of the relevant DOM element arrays
 
@@ -501,6 +541,24 @@ function getDocArrays(doc, selectorName) {
   return docArrays;
 }
 
+// function for getting the relevant arrays from the ajax response text for specifically the "dirigendid" subforms
+
+function getDocDirigendidSubform() {
+
+  // construct an object of the retrieved arrays
+
+  var docDirigendidSubform = {
+    docArray: document.querySelectorAll(".dirigendid-subform"),
+    docPortreeArray: document.querySelectorAll(".portree"),
+    docNimiArray: document.querySelectorAll(".dirigendidNimi"),
+    docLoikFormArray: document.querySelectorAll(".dirigendidLoik-form")
+  };
+
+  // return the object
+
+  return docDirigendidSubform;
+}
+
 
 
 // function for getting elements from each array which will be added to the page
@@ -527,6 +585,21 @@ function getDocElements(doc, selectorName) {
 }
 
 
+// get the last elements from each of the arrays related to the "dirigendid" subform (the ones, which will be added to the page)
+
+function getDocDirigendidSubformElements() {
+
+  var docDirigendidSubform = getDocDirigendidSubform();
+
+  var docDirigendidSubformElements = {
+    docElement: getLastElement(docDirigendidSubform.docArray),
+    docPortreeElement: getLastElement(docDirigendidSubform.docPortreeArray),
+    docNimiElement: getLastElement(docDirigendidSubform.docNimiArray),
+    docLoikFormElement: getLastElement(docDirigendidSubform.docLoikFormArray)
+  };
+
+  return docDirigendidSubformElements;
+}
 
 
 
@@ -537,41 +610,43 @@ function getDocElements(doc, selectorName) {
 
 // function for deleting elements from the page and database
 
-function commenceDelete(event, target) {
+function commenceDelete(event, target, destination) {
 
   // remove the popup from the screen
 
   removeMessage(deletePopup);
 
+  // get the attributes of the element about to be deleted
+
+  var elementData = getElementData(target);
+
   // delete the element from the page
 
-  deleteElement(target);
+  deleteElement(target, elementData);
 
   // call an ajax request to delete relevant data from the database
 
   ajaxBodyParser(event, new BodyParserParam(function() {
     return createDeleteData(target);
-  }, "kustuta", "delete"));
+  }, destination + "/delete", "delete"));
 }
 
 
 // delete a dom element from the page
 
-function deleteElement(element) {
+function deleteElement(element, elementData) {
   element.parentNode.removeChild(element);
 
   // update the node lists, which are affected by the element deletion
 
-  updateArrays(element);
+  updateArrays(element, elementData);
 }
 
 
 
 // function for updating the arrays affected by the deletion of an element
 
-function updateArrays(element) {
-
-  var elementData = getElementData(element);
+function updateArrays(element, elementData) {
 
   // remove the deleted element from each of the arrays using the received index
 
@@ -590,7 +665,6 @@ function updateArrays(element) {
 // function for updating the properties of the DOM elements inside altered node lists
 
 function updateProperties(elementData) {
-  console.log(elementData);
 
   for (var i = 0; i < elementData.arrays.array.length; i++) {
 
@@ -643,35 +717,71 @@ function getElementData(element) {
 
 // add an element
 
-function addElement(event, doc) {
+function addElement(event, doc, destination, subform) {
 
-  // use the event target id to get the selector name that will be used to retrieve necessary element arrays
+  if (subform === "dirigendid") {
 
-  var selectorName = event.target.id.slice(0, -6);
+    var dirigendidSubform = getDirigendidSubform();
 
-  // get the relevant DOM arrays from the actual page, using the retrieved selector
+    var docDirigendidSubform = getDocDirigendidSubform();
 
-  var arrays = getArrays(selectorName);
+    var docDirigendidSubformElements = getDocDirigendidSubformElements();
 
-  // get the same arrays from the ajax text response
+    pushDirigendidSubform(dirigendidSubform, docDirigendidSubformElements);
 
-  var docArrays = getDocArrays(doc, selectorName);
 
-  // get the last element of each of those arrays retrieved from the ajax text response (which will be the ones added to the actual page)
+    var form = document.getElementById("dirigendid-form");
 
-  var docElements = getDocElements(doc, selectorName);
+    appendElement(form, docDirigendidSubformElements);
 
-  // push the new elements to the the arrays on the actual page
+  } else {
 
-  pushArrays(arrays, docElements);
+    // use the event target id to get the selector name that will be used to retrieve necessary element arrays
 
-  // display the new subform with all the new elements on the page
+    var selectorName = event.target.id.slice(0, -6);
 
-  appendElement(selectorName, docElements);
+    // get the relevant DOM arrays from the actual page, using the retrieved selector
 
-  // add event listeners to all of the delete buttons, including those, that were just added
+    var arrays = getArrays(selectorName);
 
-  addNewListeners();
+    // get the same arrays from the ajax text response
+
+    var docArrays = getDocArrays(doc, selectorName);
+
+    // get the last element of each of those arrays retrieved from the ajax text response (which will be the ones added to the actual page)
+
+    var docElements = getDocElements(doc, selectorName);
+
+    // push the new elements to the the arrays on the actual page
+
+    var newArrays = pushArrays(arrays, docElements);
+
+    // get the container form from its selector name
+
+    var form = document.getElementById(selectorName + "-form");
+
+    // display the new subform with all the new elements on the page
+
+    appendElement(form, docElements);
+
+    // add event listeners to all of the delete buttons, including those, that were just added
+
+    addNewListeners(newArrays, destination);
+  }
+}
+
+
+// add event listeners to the newly created delete buttons
+
+
+function addNewListeners(arrays, destination) {
+  if (arrays.arrayDeleteBtn.length !== 0) {
+    for (var i = 0; i < arrays.arrayDeleteBtn.length; i++) {
+      arrays.arrayDeleteBtn[i].addEventListener("click", function(event) {
+        createDeleteMessage(event, destination);
+      });
+    }
+  }
 }
 
 
@@ -684,15 +794,26 @@ function pushArrays(arrays, elements) {
   arrays.arrayEn.push(elements.docEnElement);
   arrays.arrayHeading.push(elements.docHeadingElement);
   arrays.arrayDeleteBtn.push(elements.docDeleteBtnElement);
+
+  return arrays;
 }
+
+// function for pushing the asynchronously added arrays on the "dirigendid" subform to the arrays on the actual page
+
+function pushDirigendidSubform(arrays, elements) {
+
+  arrays.array.push(elements.docElement);
+  arrays.arrayPortree.push(elements.docPortreeArray);
+  arrays.arrayNimi.push(elements.docNimiArray);
+  arrays.arrayLoikForm.push(elements.docLoikFormArray);
+
+  return arrays;
+}
+
 
 // function for appending the added element to the actual page
 
-function appendElement(selectorName, docElements) {
-
-  // get the container form from its selector name
-
-  var form = eval(selectorName + "Form");
+function appendElement(form, docElements) {
 
   // append the new element to the form
 
@@ -719,25 +840,89 @@ function createAvalehtTekstidData(event) {
         en: document.getElementById("jatkuPealkiriEn").value
       },
       sektsiooniPealkiri1: {
-        est: document.getElementById("sektsiooniPealkiri1Est").value,
-        en: document.getElementById("sektsiooniPealkiri1En").value
+        est: document.getElementById("sektsiooniPealkiriEst1").value,
+        en: document.getElementById("sektsiooniPealkiriEn1").value
       },
       sektsiooniTekst1: {
-        est: document.getElementById("sektsiooniTekst1Est").value,
-        en: document.getElementById("sektsiooniTekst1En").value
+        est: document.getElementById("sektsiooniTekstEst1").value,
+        en: document.getElementById("sektsiooniTekstEn1").value
       },
       sektsiooniPealkiri2: {
-        est: document.getElementById("sektsiooniPealkiri2Est").value,
-        en: document.getElementById("sektsiooniPealkiri2En").value
+        est: document.getElementById("sektsiooniPealkiriEst2").value,
+        en: document.getElementById("sektsiooniPealkiriEn2").value
       },
       sektsiooniTekst2: {
-        est: document.getElementById("sektsiooniTekst2Est").value,
-        en: document.getElementById("sektsiooniTekst2En").value
+        est: document.getElementById("sektsiooniTekstEst2").value,
+        en: document.getElementById("sektsiooniTekstEn2").value
       },
     };
     return avalehtTekstidData;
   }
 }
+
+function createKooristPealkirjadData(event) {
+  if (kooristPealkirjad !== null) {
+    var pealkirjadData = [];
+    for (var i = 0; i < 6; i++) {
+      indexNumber = i + 1;
+      var pealkiri = {
+        est: document.getElementById("pealkiriEst" + indexNumber).value,
+        en: document.getElementById("pealkiriEn" + indexNumber).value,
+      };
+      pealkirjadData.push(pealkiri);
+    }
+    return pealkirjadData;
+  }
+}
+
+function createKooristLiikmedData(event) {
+  if (kooristLiikmed !== null) {
+    var liikmedData = {
+      haaleruhmaNimed: [],
+      haaleruhmaTutvustused: [],
+      lauljadPealkiri: {
+        est: document.getElementById("lauljadPealkiriEst").value,
+        en: document.getElementById("lauljadPealkiriEn").value
+      },
+      sopranid: document.getElementById("sopranid").value,
+      aldid: document.getElementById("aldid").value,
+      tenorid: document.getElementById("tenorid").value,
+      bassid: document.getElementById("bassid").value,
+      vilistlastePealkiri: {
+        est: document.getElementById("vilistlastePealkiriEst").value,
+        en: document.getElementById("vilistlastePealkiriEn").value
+      },
+      vilistlasteNimekiri: {
+        est: document.getElementById("vilistlasteNimekiriEst").value,
+        en: document.getElementById("vilistlasteNimekiriEn").value
+      },
+      loigud: []
+    };
+
+    for (var i = 1; i < 5; i++) {
+      var haaleruhmaNimi = {
+        est: document.getElementById("haaleruhmaNimiEst" + i).value,
+        en: document.getElementById("haaleruhmaNimiEn" + i).value
+      };
+      var haaleruhmaTutvustus = {
+        est: document.getElementById("haaleruhmaTutvustusEst" + i).value,
+        en: document.getElementById("haaleruhmaTutvustusEn" + i).value
+      };
+      liikmedData.haaleruhmaNimed.push(haaleruhmaNimi);
+      liikmedData.haaleruhmaTutvustused.push(haaleruhmaTutvustus);
+    }
+
+    for (var a = 0; a < document.querySelectorAll(".liikmedLoik").length; a++) {
+      var loik = {
+        est: document.querySelectorAll(".liikmedLoik-input-est")[a].value,
+        en: document.querySelectorAll(".liikmedLoik-input-en")[a].value,
+      };
+      liikmedData.loigud.push(loik);
+    }
+    return liikmedData;
+  }
+}
+
 
 // function that creates nothing relevant (used for ajax post requests that have no data to send)
 
@@ -784,13 +969,19 @@ function createDeleteData(target) {
 
 if (avalehtPildid !== null) {
   avalehtPildid.addEventListener("submit", function(event) {
-    ajaxMulter(event, new MulterParam(avalehtPildid, "avaleht-pildid"));
+    ajaxMulter(event, new MulterParam(avalehtPildid, "avaleht/pildid"));
   });
 }
 
 if (avalehtTekstid !== null) {
   avalehtTekstid.addEventListener("submit", function(event) {
-    ajaxBodyParser(event, new BodyParserParam(createAvalehtTekstidData, "avaleht-tekstid", "update"));
+    ajaxBodyParser(event, new BodyParserParam(createAvalehtTekstidData, "avaleht/tekstid", "update"));
+  });
+}
+
+if (kooristPealkirjad !== null) {
+  kooristPealkirjad.addEventListener("submit", function(event) {
+    ajaxBodyParser(event, new BodyParserParam(createKooristPealkirjadData, "pealkirjad", "update"));
   });
 }
 
@@ -800,11 +991,50 @@ if (kooristSissejuhatus !== null) {
   });
 }
 
-// on add buttons
+if (kooristLiikmed !== null) {
+  kooristLiikmed.addEventListener("submit", function(event) {
+    ajaxBodyParser(event, new BodyParserParam(createKooristLiikmedData, "liikmed", "update"));
+  });
+}
 
-if (loikAddBtn !== null) {
-  loikAddBtn.addEventListener("click", function(event) {
-    ajaxBodyParser(event, new BodyParserParam(createNonData, "uus-loik", "create", "koorist"));
+if (kooristDirigendid !== null) {
+  kooristDirigendid.addEventListener("submit", function(event) {
+    ajaxMulter(event, new MulterParam(kooristDirigendid, "dirigendid"));
+  });
+}
+
+
+
+// on add "loik" buttons
+
+if (sissejuhatusLoikAddBtn !== null) {
+  sissejuhatusLoikAddBtn.addEventListener("click", function(event) {
+    ajaxBodyParser(event, new BodyParserParam(createNonData, "sissejuhatus/new", "create", "koorist"));
+  });
+}
+
+if (liikmedLoikAddBtn !== null) {
+  liikmedLoikAddBtn.addEventListener("click", function(event) {
+    ajaxBodyParser(event, new BodyParserParam(createNonData, "liikmed/new", "create", "koorist"));
+  });
+}
+
+// on add "loik" buttons that are inside arrays
+
+if (dirigendidLoikAddBtnArray.length !== 0) {
+  for (var i = 0; i < dirigendidLoikAddBtnArray.length; i++) {
+    dirigendidLoikAddBtnArray[i].addEventListener("click", function(event) {
+      var idNumber = event.target.id.slice(10, -10);
+      ajaxBodyParser(event, new BodyParserParam(createNonData, "dirigendid" + idNumber + "/new", "create", "koorist"));
+    });
+  }
+}
+
+// on add subform buttons
+
+if (dirigendidAddBtn !== null) {
+  dirigendidAddBtn.addEventListener("click", function(event) {
+    ajaxBodyParser(event, new BodyParserParam(createNonData, "dirigendid/new", "create", "koorist", "dirigendid"));
   });
 }
 
@@ -812,25 +1042,54 @@ if (loikAddBtn !== null) {
 
 // function for looping through all the delete buttons and summoning a popup if any of these are clicked
 
-function addNewListeners() {
-  for (var i = 0; i < loikDeleteBtnArray.length; i++) {
-    loikDeleteBtnArray[i].addEventListener("click", function(event) {
-      createDeleteMessage(event);
-    });
+function addDeleteBtnListeners() {
+
+  // delete a "loik" element
+
+  if (sissejuhatusLoikDeleteBtnArray.length !== 0) {
+    for (var i = 0; i < sissejuhatusLoikDeleteBtnArray.length; i++) {
+      sissejuhatusLoikDeleteBtnArray[i].addEventListener("click", function(event) {
+        createDeleteMessage(event, "sissejuhatus");
+      });
+    }
+    if (liikmedLoikDeleteBtnArray.length !== 0) {
+      for (var a = 0; a < liikmedLoikDeleteBtnArray.length; a++) {
+        liikmedLoikDeleteBtnArray[a].addEventListener("click", function(event) {
+          createDeleteMessage(event, "liikmed");
+        });
+      }
+    }
+
+    // delete a "loik" element from a dynamically created subform
+
+    if (dirigendidLoikDeleteBtnArrays.length !== 0) {
+      for (var b = 0; b < dirigendidLoikDeleteBtnArrays.length; b++) {
+        var indexNumber = b + 1;
+        for (var z = 0; z < dirigendidLoikDeleteBtnArrays[b].length; z++) {
+          dirigendidLoikDeleteBtnArrays[b][z].addEventListener("click", function(event) {
+            createDeleteMessage(event, "dirigendid" + indexNumber);
+          });
+        }
+      }
+    }
+  }
+
+  // delete a subform
+
+  if (dirigendidDeleteBtnArray.length !== 0) {
+    for (var c = 0; c < dirigendidDeleteBtnArray.length; c++) {
+      dirigendidDeleteBtnArray[c].addEventListener("click", function(event) {
+        createDeleteMessage(event, "dirigendid");
+      });
+    }
   }
 }
 
 
-
 // call the above function on page load
 
-addNewListeners();
 
-
-
-
-
-
+addDeleteBtnListeners();
 
 
 
@@ -847,11 +1106,12 @@ function MulterParam(formName, destination) {
 
 // for body-parser
 
-function BodyParserParam(functionName, postDestination, type, getDestination) {
+function BodyParserParam(functionName, postDestination, type, getDestination, subform) {
   this.functionName = functionName;
   this.postDestination = postDestination;
   this.type = type;
   this.getDestination = getDestination;
+  this.subform = subform;
 }
 
 
@@ -862,7 +1122,7 @@ function BodyParserParam(functionName, postDestination, type, getDestination) {
 
 
 
-function ajaxGetNew(event, location) {
+function ajaxGetNew(event, location, destination, subform) {
 
   // create a new XMLHttpRequest
 
@@ -894,7 +1154,7 @@ function ajaxGetNew(event, location) {
 
       // call a function that takes the response text as an argument, identifies the added element and displays it on the page
 
-      addElement(event, doc);
+      addElement(event, doc, destination, subform);
 
       // if something is wrong, create a failure message
 
@@ -984,7 +1244,7 @@ function ajaxBodyParser(event, params) {
 
   var jsonData = JSON.stringify(data);
 
-  // open the XMLHttpRequest and specify the method (POST), destination route on the server, and whether the call takes place asynchronously (true);
+  // open the XMLHttpRequest and specify the method (POST), destination route on the server ("/upload/" + postDestination), and whether the call takes place asynchronously (true);
 
   xhr.open("POST", "/upload/" + params.postDestination, true);
 
@@ -995,6 +1255,7 @@ function ajaxBodyParser(event, params) {
   // check if the request is ready
 
   xhr.onreadystatechange = function() {
+
 
     // if everything works, check the action type
 
@@ -1008,9 +1269,17 @@ function ajaxBodyParser(event, params) {
 
         var getDestination = "/admin/" + params.getDestination;
 
+        // specify the location of the potential future post requests that can be made by the currently added element
+
+        var postDestination = params.postDestination.slice(0, -4);
+
+        // specify if the created element is a subform or not
+
+        var subform = params.subform;
+
         // make the get request
 
-        ajaxGetNew(event, getDestination);
+        ajaxGetNew(event, getDestination, postDestination, subform);
 
         // if the action type is "update", create a success message
 

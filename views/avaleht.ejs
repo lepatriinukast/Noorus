@@ -5,10 +5,13 @@
   <img class="logo__img" src="<%= avalehtPildidData.avalehtLogo.url %>" alt="Segakoor Nooruse logo">
 </div>
 <header class="header" style="background-image: linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6)), url('<%= avalehtPildidData.avalehtTaustapilt.url %>')">
+  <div class="header__btn-box">
+    <a class="btn btn--main btn--light" href="https://www.hooandja.ee/projekt/n60rus-juubelikontserdid-cd-raamat">N60RUS HOOANDJAS!</a>
+  </div>
   <div class="header__heading-box">
     <h1 class="heading--purple heading--primary"><%= avalehtTekstidData.suurPealkiri.est %></h1>
     <p class="paragraph--large paragraph--purple header__paragraph"><%= avalehtTekstidData.jatkuPealkiri.est %></p>
-    <a href="/koorist" class="btn btn--main">Loe edasi</a>
+    <a href="/koorist" class="btn btn--main btn--dark">Loe edasi</a>
   </div>
 </header>
 <main class="homepage__container">
@@ -55,7 +58,7 @@
         </div>
         <div class="card__lower">
           <h3 class="heading--white heading--tertiary">Noorus 60</h3>
-          <a href="/sundmused#1" class="btn btn--main">Loe edasi</a>
+          <a href="/sundmused#1" class="btn btn--main btn--dark">Loe edasi</a>
         </div>
       </div>
     </div>
@@ -64,7 +67,7 @@
     <div class="section-history__container">
       <h2 class="heading--purple heading--secondary u-margin-bottom-big"><%= avalehtTekstidData.sektsiooniPealkiri2.est %></h2>
       <p class="paragraph--large paragraph--purple u-margin-bottom-big"><%= avalehtTekstidData.sektsiooniTekst2.est %></p>
-      <a href="/sundmused#moodunud-sundmused" class="btn btn--main">Loe edasi</a>
+      <a href="/sundmused#moodunud-sundmused" class="btn btn--main btn--dark">Loe edasi</a>
     </div>
   </section>
 </main>

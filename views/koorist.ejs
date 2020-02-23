@@ -1,78 +1,71 @@
 <%- include partials/head {pageTitle: pageTitle, paiseikoon: paiseikoon} -%>
-<%- include partials/navigation {currentPage: currentPage} -%>
+<%- include partials/navigation {currentPage: currentPage, pealkirjadData: pealkirjadData} -%>
 <nav class="sidenav">
   <ul class="sidenav__list">
-    <li class="sidenav__item sidenav__special-item"><a href="/koorist#" class="sidenav__link">Koorist</a></li>
-    <li class="sidenav__item"><a href="/koorist#section-liikmed" class="sidenav__link">Liikmed</a></li>
-    <li class="sidenav__item"><a href="/koorist#section-dirigendid" class="sidenav__link">Dirigendid</a></li>
-    <li class="sidenav__item"><a href="/koorist#section-ajalugu" class="sidenav__link">Ajalugu</a></li>
-    <li class="sidenav__item"><a href="/koorist#section-meedia" class="sidenav__link">Meedia</a></li>
-    <li class="sidenav__item"><a href="/koorist#section-toetajad" class="sidenav__link">Toetajad</a></li>
+    <li class="sidenav__item sidenav__special-item"><a href="/koorist#" class="sidenav__link"><%= pealkirjadData[0].est %></a></li>
+    <li class="sidenav__item"><a href="/koorist#section-liikmed" class="sidenav__link"><%= pealkirjadData[1].est %></a></li>
+    <li class="sidenav__item"><a href="/koorist#section-dirigendid" class="sidenav__link"><%= pealkirjadData[2].est %></a></li>
+    <li class="sidenav__item"><a href="/koorist#section-ajalugu" class="sidenav__link"><%= pealkirjadData[3].est %></a></li>
+    <li class="sidenav__item"><a href="/koorist#section-meedia" class="sidenav__link"><%= pealkirjadData[4].est %></a></li>
+    <li class="sidenav__item"><a href="/koorist#section-toetajad" class="sidenav__link"><%= pealkirjadData[5].est %></a></li>
   </ul>
 </nav>
 <div class="body-container">
   <header class="section-header">
-    <div class="section-header__img"></div>
+    <div class="section-header__img" style="background-image: url(<%= avapilt.url %>)"></div>
     <div class="section-header__text-box">
-      <h2 class="heading--secondary heading--purple u-margin-bottom-big">Koorist</h2>
-      <h3 class="heading--tertiary heading--purple u-margin-bottom-big">Segakoor Noorus…</h3>
-      <p class="paragraph--small paragraph--purple">
-        … on enam kui pool sajandit tagasi ellu kutsutud hulk meeletu lauluinnuga noori inimesi. Lähtuvalt koorile pandud nimest ning kurvast tõsiasjast (mis kajastub ka koori motos), et keegi ei püsi noorena korraga järjest üle 30–40 aasta, on
-        koori liikmestik pidevas muutumises. Uusi „noori“ lauljaid oodatakse iga aasta sügisel ja talvel, sõltumata soost, eluvaldkonnast või perekonnaseisust. Tingimusteks on aga, et lauluind peaks ületama keskmise Eesti inimese rahahimutaseme
-        ning teiseks
-        oluliseks eelduseks on raskemat sorti viisipidamine. Ei tee halba ka kerge nooditundmine, prooviskäimise fanatism ning meeletu esinemistahe.</p>
+      <h2 class="heading--secondary heading--purple u-margin-bottom-big"><%= pealkirjadData[0].est %></h2>
+      <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= sissejuhatusData.pealkiri.est %></h3>
+      <div class="section-header__paragraphs">
+        <% for (var i = 0; i < sissejuhatusData.loigud.length; i++) {
+          %> <p class="paragraph--small paragraph--purple"><%= sissejuhatusData.loigud[i].est %></p>
+      <% } %>
+      </div>
     </div>
   </header>
   <section class="section-liikmed" id="section-liikmed">
     <div class="section-liikmed__container">
-      <h2 class="heading--secondary heading--purple u-margin-bottom-big">Liikmed</h2>
-      <p class="paragraph--small paragraph--purple u-margin-bottom-big">Segakoor Nooruse lauljat iseloomustab meeletu kontsentratsioon proovides, tohutu erksus koorilaagrites ning piiritu rõõmsameelsus ja hoogne kaasaelamine esinemistel. Peale
-        selle on
-        eranditult kõik
-        lauljad absoluutse kuulmisega ning evivad Sibeliuse akadeemia V kursuse magistrandi teadmisi muusikast ja muusikateooriast. Samuti on neil supermälu ning nad ei unusta eales ühtki õpitud pala. Seega ei pane keegi imeks, kui mõnikord tekib
-        raskusi dirigendi palvega laulda hääleharjutuseks harmoonilist minoori – nii labase ülesande sooritamiseks on Nooruse lauljad lihtsalt liiga andekad.</p>
+      <h2 class="heading--secondary heading--purple u-margin-bottom-big"><%= pealkirjadData[1].est %></h2>
+      <div class="section-header__paragraphs">
+        <% for (var i = 0; i < liikmedData.loigud.length; i++) {
+          %> <p class="paragraph--small paragraph--purple"><%= liikmedData.loigud[i].est %></p>
+      <% } %>
+      </div>
       <div class="section-liikmed__text-box">
         <div class="section-liikmed__small-box">
-          <h3 class="heading--tertiary heading--purple u-margin-bottom-big">Soprani häälerühm</h3>
-          <p class="paragraph--small paragraph--purple u-margin-bottom-big">...koondab kõige heledamate häältega kaunitare. Nende tekitatud heli on kui sooja päikese rõõmus sillerdus tuulte lihvitud ja sulavast lumest kergelt niisutatud
-            mäekristallidel. Igaüks neist on mõõtmatu koorilaulutaeva ere täht, kes helkides ja helendades muudab oma kauni partii surematuks.</p>
+          <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= liikmedData.haaleruhmaNimed[0].est %></h3>
+          <p class="paragraph--small paragraph--purple u-margin-bottom-big"><%= liikmedData.haaleruhmaTutvustused[0].est %></p>
         </div>
         <div class="section-liikmed__small-box">
-          <h3 class="heading--tertiary heading--purple u-margin-bottom-big">Altide häälerühma</h3>
-          <p class="paragraph--small paragraph--purple u-margin-bottom-big">...kume ja mahe tämber viib kuulajad lapsepõlveradadele uitama. Emalikult ja soojalt sisendavad nad usaldust ning turvatunnet, mida tänapäeva keerulises maailmas on
-            niivõrd
-            raske leida. Nooruse koori altide hääl ümbritseb kuulaja kui pehme kašmiirsalliga. Nende esitusest lausa õhkab sooje suviseid pärastlõunaid kodumaa kaunitel puisniitudel.</p>
+          <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= liikmedData.haaleruhmaNimed[1].est %></h3>
+          <p class="paragraph--small paragraph--purple u-margin-bottom-big"><%= liikmedData.haaleruhmaTutvustused[1].est %></p>
         </div>
       </div>
       <div class="section-liikmed__text-box">
         <div class="section-liikmed__small-box">
-          <h3 class="heading--tertiary heading--purple u-margin-bottom-big">Tenorirühm</h3>
-          <p class="paragraph--small paragraph--purple u-margin-bottom-big">...koosneb eranditult suurepärastest solistidest, kelle üle oleks kade iga maailma nimekas ooperimaja. Nende tämber võib kõlada kui surmaootel fauni dramaatiline hüüatus
-            või nagu hästi välja puhanud rüütli kauatehtud ja kaunikene luuletus oma südamedaamile. Pole rolli, mida tenorid ei suudaks oma häälega täiuslikult kuulajani tuua.</p>
+          <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= liikmedData.haaleruhmaNimed[2].est %></h3>
+          <p class="paragraph--small paragraph--purple u-margin-bottom-big"><%= liikmedData.haaleruhmaTutvustused[2].est %></p>
         </div>
         <div class="section-liikmed__small-box">
-          <h3 class="heading--tertiary heading--purple u-margin-bottom-big">Basside ja baritonide</h3>
-          <p class="paragraph--small paragraph--purple u-margin-bottom-big">...võimas ja täpne sõjahüüd võib läbistada iga konkurendi lihasmassi, luustikust rääkimata. Oma tugevatel ja mehelikel häältel kannavad nad kogu koorilaulu kõige
-            vastutusrikkamat rolli – olla põhi, tugi ja alus. Nad seisavad vankumatult ja kindlalt kui Atlas, hoides oma õlul tervet taevalaotust.</p>
+          <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= liikmedData.haaleruhmaNimed[3].est %></h3>
+          <p class="paragraph--small paragraph--purple u-margin-bottom-big"><%= liikmedData.haaleruhmaTutvustused[3].est %></p>
         </div>
       </div>
       <div class="section-liikmed__smaller-box">
-        <h3 class="heading--tertiary heading--purple u-margin-bottom-big">Nooruse vaimu kannavad endas:</h3>
-        <p class="paragraph--small paragraph--purple u-margin-bottom-big"><strong>Sopranid - </strong>Heidi Pähn, Kaisa Laht, Kati Päike, Katri-Helena Siirak, Katrin-Kriss Siibak, Mari Kareda, Marilis Aasa, Sandra Laura Luhtein, Tene-Riin
-          Vaarmann</p>
-        <p class="paragraph--small paragraph--purple u-margin-bottom-big"><strong>Aldid - </strong>Alexandra Anett Sannik, Ann Tammoja, Grete Taro, Helen Kommussar, Ingrid Põldoja, Juuli Puusepp, Mari-Liis Dolenko, Merit Rist, Pille Adra, Piret
-          Lepik, Signe Luuk</p>
-        <p class="paragraph--small paragraph--purple u-margin-bottom-big"> <strong>Tenorid - </strong>Ake Lang, Artur Laasik, Sander Paling, Tõnis Sarap</p>
-        <p class="paragraph--small paragraph--purple u-margin-bottom-big"><strong>Bassid/baritonid - </strong>Adam Cullen, Asko Aasa, Johannes-Madis Aasmäe, Madis Linnamägi, Martin Miido, Reimo Piir</p>
+        <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= liikmedData.lauljadPealkiri.en %></h3>
+        <p class="paragraph--small paragraph--purple u-margin-bottom-big"><strong>Sopranid - </strong><%= liikmedData.sopranid %></p>
+        <p class="paragraph--small paragraph--purple u-margin-bottom-big"><strong>Aldid - </strong><%= liikmedData.aldid %></p>
+        <p class="paragraph--small paragraph--purple u-margin-bottom-big"> <strong>Tenorid - </strong><%= liikmedData.tenorid %></p>
+        <p class="paragraph--small paragraph--purple u-margin-bottom-big"><strong>Bassid/baritonid - </strong><%= liikmedData.bassid %></p>
       </div>
       <div class="section-liikmed__smaller-box">
-        <h3 class="heading--tertiary heading--purple u-margin-bottom-big">Tuntumaid nooruslasi läbi aegade:</h3>
-        <p class="paragraph--small paragraph--purple">Anneli Peebo, Boris Lehtlaan, Valdur Laid, Priit Pajusaar, Imre Sooäär, Aivar Surva, Tauri Tallermaa, Krista Lensin, Mikk Üleoja, Sulo Tintse, Priit Rebane ja paljud, väga paljud teised.</p>
+        <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= liikmedData.vilistlastePealkiri.est %></h3>
+        <p class="paragraph--small paragraph--purple"><%= liikmedData.vilistlasteNimekiri.est %></p>
       </div>
     </div>
   </section>
   <section class="section-dirigendid" id="section-dirigendid">
-    <h2 class="heading--secondary heading--purple">Dirigendid</h2>
+    <h2 class="heading--secondary heading--purple"><%= pealkirjadData[2].est %></h2>
     <div class="section-dirigendid__container">
       <div class="section-dirigendid__text-box">
         <h3 class="heading--tertiary heading--purple u-margin-bottom-big">Maarja Helstein</h3>
@@ -103,7 +96,7 @@
     </div>
   </section>
   <section class="section-ajalugu" id="section-ajalugu">
-    <h2 class="heading--secondary heading--purple">Ajalugu</h2>
+    <h2 class="heading--secondary heading--purple"><%= pealkirjadData[3].est %></h2>
     <div class="section-ajalugu__container">
       <h3 class="heading--tertiary heading--purple u-margin-bottom-big">60 aastat nooruslikku noorust:</h3>
       <ul class="list">
@@ -168,7 +161,7 @@
     </div>
   </section>
   <section class="section-meedia" id="section-meedia">
-    <h2 class="heading--secondary heading--purple">Meedia</h2>
+    <h2 class="heading--secondary heading--purple"><%= pealkirjadData[4].est %></h2>
     <div class="section-meedia__container">
       <div class="section-meedia__iframe">
         <iframe class="iframe" src="https://www.youtube.com/embed/pQvOhzc4uGo" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
@@ -189,7 +182,7 @@
     </div>
   </section>
   <section class="section-toetajad" id="section-toetajad">
-    <h2 class="heading--secondary heading--purple">Toetajad</h2>
+    <h2 class="heading--secondary heading--purple"><%= pealkirjadData[5].est %></h2>
     <div class="section-toetajad__container">
       <div class="section-toetajad__logo-box">
         <a href="http://www.kooriyhing.ee/"><img src="/img/logo1.png" alt="" class="section-toetajad__logo"></a>
@@ -209,5 +202,5 @@
     </div>
   </section>
 </div>
-<%- include partials/footnav -%>
+<%- include partials/footnav {pealkirjadData: pealkirjadData} -%>
 <%- include partials/footer -%>
