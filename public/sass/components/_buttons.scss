@@ -8,14 +8,7 @@
     font-family: inherit;
     text-decoration: none;
     border: none;
-    transition-property: transform;
-    transition-duration: 0.5s;
     cursor: pointer;
-
-    &:active,
-    &:hover {
-      transform: scale(1.1);
-    }
 
     &:focus {
       outline-color: blue;
@@ -37,16 +30,25 @@
 
   &--dark {
     background-color: $color-primary-dark;
-    transition-property: background-color;
+    transition-property: transform, background-color;
+    transition-duration: 0.5s;
 
     &:active,
     &:hover {
+      transform: scale(1.1);
       background-color: $color-primary-light;
     }
   }
 
   &--light {
     background-color: $color-primary-light;
+    transition-property: transform;
+    transition-duration: 0.5s;
+
+    &:active,
+    &:hover {
+      transform: scale(1.1);
+    }
   }
 
 // The small dropdown button

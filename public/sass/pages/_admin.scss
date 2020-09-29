@@ -11,7 +11,7 @@
   &__subtitle {
     font-size: 2rem;
     font-weight: 700;
-    margin-bottom: 1.2rem;
+    margin: 2.5rem;
   }
 
   &__heading {
@@ -23,7 +23,25 @@
   &__text {
     font-size: 1rem;
     font-weight: 600;
+    line-height: 1.5rem;
     margin-bottom: 0.7rem;
+  }
+
+  &__small-text {
+    font-size: 1rem;
+    font-weight: 300;
+    line-height: 1.5rem;
+    margin-bottom: 0.7rem;
+  }
+
+  &__text-link {
+    text-decoration: none;
+    color: $color-primary-light;
+
+    &:active,
+    &:hover {
+      color: $color-primary-dark;
+    }
   }
 
   &__navigation {
@@ -67,11 +85,19 @@
     position: fixed;
     z-index: 2;
     top: 6rem;
-    left: 0;
+
+    &--left {
+      left: 0;
+    }
+
+    &--right {
+      right: 0;
+    }
   }
 
   &__btn-box {
-    display: block;
+    display: flex;
+
     position: relative;
   }
 
@@ -86,6 +112,14 @@
       width: 50vw;
       @include absCenter;
     }
+  }
+
+  &__instruction-box {
+    display: block;
+    position: relative;
+    width: 40rem;
+    margin: auto;
+    text-align: center;
   }
 
   &__form-btn-box {
@@ -132,17 +166,23 @@
     width: 15rem;
     border: none;
     border-radius: 5px;
-    padding: 0 0.5rem;
+    padding: 0.2rem 0.5rem 0;
     margin-bottom: 1.2rem;
     font-family: inherit;
     line-height: 1.7rem;
     font-size: 1rem;
     border: 1px $color-grey-dark solid;
+    background-color: $color-white;
     @include boxShadow;
 
     &:focus {
       outline: none;
       border: 2px $color-primary-light solid;
+    }
+
+    &:focus:invalid {
+      outline: none;
+      border: 2px #E91E63 solid;
     }
   }
 
@@ -235,7 +275,7 @@
 
   &__icon {
     height: 5rem;
-    margin-bottom: 3.5rem;
+    margin-bottom: 0;
     background-color: $color-grey-light;
     transition-property: transform, outline;
     transition-duration: 0.5s;
@@ -244,6 +284,23 @@
       transform: scale(3.5);
       outline: 2px rgba($color-grey-dark, 0.8) solid;
       outline-offset: 1px;
+      z-index: 3;
     }
+  }
+
+  &__table {
+    table-layout: fixed;
+    width: 90%;
+    margin: 5rem auto;
+  }
+
+  &__table-header {
+    font-size: 1.2rem;
+  }
+
+  &__table-cell {
+    border: 0.2rem solid;
+    padding: 1rem;
+    word-wrap: normal;
   }
 }

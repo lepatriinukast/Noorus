@@ -1,251 +1,4 @@
-// U S E R   C O D E
-
-// VARIABLES for the hamburger button and hidden menu (for smaller screens)
-
-var menuButton = document.getElementById("menu-button");
-var hiddenMenu = document.getElementById("hidden-menu");
-
-// FUNCTION that makes hidden menu visible
-
-function toggleHiddenMenu() {
-  if (hiddenMenu !== null) {
-    hiddenMenu.classList.toggle("show");
-    hiddenMenu.classList.toggle("hide");
-  }
-}
-
-function removeHiddenMenu() {
-  if (hiddenMenu !== null) {
-    hiddenMenu.classList.remove("show");
-    hiddenMenu.classList.add("hide");
-  }
-}
-
-// VARIABLES for the popup
-
-var popup = document.getElementById("popup");
-var popupForm = document.getElementById("popup-form");
-var popupButton = document.getElementById("popup-button");
-
-// FUNCTION to prevent scrolling on popup
-
-function noScroll() {
-  if (popup !== null) {
-    if (popup.classList.contains("show")) {
-      window.scrollTo(0, 0);
-    }
-  }
-}
-
-// FUNCTIONS for toggling the popup
-
-function addPopup() {
-  if (popup !== null) {
-    popup.classList.add("show");
-    popup.classList.remove("hide");
-  }
-}
-
-function removePopup() {
-  if (popup !== null) {
-    popup.classList.remove("show");
-    popup.classList.add("hide");
-  }
-}
-
-// VARIABLES for the dropdown buttons and menus
-
-var dropdownButtonHeader = document.getElementById("dropdown-button-header");
-var dropdownButtonHidden = document.getElementById("dropdown-button-hidden");
-var dropdownButtonFooter = document.getElementById("dropdown-button-footer");
-var dropdownIconHeader = document.getElementById("dropdown-icon-header");
-var dropdownIconHidden = document.getElementById("dropdown-icon-hidden");
-var dropdownIconFooter = document.getElementById("dropdown-icon-footer");
-var dropdownMenuHeader = document.getElementById("dropdown-menu-header");
-var dropdownMenuHidden = document.getElementById("dropdown-menu-hidden");
-var dropdownMenuFooter = document.getElementById("dropdown-menu-footer");
-
-// FUNCTIONS that make dropdown menus visible
-
-function toggleDropdownMenuHeader() {
-  if (dropdownMenuHeader !== null) {
-    dropdownMenuHeader.classList.toggle("show");
-    dropdownMenuHeader.classList.toggle("hide");
-  }
-}
-
-function removeDropdownMenuHeader() {
-  if (dropdownMenuHeader !== null) {
-    dropdownMenuHeader.classList.remove("show");
-    dropdownMenuHeader.classList.add("hide");
-  }
-}
-
-function toggleDropdownMenuHidden() {
-  if (dropdownMenuHidden !== null) {
-    dropdownMenuHidden.classList.toggle("show");
-    dropdownMenuHidden.classList.toggle("hide");
-    dropdownButtonHidden.classList.toggle("rotate");
-  }
-}
-
-function removeDropdownMenuHidden() {
-  if (dropdownMenuHidden !== null) {
-    dropdownMenuHidden.classList.remove("show");
-    dropdownMenuHidden.classList.add("hide");
-    dropdownButtonHidden.classList.remove("rotate");
-  }
-}
-
-function toggleDropdownMenuFooter() {
-  if (dropdownMenuFooter !== null) {
-    dropdownMenuFooter.classList.toggle("show");
-    dropdownMenuFooter.classList.toggle("hide");
-  }
-}
-
-function removeDropdownMenuFooter() {
-  if (dropdownMenuFooter !== null) {
-    dropdownMenuFooter.classList.remove("show");
-    dropdownMenuFooter.classList.add("hide");
-  }
-}
-
-// EXECUTION CODE- Prevents scrolling on popup
-
-window.addEventListener("scroll", noScroll);
-
-// FUNCTION that activates some of the above functions depending on what was clicked and closes all hidden menus and popups if the click target is not relevant
-
-function listenEvents(event) {
-
-  if (hiddenMenu !== null) {
-
-    if (popup !== null && popup.classList.contains("show")) {
-      if (event.target.parentNode !== popupForm && event.target !== popupForm || event.target === popupButton) {
-        removePopup();
-      }
-    } else {
-      if (event.target === menuButton) {
-        event.preventDefault();
-        toggleHiddenMenu();
-        removeDropdownMenuHeader();
-        removeDropdownMenuHidden();
-        removeDropdownMenuFooter();
-      } else if (event.target === dropdownButtonHeader || event.target === dropdownIconHeader) {
-        event.preventDefault();
-        removeHiddenMenu();
-        toggleDropdownMenuHeader();
-        removeDropdownMenuHidden();
-        removeDropdownMenuFooter();
-      } else if (event.target === dropdownButtonHidden || event.target === dropdownIconHidden) {
-        event.preventDefault();
-        removeDropdownMenuHeader();
-        toggleDropdownMenuHidden();
-        removeDropdownMenuFooter();
-      } else if (event.target === dropdownButtonFooter || event.target === dropdownIconFooter) {
-        event.preventDefault();
-        removeHiddenMenu();
-        toggleDropdownMenuFooter();
-        removeDropdownMenuHidden();
-        removeDropdownMenuHeader();
-      } else {
-        removeHiddenMenu();
-        removeDropdownMenuHeader();
-        removeDropdownMenuHidden();
-        removeDropdownMenuFooter();
-      }
-    }
-  }
-}
-
-// EXECUTION CODE- Call the above function on click, touch or keypress (not Tab)
-
-document.addEventListener("click", listenEvents);
-document.addEventListener("touchend", listenEvents);
-document.addEventListener("keydown", function(event) {
-  if (event.key === "Escape") {
-    listenEvents(event);
-  }
-});
-
-// A D M I N   C O D E
-
-// GET ALL THE RELEVANT DOM ELEMENTS
-
-// forms
-
-var avalehtPildid = document.getElementById("avalehtPildid");
-var avalehtTekstid = document.getElementById("avalehtTekstid");
-var kooristSissejuhatus = document.getElementById("kooristSissejuhatus");
-var kooristLiikmed = document.getElementById("kooristLiikmed");
-var kooristDirigendid = document.getElementById("kooristDirigendid");
-
-// subforms
-
-var dirigendidSubformArray = Array.from(document.querySelectorAll(".dirigendid-subform"));
-
-// image upload inputs
-
-var paiseikoon = document.getElementById("paiseikoon");
-var avalehtLogo = document.getElementById("avalehtLogo");
-var avalehtTaustapilt = document.getElementById("avalehtTaustapilt");
-var avapilt = document.getElementById("avapilt");
-
-// arrays of image upload inputs
-
-var portreeArray = Array.from(document.querySelectorAll(".portree"));
-
-// message popups on the admin pages
-
-var deletePopup = document.getElementById("deletePopup");
-var successPopup = document.getElementById("successPopup");
-var failurePopup = document.getElementById("failurePopup");
-
-// buttons on the popups
-
-var deleteYesBtn = document.getElementById("deleteYesBtn");
-var deleteNoBtn = document.getElementById("deleteNoBtn");
-var successBtn = document.getElementById("successBtn");
-var failureBtn = document.getElementById("failureBtn");
-
-// add "loik" buttons
-
-var sissejuhatusLoikAddBtn = document.getElementById("sissejuhatusLoikAddBtn");
-var liikmedLoikAddBtn = document.getElementById("liikmedLoikAddBtn");
-
-// arrays of add buttons
-
-var dirigendidLoikAddBtnArray = Array.from(document.querySelectorAll(".dirigendidLoik-add-btn"));
-
-// add subform buttons
-
-var dirigendidAddBtn = document.getElementById("dirigendidAddBtn");
-
-// get delete "loik" buttons as an array
-
-var sissejuhatusLoikDeleteBtnArray = Array.from(document.querySelectorAll(".sissejuhatusLoik-delete-btn"));
-var liikmedLoikDeleteBtnArray = Array.from(document.querySelectorAll(".liikmedLoik-delete-btn"));
-
-// get delete "loik" button arrays as an array
-
-var dirigendidLoikDeleteBtnArrays = [];
-
-for (var i = 0; i < dirigendidSubformArray.length; i++) {
-  var indexNumber = i + 1;
-  var dirigendidLoikDeleteBtnArray = Array.from(document.querySelectorAll("dirigendid" + indexNumber + "LoikDeleteBtn"));
-  dirigendidLoikDeleteBtnArrays.push(dirigendidLoikDeleteBtnArray);
-}
-
-// get delete subform buttons as an array
-
-var dirigendidDeleteBtnArray = Array.from(document.querySelectorAll(".dirigendid-delete-btn"));
-
-
-
 // UTILITY FUNCTIONS
-
-
 
 
 // function for getting the last element of an array
@@ -254,6 +7,104 @@ function getLastElement(array) {
   var lastElement = array[array.length - 1];
   return lastElement;
 }
+
+// function for getting the parent node of a specified element
+
+function getParent(element) {
+  var parent = element.parentNode;
+  return parent;
+}
+
+// function for bolding/unbolding text on inputs, both on the admin page and the page that we want to update
+
+function getMarkupText() {
+
+  // check if the bold/unbold button is checked
+
+  if (boldBtn.checked === true) {
+
+    // if yes, get all the inputs on the page as an array
+
+    var inputs = document.querySelectorAll(".input");
+
+    // loop through the array
+
+    for (var i = 0; i < inputs.length; i++) {
+
+        // obtain the index of the first selected character
+
+        var start = inputs[i].selectionStart;
+
+        // obtain the index of the last selected character
+
+        var finish = inputs[i].selectionEnd;
+
+        // obtain all the text in the input
+
+        var allText = inputs[i].value;
+
+        // obtain the selected text
+
+        var selection = allText.slice(start, finish);
+
+          // check if the each input has any selected text
+
+          if (selection !== "" ) {
+
+            // if yes, focus the input
+
+            inputs[i].focus();
+
+            // obtain the input text that occurs before the selected part
+
+            var beforeSelection = allText.slice(0, start);
+
+// obtain the input text that occurs after the selected part
+
+            var afterSelection = allText.slice(finish, -1);
+
+
+            // construct a new string from the two obtained above, plus the selection between them
+
+            var newInputText = beforeSelection + selection.bold() + afterSelection;
+
+            // check if the input is a text-area
+
+            if (inputs[i].tagName === "TEXTAREA") {
+
+              // if yes, update its innerHTML property
+
+              inputs[i].innerHTML = newInputText;
+
+              // check if the input is a regular one
+
+            } else if (inputs[i].tagName === "INPUT") {
+
+              // if yes, update its value property
+
+              inputs[i].value = newInputText;
+            }
+
+
+
+            // remove the selection
+
+            inputs[i].setSelectionRange(0,0);
+
+            // remove focus from the input
+
+            inputs[i].blur();
+
+          }
+    }
+
+
+
+  } else if (boldBtn.checked === false) {
+    console.log("No");
+  }
+}
+
 
 
 
@@ -283,26 +134,36 @@ function createFailureMessage() {
 
 // are you sure you want to delete this?
 
-function createDeleteMessage(previousEvent, destination) {
+function createDeleteMessage(event, destination, subform) {
   deletePopup.classList.remove("hide");
   deletePopup.classList.add("show");
   deleteNoBtn.focus();
 
-  // register the parent subform of the event target
+  // register the event target
 
-  var parent = getParent(previousEvent);
+  var element = event.target;
+
+  // get the parent node of the event target
+
+  var parent = getParent(element);
 
   // add an event listener to the "Yes" button on the delete popup and pass in the parent subform as an argument
 
   deleteYesBtn.addEventListener("click", function(event) {
-    commenceDelete(event, parent, destination);
-  });
+
+      // when the button is clicked, call the commenceDelete function
+
+      commenceDelete(event, parent, destination, subform);
+    },
+
+    // below is the options object of the event handler, which removes the event listener after it has run once,
+    // otherwise the event listeners would just pile up when the containing function is run multiple times
+
+    {
+      once: true
+    });
 }
 
-function getParent(event) {
-  var parent = event.target.parentNode;
-  return parent;
-}
 
 // function for removing a popup message
 
@@ -356,34 +217,72 @@ if (deleteNoBtn !== null) {
 
 
 
-// create an array of single image inputs on all the admin pages
-
-var images = [paiseikoon, avalehtLogo, avalehtTaustapilt, avapilt];
-
 // change the labels and picture samples
 
-function changePreview(imgInput) {
+function changePreview(imgInput, iterator) {
 
   // check if the relevant image upload input exists on the page
 
-  if (imgInput !== null) {
+  if (imgInput !== null && imgInput !== undefined) {
 
     // listen for clicks on the choose file button
 
     imgInput.addEventListener("input", function() {
 
-      // get the current label
+      // check if an iterator is provided (this means we have a "loik" element)
 
-      var currentPlaceholder = document.getElementById(imgInput.id + "Placeholder");
+      if (iterator !== undefined) {
 
-      // get the current preview image
+        // get the parent node of the DOM file input element
 
-      var currentImg = document.getElementById(imgInput.id + "Img");
+        var parent = imgInput.parentNode;
 
-      // change the label and preview image if a new file has been selected for upload
+        // get the classlist of that parent node
 
-      currentPlaceholder.innerHTML = imgInput.files[0].name;
-      currentImg.src = URL.createObjectURL(imgInput.files[0]);
+        var classList = parent.classList;
+
+        // get the last element from the classlist, which will serve as a selectorname
+
+        var selectorName = getLastElement(classList);
+
+        // add 1 to the iterator, because normal people start counting from 1 not 0
+
+        var idNumber = iterator + 1;
+
+        // using the selectorname and id number, construct the id for the corresponding placeholder element
+
+        var placeholderId = selectorName + "Placeholder" + idNumber;
+
+        // using the selectorname and id number, construct the id for the corresponding img element (image preview)
+
+        var imgId = selectorName + "Img" + idNumber;
+
+        // get the relevant placeholder using the id constructed above
+
+        var currentPlaceholder = document.getElementById(placeholderId);
+
+        // get the relevant img element using the id constructed above
+
+        var currentImg = document.getElementById(imgId);
+
+        // change the label and preview image when a new file has been selected for upload
+
+        currentPlaceholder.innerHTML = imgInput.files[0].name;
+        currentImg.src = URL.createObjectURL(imgInput.files[0]);
+
+      } else {
+
+        // if it is not a "loik" element, we get the placeholder and image preview element a bit differently
+
+        var placeholder = document.getElementById(imgInput.id + "Placeholder");
+
+        var img = document.getElementById(imgInput.id + "Img");
+
+        // change the label and preview image if a new file has been selected for upload
+
+        placeholder.innerHTML = imgInput.files[0].name;
+        img.src = URL.createObjectURL(imgInput.files[0]);
+      }
     });
   }
 }
@@ -396,8 +295,23 @@ for (var i = 0; i < images.length; i++) {
 
 // for images in an array, call the function in separate for loops
 
-for (var i = 0; i < portreeArray.length; i++) {
-  changePreview(portreeArray[i]);
+for (var i = 0; i < dirigendidPortreeArray.length; i++) {
+  changePreview(dirigendidPortreeArray[i]);
+}
+
+
+for (let i = 0; i < toetajadLoikFileArray.length; i++) {
+  changePreview(toetajadLoikFileArray[i], i);
+}
+
+
+for (let i = 0; i < sundmusedPlakatArray.length; i++) {
+  changePreview(sundmusedPlakatArray[i]);
+}
+
+
+for (let i = 0; i < moodunudPlakatArray.length; i++) {
+  changePreview(moodunudPlakatArray[i]);
 }
 
 
@@ -446,10 +360,20 @@ function getArrays(elementName) {
 
   var arrays = {
     array: Array.from(document.querySelectorAll("." + elementName)),
-    arrayEst: Array.from(document.querySelectorAll("." + elementName + "-input-est")),
-    arrayEn: Array.from(document.querySelectorAll("." + elementName + "-input-en")),
-    arrayHeading: Array.from(document.querySelectorAll("." + elementName + "-heading")),
-    arrayDeleteBtn: Array.from(document.querySelectorAll("." + elementName + "-delete-btn")),
+    yearArray: Array.from(document.querySelectorAll("." + elementName + "Year")),
+    linkArray: Array.from(document.querySelectorAll("." + elementName + "Link")),
+    iconArray: Array.from(document.querySelectorAll("." + elementName + "Icon")),
+    numberArray: Array.from(document.querySelectorAll("." + elementName + "Number")),
+    estArray: Array.from(document.querySelectorAll("." + elementName + "Est")),
+    enArray: Array.from(document.querySelectorAll("." + elementName + "En")),
+    estKeyArray: Array.from(document.querySelectorAll("." + elementName + "EstKey")),
+    enKeyArray: Array.from(document.querySelectorAll("." + elementName + "EnKey")),
+    fileArray: Array.from(document.querySelectorAll("." + elementName + "File")),
+    labelArray: Array.from(document.querySelectorAll("." + elementName + "Label")),
+    placeholderArray: Array.from(document.querySelectorAll("." + elementName + "Placeholder")),
+    imgArray: Array.from(document.querySelectorAll("." + elementName + "Img")),
+    headingArray: Array.from(document.querySelectorAll("." + elementName + "Heading")),
+    deleteBtnArray: Array.from(document.querySelectorAll("." + elementName + "DeleteBtn")),
   };
 
   // return the arrays object
@@ -459,20 +383,240 @@ function getArrays(elementName) {
 
 // function for getting the relevant DOM arrays specifically for the "dirigendid" subforms
 
-function getDirigendidSubform() {
+function getDirigendidSubforms() {
 
   // construct an object out of the elements on the "dirigendid" subform
 
-  var arraysDirigendidSubform = {
-    array: Array.from(document.querySelectorAll(".dirigendid-subform")),
-    arrayPortree: Array.from(document.querySelectorAll(".portree")),
-    arrayNimi: Array.from(document.querySelectorAll(".dirigendidNimi")),
-    arrayLoikForm: Array.from(document.querySelectorAll(".dirigendidLoik-form")),
+  var dirigendidSubforms = {
+    subformArray: Array.from(document.querySelectorAll(".dirigendidSubform")),
+    subformPortreeArray: Array.from(document.querySelectorAll(".dirigendidPortree")),
+    subformPortreeLabelArray: Array.from(document.querySelectorAll(".dirigendidPortreeLabel")),
+    subformPortreePlaceholderArray: Array.from(document.querySelectorAll(".dirigendidPortreePlaceholder")),
+    subformPortreeImgArray: Array.from(document.querySelectorAll(".dirigendidPortreeImg")),
+    subformNimiArray: Array.from(document.querySelectorAll(".dirigendidNimi")),
+    subformHeadingArray: Array.from(document.querySelectorAll(".dirigendidHeading")),
+    subformLoikFormArray: Array.from(document.querySelectorAll(".dirigendidLoikForm")),
+    subformLoikAddBtnArray: Array.from(document.querySelectorAll(".dirigendidLoikAddBtn")),
+    subformDeleteBtnArray: Array.from(document.querySelectorAll(".dirigendidDeleteBtn")),
+    subformLoikArrays: [],
+    subformLoikEstArrays: [],
+    subformLoikEnArrays: [],
+    subformLoikHeadingArrays: [],
+    subformLoikDeleteBtnArrays: []
   };
+
+  // loop through all the "loik" elements to get arrays of its components
+
+  for (var i = 0; i < dirigendidSubforms.subformLoikFormArray.length; i++) {
+
+    var idNumber = i + 1;
+    var subformLoikArray = Array.from(document.querySelectorAll(".dirigendid" + idNumber + "Loik"));
+    var subformLoikEstArray = Array.from(document.querySelectorAll(".dirigendid" + idNumber + "LoikEst"));
+    var subformLoikEnArray = Array.from(document.querySelectorAll(".dirigendid" + idNumber + "LoikEn"));
+    var subformLoikHeadingArray = Array.from(document.querySelectorAll(".dirigendid" + idNumber + "LoikHeading"));
+    var subformLoikDeleteBtnArray = Array.from(document.querySelectorAll(".dirigendid" + idNumber + "LoikDeleteBtn"));
+
+    // push these arrays into the dirigendidSubforms object
+
+    dirigendidSubforms.subformLoikArrays.push(subformLoikArray);
+    dirigendidSubforms.subformLoikEstArrays.push(subformLoikEstArray);
+    dirigendidSubforms.subformLoikEnArrays.push(subformLoikEnArray);
+    dirigendidSubforms.subformLoikHeadingArrays.push(subformLoikHeadingArray);
+    dirigendidSubforms.subformLoikDeleteBtnArrays.push(subformLoikDeleteBtnArray);
+  }
 
   // return the object
 
-  return arraysDirigendidSubform;
+  return dirigendidSubforms;
+}
+
+
+// function for getting the relevant DOM arrays specifically for the "ajalugu" subforms
+
+function getAjaluguSubforms() {
+
+  // construct an object out of the elements on the "ajalugu" subform
+
+  var ajaluguSubforms = {
+
+    subformArray: Array.from(document.querySelectorAll(".ajaluguSubform")),
+    subformHeadingArray: Array.from(document.querySelectorAll(".ajaluguHeading")),
+    subformPealkiriEstArray: Array.from(document.querySelectorAll(".ajaluguPealkiriEst")),
+    subformPealkiriEnArray: Array.from(document.querySelectorAll(".ajaluguPealkiriEn")),
+    subformLoikFormArray: Array.from(document.querySelectorAll(".ajaluguLoikForm")),
+    subformLoikAddBtnArray: Array.from(document.querySelectorAll(".ajaluguLoikAddBtn")),
+    subformDeleteBtnArray: Array.from(document.querySelectorAll(".ajaluguDeleteBtn")),
+    subformLoikArrays: [],
+    subformLoikEstArrays: [],
+    subformLoikEnArrays: [],
+    subformLoikHeadingArrays: [],
+    subformLoikDeleteBtnArrays: []
+  };
+
+  // loop through all the "loik" elements to get arrays of its components
+
+  for (var i = 0; i < ajaluguSubforms.subformLoikFormArray.length; i++) {
+
+    var idNumber = i + 1;
+    var subformLoikArray = Array.from(document.querySelectorAll(".ajalugu" + idNumber + "Loik"));
+    var subformLoikEstArray = Array.from(document.querySelectorAll(".ajalugu" + idNumber + "LoikEst"));
+    var subformLoikEnArray = Array.from(document.querySelectorAll(".ajalugu" + idNumber + "LoikEn"));
+    var subformLoikHeadingArray = Array.from(document.querySelectorAll(".ajalugu" + idNumber + "LoikHeading"));
+    var subformLoikDeleteBtnArray = Array.from(document.querySelectorAll(".ajalugu" + idNumber + "LoikDeleteBtn"));
+
+    // push these arrays into the ajaluguSubforms object
+
+    ajaluguSubforms.subformLoikArrays.push(subformLoikArray);
+    ajaluguSubforms.subformLoikEstArrays.push(subformLoikEstArray);
+    ajaluguSubforms.subformLoikEnArrays.push(subformLoikEnArray);
+    ajaluguSubforms.subformLoikHeadingArrays.push(subformLoikHeadingArray);
+    ajaluguSubforms.subformLoikDeleteBtnArrays.push(subformLoikDeleteBtnArray);
+  }
+
+  // return the object
+
+  return ajaluguSubforms;
+}
+
+// function for getting the relevant DOM arrays specifically for the "sundmused" subforms
+
+function getSundmusedSubforms() {
+
+  // construct an object out of the elements on the "sundmused" subform
+
+  var sundmusedSubforms = {
+
+    subformArray: Array.from(document.querySelectorAll(".sundmusedSubform")),
+    subformPealkiriEstArray: Array.from(document.querySelectorAll(".sundmusedPealkiriEst")),
+    subformPealkiriEnArray: Array.from(document.querySelectorAll(".sundmusedPealkiriEn")),
+    subformPlakatArray: Array.from(document.querySelectorAll(".sundmusedPlakat")),
+    subformPlakatLabelArray: Array.from(document.querySelectorAll(".sundmusedPlakatLabel")),
+    subformPlakatPlaceholderArray: Array.from(document.querySelectorAll(".sundmusedPlakatPlaceholder")),
+    subformPlakatImgArray: Array.from(document.querySelectorAll(".sundmusedPlakatImg")),
+    subformHeadingArray: Array.from(document.querySelectorAll(".sundmusedHeading")),
+    subformLoikFormArray: Array.from(document.querySelectorAll(".sundmusedLoikForm")),
+    subformLoikKohtFormArray: Array.from(document.querySelectorAll(".sundmusedLoikKohtForm")),
+    subformLoikAddBtnArray: Array.from(document.querySelectorAll(".sundmusedLoikAddBtn")),
+    subformLoikKohtAddBtnArray: Array.from(document.querySelectorAll(".sundmusedLoikKohtAddBtn")),
+    subformDeleteBtnArray: Array.from(document.querySelectorAll(".sundmusedDeleteBtn")),
+    subformLoikArrays: [],
+    subformLoikEstArrays: [],
+    subformLoikEnArrays: [],
+    subformLoikHeadingArrays: [],
+    subformLoikDeleteBtnArrays: [],
+    subformLoikKohtArrays: [],
+    subformLoikKohtEstArrays: [],
+    subformLoikKohtEnArrays: [],
+    subformLoikKohtLinkArrays: [],
+    subformLoikKohtHeadingArrays: [],
+    subformLoikKohtDeleteBtnArrays: [],
+  };
+
+  // populate the empty arrays using a for loop
+
+  for (var i = 0; i < sundmusedSubforms.subformLoikFormArray.length; i++) {
+
+    var idNumber = i + 1;
+    var subformLoikArray = Array.from(document.querySelectorAll(".sundmused" + idNumber + "Loik"));
+    var subformLoikEstArray = Array.from(document.querySelectorAll(".sundmused" + idNumber + "LoikEst"));
+    var subformLoikEnArray = Array.from(document.querySelectorAll(".sundmused" + idNumber + "LoikEn"));
+    var subformLoikHeadingArray = Array.from(document.querySelectorAll(".sundmused" + idNumber + "LoikHeading"));
+    var subformLoikDeleteBtnArray = Array.from(document.querySelectorAll(".sundmused" + idNumber + "LoikDeleteBtn"));
+    var subformLoikKohtArray = Array.from(document.querySelectorAll(".sundmused" + idNumber + "LoikKoht"));
+    var subformLoikKohtEstArray = Array.from(document.querySelectorAll(".sundmused" + idNumber + "LoikKohtEst"));
+    var subformLoikKohtEnArray = Array.from(document.querySelectorAll(".sundmused" + idNumber + "LoikKohtEn"));
+    var subformLoikKohtLinkArray = Array.from(document.querySelectorAll(".sundmused" + idNumber + "LoikKohtLink"));
+    var subformLoikKohtHeadingArray = Array.from(document.querySelectorAll(".sundmused" + idNumber + "LoikKohtHeading"));
+    var subformLoikKohtDeleteBtnArray = Array.from(document.querySelectorAll(".sundmused" + idNumber + "LoikKohtDeleteBtn"));
+
+    // push these arrays into the sundmusedSubforms object
+
+    sundmusedSubforms.subformLoikArrays.push(subformLoikArray);
+    sundmusedSubforms.subformLoikEstArrays.push(subformLoikEstArray);
+    sundmusedSubforms.subformLoikEnArrays.push(subformLoikEnArray);
+    sundmusedSubforms.subformLoikHeadingArrays.push(subformLoikHeadingArray);
+    sundmusedSubforms.subformLoikDeleteBtnArrays.push(subformLoikDeleteBtnArray);
+    sundmusedSubforms.subformLoikKohtArrays.push(subformLoikKohtArray);
+    sundmusedSubforms.subformLoikKohtEstArrays.push(subformLoikKohtEstArray);
+    sundmusedSubforms.subformLoikKohtEnArrays.push(subformLoikKohtEnArray);
+    sundmusedSubforms.subformLoikKohtLinkArrays.push(subformLoikKohtLinkArray);
+    sundmusedSubforms.subformLoikKohtHeadingArrays.push(subformLoikKohtHeadingArray);
+    sundmusedSubforms.subformLoikKohtDeleteBtnArrays.push(subformLoikKohtDeleteBtnArray);
+  }
+
+  return sundmusedSubforms;
+
+}
+
+
+// function for getting the relevant DOM arrays specifically for the "moodunud" subforms
+
+function getMoodunudSubforms() {
+
+  // construct an object out of the elements on the "moodunud" subform
+
+  var moodunudSubforms = {
+
+    subformArray: Array.from(document.querySelectorAll(".moodunudSubform")),
+    subformPealkiriEstArray: Array.from(document.querySelectorAll(".moodunudPealkiriEst")),
+    subformPealkiriEnArray: Array.from(document.querySelectorAll(".moodunudPealkiriEn")),
+    subformPlakatArray: Array.from(document.querySelectorAll(".moodunudPlakat")),
+    subformPlakatLabelArray: Array.from(document.querySelectorAll(".moodunudPlakatLabel")),
+    subformPlakatPlaceholderArray: Array.from(document.querySelectorAll(".moodunudPlakatPlaceholder")),
+    subformPlakatImgArray: Array.from(document.querySelectorAll(".moodunudPlakatImg")),
+    subformHeadingArray: Array.from(document.querySelectorAll(".moodunudHeading")),
+    subformLoikFormArray: Array.from(document.querySelectorAll(".moodunudLoikForm")),
+    subformLoikKohtFormArray: Array.from(document.querySelectorAll(".moodunudLoikKohtForm")),
+    subformLoikAddBtnArray: Array.from(document.querySelectorAll(".moodunudLoikAddBtn")),
+    subformLoikKohtAddBtnArray: Array.from(document.querySelectorAll(".moodunudLoikKohtAddBtn")),
+    subformDeleteBtnArray: Array.from(document.querySelectorAll(".moodunudDeleteBtn")),
+    subformLoikArrays: [],
+    subformLoikEstArrays: [],
+    subformLoikEnArrays: [],
+    subformLoikHeadingArrays: [],
+    subformLoikDeleteBtnArrays: [],
+    subformLoikKohtArrays: [],
+    subformLoikKohtEstArrays: [],
+    subformLoikKohtEnArrays: [],
+    subformLoikKohtLinkArrays: [],
+    subformLoikKohtHeadingArrays: [],
+    subformLoikKohtDeleteBtnArrays: [],
+  };
+
+  // populate the empty arrays using a for loop
+
+  for (var i = 0; i < moodunudSubforms.subformLoikFormArray.length; i++) {
+
+    var idNumber = i + 1;
+    var subformLoikArray = Array.from(document.querySelectorAll(".moodunud" + idNumber + "Loik"));
+    var subformLoikEstArray = Array.from(document.querySelectorAll(".moodunud" + idNumber + "LoikEst"));
+    var subformLoikEnArray = Array.from(document.querySelectorAll(".moodunud" + idNumber + "LoikEn"));
+    var subformLoikHeadingArray = Array.from(document.querySelectorAll(".moodunud" + idNumber + "LoikHeading"));
+    var subformLoikDeleteBtnArray = Array.from(document.querySelectorAll(".moodunud" + idNumber + "LoikDeleteBtn"));
+    var subformLoikKohtArray = Array.from(document.querySelectorAll(".moodunud" + idNumber + "LoikKoht"));
+    var subformLoikKohtEstArray = Array.from(document.querySelectorAll(".moodunud" + idNumber + "LoikKohtEst"));
+    var subformLoikKohtEnArray = Array.from(document.querySelectorAll(".moodunud" + idNumber + "LoikKohtEn"));
+    var subformLoikKohtLinkArray = Array.from(document.querySelectorAll(".moodunud" + idNumber + "LoikKohtLink"));
+    var subformLoikKohtHeadingArray = Array.from(document.querySelectorAll(".moodunud" + idNumber + "LoikKohtHeading"));
+    var subformLoikKohtDeleteBtnArray = Array.from(document.querySelectorAll(".moodunud" + idNumber + "LoikKohtDeleteBtn"));
+
+    // push these arrays into the moodunudSubforms object
+
+    moodunudSubforms.subformLoikArrays.push(subformLoikArray);
+    moodunudSubforms.subformLoikEstArrays.push(subformLoikEstArray);
+    moodunudSubforms.subformLoikEnArrays.push(subformLoikEnArray);
+    moodunudSubforms.subformLoikHeadingArrays.push(subformLoikHeadingArray);
+    moodunudSubforms.subformLoikDeleteBtnArrays.push(subformLoikDeleteBtnArray);
+    moodunudSubforms.subformLoikKohtArrays.push(subformLoikKohtArray);
+    moodunudSubforms.subformLoikKohtEstArrays.push(subformLoikKohtEstArray);
+    moodunudSubforms.subformLoikKohtEnArrays.push(subformLoikKohtEnArray);
+    moodunudSubforms.subformLoikKohtLinkArrays.push(subformLoikKohtLinkArray);
+    moodunudSubforms.subformLoikKohtHeadingArrays.push(subformLoikKohtHeadingArray);
+    moodunudSubforms.subformLoikKohtDeleteBtnArrays.push(subformLoikKohtDeleteBtnArray);
+  }
+
+  return moodunudSubforms;
+
 }
 
 
@@ -484,8 +628,18 @@ function getArrayNames(elementName) {
 
   var arrayNames = {
     arrayName: elementName,
+    arrayNameYear: elementName + "Year",
+    arrayNameLink: elementName + "Link",
+    arrayNameNumber: elementName + "Number",
+    arrayNameIcon: elementName + "Icon",
     arrayNameEst: elementName + "Est",
     arrayNameEn: elementName + "En",
+    arrayNameEstKey: elementName + "EstKey",
+    arrayNameEnKey: elementName + "EnKey",
+    arrayNameFile: elementName + "File",
+    arrayNameLabel: elementName + "Label",
+    arrayNamePlaceholder: elementName + "Placeholder",
+    arrayNameImg: elementName + "Img",
     arrayNameHeading: elementName + "Heading",
     arrayNameDeleteBtn: elementName + "DeleteBtn"
   };
@@ -497,7 +651,7 @@ function getArrayNames(elementName) {
 
 
 
-// function for getting the index of the deleted element in the array
+// function for getting the index of the deleted "loik" element in the array
 
 function getArrayIndex(element, elementName) {
 
@@ -512,6 +666,78 @@ function getArrayIndex(element, elementName) {
   // return the retrieved index
 
   return arrayIndex;
+}
+
+
+// function for getting the index of the deleted "dirigendid" subform in the array
+
+function getDirigendidSubformIndex(element) {
+
+  // get the subforms object
+
+  var dirigendidSubforms = getDirigendidSubforms();
+
+  // get the index of the deleted subform in its array
+
+  var dirigendidSubformIndex = dirigendidSubforms.subformArray.indexOf(element);
+
+  // return the retrieved index
+
+  return dirigendidSubformIndex;
+}
+
+
+// function for getting the index of the deleted "ajalugu" subform in the array
+
+function getAjaluguSubformIndex(element) {
+
+  // get the subforms object
+
+  var ajaluguSubforms = getAjaluguSubforms();
+
+  // get the index of the deleted subform in its array
+
+  var ajaluguSubformIndex = ajaluguSubforms.subformArray.indexOf(element);
+
+  // return the retrieved index
+
+  return ajaluguSubformIndex;
+}
+
+
+// function for getting the index of the deleted "sundmused" subform in the array
+
+function getSundmusedSubformIndex(element) {
+
+  // get the subforms object
+
+  var sundmusedSubforms = getSundmusedSubforms();
+
+  // get the index of the deleted subform in its array
+
+  var sundmusedSubformIndex = sundmusedSubforms.subformArray.indexOf(element);
+
+  // return the retrieved index
+
+  return sundmusedSubformIndex;
+}
+
+
+// function for getting the index of the deleted "moodunud" subform in the array
+
+function getMoodunudSubformIndex(element) {
+
+  // get the subforms object
+
+  var moodunudSubforms = getMoodunudSubforms();
+
+  // get the index of the deleted subform in its array
+
+  var moodunudSubformIndex = moodunudSubforms.subformArray.indexOf(element);
+
+  // return the retrieved index
+
+  return moodunudSubformIndex;
 }
 
 
@@ -530,10 +756,20 @@ function getDocArrays(doc, selectorName) {
 
   var docArrays = {
     docArray: doc.querySelectorAll("." + selectorName),
-    docEstArray: doc.querySelectorAll("." + selectorName + "-input-est"),
-    docEnArray: doc.querySelectorAll("." + selectorName + "-input-en"),
-    docHeadingArray: doc.querySelectorAll("." + selectorName + "-heading"),
-    docDeleteBtnArray: doc.querySelectorAll("." + selectorName + "-delete-btn")
+    docYearArray: doc.querySelectorAll("." + selectorName + "Year"),
+    docLinkArray: doc.querySelectorAll("." + selectorName + "Link"),
+    docIconArray: doc.querySelectorAll("." + selectorName + "Icon"),
+    docNumberArray: doc.querySelectorAll("." + selectorName + "Number"),
+    docEstArray: doc.querySelectorAll("." + selectorName + "Est"),
+    docEnArray: doc.querySelectorAll("." + selectorName + "En"),
+    docEstKeyArray: doc.querySelectorAll("." + selectorName + "EstKey"),
+    docEnKeyArray: doc.querySelectorAll("." + selectorName + "EnKey"),
+    docFileArray: doc.querySelectorAll("." + selectorName + "File"),
+    docLabelArray: doc.querySelectorAll("." + selectorName + "Label"),
+    docPlaceholderArray: doc.querySelectorAll("." + selectorName + "Placeholder"),
+    docImgArray: doc.querySelectorAll("." + selectorName + "Img"),
+    docHeadingArray: doc.querySelectorAll("." + selectorName + "Heading"),
+    docDeleteBtnArray: doc.querySelectorAll("." + selectorName + "DeleteBtn")
   };
 
   // return the docArrays object
@@ -543,22 +779,76 @@ function getDocArrays(doc, selectorName) {
 
 // function for getting the relevant arrays from the ajax response text for specifically the "dirigendid" subforms
 
-function getDocDirigendidSubform() {
+function getDocDirigendidSubforms(doc) {
 
   // construct an object of the retrieved arrays
 
-  var docDirigendidSubform = {
-    docArray: document.querySelectorAll(".dirigendid-subform"),
-    docPortreeArray: document.querySelectorAll(".portree"),
-    docNimiArray: document.querySelectorAll(".dirigendidNimi"),
-    docLoikFormArray: document.querySelectorAll(".dirigendidLoik-form")
+  var docDirigendidSubforms = {
+    docSubformArray: doc.querySelectorAll(".dirigendidSubform"),
+    docSubformPortreeArray: doc.querySelectorAll(".dirigendidPortree"),
+    docSubformPortreeLabelArray: doc.querySelectorAll(".dirigendidPortreeLabel"),
+    docSubformPortreePlaceholderArray: doc.querySelectorAll(".dirigendidPortreePlaceholder"),
+    docSubformPortreeImgArray: doc.querySelectorAll(".dirigendidPortreeImg"),
+    docSubformNimiArray: doc.querySelectorAll(".dirigendidNimi"),
+    docSubformHeadingArray: doc.querySelectorAll(".dirigendidHeading"),
+    docSubformLoikFormArray: doc.querySelectorAll(".dirigendidLoikForm"),
+    docSubformLoikAddBtnArray: doc.querySelectorAll(".dirigendidLoikAddBtn"),
+    docSubformDeleteBtnArray: doc.querySelectorAll(".dirigendidDeleteBtn")
   };
 
   // return the object
 
-  return docDirigendidSubform;
+  return docDirigendidSubforms;
 }
 
+
+// function for getting the relevant arrays from the ajax response text for specifically the "ajalugu" subforms
+
+function getDocAjaluguSubforms(doc) {
+
+  // construct an object of the retrieved arrays
+
+  var docAjaluguSubforms = {
+    docSubformArray: doc.querySelectorAll(".ajaluguSubform"),
+    docSubformHeadingArray: doc.querySelectorAll(".ajaluguHeading"),
+    docSubformPealkiriEstArray: doc.querySelectorAll(".ajaluguPealkiriEst"),
+    docSubformPealkiriEnArray: doc.querySelectorAll(".ajaluguPealkiriEn"),
+    docSubformLoikFormArray: doc.querySelectorAll(".ajaluguLoikForm"),
+    docSubformLoikAddBtnArray: doc.querySelectorAll(".ajaluguLoikAddBtn"),
+    docSubformDeleteBtnArray: doc.querySelectorAll(".ajaluguDeleteBtn")
+  };
+
+  // return the object
+
+  return docAjaluguSubforms;
+}
+
+
+// function for getting the relevant arrays from the ajax response text for specifically the "sundmused" subforms
+
+function getDocSundmusedSubforms(doc) {
+
+  // construct an object of the retrieved arrays
+
+  var docSundmusedSubforms = {
+    docSubformArray: doc.querySelectorAll(".sundmusedSubform"),
+    docSubformPealkiriEstArray: doc.querySelectorAll(".sundmusedPealkiriEst"),
+    docSubformPealkiriEnArray: doc.querySelectorAll(".sundmusedPealkiriEn"),
+    docSubformPlakatArray: doc.querySelectorAll(".sundmusedPlakat"),
+    docSubformPlakatLabelArray: doc.querySelectorAll(".sundmusedPlakatLabel"),
+    docSubformPlakatPlaceholderArray: doc.querySelectorAll(".sundmusedPlakatPlaceholder"),
+    docSubformPlakatImgArray: doc.querySelectorAll(".sundmusedPlakatImg"),
+    docSubformHeadingArray: doc.querySelectorAll(".sundmusedHeading"),
+    docSubformLoikFormArray: doc.querySelectorAll(".sundmusedLoikForm"),
+    docSubformLoikKohtFormArray: doc.querySelectorAll(".sundmusedLoikKohtForm"),
+    docSubformLoikAddBtnArray: doc.querySelectorAll(".sundmusedLoikAddBtn"),
+    docSubformDeleteBtnArray: doc.querySelectorAll(".sundmusedDeleteBtn")
+  };
+
+  // return the object
+
+  return docSundmusedSubforms;
+}
 
 
 // function for getting elements from each array which will be added to the page
@@ -573,8 +863,18 @@ function getDocElements(doc, selectorName) {
 
   var docElements = {
     docElement: getLastElement(docArrays.docArray),
+    docYearElement: getLastElement(docArrays.docYearArray),
+    docLinkElement: getLastElement(docArrays.docLinkArray),
+    docIconElement: getLastElement(docArrays.docIconArray),
+    docNumberElement: getLastElement(docArrays.docNumberArray),
     docEstElement: getLastElement(docArrays.docEstArray),
     docEnElement: getLastElement(docArrays.docEnArray),
+    docEstKeyElement: getLastElement(docArrays.docEstKeyArray),
+    docEnKeyElement: getLastElement(docArrays.docEnKeyArray),
+    docFileElement: getLastElement(docArrays.docFileArray),
+    docLabelElement: getLastElement(docArrays.docLabelArray),
+    docPlaceholderElement: getLastElement(docArrays.docPlaceholderArray),
+    docImgElement: getLastElement(docArrays.docImgArray),
     docHeadingElement: getLastElement(docArrays.docHeadingArray),
     docDeleteBtnElement: getLastElement(docArrays.docDeleteBtnArray)
   };
@@ -587,18 +887,69 @@ function getDocElements(doc, selectorName) {
 
 // get the last elements from each of the arrays related to the "dirigendid" subform (the ones, which will be added to the page)
 
-function getDocDirigendidSubformElements() {
+function getDocDirigendidSubformElements(doc) {
 
-  var docDirigendidSubform = getDocDirigendidSubform();
+  var docDirigendidSubforms = getDocDirigendidSubforms(doc);
 
   var docDirigendidSubformElements = {
-    docElement: getLastElement(docDirigendidSubform.docArray),
-    docPortreeElement: getLastElement(docDirigendidSubform.docPortreeArray),
-    docNimiElement: getLastElement(docDirigendidSubform.docNimiArray),
-    docLoikFormElement: getLastElement(docDirigendidSubform.docLoikFormArray)
+    docSubformElement: getLastElement(docDirigendidSubforms.docSubformArray),
+    docSubformPortreeElement: getLastElement(docDirigendidSubforms.docSubformPortreeArray),
+    docSubformPortreeLabelElement: getLastElement(docDirigendidSubforms.docSubformPortreeLabelArray),
+    docSubformPortreePlaceholderElement: getLastElement(docDirigendidSubforms.docSubformPortreePlaceholderArray),
+    docSubformPortreeImgElement: getLastElement(docDirigendidSubforms.docSubformPortreeImgArray),
+    docSubformNimiElement: getLastElement(docDirigendidSubforms.docSubformNimiArray),
+    docSubformHeadingElement: getLastElement(docDirigendidSubforms.docSubformHeadingArray),
+    docSubformLoikFormElement: getLastElement(docDirigendidSubforms.docSubformLoikFormArray),
+    docSubformLoikAddBtnElement: getLastElement(docDirigendidSubforms.docSubformLoikAddBtnArray),
+    docSubformDeleteBtnElement: getLastElement(docDirigendidSubforms.docSubformDeleteBtnArray)
   };
 
   return docDirigendidSubformElements;
+}
+
+
+// get the last elements from each of the arrays related to the "ajalugu" subform (the ones, which will be added to the page)
+
+function getDocAjaluguSubformElements(doc) {
+
+  var docAjaluguSubforms = getDocAjaluguSubforms(doc);
+
+  var docAjaluguSubformElements = {
+    docSubformElement: getLastElement(docAjaluguSubforms.docSubformArray),
+    docSubformHeadingElement: getLastElement(docAjaluguSubforms.docSubformHeadingArray),
+    docSubformPealkiriEstElement: getLastElement(docAjaluguSubforms.docSubformPealkiriEstArray),
+    docSubformPealkiriEnElement: getLastElement(docAjaluguSubforms.docSubformPealkiriEnArray),
+    docSubformLoikFormElement: getLastElement(docAjaluguSubforms.docSubformLoikFormArray),
+    docSubformLoikAddBtnElement: getLastElement(docAjaluguSubforms.docSubformLoikAddBtnArray),
+    docSubformDeleteBtnElement: getLastElement(docAjaluguSubforms.docSubformDeleteBtnArray)
+  };
+
+  return docAjaluguSubformElements;
+}
+
+
+// get the last elements from each of the arrays related to the "sundmused" subform (the ones, which will be added to the page)
+
+function getDocSundmusedSubformElements(doc) {
+
+  var docSundmusedSubforms = getDocSundmusedSubforms(doc);
+
+  var docSundmusedSubformElements = {
+    docSubformElement: getLastElement(docSundmusedSubforms.docSubformArray),
+    docSubformPealkiriEstElement: getLastElement(docSundmusedSubforms.docSubformPealkiriEstArray),
+    docSubformPealkiriEnElement: getLastElement(docSundmusedSubforms.docSubformPealkiriEnArray),
+    docSubformPlakatElement: getLastElement(docSundmusedSubforms.docSubformPlakatArray),
+    docSubformPlakatLabelElement: getLastElement(docSundmusedSubforms.docSubformPlakatLabelArray),
+    docSubformPlakatPlaceholderElement: getLastElement(docSundmusedSubforms.docSubformPlakatPlaceholderArray),
+    docSubformPlakatImgElement: getLastElement(docSundmusedSubforms.docSubformPlakatImgArray),
+    docSubformHeadingElement: getLastElement(docSundmusedSubforms.docSubformHeadingArray),
+    docSubformLoikFormElement: getLastElement(docSundmusedSubforms.docSubformLoikFormArray),
+    docSubformLoikKohtFormElement: getLastElement(docSundmusedSubforms.docSubformLoikKohtFormArray),
+    docSubformLoikAddBtnElement: getLastElement(docSundmusedSubforms.docSubformLoikAddBtnArray),
+    docSubformDeleteBtnElement: getLastElement(docSundmusedSubforms.docSubformDeleteBtnArray)
+  };
+
+  return docSundmusedSubformElements;
 }
 
 
@@ -610,29 +961,136 @@ function getDocDirigendidSubformElements() {
 
 // function for deleting elements from the page and database
 
-function commenceDelete(event, target, destination) {
+function commenceDelete(event, target, destination, subform) {
 
   // remove the popup from the screen
 
   removeMessage(deletePopup);
 
-  // get the attributes of the element about to be deleted
+  // check, if the subform input has been specified as "dirigendid"
 
-  var elementData = getElementData(target);
+  if (subform === "dirigendid") {
 
-  // delete the element from the page
+    // if yes, get the parent element of the target input
 
-  deleteElement(target, elementData);
+    var dirigendidParent = getParent(target);
 
-  // call an ajax request to delete relevant data from the database
+    // get the the relevant attributes of the deleted subform
 
-  ajaxBodyParser(event, new BodyParserParam(function() {
-    return createDeleteData(target);
-  }, destination + "/delete", "delete"));
+    var dirigendidSubformData = getDirigendidSubformData(dirigendidParent);
+
+    // the parent element is the one we want to delete- call the below function to do that
+
+    deleteDirigendidSubform(dirigendidParent, dirigendidSubformData);
+
+    // call an ajax request to delete relevant data from the database
+
+    ajaxBodyParser(event, new BodyParserParam(function() {
+      return createDeleteDirigendidData(dirigendidParent);
+    }, destination + "/delete", "delete"));
+
+    // check, if the subform input has been specified as "ajalugu"
+
+  } else if (subform === "ajalugu") {
+
+    // if yes, get the parent element of the target input
+
+    var ajaluguParent = getParent(target);
+
+    // get the the relevant attributes of the deleted subform
+
+    var ajaluguSubformData = getAjaluguSubformData(ajaluguParent);
+
+    // the parent element is the one we want to delete- call the below function to do that
+
+    deleteAjaluguSubform(ajaluguParent, ajaluguSubformData);
+
+    // call an ajax request to delete relevant data from the database
+
+    ajaxBodyParser(event, new BodyParserParam(function() {
+      return createDeleteAjaluguData(ajaluguParent);
+    }, destination + "/delete", "delete"));
+
+    // check, if the subform input has been specified as "sundmused"
+
+  } else if (subform === "sundmused") {
+
+    // if yes, get the parent element of the target input
+
+    var sundmusedParent = getParent(target);
+
+    // also get the index number of the deleted subform, this is contained in the id of the parent element
+
+    var idNumber = sundmusedParent.id.slice(9, -7);
+
+    // also get some DOM elements from the subform, the existence or values of which will determine
+    // if the particular subform will be sent to the archive or deleted outright
+
+    var loikEstArray = Array.from(document.querySelectorAll(".sundmused" + idNumber + "LoikEst"));
+    var loikKohtEstArray = Array.from(document.querySelectorAll(".sundmused" + idNumber + "LoikKohtEst"));
+    var pealkiriEst = document.getElementById("sundmused" + idNumber + "PealkiriEst");
+    var pealkiriEn = document.getElementById("sundmused" + idNumber + "PealkiriEn");
+
+    // check if any of the dynamic elements exist or if the "pealkiri" inputs have any value
+
+    var textQuery = (loikEstArray.length !== 0 || loikKohtEstArray.length !== 0 || pealkiriEst.value !== "" || pealkiriEn.value !== "");
+
+    // get the the relevant attributes of the deleted subform
+
+    var sundmusedSubformData = getSundmusedSubformData(sundmusedParent);
+
+    // the parent element is the one we want to delete- call the below function to do that
+
+    deleteSundmusedSubform(sundmusedParent, sundmusedSubformData);
+
+    // call an ajax request to delete relevant data from the database
+
+    ajaxBodyParser(event, new BodyParserParam(function() {
+      return createDeleteSundmusedData(sundmusedParent, textQuery);
+    }, destination + "/delete", "delete"));
+
+    // check, if the subform input has been specified as "moodunud"
+
+  } else if (subform === "moodunud") {
+
+    // if yes, get the parent element of the target input
+
+    var moodunudParent = getParent(target);
+
+    // get the the relevant attributes of the deleted subform
+
+    var moodunudSubformData = getMoodunudSubformData(moodunudParent);
+
+    // the parent element is the one we want to delete- call the below function to do that
+
+    deleteMoodunudSubform(moodunudParent, moodunudSubformData);
+
+    // call an ajax request to delete relevant data from the database
+
+    ajaxBodyParser(event, new BodyParserParam(function() {
+      return createDeleteMoodunudData(moodunudParent);
+    }, destination + "/delete", "delete"));
+
+  } else {
+
+    // if the subform hasn't been specified, get the attributes of the element about to be deleted
+
+    var elementData = getElementData(target);
+
+    // delete the element from the page
+
+    deleteElement(target, elementData);
+
+    // call an ajax request to delete relevant data from the database
+
+    ajaxBodyParser(event, new BodyParserParam(function() {
+      return createDeleteData(target);
+    }, destination + "/delete", "delete"));
+  }
 }
 
 
-// delete a dom element from the page
+// delete a "loik" element from the page
 
 function deleteElement(element, elementData) {
   element.parentNode.removeChild(element);
@@ -643,18 +1101,72 @@ function deleteElement(element, elementData) {
 }
 
 
+// delete a "dirigendid" subform from the page
 
-// function for updating the arrays affected by the deletion of an element
+function deleteDirigendidSubform(element, elementData) {
+  element.parentNode.removeChild(element);
+
+  // update the attributes of all subforms left on the page
+
+  updateDirigendidSubforms(element, elementData);
+}
+
+
+// delete an "ajalugu" subform from the page
+
+function deleteAjaluguSubform(element, elementData) {
+  element.parentNode.removeChild(element);
+
+  // update the attributes of all subforms left on the page
+
+  updateAjaluguSubforms(element, elementData);
+}
+
+
+// delete a "sundmused" subform from the page
+
+function deleteSundmusedSubform(element, elementData) {
+  element.parentNode.removeChild(element);
+
+  // update the attributes of all subforms left on the page
+
+  updateSundmusedSubforms(element, elementData);
+}
+
+
+// delete a "moodunud" subform from the page
+
+function deleteMoodunudSubform(element, elementData) {
+  element.parentNode.removeChild(element);
+
+  // update the attributes of all subforms left on the page
+
+  updateMoodunudSubforms(element, elementData);
+}
+
+
+
+// function for updating the arrays affected by the deletion of a "loik" element
 
 function updateArrays(element, elementData) {
 
   // remove the deleted element from each of the arrays using the received index
 
   elementData.arrays.array.splice(elementData.arrayIndex, 1);
-  elementData.arrays.arrayEst.splice(elementData.arrayIndex, 1);
-  elementData.arrays.arrayEn.splice(elementData.arrayIndex, 1);
-  elementData.arrays.arrayHeading.splice(elementData.arrayIndex, 1);
-  elementData.arrays.arrayDeleteBtn.splice(elementData.arrayIndex, 1);
+  elementData.arrays.yearArray.splice(elementData.arrayIndex, 1);
+  elementData.arrays.linkArray.splice(elementData.arrayIndex, 1);
+  elementData.arrays.iconArray.splice(elementData.arrayIndex, 1);
+  elementData.arrays.numberArray.splice(elementData.arrayIndex, 1);
+  elementData.arrays.estArray.splice(elementData.arrayIndex, 1);
+  elementData.arrays.enArray.splice(elementData.arrayIndex, 1);
+  elementData.arrays.estKeyArray.splice(elementData.arrayIndex, 1);
+  elementData.arrays.enKeyArray.splice(elementData.arrayIndex, 1);
+  elementData.arrays.fileArray.splice(elementData.arrayIndex, 1);
+  elementData.arrays.labelArray.splice(elementData.arrayIndex, 1);
+  elementData.arrays.placeholderArray.splice(elementData.arrayIndex, 1);
+  elementData.arrays.imgArray.splice(elementData.arrayIndex, 1);
+  elementData.arrays.headingArray.splice(elementData.arrayIndex, 1);
+  elementData.arrays.deleteBtnArray.splice(elementData.arrayIndex, 1);
 
   // update the properties of the DOM elements that have been affected by element deletion
 
@@ -662,7 +1174,135 @@ function updateArrays(element, elementData) {
 }
 
 
-// function for updating the properties of the DOM elements inside altered node lists
+// function for updating the arrays affected by the deletion of a "dirigendid" subform
+
+function updateDirigendidSubforms(element, elementData) {
+
+  // remove the deleted element from each of the arrays using the received index
+
+  elementData.subforms.subformArray.splice(elementData.subformIndex, 1);
+  elementData.subforms.subformPortreeArray.splice(elementData.subformIndex, 1);
+  elementData.subforms.subformPortreeLabelArray.splice(elementData.subformIndex, 1);
+  elementData.subforms.subformPortreePlaceholderArray.splice(elementData.subformIndex, 1);
+  elementData.subforms.subformPortreeImgArray.splice(elementData.subformIndex, 1);
+  elementData.subforms.subformNimiArray.splice(elementData.subformIndex, 1);
+  elementData.subforms.subformHeadingArray.splice(elementData.subformIndex, 1);
+  elementData.subforms.subformLoikFormArray.splice(elementData.subformIndex, 1);
+  elementData.subforms.subformLoikAddBtnArray.splice(elementData.subformIndex, 1);
+  elementData.subforms.subformDeleteBtnArray.splice(elementData.subformIndex, 1);
+  elementData.subforms.subformLoikArrays.splice(elementData.subformIndex, 1);
+  elementData.subforms.subformLoikEstArrays.splice(elementData.subformIndex, 1);
+  elementData.subforms.subformLoikEnArrays.splice(elementData.subformIndex, 1);
+  elementData.subforms.subformLoikHeadingArrays.splice(elementData.subformIndex, 1);
+  elementData.subforms.subformLoikDeleteBtnArrays.splice(elementData.subformIndex, 1);
+
+  // update the properties of the DOM elements that have been affected by element deletion
+
+  updateDirigendidSubformProperties(elementData);
+}
+
+
+// function for updating the arrays affected by the deletion of a "ajalugu" subform
+
+function updateAjaluguSubforms(element, elementData) {
+
+  // remove the deleted element from each of the arrays using the received index
+
+  elementData.subforms.subformArray.splice(elementData.subformIndex, 1);
+  elementData.subforms.subformHeadingArray.splice(elementData.subformIndex, 1);
+  elementData.subforms.subformPealkiriEstArray.splice(elementData.subformIndex, 1);
+  elementData.subforms.subformPealkiriEnArray.splice(elementData.subformIndex, 1);
+  elementData.subforms.subformLoikFormArray.splice(elementData.subformIndex, 1);
+  elementData.subforms.subformLoikAddBtnArray.splice(elementData.subformIndex, 1);
+  elementData.subforms.subformDeleteBtnArray.splice(elementData.subformIndex, 1);
+  elementData.subforms.subformLoikArrays.splice(elementData.subformIndex, 1);
+  elementData.subforms.subformLoikEstArrays.splice(elementData.subformIndex, 1);
+  elementData.subforms.subformLoikEnArrays.splice(elementData.subformIndex, 1);
+  elementData.subforms.subformLoikHeadingArrays.splice(elementData.subformIndex, 1);
+  elementData.subforms.subformLoikDeleteBtnArrays.splice(elementData.subformIndex, 1);
+
+  // update the properties of the DOM elements that have been affected by element deletion
+
+  updateAjaluguSubformProperties(elementData);
+}
+
+
+// function for updating the arrays affected by the deletion of a "sundmused" subform
+
+function updateSundmusedSubforms(element, elementData) {
+
+  // remove the deleted element from each of the arrays using the received index
+
+  elementData.subforms.subformArray.splice(elementData.subformIndex, 1);
+  elementData.subforms.subformPealkiriEstArray.splice(elementData.subformIndex, 1);
+  elementData.subforms.subformPealkiriEnArray.splice(elementData.subformIndex, 1);
+  elementData.subforms.subformPlakatArray.splice(elementData.subformIndex, 1);
+  elementData.subforms.subformPlakatLabelArray.splice(elementData.subformIndex, 1);
+  elementData.subforms.subformPlakatPlaceholderArray.splice(elementData.subformIndex, 1);
+  elementData.subforms.subformPlakatImgArray.splice(elementData.subformIndex, 1);
+  elementData.subforms.subformHeadingArray.splice(elementData.subformIndex, 1);
+  elementData.subforms.subformLoikFormArray.splice(elementData.subformIndex, 1);
+  elementData.subforms.subformLoikAddBtnArray.splice(elementData.subformIndex, 1);
+  elementData.subforms.subformDeleteBtnArray.splice(elementData.subformIndex, 1);
+  elementData.subforms.subformLoikArrays.splice(elementData.subformIndex, 1);
+  elementData.subforms.subformLoikEstArrays.splice(elementData.subformIndex, 1);
+  elementData.subforms.subformLoikEnArrays.splice(elementData.subformIndex, 1);
+  elementData.subforms.subformLoikHeadingArrays.splice(elementData.subformIndex, 1);
+  elementData.subforms.subformLoikDeleteBtnArrays.splice(elementData.subformIndex, 1);
+  elementData.subforms.subformLoikKohtFormArray.splice(elementData.subformIndex, 1);
+  elementData.subforms.subformLoikKohtAddBtnArray.splice(elementData.subformIndex, 1);
+  elementData.subforms.subformLoikKohtArrays.splice(elementData.subformIndex, 1);
+  elementData.subforms.subformLoikKohtEstArrays.splice(elementData.subformIndex, 1);
+  elementData.subforms.subformLoikKohtEnArrays.splice(elementData.subformIndex, 1);
+  elementData.subforms.subformLoikKohtLinkArrays.splice(elementData.subformIndex, 1);
+  elementData.subforms.subformLoikKohtHeadingArrays.splice(elementData.subformIndex, 1);
+  elementData.subforms.subformLoikKohtDeleteBtnArrays.splice(elementData.subformIndex, 1);
+
+  // update the properties of the DOM elements that have been affected by element deletion
+
+  updateSundmusedSubformProperties(elementData);
+}
+
+
+// function for updating the arrays affected by the deletion of a "moodunud" subform
+
+function updateMoodunudSubforms(element, elementData) {
+
+  // remove the deleted element from each of the arrays using the received index
+
+  elementData.subforms.subformArray.splice(elementData.subformIndex, 1);
+  elementData.subforms.subformPealkiriEstArray.splice(elementData.subformIndex, 1);
+  elementData.subforms.subformPealkiriEnArray.splice(elementData.subformIndex, 1);
+  elementData.subforms.subformPlakatArray.splice(elementData.subformIndex, 1);
+  elementData.subforms.subformPlakatLabelArray.splice(elementData.subformIndex, 1);
+  elementData.subforms.subformPlakatPlaceholderArray.splice(elementData.subformIndex, 1);
+  elementData.subforms.subformPlakatImgArray.splice(elementData.subformIndex, 1);
+  elementData.subforms.subformHeadingArray.splice(elementData.subformIndex, 1);
+  elementData.subforms.subformLoikFormArray.splice(elementData.subformIndex, 1);
+  elementData.subforms.subformLoikAddBtnArray.splice(elementData.subformIndex, 1);
+  elementData.subforms.subformDeleteBtnArray.splice(elementData.subformIndex, 1);
+  elementData.subforms.subformLoikArrays.splice(elementData.subformIndex, 1);
+  elementData.subforms.subformLoikEstArrays.splice(elementData.subformIndex, 1);
+  elementData.subforms.subformLoikEnArrays.splice(elementData.subformIndex, 1);
+  elementData.subforms.subformLoikHeadingArrays.splice(elementData.subformIndex, 1);
+  elementData.subforms.subformLoikDeleteBtnArrays.splice(elementData.subformIndex, 1);
+  elementData.subforms.subformLoikKohtFormArray.splice(elementData.subformIndex, 1);
+  elementData.subforms.subformLoikKohtAddBtnArray.splice(elementData.subformIndex, 1);
+  elementData.subforms.subformLoikKohtArrays.splice(elementData.subformIndex, 1);
+  elementData.subforms.subformLoikKohtEstArrays.splice(elementData.subformIndex, 1);
+  elementData.subforms.subformLoikKohtEnArrays.splice(elementData.subformIndex, 1);
+  elementData.subforms.subformLoikKohtLinkArrays.splice(elementData.subformIndex, 1);
+  elementData.subforms.subformLoikKohtHeadingArrays.splice(elementData.subformIndex, 1);
+  elementData.subforms.subformLoikKohtDeleteBtnArrays.splice(elementData.subformIndex, 1);
+
+  // update the properties of the DOM elements that have been affected by element deletion
+
+  updateMoodunudSubformProperties(elementData);
+}
+
+
+
+// function for updating the properties of the DOM elements inside altered "loik" -related node lists
 
 function updateProperties(elementData) {
 
@@ -672,21 +1312,403 @@ function updateProperties(elementData) {
 
     var idNumber = i + 1;
 
-    elementData.arrays.array[i].setAttribute("id", elementData.arrayNames.arrayName + idNumber);
-    elementData.arrays.arrayEst[i].setAttribute("id", elementData.arrayNames.arrayNameEst + idNumber);
-    elementData.arrays.arrayEn[i].setAttribute("id", elementData.arrayNames.arrayNameEn + idNumber);
-    elementData.arrays.arrayDeleteBtn[i].setAttribute("id", elementData.arrayNames.arrayNameDeleteBtn + idNumber);
-    elementData.arrays.array[i].setAttribute("name", elementData.arrayNames.arrayName + idNumber);
-    elementData.arrays.arrayEst[i].setAttribute("name", elementData.arrayNames.arrayNameEst + idNumber);
-    elementData.arrays.arrayEn[i].setAttribute("name", elementData.arrayNames.arrayNameEn + idNumber);
-    elementData.arrays.arrayDeleteBtn[i].setAttribute("name", elementData.arrayNames.arrayNameDeleteBtn + idNumber);
-    elementData.arrays.arrayHeading[i].innerHTML = elementData.headingName + " " + idNumber;
+    if (elementData.arrays.array[i] !== undefined) {
+      elementData.arrays.array[i].setAttribute("id", elementData.arrayNames.arrayName + idNumber);
+      elementData.arrays.array[i].setAttribute("name", elementData.arrayNames.arrayName + idNumber);
+    }
+    if (elementData.arrays.yearArray[i] !== undefined) {
+      elementData.arrays.yearArray[i].setAttribute("id", elementData.arrayNames.arrayNameYear + idNumber);
+      elementData.arrays.yearArray[i].setAttribute("name", elementData.arrayNames.arrayNameYear + idNumber);
+    }
+    if (elementData.arrays.linkArray[i] !== undefined) {
+      elementData.arrays.linkArray[i].setAttribute("id", elementData.arrayNames.arrayNameLink + idNumber);
+      elementData.arrays.linkArray[i].setAttribute("name", elementData.arrayNames.arrayNameLink + idNumber);
+    }
+    if (elementData.arrays.iconArray[i] !== undefined) {
+      elementData.arrays.iconArray[i].setAttribute("id", elementData.arrayNames.arrayNameIcon + idNumber);
+      elementData.arrays.iconArray[i].setAttribute("name", elementData.arrayNames.arrayNameIcon + idNumber);
+    }
+    if (elementData.arrays.numberArray[i] !== undefined) {
+      elementData.arrays.numberArray[i].setAttribute("id", elementData.arrayNames.arrayNameNumber + idNumber);
+      elementData.arrays.numberArray[i].setAttribute("name", elementData.arrayNames.arrayNameNumber + idNumber);
+    }
+    if (elementData.arrays.estArray[i] !== undefined) {
+      elementData.arrays.estArray[i].setAttribute("id", elementData.arrayNames.arrayNameEst + idNumber);
+      elementData.arrays.estArray[i].setAttribute("name", elementData.arrayNames.arrayNameEst + idNumber);
+    }
+    if (elementData.arrays.enArray[i] !== undefined) {
+      elementData.arrays.enArray[i].setAttribute("id", elementData.arrayNames.arrayNameEn + idNumber);
+      elementData.arrays.enArray[i].setAttribute("name", elementData.arrayNames.arrayNameEn + idNumber);
+    }
+    if (elementData.arrays.estKeyArray[i] !== undefined) {
+      elementData.arrays.estKeyArray[i].setAttribute("id", elementData.arrayNames.arrayNameEstKey + idNumber);
+      elementData.arrays.enKeyArray[i].setAttribute("name", elementData.arrayNames.arrayNameEnKey + idNumber);
+    }
+    if (elementData.arrays.enKeyArray[i] !== undefined) {
+      elementData.arrays.enKeyArray[i].setAttribute("id", elementData.arrayNames.arrayNameEnKey + idNumber);
+      elementData.arrays.enKeyArray[i].setAttribute("name", elementData.arrayNames.arrayNameEnKey + idNumber);
+    }
+    if (elementData.arrays.fileArray[i] !== undefined) {
+      elementData.arrays.fileArray[i].setAttribute("id", elementData.arrayNames.arrayNameFile + idNumber);
+      elementData.arrays.fileArray[i].setAttribute("name", elementData.arrayNames.arrayNameFile + idNumber);
+    }
+    if (elementData.arrays.labelArray[i] !== undefined) {
+      elementData.arrays.labelArray[i].setAttribute("id", elementData.arrayNames.arrayNameLabel + idNumber);
+      elementData.arrays.labelArray[i].setAttribute("for", elementData.arrayNames.arrayNameFile + idNumber);
+    }
+    if (elementData.arrays.placeholderArray[i] !== undefined) {
+      elementData.arrays.placeholderArray[i].setAttribute("id", elementData.arrayNames.arrayNamePlaceholder + idNumber);
+    }
+    if (elementData.arrays.imgArray[i] !== undefined) {
+      elementData.arrays.imgArray[i].setAttribute("id", elementData.arrayNames.arrayNameImg + idNumber);
+      elementData.arrays.imgArray[i].setAttribute("alt", elementData.headingName + idNumber);
+    }
+    if (elementData.arrays.deleteBtnArray[i] !== undefined) {
+      elementData.arrays.deleteBtnArray[i].setAttribute("id", elementData.arrayNames.arrayNameDeleteBtn + idNumber);
+      elementData.arrays.deleteBtnArray[i].setAttribute("name", elementData.arrayNames.arrayNameDeleteBtn + idNumber);
+    }
+    if (elementData.arrays.headingArray[i] !== undefined) {
+      elementData.arrays.headingArray[i].innerHTML = elementData.headingName + " " + idNumber;
+    }
   }
 }
 
 
+// function for updating the properties of the DOM elements inside the altered "dirigendid" subforms
 
-// function for dynamically retrieving all the node lists that are affected by element deletion
+function updateDirigendidSubformProperties(elementData) {
+
+  for (var i = 0; i < elementData.subforms.subformArray.length; i++) {
+
+    // because normal people start counting from 1 not 0, add 1 to the index to create element id-s and form headings
+
+    var idNumber = i + 1;
+
+    // update the attributes of all the "dirigendid" subform elements affected by the deletion of one of them
+
+    elementData.subforms.subformArray[i].setAttribute("id", "dirigendid" + idNumber + "Subform");
+    elementData.subforms.subformArray[i].setAttribute("name", "dirigendid" + idNumber + "Subform");
+    elementData.subforms.subformPortreeArray[i].setAttribute("id", "dirigendid" + idNumber + "Portree");
+    elementData.subforms.subformPortreeArray[i].setAttribute("name", "dirigendid" + idNumber + "Portree");
+    elementData.subforms.subformPortreeLabelArray[i].setAttribute("id", "dirigendid" + idNumber + "PortreeLabel");
+    elementData.subforms.subformPortreeLabelArray[i].setAttribute("name", "dirigendid" + idNumber + "PortreeLabel");
+    elementData.subforms.subformPortreeLabelArray[i].setAttribute("for", "dirigendid" + idNumber + "Portree");
+    elementData.subforms.subformPortreePlaceholderArray[i].setAttribute("id", "dirigendid" + idNumber + "PortreePlaceholder");
+    elementData.subforms.subformPortreePlaceholderArray[i].setAttribute("name", "dirigendid" + idNumber + "PortreePlaceholder");
+    elementData.subforms.subformPortreeImgArray[i].setAttribute("id", "dirigendid" + idNumber + "PortreeImg");
+    elementData.subforms.subformPortreeImgArray[i].setAttribute("name", "dirigendid" + idNumber + "PortreeImg");
+    elementData.subforms.subformPortreeImgArray[i].setAttribute("alt", "Portree " + idNumber);
+    elementData.subforms.subformNimiArray[i].setAttribute("id", "dirigendid" + idNumber + "Nimi");
+    elementData.subforms.subformNimiArray[i].setAttribute("name", "dirigendid" + idNumber + "Nimi");
+    elementData.subforms.subformHeadingArray[i].setAttribute("id", "dirigendid" + idNumber + "Heading");
+    elementData.subforms.subformHeadingArray[i].setAttribute("name", "dirigendid" + idNumber + "Heading");
+    elementData.subforms.subformHeadingArray[i].innerHTML = "Dirigent " + idNumber;
+    elementData.subforms.subformLoikFormArray[i].setAttribute("id", "dirigendid" + idNumber + "LoikForm");
+    elementData.subforms.subformLoikFormArray[i].setAttribute("name", "dirigendid" + idNumber + "LoikForm");
+    elementData.subforms.subformLoikAddBtnArray[i].setAttribute("id", "dirigendid" + idNumber + "LoikAddBtn");
+    elementData.subforms.subformLoikAddBtnArray[i].setAttribute("name", "dirigendid" + idNumber + "LoikAddBtn");
+    elementData.subforms.subformDeleteBtnArray[i].setAttribute("id", "dirigendid" + idNumber + "DeleteBtn");
+    elementData.subforms.subformDeleteBtnArray[i].setAttribute("name", "dirigendid" + idNumber + "DeleteBtn");
+
+    // loop through all the "loik" components on every "dirigendid" subform and update their attributes
+
+    for (var a = 0; a < elementData.subforms.subformLoikArrays[i].length; a++) {
+
+      // the indexNumber in the end of the "loik" elements' attributes is their position in the array + 1 (since humans count from 1 not 0)
+
+      var indexNumber = a + 1;
+
+      // update all the attributes
+
+      elementData.subforms.subformLoikArrays[i][a].setAttribute("id", "dirigendid" + idNumber + "Loik" + indexNumber);
+      elementData.subforms.subformLoikArrays[i][a].setAttribute("name", "dirigendid" + idNumber + "Loik" + indexNumber);
+      elementData.subforms.subformLoikArrays[i][a].classList.replace(getLastElement(elementData.subforms.subformLoikArrays[i][a].classList), "dirigendid" + idNumber + "Loik" + indexNumber);
+      elementData.subforms.subformLoikEstArrays[i][a].setAttribute("id", "dirigendid" + idNumber + "LoikEst" + indexNumber);
+      elementData.subforms.subformLoikEstArrays[i][a].setAttribute("name", "dirigendid" + idNumber + "LoikEst" + indexNumber);
+      elementData.subforms.subformLoikEstArrays[i][a].classList.replace(getLastElement(elementData.subforms.subformLoikEstArrays[i][a].classList), "dirigendid" + idNumber + "LoikEst" + indexNumber);
+      elementData.subforms.subformLoikEnArrays[i][a].setAttribute("id", "dirigendid" + idNumber + "LoikEn" + indexNumber);
+      elementData.subforms.subformLoikEnArrays[i][a].setAttribute("name", "dirigendid" + idNumber + "LoikEn" + indexNumber);
+      elementData.subforms.subformLoikEnArrays[i][a].classList.replace(getLastElement(elementData.subforms.subformLoikEnArrays[i][a].classList), "dirigendid" + idNumber + "LoikEn" + indexNumber);
+      elementData.subforms.subformLoikHeadingArrays[i][a].setAttribute("id", "dirigendid" + idNumber + "LoikHeading" + indexNumber);
+      elementData.subforms.subformLoikHeadingArrays[i][a].setAttribute("name", "dirigendid" + idNumber + "LoikHeading" + indexNumber);
+      elementData.subforms.subformLoikHeadingArrays[i][a].classList.replace(getLastElement(elementData.subforms.subformLoikHeadingArrays[i][a].classList), "dirigendid" + idNumber + "LoikHeading" + indexNumber);
+      elementData.subforms.subformLoikHeadingArrays[i][a].innerHTML = "Lõik " + indexNumber;
+      elementData.subforms.subformLoikDeleteBtnArrays[i][a].setAttribute("id", "dirigendid" + idNumber + "LoikDeleteBtn" + indexNumber);
+      elementData.subforms.subformLoikDeleteBtnArrays[i][a].setAttribute("name", "dirigendid" + idNumber + "LoikDeleteBtn" + indexNumber);
+      elementData.subforms.subformLoikDeleteBtnArrays[i][a].classList.replace(getLastElement(elementData.subforms.subformLoikDeleteBtnArrays[i][a].classList), "dirigendid" + idNumber + "LoikDeleteBtn" + indexNumber);
+    }
+  }
+}
+
+
+// function for updating the properties of the DOM elements inside the altered "ajalugu" subforms
+
+function updateAjaluguSubformProperties(elementData) {
+
+  for (var i = 0; i < elementData.subforms.subformArray.length; i++) {
+
+    // because normal people start counting from 1 not 0, add 1 to the index to create element id-s and form headings
+
+    var idNumber = i + 1;
+
+    // update the attributes of all the "ajalugu" subform elements affected by the deletion of one of them
+
+    elementData.subforms.subformArray[i].setAttribute("id", "ajalugu" + idNumber + "Subform");
+    elementData.subforms.subformArray[i].setAttribute("name", "ajalugu" + idNumber + "Subform");
+    elementData.subforms.subformHeadingArray[i].setAttribute("id", "ajalugu" + idNumber + "Heading");
+    elementData.subforms.subformHeadingArray[i].setAttribute("name", "ajalugu" + idNumber + "Heading");
+    elementData.subforms.subformHeadingArray[i].innerHTML = "Sektsioon " + idNumber;
+    elementData.subforms.subformPealkiriEstArray[i].setAttribute("id", "ajalugu" + idNumber + "PealkiriEst");
+    elementData.subforms.subformPealkiriEstArray[i].setAttribute("name", "ajalugu" + idNumber + "PealkiriEst");
+    elementData.subforms.subformPealkiriEnArray[i].setAttribute("id", "ajalugu" + idNumber + "PealkiriEn");
+    elementData.subforms.subformPealkiriEnArray[i].setAttribute("name", "ajalugu" + idNumber + "PealkiriEn");
+    elementData.subforms.subformLoikFormArray[i].setAttribute("id", "ajalugu" + idNumber + "LoikForm");
+    elementData.subforms.subformLoikFormArray[i].setAttribute("name", "ajalugu" + idNumber + "LoikForm");
+    elementData.subforms.subformLoikAddBtnArray[i].setAttribute("id", "ajalugu" + idNumber + "LoikAddBtn");
+    elementData.subforms.subformLoikAddBtnArray[i].setAttribute("name", "ajalugu" + idNumber + "LoikAddBtn");
+    elementData.subforms.subformDeleteBtnArray[i].setAttribute("id", "ajalugu" + idNumber + "DeleteBtn");
+    elementData.subforms.subformDeleteBtnArray[i].setAttribute("name", "ajalugu" + idNumber + "DeleteBtn");
+
+    // loop through all the "loik" components on every "ajalugu" subform and update their attributes
+
+    for (var a = 0; a < elementData.subforms.subformLoikArrays[i].length; a++) {
+
+      // the indexNumber in the end of the "loik" elements' attributes is their position in the array + 1 (since humans count from 1 not 0)
+
+      var indexNumber = a + 1;
+
+      // update all the attributes
+
+      elementData.subforms.subformLoikArrays[i][a].setAttribute("id", "ajalugu" + idNumber + "Loik" + indexNumber);
+      elementData.subforms.subformLoikArrays[i][a].setAttribute("name", "ajalugu" + idNumber + "Loik" + indexNumber);
+      elementData.subforms.subformLoikArrays[i][a].classList.replace(getLastElement(elementData.subforms.subformLoikArrays[i][a].classList), "ajalugu" + idNumber + "Loik" + indexNumber);
+      elementData.subforms.subformLoikEstArrays[i][a].setAttribute("id", "ajalugu" + idNumber + "LoikEst" + indexNumber);
+      elementData.subforms.subformLoikEstArrays[i][a].setAttribute("name", "ajalugu" + idNumber + "LoikEst" + indexNumber);
+      elementData.subforms.subformLoikEstArrays[i][a].classList.replace(getLastElement(elementData.subforms.subformLoikEstArrays[i][a].classList), "ajalugu" + idNumber + "LoikEst" + indexNumber);
+      elementData.subforms.subformLoikEnArrays[i][a].setAttribute("id", "ajalugu" + idNumber + "LoikEn" + indexNumber);
+      elementData.subforms.subformLoikEnArrays[i][a].setAttribute("name", "ajalugu" + idNumber + "LoikEn" + indexNumber);
+      elementData.subforms.subformLoikEnArrays[i][a].classList.replace(getLastElement(elementData.subforms.subformLoikEnArrays[i][a].classList), "ajalugu" + idNumber + "LoikEn" + indexNumber);
+      elementData.subforms.subformLoikHeadingArrays[i][a].setAttribute("id", "ajalugu" + idNumber + "LoikHeading" + indexNumber);
+      elementData.subforms.subformLoikHeadingArrays[i][a].setAttribute("name", "ajalugu" + idNumber + "LoikHeading" + indexNumber);
+      elementData.subforms.subformLoikHeadingArrays[i][a].classList.replace(getLastElement(elementData.subforms.subformLoikHeadingArrays[i][a].classList), "ajalugu" + idNumber + "LoikHeading" + indexNumber);
+      elementData.subforms.subformLoikHeadingArrays[i][a].innerHTML = "Lõik " + indexNumber;
+      elementData.subforms.subformLoikDeleteBtnArrays[i][a].setAttribute("id", "ajalugu" + idNumber + "LoikDeleteBtn" + indexNumber);
+      elementData.subforms.subformLoikDeleteBtnArrays[i][a].setAttribute("name", "ajalugu" + idNumber + "LoikDeleteBtn" + indexNumber);
+      elementData.subforms.subformLoikDeleteBtnArrays[i][a].classList.replace(getLastElement(elementData.subforms.subformLoikDeleteBtnArrays[i][a].classList), "ajalugu" + idNumber + "LoikDeleteBtn" + indexNumber);
+    }
+  }
+}
+
+
+// function for updating the properties of the DOM elements inside the altered "sundmused" subforms
+
+function updateSundmusedSubformProperties(elementData) {
+
+  for (var i = 0; i < elementData.subforms.subformArray.length; i++) {
+
+    // because normal people start counting from 1 not 0, add 1 to the index to create element id-s and form headings
+
+    var idNumber = i + 1;
+
+    // update the attributes of all the "sundmused" subform elements affected by the deletion of one of them
+
+    elementData.subforms.subformArray[i].setAttribute("id", "sundmused" + idNumber + "Subform");
+    elementData.subforms.subformArray[i].setAttribute("name", "sundmused" + idNumber + "Subform");
+    elementData.subforms.subformPealkiriEstArray[i].setAttribute("id", "sundmused" + idNumber + "PealkiriEst");
+    elementData.subforms.subformPealkiriEstArray[i].setAttribute("name", "sundmused" + idNumber + "PealkiriEst");
+    elementData.subforms.subformPealkiriEnArray[i].setAttribute("id", "sundmused" + idNumber + "PealkiriEn");
+    elementData.subforms.subformPealkiriEnArray[i].setAttribute("name", "sundmused" + idNumber + "PealkiriEn");
+    elementData.subforms.subformPlakatArray[i].setAttribute("id", "sundmused" + idNumber + "Plakat");
+    elementData.subforms.subformPlakatArray[i].setAttribute("name", "sundmused" + idNumber + "Plakat");
+    elementData.subforms.subformPlakatLabelArray[i].setAttribute("id", "sundmused" + idNumber + "PlakatLabel");
+    elementData.subforms.subformPlakatLabelArray[i].setAttribute("name", "sundmused" + idNumber + "PlakatLabel");
+    elementData.subforms.subformPlakatLabelArray[i].setAttribute("for", "sundmused" + idNumber + "Plakat");
+    elementData.subforms.subformPlakatPlaceholderArray[i].setAttribute("id", "sundmused" + idNumber + "PlakatPlaceholder");
+    elementData.subforms.subformPlakatPlaceholderArray[i].setAttribute("name", "sundmused" + idNumber + "PlakatPlaceholder");
+    elementData.subforms.subformPlakatImgArray[i].setAttribute("id", "sundmused" + idNumber + "PlakatImg");
+    elementData.subforms.subformPlakatImgArray[i].setAttribute("name", "sundmused" + idNumber + "PlakatImg");
+    elementData.subforms.subformPlakatImgArray[i].setAttribute("alt", "Plakat " + idNumber);
+    elementData.subforms.subformHeadingArray[i].setAttribute("id", "sundmused" + idNumber + "Heading");
+    elementData.subforms.subformHeadingArray[i].setAttribute("name", "sundmused" + idNumber + "Heading");
+    elementData.subforms.subformHeadingArray[i].innerHTML = "Sündmus " + idNumber;
+    elementData.subforms.subformLoikFormArray[i].setAttribute("id", "sundmused" + idNumber + "LoikForm");
+    elementData.subforms.subformLoikFormArray[i].setAttribute("name", "sundmused" + idNumber + "LoikForm");
+    elementData.subforms.subformLoikAddBtnArray[i].setAttribute("id", "sundmused" + idNumber + "LoikAddBtn");
+    elementData.subforms.subformLoikAddBtnArray[i].setAttribute("name", "sundmused" + idNumber + "LoikAddBtn");
+    elementData.subforms.subformLoikKohtFormArray[i].setAttribute("id", "sundmused" + idNumber + "LoikKohtForm");
+    elementData.subforms.subformLoikKohtFormArray[i].setAttribute("name", "sundmused" + idNumber + "LoikKohtForm");
+    elementData.subforms.subformLoikKohtAddBtnArray[i].setAttribute("id", "sundmused" + idNumber + "LoikKohtAddBtn");
+    elementData.subforms.subformLoikKohtAddBtnArray[i].setAttribute("name", "sundmused" + idNumber + "LoikKohtAddBtn");
+    elementData.subforms.subformDeleteBtnArray[i].setAttribute("id", "sundmused" + idNumber + "DeleteBtn");
+    elementData.subforms.subformDeleteBtnArray[i].setAttribute("name", "sundmused" + idNumber + "DeleteBtn");
+
+    // loop through all the "loik" components on every "sundmused" subform and update their attributes
+
+    for (var a = 0; a < elementData.subforms.subformLoikArrays[i].length; a++) {
+
+      // the indexNumber in the end of the "loik" elements' attributes is their position in the array + 1 (since humans count from 1 not 0)
+
+      var indexNumber = a + 1;
+
+      // update all the attributes
+
+      elementData.subforms.subformLoikArrays[i][a].setAttribute("id", "sundmused" + idNumber + "Loik" + indexNumber);
+      elementData.subforms.subformLoikArrays[i][a].setAttribute("name", "sundmused" + idNumber + "Loik" + indexNumber);
+      elementData.subforms.subformLoikArrays[i][a].classList.replace(getLastElement(elementData.subforms.subformLoikArrays[i][a].classList), "sundmused" + idNumber + "Loik" + indexNumber);
+      elementData.subforms.subformLoikEstArrays[i][a].setAttribute("id", "sundmused" + idNumber + "LoikEst" + indexNumber);
+      elementData.subforms.subformLoikEstArrays[i][a].setAttribute("name", "sundmused" + idNumber + "LoikEst" + indexNumber);
+      elementData.subforms.subformLoikEstArrays[i][a].classList.replace(getLastElement(elementData.subforms.subformLoikEstArrays[i][a].classList), "sundmused" + idNumber + "LoikEst" + indexNumber);
+      elementData.subforms.subformLoikEnArrays[i][a].setAttribute("id", "sundmused" + idNumber + "LoikEn" + indexNumber);
+      elementData.subforms.subformLoikEnArrays[i][a].setAttribute("name", "sundmused" + idNumber + "LoikEn" + indexNumber);
+      elementData.subforms.subformLoikEnArrays[i][a].classList.replace(getLastElement(elementData.subforms.subformLoikEnArrays[i][a].classList), "sundmused" + idNumber + "LoikEn" + indexNumber);
+      elementData.subforms.subformLoikHeadingArrays[i][a].setAttribute("id", "sundmused" + idNumber + "LoikHeading" + indexNumber);
+      elementData.subforms.subformLoikHeadingArrays[i][a].setAttribute("name", "sundmused" + idNumber + "LoikHeading" + indexNumber);
+      elementData.subforms.subformLoikHeadingArrays[i][a].classList.replace(getLastElement(elementData.subforms.subformLoikHeadingArrays[i][a].classList), "sundmused" + idNumber + "LoikHeading" + indexNumber);
+      elementData.subforms.subformLoikHeadingArrays[i][a].innerHTML = "Lõik " + indexNumber;
+      elementData.subforms.subformLoikDeleteBtnArrays[i][a].setAttribute("id", "sundmused" + idNumber + "LoikDeleteBtn" + indexNumber);
+      elementData.subforms.subformLoikDeleteBtnArrays[i][a].setAttribute("name", "sundmused" + idNumber + "LoikDeleteBtn" + indexNumber);
+      elementData.subforms.subformLoikDeleteBtnArrays[i][a].classList.replace(getLastElement(elementData.subforms.subformLoikDeleteBtnArrays[i][a].classList), "sundmused" + idNumber + "LoikDeleteBtn" + indexNumber);
+    }
+
+    // / loop through all the "loikKoht" components on every "sundmused" subform and update their attributes
+
+    for (var b = 0; b < elementData.subforms.subformLoikKohtArrays[i].length; b++) {
+
+      // the indexNumber in the end of the "loikKoht" elements' attributes is their position in the array + 1 (since humans count from 1 not 0)
+
+      var indexNumberKoht = b + 1;
+
+      // update all the attributes
+
+      elementData.subforms.subformLoikKohtArrays[i][b].setAttribute("id", "sundmused" + idNumber + "LoikKoht" + indexNumberKoht);
+      elementData.subforms.subformLoikKohtArrays[i][b].setAttribute("name", "sundmused" + idNumber + "LoikKoht" + indexNumberKoht);
+      elementData.subforms.subformLoikKohtArrays[i][b].classList.replace(getLastElement(elementData.subforms.subformLoikKohtArrays[i][b].classList), "sundmused" + idNumber + "LoikKoht" + indexNumberKoht);
+      elementData.subforms.subformLoikKohtEstArrays[i][b].setAttribute("id", "sundmused" + idNumber + "LoikKohtEst" + indexNumberKoht);
+      elementData.subforms.subformLoikKohtEstArrays[i][b].setAttribute("name", "sundmused" + idNumber + "LoikKohtEst" + indexNumberKoht);
+      elementData.subforms.subformLoikKohtEstArrays[i][b].classList.replace(getLastElement(elementData.subforms.subformLoikKohtEstArrays[i][b].classList), "sundmused" + idNumber + "LoikKohtEst" + indexNumberKoht);
+      elementData.subforms.subformLoikKohtEnArrays[i][b].setAttribute("id", "sundmused" + idNumber + "LoikKohtEn" + indexNumberKoht);
+      elementData.subforms.subformLoikKohtEnArrays[i][b].setAttribute("name", "sundmused" + idNumber + "LoikKohtEn" + indexNumberKoht);
+      elementData.subforms.subformLoikKohtEnArrays[i][b].classList.replace(getLastElement(elementData.subforms.subformLoikKohtEnArrays[i][b].classList), "sundmused" + idNumber + "LoikKohtEn" + indexNumberKoht);
+      elementData.subforms.subformLoikKohtLinkArrays[i][b].setAttribute("id", "sundmused" + idNumber + "LoikKohtLink" + indexNumberKoht);
+      elementData.subforms.subformLoikKohtLinkArrays[i][b].setAttribute("name", "sundmused" + idNumber + "LoikKohtLink" + indexNumberKoht);
+      elementData.subforms.subformLoikKohtLinkArrays[i][b].classList.replace(getLastElement(elementData.subforms.subformLoikKohtEnArrays[i][b].classList), "sundmused" + idNumber + "LoikKohtLink" + indexNumberKoht);
+      elementData.subforms.subformLoikKohtHeadingArrays[i][b].setAttribute("id", "sundmused" + idNumber + "LoikKohtHeading" + indexNumberKoht);
+      elementData.subforms.subformLoikKohtHeadingArrays[i][b].setAttribute("name", "sundmused" + idNumber + "LoikKohtHeading" + indexNumberKoht);
+      elementData.subforms.subformLoikKohtHeadingArrays[i][b].classList.replace(getLastElement(elementData.subforms.subformLoikKohtHeadingArrays[i][b].classList), "sundmused" + idNumber + "LoikKohtHeading" + indexNumberKoht);
+      elementData.subforms.subformLoikKohtHeadingArrays[i][b].innerHTML = "Aeg ja koht " + indexNumberKoht;
+      elementData.subforms.subformLoikKohtDeleteBtnArrays[i][b].setAttribute("id", "sundmused" + idNumber + "LoikKohtDeleteBtn" + indexNumberKoht);
+      elementData.subforms.subformLoikKohtDeleteBtnArrays[i][b].setAttribute("name", "sundmused" + idNumber + "LoikKohtDeleteBtn" + indexNumberKoht);
+      elementData.subforms.subformLoikKohtDeleteBtnArrays[i][b].classList.replace(getLastElement(elementData.subforms.subformLoikKohtDeleteBtnArrays[i][b].classList), "sundmused" + idNumber + "LoikKohtDeleteBtn" + indexNumberKoht);
+    }
+  }
+}
+
+
+// function for updating the properties of the DOM elements inside the altered "moodunud" subforms
+
+function updateMoodunudSubformProperties(elementData) {
+
+  for (var i = 0; i < elementData.subforms.subformArray.length; i++) {
+
+    // because normal people start counting from 1 not 0, add 1 to the index to create element id-s and form headings
+
+    var idNumber = i + 1;
+
+    // update the attributes of all the "moodunud" subform elements affected by the deletion of one of them
+
+    elementData.subforms.subformArray[i].setAttribute("id", "moodunud" + idNumber + "Subform");
+    elementData.subforms.subformArray[i].setAttribute("name", "moodunud" + idNumber + "Subform");
+    elementData.subforms.subformPealkiriEstArray[i].setAttribute("id", "moodunud" + idNumber + "PealkiriEst");
+    elementData.subforms.subformPealkiriEstArray[i].setAttribute("name", "moodunud" + idNumber + "PealkiriEst");
+    elementData.subforms.subformPealkiriEnArray[i].setAttribute("id", "moodunud" + idNumber + "PealkiriEn");
+    elementData.subforms.subformPealkiriEnArray[i].setAttribute("name", "moodunud" + idNumber + "PealkiriEn");
+    elementData.subforms.subformPlakatArray[i].setAttribute("id", "moodunud" + idNumber + "Plakat");
+    elementData.subforms.subformPlakatArray[i].setAttribute("name", "moodunud" + idNumber + "Plakat");
+    elementData.subforms.subformPlakatLabelArray[i].setAttribute("id", "moodunud" + idNumber + "PlakatLabel");
+    elementData.subforms.subformPlakatLabelArray[i].setAttribute("name", "moodunud" + idNumber + "PlakatLabel");
+    elementData.subforms.subformPlakatLabelArray[i].setAttribute("for", "moodunud" + idNumber + "Plakat");
+    elementData.subforms.subformPlakatPlaceholderArray[i].setAttribute("id", "moodunud" + idNumber + "PlakatPlaceholder");
+    elementData.subforms.subformPlakatPlaceholderArray[i].setAttribute("name", "moodunud" + idNumber + "PlakatPlaceholder");
+    elementData.subforms.subformPlakatImgArray[i].setAttribute("id", "moodunud" + idNumber + "PlakatImg");
+    elementData.subforms.subformPlakatImgArray[i].setAttribute("name", "moodunud" + idNumber + "PlakatImg");
+    elementData.subforms.subformPlakatImgArray[i].setAttribute("alt", "Plakat " + idNumber);
+    elementData.subforms.subformHeadingArray[i].setAttribute("id", "moodunud" + idNumber + "Heading");
+    elementData.subforms.subformHeadingArray[i].setAttribute("name", "moodunud" + idNumber + "Heading");
+    elementData.subforms.subformHeadingArray[i].innerHTML = "Sündmus " + idNumber;
+    elementData.subforms.subformLoikFormArray[i].setAttribute("id", "moodunud" + idNumber + "LoikForm");
+    elementData.subforms.subformLoikFormArray[i].setAttribute("name", "moodunud" + idNumber + "LoikForm");
+    elementData.subforms.subformLoikAddBtnArray[i].setAttribute("id", "moodunud" + idNumber + "LoikAddBtn");
+    elementData.subforms.subformLoikAddBtnArray[i].setAttribute("name", "moodunud" + idNumber + "LoikAddBtn");
+    elementData.subforms.subformLoikKohtFormArray[i].setAttribute("id", "moodunud" + idNumber + "LoikKohtForm");
+    elementData.subforms.subformLoikKohtFormArray[i].setAttribute("name", "moodunud" + idNumber + "LoikKohtForm");
+    elementData.subforms.subformLoikKohtAddBtnArray[i].setAttribute("id", "moodunud" + idNumber + "LoikKohtAddBtn");
+    elementData.subforms.subformLoikKohtAddBtnArray[i].setAttribute("name", "moodunud" + idNumber + "LoikKohtAddBtn");
+    elementData.subforms.subformDeleteBtnArray[i].setAttribute("id", "moodunud" + idNumber + "DeleteBtn");
+    elementData.subforms.subformDeleteBtnArray[i].setAttribute("name", "moodunud" + idNumber + "DeleteBtn");
+
+    // loop through all the "loik" components on every "moodunud" subform and update their attributes
+
+    for (var a = 0; a < elementData.subforms.subformLoikArrays[i].length; a++) {
+
+      // the indexNumber in the end of the "loik" elements' attributes is their position in the array + 1 (since humans count from 1 not 0)
+
+      var indexNumber = a + 1;
+
+      // update all the attributes
+
+      elementData.subforms.subformLoikArrays[i][a].setAttribute("id", "moodunud" + idNumber + "Loik" + indexNumber);
+      elementData.subforms.subformLoikArrays[i][a].setAttribute("name", "moodunud" + idNumber + "Loik" + indexNumber);
+      elementData.subforms.subformLoikArrays[i][a].classList.replace(getLastElement(elementData.subforms.subformLoikArrays[i][a].classList), "moodunud" + idNumber + "Loik" + indexNumber);
+      elementData.subforms.subformLoikEstArrays[i][a].setAttribute("id", "moodunud" + idNumber + "LoikEst" + indexNumber);
+      elementData.subforms.subformLoikEstArrays[i][a].setAttribute("name", "moodunud" + idNumber + "LoikEst" + indexNumber);
+      elementData.subforms.subformLoikEstArrays[i][a].classList.replace(getLastElement(elementData.subforms.subformLoikEstArrays[i][a].classList), "moodunud" + idNumber + "LoikEst" + indexNumber);
+      elementData.subforms.subformLoikEnArrays[i][a].setAttribute("id", "moodunud" + idNumber + "LoikEn" + indexNumber);
+      elementData.subforms.subformLoikEnArrays[i][a].setAttribute("name", "moodunud" + idNumber + "LoikEn" + indexNumber);
+      elementData.subforms.subformLoikEnArrays[i][a].classList.replace(getLastElement(elementData.subforms.subformLoikEnArrays[i][a].classList), "moodunud" + idNumber + "LoikEn" + indexNumber);
+      elementData.subforms.subformLoikHeadingArrays[i][a].setAttribute("id", "moodunud" + idNumber + "LoikHeading" + indexNumber);
+      elementData.subforms.subformLoikHeadingArrays[i][a].setAttribute("name", "moodunud" + idNumber + "LoikHeading" + indexNumber);
+      elementData.subforms.subformLoikHeadingArrays[i][a].classList.replace(getLastElement(elementData.subforms.subformLoikHeadingArrays[i][a].classList), "moodunud" + idNumber + "LoikHeading" + indexNumber);
+      elementData.subforms.subformLoikHeadingArrays[i][a].innerHTML = "Lõik " + indexNumber;
+      elementData.subforms.subformLoikDeleteBtnArrays[i][a].setAttribute("id", "moodunud" + idNumber + "LoikDeleteBtn" + indexNumber);
+      elementData.subforms.subformLoikDeleteBtnArrays[i][a].setAttribute("name", "moodunud" + idNumber + "LoikDeleteBtn" + indexNumber);
+      elementData.subforms.subformLoikDeleteBtnArrays[i][a].classList.replace(getLastElement(elementData.subforms.subformLoikDeleteBtnArrays[i][a].classList), "moodunud" + idNumber + "LoikDeleteBtn" + indexNumber);
+    }
+
+    // / loop through all the "loikKoht" components on every "moodunud" subform and update their attributes
+
+    for (var b = 0; b < elementData.subforms.subformLoikKohtArrays[i].length; b++) {
+
+      // the indexNumber in the end of the "loikKoht" elements' attributes is their position in the array + 1 (since humans count from 1 not 0)
+
+      var indexNumberKoht = b + 1;
+
+      // update all the attributes
+
+      elementData.subforms.subformLoikKohtArrays[i][b].setAttribute("id", "moodunud" + idNumber + "LoikKoht" + indexNumberKoht);
+      elementData.subforms.subformLoikKohtArrays[i][b].setAttribute("name", "moodunud" + idNumber + "LoikKoht" + indexNumberKoht);
+      elementData.subforms.subformLoikKohtArrays[i][b].classList.replace(getLastElement(elementData.subforms.subformLoikKohtArrays[i][b].classList), "moodunud" + idNumber + "LoikKoht" + indexNumberKoht);
+      elementData.subforms.subformLoikKohtEstArrays[i][b].setAttribute("id", "moodunud" + idNumber + "LoikKohtEst" + indexNumberKoht);
+      elementData.subforms.subformLoikKohtEstArrays[i][b].setAttribute("name", "moodunud" + idNumber + "LoikKohtEst" + indexNumberKoht);
+      elementData.subforms.subformLoikKohtEstArrays[i][b].classList.replace(getLastElement(elementData.subforms.subformLoikKohtEstArrays[i][b].classList), "moodunud" + idNumber + "LoikKohtEst" + indexNumberKoht);
+      elementData.subforms.subformLoikKohtEnArrays[i][b].setAttribute("id", "moodunud" + idNumber + "LoikKohtEn" + indexNumberKoht);
+      elementData.subforms.subformLoikKohtEnArrays[i][b].setAttribute("name", "moodunud" + idNumber + "LoikKohtEn" + indexNumberKoht);
+      elementData.subforms.subformLoikKohtEnArrays[i][b].classList.replace(getLastElement(elementData.subforms.subformLoikKohtEnArrays[i][b].classList), "moodunud" + idNumber + "LoikKohtEn" + indexNumberKoht);
+      elementData.subforms.subformLoikKohtLinkArrays[i][b].setAttribute("id", "moodunud" + idNumber + "LoikKohtLink" + indexNumberKoht);
+      elementData.subforms.subformLoikKohtLinkArrays[i][b].setAttribute("name", "moodunud" + idNumber + "LoikKohtLink" + indexNumberKoht);
+      elementData.subforms.subformLoikKohtLinkArrays[i][b].classList.replace(getLastElement(elementData.subforms.subformLoikKohtEnArrays[i][b].classList), "moodunud" + idNumber + "LoikKohtLink" + indexNumberKoht);
+      elementData.subforms.subformLoikKohtHeadingArrays[i][b].setAttribute("id", "moodunud" + idNumber + "LoikKohtHeading" + indexNumberKoht);
+      elementData.subforms.subformLoikKohtHeadingArrays[i][b].setAttribute("name", "moodunud" + idNumber + "LoikKohtHeading" + indexNumberKoht);
+      elementData.subforms.subformLoikKohtHeadingArrays[i][b].classList.replace(getLastElement(elementData.subforms.subformLoikKohtHeadingArrays[i][b].classList), "moodunud" + idNumber + "LoikKohtHeading" + indexNumberKoht);
+      elementData.subforms.subformLoikKohtHeadingArrays[i][b].innerHTML = "Aeg ja koht " + indexNumberKoht;
+      elementData.subforms.subformLoikKohtDeleteBtnArrays[i][b].setAttribute("id", "moodunud" + idNumber + "LoikKohtDeleteBtn" + indexNumberKoht);
+      elementData.subforms.subformLoikKohtDeleteBtnArrays[i][b].setAttribute("name", "moodunud" + idNumber + "LoikKohtDeleteBtn" + indexNumberKoht);
+      elementData.subforms.subformLoikKohtDeleteBtnArrays[i][b].classList.replace(getLastElement(elementData.subforms.subformLoikKohtDeleteBtnArrays[i][b].classList), "moodunud" + idNumber + "LoikKohtDeleteBtn" + indexNumberKoht);
+    }
+  }
+}
+
+
+// function for dynamically retrieving all the node lists that are affected by a "loik" element deletion
 
 function getElementData(element) {
 
@@ -714,25 +1736,162 @@ function getElementData(element) {
 }
 
 
+// function for retrieving all the node lists that are affected by a "dirigendid" subform deletion
+
+function getDirigendidSubformData(element) {
+
+  // create an object from the relevant "dirigendid" subform data
+
+  var dirigendidSubformData = {
+    subforms: getDirigendidSubforms(),
+    subformIndex: getDirigendidSubformIndex(element)
+  };
+
+  // return the object
+
+  return dirigendidSubformData;
+}
+
+
+// function for retrieving all the node lists that are affected by a "ajalugu" subform deletion
+
+function getAjaluguSubformData(element) {
+
+  // create an object from the relevant "ajalugu" subform data
+
+  var ajaluguSubformData = {
+    subforms: getAjaluguSubforms(),
+    subformIndex: getAjaluguSubformIndex(element)
+  };
+
+  // return the object
+
+  return ajaluguSubformData;
+}
+
+
+// function for retrieving all the node lists that are affected by a "sundmused" subform deletion
+
+function getSundmusedSubformData(element) {
+
+  // create an object from the relevant "sundmused" subform data
+
+  var sundmusedSubformData = {
+    subforms: getSundmusedSubforms(),
+    subformIndex: getSundmusedSubformIndex(element)
+  };
+
+  // return the object
+
+  return sundmusedSubformData;
+}
+
+
+// function for retrieving all the node lists that are affected by a "moodunud" subform deletion
+
+function getMoodunudSubformData(element) {
+
+  // create an object from the relevant "moodunud" subform data
+
+  var moodunudSubformData = {
+    subforms: getMoodunudSubforms(),
+    subformIndex: getMoodunudSubformIndex(element)
+  };
+
+
+  // return the object
+  return moodunudSubformData;
+}
+
+
 
 // add an element
 
 function addElement(event, doc, destination, subform) {
 
+  // check if the subform is specified as "dirigendid"
+
   if (subform === "dirigendid") {
 
-    var dirigendidSubform = getDirigendidSubform();
+    // get the relevant subform arrays
 
-    var docDirigendidSubform = getDocDirigendidSubform();
+    var dirigendidSubforms = getDirigendidSubforms();
 
-    var docDirigendidSubformElements = getDocDirigendidSubformElements();
+    // get the relevant subform arrays from the not yet visible updated version of the page
 
-    pushDirigendidSubform(dirigendidSubform, docDirigendidSubformElements);
+    var docDirigendidSubform = getDocDirigendidSubforms(doc);
 
+    // get the last elements of each of the arrays in the docDirigendidSubform object
 
-    var form = document.getElementById("dirigendid-form");
+    var docDirigendidSubformElements = getDocDirigendidSubformElements(doc);
 
-    appendElement(form, docDirigendidSubformElements);
+    // push those elements into the existing subform arrays, so that those elements will become visible
+
+    var newDirigendidSubforms = pushDirigendidSubform(dirigendidSubforms, docDirigendidSubformElements);
+
+    // get the relevant form
+
+    var dirigendidForm = document.getElementById("dirigendidForm");
+
+    // call the appendSubform function
+
+    appendSubform(dirigendidForm, docDirigendidSubformElements);
+
+    // check if the subform is specified as "ajalugu"
+
+  } else if (subform === "ajalugu") {
+
+    // get the relevant subform arrays
+
+    var ajaluguSubforms = getAjaluguSubforms();
+
+    // get the relevant subform arrays from the not yet visible updated version of the page
+
+    var docAjaluguSubform = getDocAjaluguSubforms(doc);
+
+    // get the last elements of each of the arrays in the docAjaluguSubform object
+
+    var docAjaluguSubformElements = getDocAjaluguSubformElements(doc);
+
+    // push those elements into the existing subform arrays, so that those elements will become visible
+
+    var newAjaluguSubforms = pushAjaluguSubform(ajaluguSubforms, docAjaluguSubformElements);
+
+    // get the relevant form
+
+    var ajaluguForm = document.getElementById("ajaluguForm");
+
+    // call the appendSubform function
+
+    appendSubform(ajaluguForm, docAjaluguSubformElements);
+
+    // check if the subform is specified as "sundmused"
+
+  } else if (subform === "sundmused") {
+
+    // get the relevant subform arrays
+
+    var sundmusedSubforms = getSundmusedSubforms();
+
+    // get the relevant subform arrays from the not yet visible updated version of the page
+
+    var docSundmusedSubform = getDocSundmusedSubforms(doc);
+
+    // get the last elements of each of the arrays in the docAjaluguSubform object
+
+    var docSundmusedSubformElements = getDocSundmusedSubformElements(doc);
+
+    // push those elements into the existing subform arrays, so that those elements will become visible
+
+    var newSundmusedSubforms = pushSundmusedSubform(sundmusedSubforms, docSundmusedSubformElements);
+
+    // get the relevant form
+
+    var sundmusedForm = document.getElementById("sundmusedForm");
+
+    // call the appendSubform function
+
+    appendSubform(sundmusedForm, docSundmusedSubformElements);
 
   } else {
 
@@ -756,31 +1915,23 @@ function addElement(event, doc, destination, subform) {
 
     var newArrays = pushArrays(arrays, docElements);
 
+    var fileArray = newArrays.fileArray;
+
+    if (fileArray.length !== 0) {
+
+      for (var i = 0; i < fileArray.length; i++) {
+        changePreview(fileArray[i], i);
+      }
+
+    }
+
     // get the container form from its selector name
 
-    var form = document.getElementById(selectorName + "-form");
+    var form = document.getElementById(selectorName + "Form");
 
     // display the new subform with all the new elements on the page
 
     appendElement(form, docElements);
-
-    // add event listeners to all of the delete buttons, including those, that were just added
-
-    addNewListeners(newArrays, destination);
-  }
-}
-
-
-// add event listeners to the newly created delete buttons
-
-
-function addNewListeners(arrays, destination) {
-  if (arrays.arrayDeleteBtn.length !== 0) {
-    for (var i = 0; i < arrays.arrayDeleteBtn.length; i++) {
-      arrays.arrayDeleteBtn[i].addEventListener("click", function(event) {
-        createDeleteMessage(event, destination);
-      });
-    }
   }
 }
 
@@ -790,10 +1941,20 @@ function addNewListeners(arrays, destination) {
 function pushArrays(arrays, elements) {
 
   arrays.array.push(elements.docElement);
-  arrays.arrayEst.push(elements.docEstElement);
-  arrays.arrayEn.push(elements.docEnElement);
-  arrays.arrayHeading.push(elements.docHeadingElement);
-  arrays.arrayDeleteBtn.push(elements.docDeleteBtnElement);
+  arrays.yearArray.push(elements.docYearElement);
+  arrays.linkArray.push(elements.docLinkElement);
+  arrays.iconArray.push(elements.docIconElement);
+  arrays.numberArray.push(elements.docNumberElement);
+  arrays.estArray.push(elements.docEstElement);
+  arrays.enArray.push(elements.docEnElement);
+  arrays.estKeyArray.push(elements.docEstKeyElement);
+  arrays.enKeyArray.push(elements.docEnKeyElement);
+  arrays.fileArray.push(elements.docFileElement);
+  arrays.labelArray.push(elements.docLabelElement);
+  arrays.placeholderArray.push(elements.docPlaceholderElement);
+  arrays.imgArray.push(elements.docImgElement);
+  arrays.headingArray.push(elements.docHeadingElement);
+  arrays.deleteBtnArray.push(elements.docDeleteBtnElement);
 
   return arrays;
 }
@@ -802,22 +1963,89 @@ function pushArrays(arrays, elements) {
 
 function pushDirigendidSubform(arrays, elements) {
 
-  arrays.array.push(elements.docElement);
-  arrays.arrayPortree.push(elements.docPortreeArray);
-  arrays.arrayNimi.push(elements.docNimiArray);
-  arrays.arrayLoikForm.push(elements.docLoikFormArray);
+  arrays.subformArray.push(elements.docSubformElement);
+  arrays.subformPortreeArray.push(elements.docSubformPortreeElement);
+  arrays.subformPortreeLabelArray.push(elements.docSubformPortreeLabelElement);
+  arrays.subformPortreePlaceholderArray.push(elements.docSubformPortreePlaceholderElement);
+  arrays.subformPortreeImgArray.push(elements.docSubformPortreeImgElement);
+  arrays.subformNimiArray.push(elements.docSubformNimiElement);
+  arrays.subformHeadingArray.push(elements.docSubformHeadingElement);
+  arrays.subformLoikFormArray.push(elements.docSubformLoikFormElement);
+  arrays.subformLoikAddBtnArray.push(elements.docSubformLoikAddBtnElement);
+  arrays.subformDeleteBtnArray.push(elements.docSubformDeleteBtnElement);
+
+  // call the changePreview function once again so that it also applies to newly added image elements
+
+  for (var i = 0; i < arrays.subformPortreeArray.length; i++) {
+    changePreview(arrays.subformPortreeArray[i]);
+  }
 
   return arrays;
 }
 
 
-// function for appending the added element to the actual page
+// function for pushing the asynchronously added arrays on the "dirigendid" subform to the arrays on the actual page
+
+function pushAjaluguSubform(arrays, elements) {
+
+  arrays.subformArray.push(elements.docSubformElement);
+  arrays.subformHeadingArray.push(elements.docSubformHeadingElement);
+  arrays.subformPealkiriEstArray.push(elements.docSubformPealkiriEstElement);
+  arrays.subformPealkiriEnArray.push(elements.docSubformPealkiriEnElement);
+  arrays.subformLoikFormArray.push(elements.docSubformLoikFormElement);
+  arrays.subformLoikAddBtnArray.push(elements.docSubformLoikAddBtnElement);
+  arrays.subformDeleteBtnArray.push(elements.docSubformDeleteBtnElement);
+
+  return arrays;
+}
+
+
+// function for pushing the asynchronously added arrays on the "sundmused" subform to the arrays on the actual page
+
+function pushSundmusedSubform(arrays, elements) {
+
+  arrays.subformArray.push(elements.docSubformElement);
+  arrays.subformPealkiriEstArray.push(elements.docSubformPealkiriEstElement);
+  arrays.subformPealkiriEnArray.push(elements.docSubformPealkiriEnElement);
+  arrays.subformPlakatArray.push(elements.docSubformPlakatElement);
+  arrays.subformPlakatLabelArray.push(elements.docSubformPlakatLabelElement);
+  arrays.subformPlakatPlaceholderArray.push(elements.docSubformPlakatPlaceholderElement);
+  arrays.subformPlakatImgArray.push(elements.docSubformPlakatImgElement);
+  arrays.subformHeadingArray.push(elements.docSubformHeadingElement);
+  arrays.subformLoikFormArray.push(elements.docSubformLoikFormElement);
+  arrays.subformLoikAddBtnArray.push(elements.docSubformLoikAddBtnElement);
+  arrays.subformLoikKohtFormArray.push(elements.docSubformLoikKohtFormElement);
+  arrays.subformLoikKohtAddBtnArray.push(elements.docSubformLoikKohtAddBtnElement);
+  arrays.subformDeleteBtnArray.push(elements.docSubformDeleteBtnElement);
+
+  // call the changePreview function once again so that it also applies to newly added image elements
+
+  for (var i = 0; i < arrays.subformPlakatArray.length; i++) {
+    changePreview(arrays.subformPlakatArray[i]);
+  }
+
+  return arrays;
+}
+
+
+
+// function for appending the added "loik" element to the actual page
 
 function appendElement(form, docElements) {
 
   // append the new element to the form
 
   form.append(docElements.docElement);
+}
+
+
+// function for appending the added subform to the actual page
+
+function appendSubform(form, docSubforms) {
+
+  // append the new element to the form
+
+  form.append(docSubforms.docSubformElement);
 }
 
 
@@ -832,28 +2060,28 @@ function createAvalehtTekstidData(event) {
   if (avalehtTekstid !== null) {
     var avalehtTekstidData = {
       suurPealkiri: {
-        est: document.getElementById("suurPealkiriEst").value,
-        en: document.getElementById("suurPealkiriEn").value
+        est: encodeURIComponent(document.getElementById("suurPealkiriEst").value),
+        en: encodeURIComponent(document.getElementById("suurPealkiriEn").value)
       },
       jatkuPealkiri: {
-        est: document.getElementById("jatkuPealkiriEst").value,
-        en: document.getElementById("jatkuPealkiriEn").value
+        est: encodeURIComponent(document.getElementById("jatkuPealkiriEst").value),
+        en: encodeURIComponent(document.getElementById("jatkuPealkiriEn").value)
       },
       sektsiooniPealkiri1: {
-        est: document.getElementById("sektsiooniPealkiriEst1").value,
-        en: document.getElementById("sektsiooniPealkiriEn1").value
+        est: encodeURIComponent(document.getElementById("sektsiooniPealkiriEst1").value),
+        en: encodeURIComponent(document.getElementById("sektsiooniPealkiriEn1").value)
       },
       sektsiooniTekst1: {
-        est: document.getElementById("sektsiooniTekstEst1").value,
-        en: document.getElementById("sektsiooniTekstEn1").value
+        est: encodeURIComponent(document.getElementById("sektsiooniTekstEst1").value),
+        en: encodeURIComponent(document.getElementById("sektsiooniTekstEn1").value)
       },
       sektsiooniPealkiri2: {
-        est: document.getElementById("sektsiooniPealkiriEst2").value,
-        en: document.getElementById("sektsiooniPealkiriEn2").value
+        est: encodeURIComponent(document.getElementById("sektsiooniPealkiriEst2").value),
+        en: encodeURIComponent(document.getElementById("sektsiooniPealkiriEn2").value)
       },
       sektsiooniTekst2: {
-        est: document.getElementById("sektsiooniTekstEst2").value,
-        en: document.getElementById("sektsiooniTekstEn2").value
+        est: encodeURIComponent(document.getElementById("sektsiooniTekstEst2").value),
+        en: encodeURIComponent(document.getElementById("sektsiooniTekstEn2").value)
       },
     };
     return avalehtTekstidData;
@@ -866,8 +2094,8 @@ function createKooristPealkirjadData(event) {
     for (var i = 0; i < 6; i++) {
       indexNumber = i + 1;
       var pealkiri = {
-        est: document.getElementById("pealkiriEst" + indexNumber).value,
-        en: document.getElementById("pealkiriEn" + indexNumber).value,
+        est: encodeURIComponent(document.getElementById("pealkiriEst" + indexNumber).value),
+        en: encodeURIComponent(document.getElementById("pealkiriEn" + indexNumber).value),
       };
       pealkirjadData.push(pealkiri);
     }
@@ -881,32 +2109,32 @@ function createKooristLiikmedData(event) {
       haaleruhmaNimed: [],
       haaleruhmaTutvustused: [],
       lauljadPealkiri: {
-        est: document.getElementById("lauljadPealkiriEst").value,
-        en: document.getElementById("lauljadPealkiriEn").value
+        est: encodeURIComponent(document.getElementById("lauljadPealkiriEst").value),
+        en: encodeURIComponent(document.getElementById("lauljadPealkiriEn").value)
       },
-      sopranid: document.getElementById("sopranid").value,
-      aldid: document.getElementById("aldid").value,
-      tenorid: document.getElementById("tenorid").value,
-      bassid: document.getElementById("bassid").value,
+      sopranid: encodeURIComponent(document.getElementById("sopranid").value),
+      aldid: encodeURIComponent(document.getElementById("aldid").value),
+      tenorid: encodeURIComponent(document.getElementById("tenorid").value),
+      bassid: encodeURIComponent(document.getElementById("bassid").value),
       vilistlastePealkiri: {
-        est: document.getElementById("vilistlastePealkiriEst").value,
-        en: document.getElementById("vilistlastePealkiriEn").value
+        est: encodeURIComponent(document.getElementById("vilistlastePealkiriEst").value),
+        en: encodeURIComponent(document.getElementById("vilistlastePealkiriEn").value)
       },
       vilistlasteNimekiri: {
-        est: document.getElementById("vilistlasteNimekiriEst").value,
-        en: document.getElementById("vilistlasteNimekiriEn").value
+        est: encodeURIComponent(document.getElementById("vilistlasteNimekiriEst").value),
+        en: encodeURIComponent(document.getElementById("vilistlasteNimekiriEn").value)
       },
       loigud: []
     };
 
     for (var i = 1; i < 5; i++) {
       var haaleruhmaNimi = {
-        est: document.getElementById("haaleruhmaNimiEst" + i).value,
-        en: document.getElementById("haaleruhmaNimiEn" + i).value
+        est: encodeURIComponent(document.getElementById("haaleruhmaNimiEst" + i).value),
+        en: encodeURIComponent(document.getElementById("haaleruhmaNimiEn" + i).value)
       };
       var haaleruhmaTutvustus = {
-        est: document.getElementById("haaleruhmaTutvustusEst" + i).value,
-        en: document.getElementById("haaleruhmaTutvustusEn" + i).value
+        est: encodeURIComponent(document.getElementById("haaleruhmaTutvustusEst" + i).value),
+        en: encodeURIComponent(document.getElementById("haaleruhmaTutvustusEn" + i).value)
       };
       liikmedData.haaleruhmaNimed.push(haaleruhmaNimi);
       liikmedData.haaleruhmaTutvustused.push(haaleruhmaTutvustus);
@@ -914,8 +2142,8 @@ function createKooristLiikmedData(event) {
 
     for (var a = 0; a < document.querySelectorAll(".liikmedLoik").length; a++) {
       var loik = {
-        est: document.querySelectorAll(".liikmedLoik-input-est")[a].value,
-        en: document.querySelectorAll(".liikmedLoik-input-en")[a].value,
+        est: encodeURIComponent(document.querySelectorAll(".liikmedLoikEst")[a].value),
+        en: encodeURIComponent(document.querySelectorAll(".liikmedLoikEn")[a].value),
       };
       liikmedData.loigud.push(loik);
     }
@@ -923,6 +2151,246 @@ function createKooristLiikmedData(event) {
   }
 }
 
+function createKooristAjaluguData(event) {
+
+  if (kooristAjalugu !== null) {
+
+    var ajaluguData = {
+      sissejuhatus: {
+        pealkiri: {
+          est: encodeURIComponent(document.getElementById("ajaluguSissejuhatusPealkiriEst").value),
+          en: encodeURIComponent(document.getElementById("ajaluguSissejuhatusPealkiriEn").value)
+        },
+        loigud: []
+      },
+      ajajoon: {
+        pealkiri: {
+          est: encodeURIComponent(document.getElementById("ajaluguSissekannePealkiriEst").value),
+          en: encodeURIComponent(document.getElementById("ajaluguSissekannePealkiriEn").value)
+        },
+        sissekanded: []
+      },
+      sektsioonid: []
+    };
+
+    for (var i = 0; i < document.querySelectorAll(".ajaluguSissekanneLoik").length; i++) {
+      var sissekanne = {
+        year: encodeURIComponent(document.querySelectorAll(".ajaluguSissekanneLoikYear")[i].value),
+        est: encodeURIComponent(document.querySelectorAll(".ajaluguSissekanneLoikEst")[i].value),
+        en: encodeURIComponent(document.querySelectorAll(".ajaluguSissekanneLoikEn")[i].value)
+      };
+      ajaluguData.ajajoon.sissekanded.push(sissekanne);
+    }
+
+    for (var a = 0; a < document.querySelectorAll(".ajaluguSissejuhatusLoik").length; a++) {
+      var sissejuhatavLoik = {
+        est: encodeURIComponent(document.querySelectorAll(".ajaluguSissejuhatusLoikEst")[a].value),
+        en: encodeURIComponent(document.querySelectorAll(".ajaluguSissejuhatusLoikEn")[a].value)
+      };
+      ajaluguData.sissejuhatus.loigud.push(sissejuhatavLoik);
+    }
+
+    for (var b = 0; b < document.querySelectorAll(".ajaluguSubform").length; b++) {
+      var sektsioon = {
+        pealkiri: {
+          est: encodeURIComponent(document.querySelectorAll(".ajaluguPealkiriEst")[b].value),
+          en: encodeURIComponent(document.querySelectorAll(".ajaluguPealkiriEn")[b].value)
+        },
+        loigud: []
+      };
+
+      var indexNumber = b + 1;
+
+      for (var c = 0; c < document.querySelectorAll(".ajalugu" + indexNumber + "Loik").length; c++) {
+
+        var loik = {
+          est: encodeURIComponent(document.querySelectorAll(".ajalugu" + indexNumber + "LoikEst")[c].value),
+          en: encodeURIComponent(document.querySelectorAll(".ajalugu" + indexNumber + "LoikEn")[c].value)
+        };
+        sektsioon.loigud.push(loik);
+      }
+      ajaluguData.sektsioonid.push(sektsioon);
+    }
+    return ajaluguData;
+  }
+}
+
+function createKooristMeediaData(event) {
+
+  if (kooristMeedia !== null) {
+
+    var meediaData = {
+
+      sissejuhatus: {
+        pealkiri: {
+          est: encodeURIComponent(document.getElementById("meediaPealkiriEst").value),
+          en: encodeURIComponent(document.getElementById("meediaPealkiriEn").value)
+        },
+        loigud: []
+      },
+      videod: {
+        pealkiri: {
+          est: encodeURIComponent(document.getElementById("meediaVideoPealkiriEst").value),
+          en: encodeURIComponent(document.getElementById("meediaVideoPealkiriEn").value)
+        },
+        manustamislingid: []
+      },
+      muudLingid: {
+        pealkiri: {
+          est: encodeURIComponent(document.getElementById("meediaLinkPealkiriEst").value),
+          en: encodeURIComponent(document.getElementById("meediaLinkPealkiriEn").value)
+        },
+        lingid: []
+      },
+    };
+
+    for (var i = 0; i < document.querySelectorAll(".meediaLoik").length; i++) {
+      var loik = {
+        est: encodeURIComponent(document.querySelectorAll(".meediaLoikEst")[i].value),
+        en: encodeURIComponent(document.querySelectorAll(".meediaLoikEn")[i].value),
+      };
+      meediaData.sissejuhatus.loigud.push(loik);
+    }
+    for (var a = 0; a < document.querySelectorAll(".meediaVideoLoik").length; a++) {
+      var manustamislink = encodeURIComponent(document.querySelectorAll(".meediaVideoLoikLink")[a].value);
+      meediaData.videod.manustamislingid.push(manustamislink);
+    }
+    for (var b = 0; b < document.querySelectorAll(".meediaLinkLoik").length; b++) {
+      var link = {
+        est: encodeURIComponent(document.querySelectorAll(".meediaLinkLoikEst")[b].value),
+        en: encodeURIComponent(document.querySelectorAll(".meediaLinkLoikEn")[b].value),
+        link: encodeURIComponent(document.querySelectorAll(".meediaLinkLoikLink")[b].value),
+      };
+      meediaData.muudLingid.lingid.push(link);
+    }
+    return meediaData;
+  }
+}
+
+function createKontaktData() {
+
+  var kontaktData = {
+    uldine: {
+      loigud: []
+    },
+    andmed: {
+      pealkiri: {
+        est: encodeURIComponent(document.getElementById("andmedPealkiriEst").value),
+        en: encodeURIComponent(document.getElementById("andmedPealkiriEn").value),
+      },
+      paarid: []
+    },
+    numbrid: {
+      pealkiri: {
+        est: encodeURIComponent(document.getElementById("numbridPealkiriEst").value),
+        en: encodeURIComponent(document.getElementById("numbridPealkiriEn").value),
+      },
+      numbrid: []
+    },
+    mtu: {
+      pealkiri: {
+        est: encodeURIComponent(document.getElementById("mtuPealkiriEst").value),
+        en: encodeURIComponent(document.getElementById("mtuPealkiriEn").value),
+      },
+      paarid: []
+    },
+    ikoonid: {
+      pealkiri: {
+        est: encodeURIComponent(document.getElementById("ikoonidPealkiriEst").value),
+        en: encodeURIComponent(document.getElementById("ikoonidPealkiriEn").value),
+      },
+      ikoonid: []
+    },
+  };
+  for (var i = 0; i < document.querySelectorAll(".uldineLoik").length; i++) {
+
+    var loik = {
+      est: encodeURIComponent(document.querySelectorAll(".uldineLoikEst")[i].value),
+      en: encodeURIComponent(document.querySelectorAll(".uldineLoikEn")[i].value)
+    };
+    kontaktData.uldine.loigud.push(loik);
+  }
+  for (var a = 0; a < document.querySelectorAll(".andmedLoik").length; a++) {
+    var teaveAndmed = {
+      estKey: encodeURIComponent(document.querySelectorAll(".andmedLoikEstKey")[a].value),
+      enKey: encodeURIComponent(document.querySelectorAll(".andmedLoikEnKey")[a].value),
+      est: encodeURIComponent(document.querySelectorAll(".andmedLoikEst")[a].value),
+      en: encodeURIComponent(document.querySelectorAll(".andmedLoikEn")[a].value)
+    };
+    kontaktData.andmed.paarid.push(teaveAndmed);
+  }
+  for (var b = 0; b < document.querySelectorAll(".numbridLoik").length; b++) {
+    var number = {
+      estKey: encodeURIComponent(document.querySelectorAll(".numbridLoikEstKey")[b].value),
+      enKey: encodeURIComponent(document.querySelectorAll(".numbridLoikEnKey")[b].value),
+      number: encodeURIComponent(document.querySelectorAll(".numbridLoikNumber")[b].value)
+    };
+    kontaktData.numbrid.numbrid.push(number);
+  }
+  for (var c = 0; c < document.querySelectorAll(".mtuLoik").length; c++) {
+    var teaveMtu = {
+      estKey: document.querySelectorAll(".mtuLoikEstKey")[c].value,
+      enKey: document.querySelectorAll(".mtuLoikEnKey")[c].value,
+      est: document.querySelectorAll(".mtuLoikEst")[c].value,
+      en: document.querySelectorAll(".mtuLoikEn")[c].value
+    };
+    kontaktData.mtu.paarid.push(teaveMtu);
+  }
+  for (var d = 0; d < document.querySelectorAll(".ikoonidLoik").length; d++) {
+    var ikoon = {
+      icon: document.querySelectorAll(".ikoonidLoikIcon")[d].value,
+      link: document.querySelectorAll(".ikoonidLoikLink")[d].value
+    };
+    kontaktData.ikoonid.ikoonid.push(ikoon);
+  }
+  return kontaktData;
+}
+
+
+function createVastuvottData() {
+
+  var vastuvottData = {
+    tekstid: {
+      loigud: []
+    },
+    ankeet: {
+      pealkiri: {
+        est: encodeURIComponent(document.getElementById("ankeetPealkiriEst").value),
+        en: encodeURIComponent(document.getElementById("ankeetPealkiriEn").value)
+      },
+      valjad: []
+    }
+  };
+  for (var i = 0; i < document.querySelectorAll(".vastuvottLoik").length; i++) {
+    var loik = {
+      est: encodeURIComponent(document.querySelectorAll(".vastuvottLoikEst")[i].value),
+      en: encodeURIComponent(document.querySelectorAll(".vastuvottLoikEn")[i].value),
+    };
+    vastuvottData.tekstid.loigud.push(loik);
+  }
+  for (var a = 0; a < document.querySelectorAll(".ankeetLoik").length; a++) {
+    var vali = {
+      est: encodeURIComponent(document.querySelectorAll(".ankeetLoikEst")[a].value),
+      en: encodeURIComponent(document.querySelectorAll(".ankeetLoikEn")[a].value),
+    };
+    vastuvottData.ankeet.valjad.push(vali);
+  }
+  return vastuvottData;
+}
+
+
+function createAnkeetData() {
+
+  var ankeetData = [];
+
+  for (var i = 0; i < document.querySelectorAll(".ankeetField").length; i++) {
+    var vali = "'" + encodeURIComponent(document.querySelectorAll(".ankeetField")[i].value + "'");
+
+    ankeetData.push(vali);
+  }
+
+  return ankeetData;
+}
 
 // function that creates nothing relevant (used for ajax post requests that have no data to send)
 
@@ -930,7 +2398,7 @@ function createNonData() {
   return "Not data";
 }
 
-// function that creates the data necessary for deleting elements
+// function that creates the data necessary for deleting "loik" elements
 
 function createDeleteData(target) {
 
@@ -953,6 +2421,88 @@ function createDeleteData(target) {
     formName: lastElement,
     idNumber: target.id.slice(nameLength)
   };
+
+  // return the object
+
+  return deleteData;
+}
+
+
+// function for creating the data necessary to delete a "dirigendid" subform, which will be sent to the server
+
+function createDeleteDirigendidData(target) {
+
+  // obtain the id number of the deleted subform using the target id and construct a js object to send to the server
+
+  var deleteData = {
+    formName: "dirigendidSubform",
+    idNumber: target.id.slice(10, -7)
+  };
+
+  // return the constructed object
+
+  return deleteData;
+}
+
+
+// function for creating the data necessary to delete a "sundmused" subform, which will be sent to the server
+
+function createDeleteAjaluguData(target) {
+
+  // obtain the id number of the deleted subform using the target id and construct a js object to send to the server
+
+  var deleteData = {
+    formName: "ajaluguSubform",
+    idNumber: target.id.slice(7, -7)
+  };
+
+  // return the constructed object
+
+  return deleteData;
+}
+
+
+// function for creating the data necessary to delete a "sundmused" subform, which will be sent to the server
+
+function createDeleteSundmusedData(target, textQuery) {
+
+  // obtain the id number of the deleted subform using the target id
+
+  var idNumber = target.id.slice(9, -7);
+
+
+  // construct a js object that includes information about the deleted element, which will be sent to the server
+
+  var deleteData = {
+    textQuery: textQuery,
+    formName: "sundmusedSubform",
+    idNumber: idNumber
+  };
+
+  // return the constructed object
+
+  return deleteData;
+}
+
+
+// function for creating the data necessary to delete a "moodunud" subform, which will be sent to the server
+
+function createDeleteMoodunudData(target) {
+
+  // obtain the id number of the deleted subform using the target id
+
+  var idNumber = target.id.slice(8, -7);
+
+
+  // construct a js object that includes information about the deleted element, which will be sent to the server
+
+  var deleteData = {
+    formName: "sundmusedSubform",
+    idNumber: idNumber
+  };
+
+  // return the constructed object
+
   return deleteData;
 }
 
@@ -965,132 +2515,386 @@ function createDeleteData(target) {
 
 
 
-// on forms
+// add event listeners that listen for the submit event on different forms on various admin pages
+
+
+// check if the current page is "admin/avaleht" by checking if the avalehtPildid element exists
 
 if (avalehtPildid !== null) {
+
   avalehtPildid.addEventListener("submit", function(event) {
     ajaxMulter(event, new MulterParam(avalehtPildid, "avaleht/pildid"));
   });
-}
 
-if (avalehtTekstid !== null) {
   avalehtTekstid.addEventListener("submit", function(event) {
     ajaxBodyParser(event, new BodyParserParam(createAvalehtTekstidData, "avaleht/tekstid", "update"));
   });
 }
 
+// check if the current page is "admin/koorist" by checking if the kooristPealkirjad element exists
+
 if (kooristPealkirjad !== null) {
+
   kooristPealkirjad.addEventListener("submit", function(event) {
     ajaxBodyParser(event, new BodyParserParam(createKooristPealkirjadData, "pealkirjad", "update"));
   });
-}
 
-if (kooristSissejuhatus !== null) {
   kooristSissejuhatus.addEventListener("submit", function(event) {
     ajaxMulter(event, new MulterParam(kooristSissejuhatus, "sissejuhatus"));
   });
-}
 
-if (kooristLiikmed !== null) {
   kooristLiikmed.addEventListener("submit", function(event) {
     ajaxBodyParser(event, new BodyParserParam(createKooristLiikmedData, "liikmed", "update"));
   });
-}
 
-if (kooristDirigendid !== null) {
   kooristDirigendid.addEventListener("submit", function(event) {
     ajaxMulter(event, new MulterParam(kooristDirigendid, "dirigendid"));
   });
+
+  kooristAjalugu.addEventListener("submit", function(event) {
+    ajaxBodyParser(event, new BodyParserParam(createKooristAjaluguData, "ajalugu", "update"));
+  });
+
+  kooristMeedia.addEventListener("submit", function(event) {
+    ajaxBodyParser(event, new BodyParserParam(createKooristMeediaData, "meedia", "update"));
+  });
+  kooristToetajad.addEventListener("submit", function(event) {
+    ajaxMulter(event, new MulterParam(kooristToetajad, "toetajad"));
+  });
+}
+
+// check if the current page is "admin/kontakt" by checking if the kontakt form element exists
+
+if (kontakt !== null) {
+
+  kontakt.addEventListener("submit", function(event) {
+    ajaxBodyParser(event, new BodyParserParam(createKontaktData, "kontakt", "update"));
+  });
+}
+
+// check if the current page is "admin/vastuvott" by checking if the vastuvott form element exists
+
+if (vastuvott !== null) {
+
+  vastuvott.addEventListener("submit", function(event) {
+    ajaxBodyParser(event, new BodyParserParam(createVastuvottData, "vastuvott", "update"));
+  });
+}
+
+// check if the current page is "admin/sundmused" by checking if the sündmused form element exists
+
+if (sundmused !== null) {
+
+  sundmused.addEventListener("submit", function(event) {
+    ajaxMulter(event, new MulterParam(sundmused, "sundmused"));
+  });
+}
+
+// check if the current page is "admin/andmebaas" by checking if the "moodunud" form element exists
+
+if (moodunud !== null) {
+
+  moodunud.addEventListener("submit", function(event) {
+    ajaxMulter(event, new MulterParam(moodunud, "moodunud"));
+  });
+}
+
+// check if the current page is "vastuvõtt" by checking if the "ankeet" form element exists
+
+if (ankeet !== null) {
+
+  ankeet.addEventListener("submit", function(event) {
+    ajaxBodyParser(event, new BodyParserParam(createAnkeetData, "ankeet", "update"));
+  });
 }
 
 
 
-// on add "loik" buttons
+// add an event listener, which listens for clicks on the various add and delete buttons on the admin/koorist page
 
-if (sissejuhatusLoikAddBtn !== null) {
-  sissejuhatusLoikAddBtn.addEventListener("click", function(event) {
+document.addEventListener("click", function(event) {
+
+  // check if the clicked element is a specific previously defined add new "loik" button
+
+  if (event.target === sissejuhatusLoikAddBtn) {
     ajaxBodyParser(event, new BodyParserParam(createNonData, "sissejuhatus/new", "create", "koorist"));
-  });
-}
-
-if (liikmedLoikAddBtn !== null) {
-  liikmedLoikAddBtn.addEventListener("click", function(event) {
+  } else if (event.target === liikmedLoikAddBtn) {
     ajaxBodyParser(event, new BodyParserParam(createNonData, "liikmed/new", "create", "koorist"));
-  });
-}
+  } else if (event.target === ajaluguSissekanneLoikAddBtn) {
+    ajaxBodyParser(event, new BodyParserParam(createNonData, "ajalugu/sissekanne/new", "create", "koorist"));
+  } else if (event.target === ajaluguSissejuhatusLoikAddBtn) {
+    ajaxBodyParser(event, new BodyParserParam(createNonData, "ajalugu/sissejuhatus/new", "create", "koorist"));
+  } else if (event.target === meediaLoikAddBtn) {
+    ajaxBodyParser(event, new BodyParserParam(createNonData, "meedia/new", "create", "koorist"));
+  } else if (event.target === meediaVideoLoikAddBtn) {
+    ajaxBodyParser(event, new BodyParserParam(createNonData, "meedia/video/new", "create", "koorist"));
+  } else if (event.target === meediaLinkLoikAddBtn) {
+    ajaxBodyParser(event, new BodyParserParam(createNonData, "meedia/link/new", "create", "koorist"));
+  } else if (event.target === toetajadLoikAddBtn) {
+    ajaxBodyParser(event, new BodyParserParam(createNonData, "toetajad/new", "create", "koorist"));
+  } else if (event.target === uldineLoikAddBtn) {
+    ajaxBodyParser(event, new BodyParserParam(createNonData, "kontakt/uldine/new", "create", "kontakt"));
+  } else if (event.target === andmedLoikAddBtn) {
+    ajaxBodyParser(event, new BodyParserParam(createNonData, "kontakt/andmed/new", "create", "kontakt"));
+  } else if (event.target === numbridLoikAddBtn) {
+    ajaxBodyParser(event, new BodyParserParam(createNonData, "kontakt/numbrid/new", "create", "kontakt"));
+  } else if (event.target === mtuLoikAddBtn) {
+    ajaxBodyParser(event, new BodyParserParam(createNonData, "kontakt/mtu/new", "create", "kontakt"));
+  } else if (event.target === ikoonidLoikAddBtn) {
+    ajaxBodyParser(event, new BodyParserParam(createNonData, "kontakt/ikoonid/new", "create", "kontakt"));
+  } else if (event.target === vastuvottLoikAddBtn) {
+    ajaxBodyParser(event, new BodyParserParam(createNonData, "vastuvott/new", "create", "vastuvott"));
+  } else if (event.target === ankeetLoikAddBtn) {
+    ajaxBodyParser(event, new BodyParserParam(createNonData, "vastuvott/ankeet/new", "create", "vastuvott"));
+  } else if (event.target === sundmusedSissejuhatusLoikAddBtn) {
+    ajaxBodyParser(event, new BodyParserParam(createNonData, "sundmused/sissejuhatus/new", "create", "sundmused"));
 
-// on add "loik" buttons that are inside arrays
 
-if (dirigendidLoikAddBtnArray.length !== 0) {
-  for (var i = 0; i < dirigendidLoikAddBtnArray.length; i++) {
-    dirigendidLoikAddBtnArray[i].addEventListener("click", function(event) {
-      var idNumber = event.target.id.slice(10, -10);
-      ajaxBodyParser(event, new BodyParserParam(createNonData, "dirigendid" + idNumber + "/new", "create", "koorist"));
-    });
-  }
-}
+    // check if the clicked element is a dynamically created add new "loik" button on a "dirigendid" subform
 
-// on add subform buttons
+  } else if (event.target.classList.contains("dirigendidLoikAddBtn")) {
 
-if (dirigendidAddBtn !== null) {
-  dirigendidAddBtn.addEventListener("click", function(event) {
+    // get the post destination route-
+    // first obtain an id number from the id of the clicked element
+
+    var addDirigendidLoikIdNumber = event.target.id.slice(10, -10);
+
+    // call the ajax function, with the destination route being "dirigendid" + the id number
+
+    ajaxBodyParser(event, new BodyParserParam(createNonData, "dirigendid" + addDirigendidLoikIdNumber + "/new", "create", "koorist"));
+
+
+
+    // check if the clicked element is a dynamically created add new "loik" button on a "ajalugu" subform
+
+  } else if (event.target.classList.contains("ajaluguLoikAddBtn")) {
+
+    // get the post destination route-
+    // first obtain an id number from the id of the clicked element
+
+    var addAjaluguLoikIdNumber = event.target.id.slice(7, -10);
+
+    // call the ajax function, with the destination route being "ajalugu" + the id number
+
+    ajaxBodyParser(event, new BodyParserParam(createNonData, "ajalugu" + addAjaluguLoikIdNumber + "/new", "create", "koorist"));
+
+
+
+    // check if the clicked element is a dynamically created add new "loik" button on a "sundmused" subform
+
+  } else if (event.target.classList.contains("sundmusedLoikAddBtn")) {
+
+    // get the post destination route-
+    // first obtain an id number from the id of the clicked element
+
+    var addSundmusedLoikIdNumber = event.target.id.slice(9, -10);
+
+    // call the ajax function, with the destination route being "sundmused" + the id number
+
+    ajaxBodyParser(event, new BodyParserParam(createNonData, "sundmused" + addSundmusedLoikIdNumber + "/new", "create", "sundmused"));
+
+
+
+    // check if the clicked element is a dynamically created add new "loikKoht" button on a "sundmused" subform
+
+  } else if (event.target.classList.contains("sundmusedLoikKohtAddBtn")) {
+
+    // get the post destination route-
+    // first obtain an id number from the id of the clicked element
+
+    var addSundmusedLoikKohtIdNumber = event.target.id.slice(9, -14);
+
+    // call the ajax function, with the destination route being "sundmused/koht" + the id number
+
+    ajaxBodyParser(event, new BodyParserParam(createNonData, "sundmused/koht" + addSundmusedLoikKohtIdNumber + "/new", "create", "sundmused"));
+
+
+
+    // check if the clicked element is a dynamically created add new "loik" button on a "moodunud" subform
+
+  } else if (event.target.classList.contains("moodunudLoikAddBtn")) {
+
+    // get the post destination route-
+    // first obtain an id number from the id of the clicked element
+
+    var addMoodunudLoikIdNumber = event.target.id.slice(8, -10);
+
+    // call the ajax function, with the destination route being "moodunud" + the id number
+
+    ajaxBodyParser(event, new BodyParserParam(createNonData, "moodunud" + addMoodunudLoikIdNumber + "/new", "create", "andmebaas"));
+
+
+
+    // check if the clicked element is a dynamically created add new "loikKoht" button on a "moodunud" subform
+
+  } else if (event.target.classList.contains("moodunudLoikKohtAddBtn")) {
+
+    // get the post destination route-
+    // first obtain an id number from the id of the clicked element
+
+    var addMoodunudLoikKohtIdNumber = event.target.id.slice(8, -14);
+
+    // call the ajax function, with the destination route being "moodunud/koht" + the id number
+
+    ajaxBodyParser(event, new BodyParserParam(createNonData, "moodunud/koht" + addMoodunudLoikKohtIdNumber + "/new", "create", "andmebaas"));
+
+
+
+    // check if the clicked element is a previously defined add new "dirigendid" subform button
+
+  } else if (event.target === dirigendidAddBtn) {
     ajaxBodyParser(event, new BodyParserParam(createNonData, "dirigendid/new", "create", "koorist", "dirigendid"));
-  });
-}
+
+    // check if the clicked element is a previously defined add new "ajalugu" subform button
+
+  } else if (event.target === ajaluguAddBtn) {
+    ajaxBodyParser(event, new BodyParserParam(createNonData, "ajalugu/new", "create", "koorist", "ajalugu"));
+
+    // check if the clicked element is a previously defined add new "sundmused" subform button
+
+  } else if (event.target === sundmusedAddBtn) {
+    ajaxBodyParser(event, new BodyParserParam(createNonData, "sundmused/new", "create", "sundmused", "sundmused"));
+
+
+    // check if the clicked element is a specific delete "loik" button
+
+  } else if (event.target.classList.contains("sissejuhatusLoikDeleteBtn")) {
+    createDeleteMessage(event, "sissejuhatus");
+  } else if (event.target.classList.contains("liikmedLoikDeleteBtn")) {
+    createDeleteMessage(event, "liikmed");
+  } else if (event.target.classList.contains("ajaluguSissejuhatusLoikDeleteBtn")) {
+    createDeleteMessage(event, "ajalugu/sissejuhatus");
+  } else if (event.target.classList.contains("ajaluguSissekanneLoikDeleteBtn")) {
+    createDeleteMessage(event, "ajalugu/sissekanne");
+  } else if (event.target.classList.contains("meediaLoikDeleteBtn")) {
+    createDeleteMessage(event, "meedia");
+  } else if (event.target.classList.contains("meediaVideoLoikDeleteBtn")) {
+    createDeleteMessage(event, "meedia/video");
+  } else if (event.target.classList.contains("meediaLinkLoikDeleteBtn")) {
+    createDeleteMessage(event, "meedia/link");
+  } else if (event.target.classList.contains("toetajadLoikDeleteBtn")) {
+    createDeleteMessage(event, "toetajad");
+  } else if (event.target.classList.contains("uldineLoikDeleteBtn")) {
+    createDeleteMessage(event, "kontakt/uldine");
+  } else if (event.target.classList.contains("andmedLoikDeleteBtn")) {
+    createDeleteMessage(event, "kontakt/andmed");
+  } else if (event.target.classList.contains("numbridLoikDeleteBtn")) {
+    createDeleteMessage(event, "kontakt/numbrid");
+  } else if (event.target.classList.contains("mtuLoikDeleteBtn")) {
+    createDeleteMessage(event, "kontakt/mtu");
+  } else if (event.target.classList.contains("ikoonidLoikDeleteBtn")) {
+    createDeleteMessage(event, "kontakt/ikoonid");
+  } else if (event.target.classList.contains("vastuvottLoikDeleteBtn")) {
+    createDeleteMessage(event, "vastuvott");
+  } else if (event.target.classList.contains("ankeetLoikDeleteBtn")) {
+    createDeleteMessage(event, "vastuvott/ankeet");
+  } else if (event.target.classList.contains("sundmusedSissejuhatusLoikDeleteBtn")) {
+    createDeleteMessage(event, "sundmused/sissejuhatus");
+  } else if (event.target.classList.contains("andmebaasLoikDeleteBtn")) {
+    createDeleteMessage(event, "ankeet");
+
+    // check if the clicked element is a delete "loik" button on a dynamically created "dirigendid" subform
+
+  } else if (event.target.classList.contains("dirigendidLoikDeleteBtn")) {
+
+    // the event target should have an id, which contains a number between "dirigendid" and "LoikDeleteBtn" - this number will be the idNumber variable
+    // this number starts at index 10 and ends where "LoikDeleteBtn" starts
+
+    var endOfNumber = event.target.id.indexOf("LoikDeleteBtn");
+    var deleteLoikIdNumber = event.target.id.slice(10, endOfNumber);
+    createDeleteMessage(event, "dirigendid" + deleteLoikIdNumber);
 
 
 
-// function for looping through all the delete buttons and summoning a popup if any of these are clicked
+    // check if the clicked element is a delete "loik" button on a dynamically created "ajalugu" subform
 
-function addDeleteBtnListeners() {
+  } else if (event.target.classList.contains("ajaluguLoikDeleteBtn")) {
 
-  // delete a "loik" element
+    // the event target should have an id, which contains a number between "ajalugu" and "LoikDeleteBtn" - this number will be the idNumber variable
+    // this number starts at index 7 and ends where "LoikDeleteBtn" starts
 
-  if (sissejuhatusLoikDeleteBtnArray.length !== 0) {
-    for (var i = 0; i < sissejuhatusLoikDeleteBtnArray.length; i++) {
-      sissejuhatusLoikDeleteBtnArray[i].addEventListener("click", function(event) {
-        createDeleteMessage(event, "sissejuhatus");
-      });
-    }
-    if (liikmedLoikDeleteBtnArray.length !== 0) {
-      for (var a = 0; a < liikmedLoikDeleteBtnArray.length; a++) {
-        liikmedLoikDeleteBtnArray[a].addEventListener("click", function(event) {
-          createDeleteMessage(event, "liikmed");
-        });
-      }
-    }
+    var endOfAjaluguNumber = event.target.id.indexOf("LoikDeleteBtn");
+    var deleteAjaluguLoikIdNumber = event.target.id.slice(7, endOfAjaluguNumber);
+    createDeleteMessage(event, "ajalugu" + deleteAjaluguLoikIdNumber);
 
-    // delete a "loik" element from a dynamically created subform
 
-    if (dirigendidLoikDeleteBtnArrays.length !== 0) {
-      for (var b = 0; b < dirigendidLoikDeleteBtnArrays.length; b++) {
-        var indexNumber = b + 1;
-        for (var z = 0; z < dirigendidLoikDeleteBtnArrays[b].length; z++) {
-          dirigendidLoikDeleteBtnArrays[b][z].addEventListener("click", function(event) {
-            createDeleteMessage(event, "dirigendid" + indexNumber);
-          });
-        }
-      }
-    }
+    // check if the clicked element is a delete "loik" button on a dynamically created "sundmused" subform
+
+  } else if (event.target.classList.contains("sundmusedLoikDeleteBtn")) {
+
+    // the event target should have an id, which contains a number between "sundmused" and "LoikDeleteBtn" - this number will be the idNumber variable
+    // this number starts at index 9 and ends where "LoikDeleteBtn" starts
+
+    var endOfSundmusedNumber = event.target.id.indexOf("LoikDeleteBtn");
+    var deleteSundmusedLoikIdNumber = event.target.id.slice(9, endOfSundmusedNumber);
+    createDeleteMessage(event, "sundmused" + deleteSundmusedLoikIdNumber);
+
+
+    // check if the clicked element is a delete "loikKoht" button on a dynamically created "sundmused" subform
+
+  } else if (event.target.classList.contains("sundmusedLoikKohtDeleteBtn")) {
+
+    // the event target should have an id, which contains a number between "sundmused" and "LoikKohtDeleteBtn" - this number will be the idNumber variable
+    // this number starts at index 9 and ends where "LoikKohtDeleteBtn" starts
+
+    var endOfSundmusedNumberKoht = event.target.id.indexOf("LoikKohtDeleteBtn");
+    var deleteSundmusedLoikKohtIdNumber = event.target.id.slice(9, endOfSundmusedNumberKoht);
+    createDeleteMessage(event, "sundmused/koht" + deleteSundmusedLoikKohtIdNumber);
+
+
+    // check if the clicked element is a delete "loik" button on a dynamically created "moodunud" subform
+
+  } else if (event.target.classList.contains("moodunudLoikDeleteBtn")) {
+
+    // the event target should have an id, which contains a number between "moodunud" and "LoikDeleteBtn" - this number will be the idNumber variable
+    // this number starts at index 9 and ends where "LoikDeleteBtn" starts
+
+    var endOfMoodunudNumber = event.target.id.indexOf("LoikDeleteBtn");
+    var deleteMoodunudLoikIdNumber = event.target.id.slice(8, endOfMoodunudNumber);
+    createDeleteMessage(event, "moodunud" + deleteMoodunudLoikIdNumber);
+
+
+    // check if the clicked element is a delete "loikKoht" button on a dynamically created "moodunud" subform
+
+  } else if (event.target.classList.contains("moodunudLoikKohtDeleteBtn")) {
+
+    // the event target should have an id, which contains a number between "moodunud" and "LoikKohtDeleteBtn" - this number will be the idNumber variable
+    // this number starts at index 9 and ends where "LoikKohtDeleteBtn" starts
+
+    var endOfMoodunudNumberKoht = event.target.id.indexOf("LoikKohtDeleteBtn");
+    var deleteMoodunudLoikKohtIdNumber = event.target.id.slice(8, endOfMoodunudNumberKoht);
+    createDeleteMessage(event, "moodunud/koht" + deleteMoodunudLoikKohtIdNumber);
+
+
+
+    // check if the clicked element is a delete "dirigendid" subform button
+
+  } else if (event.target.classList.contains("dirigendidDeleteBtn")) {
+    createDeleteMessage(event, "dirigendid", "dirigendid");
+
+    // check if the clicked element is a delete "ajalugu" subform button
+
+  } else if (event.target.classList.contains("ajaluguDeleteBtn")) {
+    createDeleteMessage(event, "ajalugu", "ajalugu");
+
+    // check if the clicked element is a delete "sundmused" subform button
+
+  } else if (event.target.classList.contains("sundmusedDeleteBtn")) {
+    createDeleteMessage(event, "sundmused", "sundmused");
+
+
+  } else if (event.target.classList.contains("moodunudDeleteBtn")) {
+    createDeleteMessage(event, "moodunud", "moodunud");
+
+
+  } else if (event.target.classList.contains("moodunudRestoreBtn")) {
+    createDeleteMessage(event, "moodunud/restore", "moodunud");
   }
+});
 
-  // delete a subform
+// listen for changes on the bold text button
 
-  if (dirigendidDeleteBtnArray.length !== 0) {
-    for (var c = 0; c < dirigendidDeleteBtnArray.length; c++) {
-      dirigendidDeleteBtnArray[c].addEventListener("click", function(event) {
-        createDeleteMessage(event, "dirigendid");
-      });
-    }
-  }
-}
-
-
-// call the above function on page load
-
-
-addDeleteBtnListeners();
-
+boldBtn.addEventListener("change", getMarkupText);
 
 
 // CREATE AJAX CALL PARAMETERS WITH A CONSTRUCTOR FUNCTION
@@ -1118,8 +2922,6 @@ function BodyParserParam(functionName, postDestination, type, getDestination, su
 
 
 // AJAX GET REQUESTS
-
-
 
 
 function ajaxGetNew(event, location, destination, subform) {
@@ -1188,6 +2990,7 @@ function ajaxMulter(event, params) {
 
   var xhr = new XMLHttpRequest();
 
+
   // create a new formData object, which will send the relevant form to the server
 
   var formData = new FormData(params.formName);
@@ -1201,6 +3004,7 @@ function ajaxMulter(event, params) {
   xhr.onreadystatechange = function() {
 
     // if everything works, create a success message
+
     if (this.readyState == 4 && this.status == 200) {
       createSuccessMessage();
 

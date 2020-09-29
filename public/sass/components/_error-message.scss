@@ -1,7 +1,6 @@
 // The message that is displayed when no events are upcoming
 
 .error-message {
-  display: none;
   text-align: center;
-  @include absCenter;
+  padding: 10rem;
 }

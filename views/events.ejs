@@ -3,50 +3,56 @@
 <div class="page-sundmused__container">
   <section class="page-sundmused__section">
     <div class="page-sundmused__intro-box">
-      <h2 class="heading--secondary heading--purple u-margin-bottom-big">Events</h2>
-      <p class="paragraph--large paragraph--purple">Throughout its season, mixed choir Noorus are involved in a lot of traditional and not so traditional events. Take a look at our upcoming projects! Information about past events can be found below.</p>
+      <h2 class="heading--secondary heading--purple u-margin-bottom-big">Sündmused</h2>
+      <% for (var i = 0; i < sundmusedSissejuhatusData.length; i++) { %>
+      <p class="paragraph--large paragraph--purple"><%= sundmusedSissejuhatusData[i].en %></p>
+      <% } %>
     </div>
-    <div class="error-message">
-      <h3 class="heading--purple heading--tertiary u-margin-bottom-big">Oh darn!</h3>
-      <p class="paragraph--large paragraph--purple">Unfortunately there are no events to show at the moment.</p>
-    </div>
-    <div class="page-sundmused__event" id="1">
-      <img src="/img/noorus3.jpg" alt="Nooruse logo" class="page-sundmused__img page-sundmused__img--landscape">
+    <% for (var a = 0; a < sundmusedData.length; a++) { %>
+    <div class="page-sundmused__event" id="<%= a + 1 %>">
+      <img src="<%= plakatid[a].url %>" alt="Sündmus <%= a + 1 %>" class="page-sundmused__img page-sundmused__img--landscape">
       <div class="page-sundmused__text-box">
-        <h3 class="heading--tertiary heading--purple u-margin-bottom-big">Noorus 60</h3>
+        <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= sundmusedData[a].pealkiri.en %></h3>
         <ul class="list u-margin-bottom-small">
-          <li class="list__item list__item--large">25.04.2020, Estonian National Museum, Tartu</li>
-          <li class="list__item list__item--large">1.05.2020, EAMT concert hall, Tallinn</li>
+          <% for (var i = 0; i < sundmusedKohtData[a].kohad.length; i++) { %>
+          <li class="list__item list__item--large">
+            <% if (sundmusedKohtData[a].kohad[i].link !== "") { %> <a class="list__link" href="<%= sundmusedKohtData[a].kohad[i].link %>"><% } %>
+              <%= sundmusedKohtData[a].kohad[i].en %>
+              <% if (sundmusedKohtData[a].kohad[i].link !== "") { %></a><% } %>
+          </li>
+          <% } %>
         </ul>
         <ul class="list u-margin-bottom-small">
-          <li class="list__item list__item--large">Mixed choir Noorus</li>
-          <li class="list__item list__item--large">Conductor Maarja Helstein</li>
+          <% for (var i = 0; i < sundmusedData[a].loigud.length; i++) { %>
+          <li class="list__item list__item--small"><%= sundmusedData[a].loigud[i].en %></li>
+          <% } %>
         </ul>
-        <p class="paragraph--small paragraph--purple">On 22. november 2019 exactly 60 years will have passed since the founding of mixed choir Noorus. This landmark event will be celebrated with a new album and a series of ceremonial concerts.</p>
       </div>
     </div>
+    <% } %>
   </section>
   <section class="page-sundmused__section" id="past-events">
     <div class="page-sundmused__intro-box">
-      <h2 class="heading--secondary heading--purple">Past events</h2>
+      <h2 class="heading--secondary heading--purple">Möödunud sündmused</h2>
     </div>
-    <div class="page-sundmused__event" id="past1">
-      <img src="/img/past1.jpg" alt="Duruflé reekviemi plakat" class="page-sundmused__img page-sundmused__img--past page-sundmused__img--landscape">
+    <% for (var a = 0; a < moodunudData.length; a++) { %>
+    <div class="page-sundmused__event" id="past<%= a + 1 %>">
+      <img src="<%= moodunudPlakatid[a].url %>" alt="Past event <%= a + 1 %>" class="page-sundmused__img page-sundmused__img--past page-sundmused__img--landscape">
       <div class="page-sundmused__text-box">
-        <h3 class="heading--tertiary heading--purple u-margin-bottom-big">Maurice Duruflé Requiem</h3>
+        <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= moodunudData[a].pealkiri.en %></h3>
         <ul class="list u-margin-bottom-small">
-          <li class="list__item list__item--large">01. november 7pm Tallinn St. Charles' church</li>
-          <li class="list__item list__item--large">02. november 7pm Pärnu Concert Hall</li>
-          <li class="list__item list__item--large">03. november 4pm Tartu St. Paul's church</li>
+          <% for (var i = 0; i < moodunudKohtData[a].kohad.length; i++) { %>
+          <li class="list__item list__item--large"><%= moodunudKohtData[a].kohad[i].en %></li>
+          <% } %>
         </ul>
         <ul class="list u-margin-bottom-small">
-          <li class="list__item list__item--large">Mixed choir K.O.O.R., Tallinn Chamber choir and mixed choir Noorus</li>
-          <li class="list__item list__item--large">Organ: Ene Salumäe, violoncello: Egmont Välja</li>
-          <li class="list__item list__item--large">Soloists: Atlan Karp (Opera Veto) and Aule Urb (RO Estonia, Opera Veto)</li>
-          <li class="list__item list__item--large">Conductor: Raul Talmar</li>
+          <% for (var i = 0; i < moodunudData[a].loigud.length; i++) { %>
+          <li class="list__item list__item--large"><%= moodunudData[a].loigud[i].en %></li>
+          <% } %>
         </ul>
       </div>
     </div>
+    <% } %>
   </section>
 </div>
 <%- include partials/footnav-en -%>

@@ -1,0 +1,54 @@
+<%- include partials/head {pageTitle: pageTitle, paiseikoon: paiseikoon} -%>
+<%- include partials/admin-nav {routeName: routeName} -%>
+<%- include partials/admin-popup -%>
+
+<form action="/upload/vastuvott" method="post" class="page-admin__form" id="vastuvott">
+  <div class="page-admin__form-box" id="vastuvottLoikForm">
+    <% for (var i = 0; i < vastuvottTekstidData.length; i++) { %>
+    <div class="page-admin__form-field vastuvottLoik" id="vastuvottLoik<%= i + 1 %>" data-heading="Sissejuhatav lõik">
+      <h3 class="page-admin__heading vastuvottLoikHeading">Sissejuhatav lõik <%= i + 1 %></h3>
+      <p class="page-admin__text">EST</p>
+      <textarea type="text" class="page-admin__input page-admin__text-area input vastuvottLoikEst" id="vastuvottLoikEst<%= i + 1 %>" name="vastuvottLoikEst<%= i + 1 %>" rows="1"><%= vastuvottTekstidData[i].est %></textarea>
+      <p class="page-admin__text">EN</p>
+      <textarea type="text" class="page-admin__input page-admin__text-area input vastuvottLoikEn" id="vastuvottLoikEn<%= i + 1 %>" name="vastuvottLoikEn<%= i + 1 %>" rows="1"><%= vastuvottTekstidData[i].en %></textarea>
+      <button class="page-admin__small-btn deleteBtn vastuvottLoikDeleteBtn" type="button" id="vastuvottLoikDeleteBtn<%= i + 1 %>" name="vastuvottLoikDeleteBtn<%= i + 1 %>">Kustuta</button>
+    </div>
+    <% } %>
+  </div>
+  <div class="page-admin__form-box">
+    <button class="page-admin__small-btn" type="button" id="vastuvottLoikAddBtn">+ Lisa lõik +</button>
+  </div>
+  <button class="page-admin__btn" type="submit" name="button">Salvesta</button>
+  <h3 class="page-admin__title">Ankeet</h3>
+  <div class="page-admin__form-box">
+    <div class="page-admin__form-field">
+      <h3 class="page-admin__heading">Pealkiri</h3>
+      <p class="page-admin__text">EST</p>
+      <input type="text" class="page-admin__input input" name="ankeetPealkiriEst" id="ankeetPealkiriEst" value="<%= vastuvottAnkeetData.pealkiri.est  %>">
+      <p class="page-admin__text">EN </p>
+      <input type="text" class="page-admin__input input" name="ankeetPealkiriEn" id="ankeetPealkiriEn" value="<%= vastuvottAnkeetData.pealkiri.en %>">
+    </div>
+  </div>
+  <div class="page-admin__instruction-box">
+    <p class="page-admin__heading"><strong>NB!</strong></p>
+    <p class="page-admin__small-text"><strong>Kustutades ankeedilt välja, kustuvad vastavad registrid ka andmebaasist!</strong></p>
+</div>
+  <div class="page-admin__form-box" id="ankeetLoikForm">
+    <% for (var i = 0; i < vastuvottAnkeetData.valjad.length; i++) { %>
+    <div class="page-admin__form-field ankeetLoik" id="ankeetLoik<%= i + 1 %>" data-heading="Väli">
+      <h3 class="page-admin__heading ankeetLoikHeading">Väli <%= i + 1 %></h3>
+      <p class="page-admin__text u-margin-top-big">EST</p>
+      <input class="page-admin__input input ankeetLoikEst" type="text" id="ankeetLoikEst<%= i + 1 %>" name="ankeetLoikEst<%= i + 1 %>" value="<%= vastuvottAnkeetData.valjad[i].est %>">
+      <p class="page-admin__text">EN</p>
+      <input class="page-admin__input input ankeetLoikEn" type="text" id="andkeetLoikEn<%= i + 1 %>" name="ankeetLoikEn<%= i + 1 %>" value="<%= vastuvottAnkeetData.valjad[i].en %>">
+      <button class="page-admin__small-btn deleteBtn ankeetLoikDeleteBtn" type="button" id="ankeetLoikDeleteBtn<%= i + 1 %>" name="ankeetLoikDeleteBtn<%= i + 1 %>">Kustuta</button>
+    </div>
+    <% } %>
+  </div>
+  <div class="page-admin__form-box">
+    <button class="page-admin__small-btn" type="button" id="ankeetLoikAddBtn">+ Lisa väli +</button>
+  </div>
+  <button class="page-admin__btn" type="submit" name="button">Salvesta</button>
+</form>
+
+<%- include partials/footer -%>

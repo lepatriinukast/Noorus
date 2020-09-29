@@ -1,0 +1,152 @@
+<%- include partials/head {pageTitle: pageTitle, paiseikoon: paiseikoon} -%>
+<%- include partials/admin-nav {routeName: routeName} -%>
+<%- include partials/admin-popup -%>
+
+<form action="/upload/kontakt" method="post" class="page-admin__form" id="kontakt">
+  <h3 class="page-admin__title">Kontaktandmed</h3>
+  <div class="page-admin__form-box" id="uldineLoikForm">
+    <% for (var i = 0; i < kontaktUldineData.loigud.length; i++) { %>
+    <div class="page-admin__form-field uldineLoik" id="uldineLoik<%= i + 1 %>" data-heading="Sissejuhatav lõik">
+      <h3 class="page-admin__heading uldineLoikHeading">Sissejuhatav lõik <%= i + 1 %></h3>
+      <p class="page-admin__text">EST</p>
+      <textarea type="text" class="page-admin__input page-admin__text-area input uldineLoikEst" id="uldineLoikEst<%= i + 1 %>" name="uldineLoikEst<%= i + 1 %>" rows="1"><%= kontaktUldineData.loigud[i].est %></textarea>
+      <p class="page-admin__text">EN</p>
+      <textarea type="text" class="page-admin__input page-admin__text-area input uldineLoikEn" id="uldineLoikEn<%= i + 1 %>" name="uldineLoikEn<%= i + 1 %>" rows="1"><%= kontaktUldineData.loigud[i].en %></textarea>
+      <button class="page-admin__small-btn deleteBtn uldineLoikDeleteBtn" type="button" id="uldineLoikDeleteBtn<%= i + 1 %>" name="uldineLoikDeleteBtn<%= i + 1 %>">Kustuta</button>
+    </div>
+    <% } %>
+  </div>
+  <div class="page-admin__form-box">
+    <button class="page-admin__small-btn" type="button" id="uldineLoikAddBtn">+ Lisa sissejuhatav lõik +</button>
+  </div>
+  <button class="page-admin__btn" type="submit" name="button">Salvesta</button>
+  <h2 class="page-admin__subtitle">Andmed</h2>
+  <div class="page-admin__form-box">
+    <div class="page-admin__form-field">
+      <h3 class="page-admin__heading">Pealkiri</h3>
+      <p class="page-admin__text">EST</p>
+      <input type="text" class="page-admin__input input" name="andmedPealkiriEst" id="andmedPealkiriEst" value="<%= kontaktAndmedData.pealkiri.est %>">
+      <p class="page-admin__text">EN </p>
+      <input type="text" class="page-admin__input input" name="andmedPealkiriEn" id="andmedPealkiriEn" value="<%= kontaktAndmedData.pealkiri.en %>">
+    </div>
+  </div>
+  <div class="page-admin__form-box" id="andmedLoikForm">
+    <% for (var i = 0; i < kontaktAndmedData.paarid.length; i++) { %>
+    <div class="page-admin__form-field andmedLoik" id="andmedLoik<%= i + 1 %>" data-heading="Teave">
+      <h3 class="page-admin__heading andmedLoikHeading">Teave <%= i + 1 %></h3>
+      <p class="page-admin__text">VÕTI EST</p>
+      <input class="page-admin__input input andmedLoikEstKey" type="text" id="andmedLoikEstKey<%= i + 1 %>" name="andmedLoikEstKey<%= i + 1 %>" value="<%= kontaktAndmedData.paarid[i].estKey %>">
+      <p class="page-admin__text">VÕTI EN</p>
+      <input class="page-admin__input input andmedLoikEnKey" type="text" id="andmedLoikEnKey<%= i + 1 %>" name="andmedLoikEnKey<%= i + 1 %>" value="<%= kontaktAndmedData.paarid[i].enKey %>">
+      <p class="page-admin__text u-margin-top-big">TEAVE EST</p>
+      <input class="page-admin__input input andmedLoikEst" type="text" id="andmedLoikEst<%= i + 1 %>" name="andmedLoikEst<%= i + 1 %>" value="<%= kontaktAndmedData.paarid[i].est %>">
+      <p class="page-admin__text">TEAVE EN</p>
+      <input class="page-admin__input input andmedLoikEn" type="text" id="andmedLoikEn<%= i + 1 %>" name="andmedLoikEn<%= i + 1 %>" value="<%= kontaktAndmedData.paarid[i].en %>">
+      <button class="page-admin__small-btn deleteBtn andmedLoikDeleteBtn" type="button" id="andmedLoikDeleteBtn<%= i + 1 %>" name="andmedLoikDeleteBtn<%= i + 1 %>">Kustuta</button>
+    </div>
+    <% } %>
+  </div>
+  <div class="page-admin__form-box">
+    <button class="page-admin__small-btn" type="button" id="andmedLoikAddBtn">+ Lisa teave +</button>
+  </div>
+  <button class="page-admin__btn" type="submit" name="button">Salvesta</button>
+  <h2 class="page-admin__subtitle">Telefoninumbrid</h2>
+  <div class="page-admin__form-box">
+    <div class="page-admin__form-field">
+      <h3 class="page-admin__heading">Pealkiri</h3>
+      <p class="page-admin__text">EST</p>
+      <input type="text" class="page-admin__input input" name="numbridPealkiriEst" id="numbridPealkiriEst" value="<%= kontaktNumbridData.pealkiri.est %>">
+      <p class="page-admin__text">EN </p>
+      <input type="text" class="page-admin__input input" name="numbridPealkiriEn" id="numbridPealkiriEn" value="<%= kontaktNumbridData.pealkiri.en %>">
+    </div>
+  </div>
+  <div class="page-admin__form-box" id="numbridLoikForm">
+    <% for (var i = 0; i < kontaktNumbridData.numbrid.length; i++) { %>
+    <div class="page-admin__form-field numbridLoik" id="numbridLoik<%= i + 1 %>" data-heading="Telefoninumber">
+      <h3 class="page-admin__heading numbridLoikHeading">Telefoninumber <%= i + 1 %></h3>
+      <p class="page-admin__text">KONTAKTISIK EST</p>
+      <input class="page-admin__input input numbridLoikEstKey" type="text" id="numbridLoikEstKey<%= i + 1 %>" name="numbridLoikEstKey<%= i + 1 %>" value="<%= kontaktNumbridData.numbrid[i].estKey %>">
+      <p class="page-admin__text">KONTAKTISIK EN</p>
+      <input class="page-admin__input input numbridLoikEnKey" type="text" id="numbridLoikEnKey<%= i + 1 %>" name="numbridLoikEnKey<%= i + 1 %>" value="<%= kontaktNumbridData.numbrid[i].enKey %>">
+      <p class="page-admin__text">NUMBER</p>
+      <input class="page-admin__input input numbridLoikNumber" type="text" id="numbridLoikNumber<%= i + 1 %>" name="numbridLoikNumber<%= i + 1 %>" value="<%= kontaktNumbridData.numbrid[i].number %>">
+      <button class="page-admin__small-btn deleteBtn numbridLoikDeleteBtn" type="button" id="numbridLoikDeleteBtn<%= i + 1 %>" name="numbridLoikDeleteBtn<%= i + 1 %>">Kustuta</button>
+    </div>
+    <% } %>
+  </div>
+  <div class="page-admin__form-box">
+    <button class="page-admin__small-btn" type="button" id="numbridLoikAddBtn">+ Lisa telefoninumber +</button>
+  </div>
+  <button class="page-admin__btn" type="submit" name="button">Salvesta</button>
+  <h2 class="page-admin__subtitle">MTÜ andmed</h2>
+  <div class="page-admin__form-box">
+    <div class="page-admin__form-field">
+      <h3 class="page-admin__heading">Pealkiri</h3>
+      <p class="page-admin__text">EST</p>
+      <input type="text" class="page-admin__input input" name="mtuPealkiriEst" id="mtuPealkiriEst" value="<%= kontaktMtuData.pealkiri.est %>">
+      <p class="page-admin__text">EN </p>
+      <input type="text" class="page-admin__input input" name="mtuPealkiriEn" id="mtuPealkiriEn" value="<%= kontaktMtuData.pealkiri.en %>">
+    </div>
+  </div>
+  <div class="page-admin__form-box" id="mtuLoikForm">
+    <% for (var i = 0; i < kontaktMtuData.paarid.length; i++) { %>
+    <div class="page-admin__form-field mtuLoik" id="mtuLoik<%= i + 1 %>" data-heading="Teave">
+      <h3 class="page-admin__heading mtuLoikHeading">Teave <%= i + 1 %></h3>
+      <p class="page-admin__text">VÕTI EST</p>
+      <input class="page-admin__input input mtuLoikEstKey" type="text" id="mtuLoikEstKey<%= i + 1 %>" name="mtuLoikEstKey<%= i + 1 %>" value="<%= kontaktMtuData.paarid[i].estKey %>">
+      <p class="page-admin__text">VÕTI EN</p>
+      <input class="page-admin__input input mtuLoikEnKey" type="text" id="mtuLoikEnKey<%= i + 1 %>" name="mtuLoikEnKey<%= i + 1 %>" value="<%= kontaktMtuData.paarid[i].enKey %>">
+      <p class="page-admin__text u-margin-top-big">TEAVE EST</p>
+      <input class="page-admin__input input mtuLoikEst" type="text" id="mtuLoikEst<%= i + 1 %>" name="mtuLoikEst<%= i + 1 %>" value="<%= kontaktMtuData.paarid[i].est %>">
+      <p class="page-admin__text">TEAVE EN</p>
+      <input class="page-admin__input input mtuLoikEn" type="text" id="mtuLoikEn<%= i + 1 %>" name="mtuLoikEn<%= i + 1 %>" value="<%= kontaktMtuData.paarid[i].en %>">
+      <button class="page-admin__small-btn deleteBtn mtuLoikDeleteBtn" type="button" id="mtuLoikDeleteBtn<%= i + 1 %>" name="mtuLoikDeleteBtn<%= i + 1 %>">Kustuta</button>
+    </div>
+    <% } %>
+  </div>
+  <div class="page-admin__form-box">
+    <button class="page-admin__small-btn" type="button" id="mtuLoikAddBtn">+ Lisa teave +</button>
+  </div>
+  <button class="page-admin__btn" type="submit" name="button">Salvesta</button>
+
+  <h2 class="page-admin__subtitle">Sotsiaalmeediaikoonid</h2>
+  <div class="page-admin__instruction-box">
+    <p class="page-admin__heading"><strong>NB!</strong></p>
+    <p class="page-admin__small-text"><strong>Sotsiaalmeediaikoonid on sellel kodulehel lahendatud tehnoloogiaga, mille nimi on "fontawesome". Ikooni lisamiseks tuleb:</strong></p>
+    <ul class="list">
+      <li class="page-admin__small-text u-margin-top-big"><strong>1. Vajutada adminnilehel nupule "Lisa ikoon"</strong></li>
+      <li class="page-admin__small-text u-margin-top-small"><strong>2. Minna leheküljele <a class="page-admin__text-link" href="https://www.fontawesome.com">www.fontawesome.com</a></strong></li>
+      <li class="page-admin__small-text u-margin-top-small"><strong>3. Sisestada otsingusse märksõna (nt. twitter, facebook, tree, hamburger või mis iganes pähe tuleb)</strong></li>
+      <li class="page-admin__small-text u-margin-top-small"><strong>4. Klikkida tulemuste seast endale meelepärase peale (musta värviga on märgitud tasuta- ning valgega tasulised ikoonid)</strong></li>
+      <li class="page-admin__small-text u-margin-top-small"><strong>5. Leida pealkirja alt koht, kus on kirjas järgnev: &lti class="</strong></li>
+      <li class="page-admin__small-text u-margin-top-small"><strong>6. Sisestada adminnilehel lahtrisse IKOON (ilma jutumärkideta ning tühikuga vahel) need kaks sõna, mis asetsevad pärast võrdusmärki jutumärkide sees (nt. "fab fa-twitter" või "fas fa-hamburger").</strong></li>
+    </ul>
+  </div>
+  <div class="page-admin__form-box">
+    <div class="page-admin__form-field">
+      <h3 class="page-admin__heading">Pealkiri</h3>
+      <p class="page-admin__text">EST</p>
+      <input type="text" class="page-admin__input input" name="ikoonidPealkiriEst" id="ikoonidPealkiriEst" value="<%= kontaktIkoonidData.pealkiri.est  %>">
+      <p class="page-admin__text">EN </p>
+      <input type="text" class="page-admin__input input" name="ikoonidPealkiriEn" id="ikoonidPealkiriEn" value="<%= kontaktIkoonidData.pealkiri.en  %>">
+    </div>
+  </div>
+  <div class="page-admin__form-box" id="ikoonidLoikForm">
+    <% for (var i = 0; i < kontaktIkoonidData.ikoonid.length; i++) { %>
+    <div class="page-admin__form-field ikoonidLoik" id="ikoonidLoik<%= i + 1 %>" data-heading="Ikoon">
+      <h3 class="page-admin__heading ikoonidLoikHeading">Ikoon <%= i + 1 %></h3>
+      <p class="page-admin__text">IKOON</p>
+      <input class="page-admin__input input ikoonidLoikIcon" type="text" id="ikoonidLoikIcon<%= i + 1 %>" name="ikoonidLoikIcon<%= i + 1 %>" value="<%= kontaktIkoonidData.ikoonid[i].ikoon %>">
+      <p class="page-admin__text">LINK</p>
+      <input class="page-admin__input input ikoonidLoikLink" type="text" id="ikoonidLoikLink<%= i + 1 %>" name="ikoonidLoikLink<%= i + 1 %>" value="<%= kontaktIkoonidData.ikoonid[i].link %>">
+      <button class="page-admin__small-btn deleteBtn ikoonidLoikDeleteBtn" type="button" id="ikoonidLoikDeleteBtn<%= i + 1 %>" name="ikoonidLoikDeleteBtn<%= i + 1 %>">Kustuta</button>
+    </div>
+    <% } %>
+  </div>
+  <div class="page-admin__form-box">
+    <button class="page-admin__small-btn" type="button" id="ikoonidLoikAddBtn">+ Lisa ikoon +</button>
+  </div>
+  <button class="page-admin__btn" type="submit" name="button">Salvesta</button>
+</form>
+
+<%- include partials/footer -%>

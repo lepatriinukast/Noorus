@@ -1,25 +1,42 @@
 <%- include partials/head {pageTitle: pageTitle, paiseikoon: paiseikoon} -%>
 <%- include partials/navigation {currentPage: currentPage} -%>
+<div class="popup hide" id="successPopup">
+  <div class="popup__form">
+    <div class="form">
+      <h3 class="heading--tertiary heading--white u-margin-bottom-big">Andmed edastatud!</h3>
+      <div class="">
+        <button class="btn btn--main btn--dark" type="button" name="button" id="successBtn">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="popup hide" id="failurePopup">
+  <div class="popup__form">
+    <div class="form">
+      <h3 class="heading--tertiary heading--purple">Midagi läks sassi! Proovi uuesti!</h3>
+      <div class="">
+        <button class="btn btn--main btn--dark" type="button" name="button" id="failureBtn">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
 <div class="page-vastuvott__container">
   <div class="page-vastuvott__text-box">
     <h2 class="heading--secondary heading--purple u-margin-bottom-big">Vastuvõtt</h2>
-    <p class="paragraph--large paragraph--purple u-margin-bottom-big">Hetkel on avatud vastuvõtt tenori, baritoni ja bassi häälerühmadesse</p>
-    <p class="paragraph--small paragraph--purple u-margin-bottom-big">Lisainfo saamiseks ja ettelaulmisele registreerumiseks palun täida ankeet või võta ühendust meie dirigendiga: <strong>maarja.helstein|at|gmail.com</strong></p>
-    <p class="paragraph--large paragraph--purple">Meie ootame juba väga Sinuga kohtumist!</p>
+    <% for (var i = 0; i < vastuvottTekstidData.length; i++) { %>
+    <p class="paragraph--large paragraph--purple u-margin-bottom-big"><%= vastuvottTekstidData[i].est %></p>
+    <% } %>
   </div>
+  <% if (vastuvottAnkeetData.valjad.length !== 0) { %>
   <div class="page-vastuvott__form-box">
-    <form action="https://docs.google.com/forms/d/e/1FAIpQLSf2W7DlA7pKREuHk2oXmr4-ppGkx6MmVs6JBUsP1M-O-Q_f3Q/formResponse" class="form" name="vastuvott">
+    <form action="/upload/ankeet" method="post" class="form" id="ankeet" name="ankeet">
       <h3 class="heading--tertiary heading--white u-margin-bottom-big">Liitu kooriga!</h3>
-      <input type="text" class="form__input" name="entry.887993234" placeholder="Eesnimi" required aria-label="Eesnimi">
-      <input type="text" class="form__input" name="entry.210508857" placeholder="Perekonnanimi" required aria-label="Perekonnanimi">
-      <input type="number" class="form__input" name="entry.1424809737" placeholder="Vanus" required aria-label="Vanus(numbriga)">
-      <input type="text" class="form__input" name="entry.148220373" placeholder="Hääleliik" required aria-label="Hääleliik">
-      <textarea class="form__input form__text-area" name="entry.1354968039" rows="1" placeholder="Eelnev laulukogemus" required aria-label="Eelnev laulukogemus"></textarea>
-      <input type="email" class="form__input" name="entry.973477447" placeholder="E-maili aadress" required aria-label="E-maili aadress">
-      <input type="tel" class="form__input u-margin-bottom-big" name="entry.223881095" placeholder="Telefoninumber" required aria-label="Telefoninumber">
-      <button class="btn btn--main btn--dark" type="submit" name="submit">Saada</button>
+      <% for (var i = 0; i < vastuvottAnkeetData.valjad.length; i++) { %>
+      <textarea class="form__input form__text-area ankeetField" id="text-area" name="entry.887993234" rows="1" placeholder="<%= vastuvottAnkeetData.valjad[i].est %>" required aria-label="<%= vastuvottAnkeetData.valjad[i].est %>"></textarea>
+      <% } %>
+      <button class="btn btn--main btn--dark u-margin-top-big" type="submit" name="submit">Saada</button>
     </form>
   </div>
-</div>
+  <% } %>
 </div>
 <%- include partials/footer -%>

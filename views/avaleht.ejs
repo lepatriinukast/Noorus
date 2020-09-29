@@ -21,7 +21,7 @@
         <div class="section-features__item">
           <a class="section-features__link" href="/koorist#section-liikmed">
             <i class="fas fa-music section-features__icon"></i>
-            <h3 class="heading--purple heading--tertiary">Liikmed</h3>
+            <h3 class="heading--purple heading--tertiary"><%= pealkirjadData[1].est %></h3>
           </a>
         </div>
       </div>
@@ -43,26 +43,26 @@
       </div>
     </div>
   </section>
+  <% if (sundmusedData.length !== 0) { %>
   <section class="section-events" id="section-events">
     <div class="section-events__heading-box">
       <h2 class="heading--purple heading--secondary u-margin-bottom-big"><%= avalehtTekstidData.sektsiooniPealkiri1.est %></h2>
       <p class="paragraph--large paragraph--purple u-margin-bottom-big"><%= avalehtTekstidData.sektsiooniTekst1.est %></p>
     </div>
     <div class="section-events__container">
-      <div class="error-message">
-        <h3 class="heading--purple heading--tertiary u-margin-bottom-big">Oh sa mu meie!</h3>
-        <p class="paragraph--large paragraph--purple">Kahjuks pole lähiajal tulekul ühtki sündmust.</p>
-      </div>
-      <div class="card card--1">
-        <div class="card__upper card__upper--1">
+      <% for (var a = 0; a < sundmusedData.length && a < 3; a++) { %>
+      <div class="card">
+        <div class="card__upper" <% if (plakatid[a] ==! "") { %> style="background-image: url(" <%= plakatid[a].url %>");"<% } %>>
         </div>
         <div class="card__lower">
-          <h3 class="heading--white heading--tertiary">Noorus 60</h3>
-          <a href="/sundmused#1" class="btn btn--main btn--dark">Loe edasi</a>
+          <h3 class="heading--white heading--tertiary"><%= sundmusedData[a].pealkiri.est %></h3>
+          <a href="/sundmused#<%= a + 1 %>" class="btn btn--main btn--dark">Loe edasi</a>
         </div>
       </div>
+      <% } %>
     </div>
   </section>
+  <% } %>
   <section class="section-history" id="section-history">
     <div class="section-history__container">
       <h2 class="heading--purple heading--secondary u-margin-bottom-big"><%= avalehtTekstidData.sektsiooniPealkiri2.est %></h2>

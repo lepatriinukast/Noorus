@@ -19,7 +19,7 @@
       <div class="section-header__paragraphs">
         <% for (var i = 0; i < sissejuhatusData.loigud.length; i++) {
           %> <p class="paragraph--small paragraph--purple"><%= sissejuhatusData.loigud[i].est %></p>
-      <% } %>
+        <% } %>
       </div>
     </div>
   </header>
@@ -29,7 +29,7 @@
       <div class="section-header__paragraphs">
         <% for (var i = 0; i < liikmedData.loigud.length; i++) {
           %> <p class="paragraph--small paragraph--purple"><%= liikmedData.loigud[i].est %></p>
-      <% } %>
+        <% } %>
       </div>
       <div class="section-liikmed__text-box">
         <div class="section-liikmed__small-box">
@@ -52,7 +52,7 @@
         </div>
       </div>
       <div class="section-liikmed__smaller-box">
-        <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= liikmedData.lauljadPealkiri.en %></h3>
+        <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= liikmedData.lauljadPealkiri.est %></h3>
         <p class="paragraph--small paragraph--purple u-margin-bottom-big"><strong>Sopranid - </strong><%= liikmedData.sopranid %></p>
         <p class="paragraph--small paragraph--purple u-margin-bottom-big"><strong>Aldid - </strong><%= liikmedData.aldid %></p>
         <p class="paragraph--small paragraph--purple u-margin-bottom-big"> <strong>Tenorid - </strong><%= liikmedData.tenorid %></p>
@@ -66,139 +66,67 @@
   </section>
   <section class="section-dirigendid" id="section-dirigendid">
     <h2 class="heading--secondary heading--purple"><%= pealkirjadData[2].est %></h2>
+    <% for (var a = 0; a < dirigendidData.length; a++) { %>
     <div class="section-dirigendid__container">
       <div class="section-dirigendid__text-box">
-        <h3 class="heading--tertiary heading--purple u-margin-bottom-big">Maarja Helstein</h3>
-        <p class="paragraph--small paragraph--purple u-margin-bottom-small">Maarja Helstein alustas Nooruses abidirigendina 2009. aastal ning on peadirigent 2012. aastast. Ta on õppinud dirigeerimist Heino Elleri nimelise Tartu Muusikakoolis
-          (õpetaja Triin Koch) ja Eesti Teatri- ja Muusikaakadeemias (prof Ants Soots). Lisaks on ta õppinud laulmist Georg Otsa nimelises Tallinna Muusikakoolis (õpetaja Heli Veskus).
-          <p class="paragraph--small paragraph--purple u-margin-bottom-small">Maarja on olnud Tartu Ülikooli Akadeemilise Naiskoori vilistlaskoori koormeister (2007–2009) ning Uue Maailma Segakoori (2009-2010) ja Sisekaitseakadeemia koori (2012–2013)
-            dirigent. Lisaks Noorusele töötab ta ka lauljana Eesti Filharmoonia Kammerkooris.</p>
-          <p class="paragraph--small paragraph--purple">2014. aasta jaanuaris, Eesti Kooriühingu aastapreemiate jagamisel, pälvis Maarja aasta noore dirigendi tiitli ning 2017. aasta juunis, rahvusvahelisel koorikonkursil Ave Verum (Austrias), parima
-            dirigendi preemia (Conductors Promotion Prize).</p>
+        <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= dirigendidData[a].nimi %></h3>
+        <% for (var i = 0; i < dirigendidData[a].loigud.length; i++) { %>
+        <p class="paragraph--small paragraph--purple u-margin-bottom-small"><%= dirigendidData[a].loigud[i].est %></p>
+        <% } %>
       </div>
-      <div class="section-dirigendid__img section-dirigendid__img--1">
+      <div class="section-dirigendid__img" style="background-image: url('..<%= portreed[a].url %>')">
       </div>
     </div>
-    <div class="section-dirigendid__container">
-      <div class="section-dirigendid__text-box">
-        <h3 class="heading--tertiary heading--purple u-margin-bottom-big">Taavi Hark</h3>
-        <p class="paragraph--small paragraph--purple u-margin-bottom-small">...on õppinud dirigeerimist Tallinna Muusikakeskkoolis (õpetaja Anneli Mäeots) ja täiendanud end Georg Otsa nimelises Tallinna Muusikakoolis klassikalise laulu erialal
-          (õpetaja Tarmo Sild). Praegu õpib Taavi
-          Eesti Muusika- ja Teatriakadeemias muusikateaduse erialal.</p>
-        <p class="paragraph--small paragraph--purple u-margin-bottom-small">Taavi on laia huvideringiga muusik, kelle tõsisem kirg muusika vastu algas Tallinna poistekooris lauldes. Poistekoorile järgnesid klarnetiõpingud (Vabariikliku konkursi II
-          koht) ja
-          arenes huvi dirigeerimise vastu.</p>
-        <p class="paragraph--small paragraph--purple">Musitseerimise kõrval vaimustab Taavit muusikast lugemine ja kirjutamine, mis muuhulgas väljendub kaastööde kirjutamises ajakirjale Muusika. 2016. aastal pälvis Taavi preemia kultuurilehe Sirp
-          muusikakirjutiste konkursil.</p>
-      </div>
-      <div class="section-dirigendid__img section-dirigendid__img--2">
-      </div>
-    </div>
+    <% } %>
   </section>
   <section class="section-ajalugu" id="section-ajalugu">
     <h2 class="heading--secondary heading--purple"><%= pealkirjadData[3].est %></h2>
     <div class="section-ajalugu__container">
-      <h3 class="heading--tertiary heading--purple u-margin-bottom-big">60 aastat nooruslikku noorust:</h3>
+      <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= ajaluguSissekandedData.pealkiri.est %></h3>
       <ul class="list">
-        <li class="list__item list__item--small"><strong>1959</strong> novembris asutati segakoor <strong>NOORUS</strong>. Esimene dirigent oli <strong>AUGUST LÜÜS</strong>. Esimesest proovist võttis osa 22 lauljat.</li>
-        <li class="list__item list__item--small"><strong>1960</strong> jaanuar – esimene avalik esinemine. Lauljaid oli juba 78.</li>
-        <li class="list__item list__item--small"><strong>1963</strong> autasustati koori ENSV Ülemnõukogu aukirjaga, kaks aastat hiljem sai koor rahvakollektiivi nimetuse.</li>
-        <li class="list__item list__item--small"><strong>1966</strong> alustas Nooruse juures abidirigendina tööd <strong>MAIE KIVITA</strong>.</li>
-        <li class="list__item list__item--small"><strong>1969</strong> esimene suurem võit - koor saavutas juubelilaulupeo võistulaulmisel II koha.</li>
-        <li class="list__item list__item--small"><strong>1970</strong> sügisel esineti iseseisva programmiga Kesktelevisioonis.</li>
-        <li class="list__item list__item--small"><strong>1976</strong> toimus koori elus väga tähtis sündmus: sel aastal ühinesid segakoor Noorus ja Tallinna 22. keskkooli (praegune Westholmi gümnaasium) segakoor Kevade ning tekkis nn Uus Noorus.
-          Koori juures jätkas abidirigendina Maie Kivita, uueks peadirigendiks sai <strong>ENE ÜLEOJA</strong>; Noorus pälvis ÜLKNÜ Keskkomitee aukirja.</li>
-        <li class="list__item list__item--small"><strong>1981</strong> Celjes (Jugoslaavia) koorikonkursil I koht.</li>
-        <li class="list__item list__item--small"><strong>1982</strong> Mart Saare 100. sünniaastapäevale pühendatud koorikonkursil I koht.</li>
-        <li class="list__item list__item--small"><strong>1988</strong> Neerpeltis (Belgia) I koht, koorifestivalil Tallinn ‘88 I koht ja Budapestis (Ungari) I koht.</li>
-        <li class="list__item list__item--small"><strong>1991</strong> Arnheimis (Holland) I koht; uueks peadirigendiks sai <strong>RAUL TALMAR</strong>, kes seni oli kooritööst osa võtnud lauljana.</li>
-        <li class="list__item list__item--small"><strong>1994</strong> Riva Del Garda (Itaalia) II koht.</li>
-        <li class="list__item list__item--small"><strong>1995</strong> Corkis (Iirimaa) II koht.</li>
-        <li class="list__item list__item--small"><strong>1998</strong> Rhodosel (Kreeka) III koht.</li>
-        <li class="list__item list__item--small"><strong>2002</strong> Schuberti Festivalil Viinis (Austria) II koht.</li>
-        <li class="list__item list__item--small"><strong>2003</strong> Gatchinas Noorte Muusikafestivalil parima vaimuliku teose ettekandmise tunnustus.</li>
-        <li class="list__item list__item--small"><strong>2004</strong> kontsertreis Saksamaale Euroopa Liiduga ühinemise auks korraldatud pidustustele.</li>
-        <li class="list__item list__item--small"><strong>2008</strong> kammerkooride festival Põltsamaal - A-kategooria III koht ja pääs Grand Prix’ vooru.</li>
-        <li class="list__item list__item--small"><strong>2010</strong> kammerkooride festival Haapsalus, A-kategooria I koht ja pääs Grand Prix’ vooru.</li>
-        <li class="list__item list__item--small"><strong>2012</strong> uueks peadirigendiks sai <strong>MAARJA HELSTEIN</strong>, kes oli seni tegev abidirigendina.</li>
-        <li class="list__item list__item--small"><strong>2013</strong> uue omaloodud kontserdisarja “Luuletajad Eesti muusikas” esimesed kontserdid (pühendatud Ernst Enno luulele); rahvusvahelisel koorifesivalil Bielsko-Białas (Poola) kulddiplom.</li>
-        <li class="list__item list__item--small"><strong>2014</strong> rahvusvahelisel kooribiennaalil Tonen2000 Naaldwijk'is (Holland) 1 hõbe- ja 2 kulddiplomit ehk üks III ja kaks II kohta.</li>
-        <li class="list__item list__item--small"><strong>2015</strong> rahvusvahelise koorifestivalil “Tallinn 2015” kammerkooride kategooria IV koht; kontserdisarja “Luuletajad Eesti muusikas” kontserdid, pühendatud Marie Underi ning Henrik
-          Visnapuu luulele.</li>
-        <li class="list__item list__item--small"><strong>2016</strong> rahvusvahelisel koorikonkursil “International Baltic Sea Choir Competition” VI koht.</li>
-        <li class="list__item list__item--small"><strong>2017</strong> Rahvusvahelisel koorikonkursil “Tallinn 2017” kammerkooride arvestuses V koht; Rahvusvahelisel koorikonkursil “Ave Verum" (Austria) hõbediplom ja parima dirigendi auhind;
-          Ansambel RUJA kontsert “Eesti muld ja Eesti RUJA”.</li>
-        <li class="list__item list__item--small"><strong>2018</strong> rahvusvahelisel koorikonkursil “City of Derry International Choir Festival" VI koht.</li>
-        <li class="list__item list__item--small"><strong>2019</strong> Mariliis Valkoneni “Lendutõus” ettekanne ning salvestamine. Nooruse uue plaadi salvestus.</li>
+        <% for (var i = 0; i < ajaluguSissekandedData.sissekanded.length; i++) { %>
+        <li class="list__item list__item--small"><strong><%= ajaluguSissekandedData.sissekanded[i].aasta %></strong> <%= ajaluguSissekandedData.sissekanded[i].est %></li>
+        <% } %>
       </ul>
+      <% for (var a = 0; a < ajaluguSektsioonidData.length; a++) { %>
       <div class="section-ajalugu__text-box">
-        <h3 class="heading--tertiary heading--purple u-margin-bottom-big">Dirigendid ja abidirigendid läbi aegade:</h3>
-        <p class="paragraph--small paragraph--purple">August Lüüs, Peeter Perens sen., Maie Kivita, Ene Üleoja, Merike Toro, Aime Pärisalu, Lauri Sirp, Aivar Leštšinski, Raul Talmar, Janne Fridolin, Kristiina Poska, Susan Lahesalu, Eveliin Öövel, Jana Perens, Maarja Helstein, Markus
-          Leppoja, Hendrik Ojasaar, Taavi Hark.</p>
+        <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= ajaluguSektsioonidData[a].pealkiri.est %></h3>
+        <% for (var i = 0; i < ajaluguSektsioonidData[a].loigud.length; i++) { %>
+        <p class="paragraph--small paragraph--purple u-margin-bottom-small"><%= ajaluguSektsioonidData[a].loigud[i].est %></p>
+        <% } %>
       </div>
-      <div class="section-ajalugu__text-box">
-        <h3 class="heading--tertiary heading--purple u-margin-bottom-big">Hääleseadjad:</h3>
-        <p class="paragraph--small paragraph--purple">Ludmilla Issakova, Anja Riska, Uku Joller, Kalev Keeroja.</p>
-      </div>
-      <div class="section-ajalugu__text-box">
-        <h3 class="heading--tertiary heading--purple u-margin-bottom-big">Repertuaar:</h3>
-        <p class="paragraph--small paragraph--purple u-margin-bottom-big">Läbi aegade on Nooruse repertuaaris olnud kindel koht suurvormidel, nagu Johan Sebastian Bach “Magnificat”, Antonio Vivaldi “Gloria”, Marc-Antoine Charpentier “Te Deum”, ja
-          “Messe de minuit”,
-          Georg Friedrich Händel ”Messias”, Maurice Durufle “Requiem”, Arvo Pärt “In Principio”, Eino Tamberg “Amores”, Urmas Sisask “Näärioratoorium”, “Missa nr 2”, Rein Rannapi kantaat “Ilus maa”, Alo Mattiiseni risotooriumid “Roheline muna”,
-          “Näärmed” ning teised.</p>
-        <p class="paragraph--small paragraph--purple u-margin-bottom-big">Traditsiooniliselt on koori repertuaari kuulunud ka kergemuusika. Nii on juba pikka aega kavas A. Männiku seaded R. Valgre lauludele, popurrii ansambli ABBA lugudest ning
-          vokaalgrupi The King Singers biitlite-tõlgendused.Eriti
-          südamelähedastest lauludest on kokku pandud ka lauluvihikud pealkirjaga „Noorus laulab” ja “Noorus laulab II”.</p>
-        <p class="paragraph--small paragraph--purple">Viimase kümne aasta jooksul on Noorus keskendunud suuresti uue muusika esitamisele ning Eesti noortelt heliloojatelt on tellitud hulk teoseid, millest mõned jõuavad ka 2019. aastal välja
-          antavale plaadile.
-          2013. Aastal kutsus Noorus ellu kontserdisarja “Luuletajad Eesti muusikas”, mille raames on seni antud kontserdid olnud pühendatud Ernst Enno, Marie Underi ning Henrik Visnapuu luulele.</p>
-        </p>
-      </div>
-      <div class="section-ajalugu__text-box">
-        <h3 class="heading--tertiary heading--purple u-margin-bottom-big">CD-d:</h3>
-        <p class="paragraph--small paragraph--purple">esikplaat 1990, “Jõulumuusika” 1997, “Roheline Muna. Näärmed” 2000, “Salanaine” 2005, “Lapsemeelsed jõulud” 2007, “Läbilõige” 2009.</p>
-      </div>
+      <% } %>
     </div>
   </section>
   <section class="section-meedia" id="section-meedia">
     <h2 class="heading--secondary heading--purple"><%= pealkirjadData[4].est %></h2>
     <div class="section-meedia__container">
+      <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= meediaSissejuhatusData.pealkiri.est %></h3>
+      <% for (var i = 0; i < meediaSissejuhatusData.loigud.length; i++) { %>
+      <p class="paragraph--small paragraph--purple u-margin-bottom-small"><%= meediaSissejuhatusData.loigud[i].est %></p>
+      <% } %>
+      <h3 class="heading--tertiary heading--purple u-margin-top-big u-margin-bottom-big"><%= meediaVideodData.pealkiri.est %></h3>
+      <% for (var i = 0; i < meediaVideodData.manustamislingid.length; i++) { %>
       <div class="section-meedia__iframe">
-        <iframe class="iframe" src="https://www.youtube.com/embed/pQvOhzc4uGo" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
-      <div class="section-meedia__iframe">
-        <iframe class="iframe" src="https://www.youtube.com/embed/IwWq6usdyNw" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
-      <div class="section-meedia__iframe">
-        <iframe class="iframe" src="https://www.youtube.com/embed/Pjs8j3Tcf2I" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
-      <h3 class="heading--tertiary heading--purple u-margin-bottom-big">Lingid:</h3>
+        <iframe class="iframe" src="<%= meediaVideodData.manustamislingid[i] %>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+      <% } %>
+      <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= meediaLingidData.pealkiri.est %></h3>
       <ul class="list">
-        <li class="list__item list__item--small"><a href="https://arhiiv.err.ee/vaata/uks-koorilaul-paikesele?fbclid=IwAR1DaDrDfg7HcWPxaMd8h5Go9hO_Sa31cP1WJCbmD-XBD9OTpKTp7Ndh350" class="list__link">Üks koorilaul: Päikesele</a></li>
-        <li class="list__item list__item--small"><a href="https://arhiiv.err.ee/vaata/uks-koorilaul-kangakudumise-laul?fbclid=IwAR1DaDrDfg7HcWPxaMd8h5Go9hO_Sa31cP1WJCbmD-XBD9OTpKTp7Ndh350" class="list__link">Üks koorilaul: Kangakudumise laul</a>
-        </li>
-        <li class="list__item list__item--small"><a href="https://arhiiv.err.ee/vaata/uks-koorilaul-ta-lendab-mesipuu-poole?fbclid=IwAR3tbZskZZtK1f3MlUuLXeADlYDhEXPhLIWeOfchkkiSjLEAbLyAtUX7qD0" class="list__link">Üks koorilaul: Ta lendab mesipuu
-            poole</a></li>
-        <li class="list__item list__item--small"><a href="https://arhiiv.err.ee/vaata/uks-koorilaul-ma-lillesideme-votaks?fbclid=IwAR2uvMilIxv2j_1orW7J_SoFZNxU7mTPmHyzN3YfmhQ6hzNeQJYAJRA9LIs" class="list__link">Üks koorilaul: Ma lillesideme
-            võtaks</a></li>
+        <% for (var i = 0; i < meediaLingidData.lingid.length; i++) { %>
+        <li class="list__item list__item--small"><a href="<%= meediaLingidData.lingid[i].link %>" class="list__link"><%= meediaLingidData.lingid[i].est %></a></li>
+        <% } %>
       </ul>
     </div>
   </section>
   <section class="section-toetajad" id="section-toetajad">
     <h2 class="heading--secondary heading--purple"><%= pealkirjadData[5].est %></h2>
     <div class="section-toetajad__container">
+      <% for (var i = 0; i < toetajadData.length; i++) { %>
       <div class="section-toetajad__logo-box">
-        <a href="http://www.kooriyhing.ee/"><img src="/img/logo1.png" alt="" class="section-toetajad__logo"></a>
+        <a href="<%= toetajadData[i].link %>"><img src="<%= toetajadData[i].url %>" alt="Logo <%= i + 1 %>" class="section-toetajad__logo"></a>
       </div>
-      <div class="section-toetajad__logo-box">
-        <a href="https://www.keskkonnaagentuur.ee/"><img src="/img/logo2.png" alt="" class="section-toetajad__logo"></a>
-      </div>
-      <div class="section-toetajad__logo-box">
-        <a href="https://www.kulka.ee/"> <img src="/img/logo3.png" alt="" class="section-toetajad__logo"></a>
-      </div>
-      <div class="section-toetajad__logo-box">
-        <a href="https://sa.laulupidu.ee/"><img src="/img/logo4.png" alt="" class="section-toetajad__logo"></a>
-      </div>
-      <div class="section-toetajad__logo-box">
-        <a href="https://www.tallinn.ee/kultuuriamet"><img src="/img/logo5.png" alt="" class="section-toetajad__logo"></a>
-      </div>
+      <% } %>
     </div>
   </section>
 </div>

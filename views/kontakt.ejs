@@ -5,35 +5,45 @@
   <div class="page-kontakt__container">
     <div class="page-kontakt__text-box">
       <div class="page-kontakt__small-box">
-        <p class="paragraph--large paragraph--purple u-margin-bottom-big">Proovid toimuvad aadressil Mustamäe tee 33, Tallinn (Keskkonnaagentuuri maja)</p>
-        <p class="paragraph--small paragraph--purple"><strong>E-posti aadress:</strong> noorus|at|noorus.ee</p>
+        <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= kontaktUldineData.pealkiri.est %></h3>
+        <% for (var i = 0; i < kontaktUldineData.loigud.length; i++) { %>
+        <p class="paragraph--large paragraph--purple u-margin-bottom-big"><%= kontaktUldineData.loigud[i].est %></p>
+        <% } %>
       </div>
       <div class="page-kontakt__small-box">
-        <h3 class="heading--tertiary heading--purple u-margin-bottom-big">Olulised telefoninumbrid:</h3>
+        <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= kontaktAndmedData.pealkiri.est %></h3>
         <ul class="list">
-          <li class="list__item"><strong>Koori president Signe Luuk:</strong> +372 56 772 070</li>
-          <li class="list__item"><strong>Koorivanem Ingrid Põldoja:</strong> +372 56 463 386</li>
-          <li class="list__item"><strong>Peadirigent Maarja Helstein:</strong> +372 56 621 798</li>
+          <% for (var i = 0; i < kontaktAndmedData.paarid.length; i++) { %>
+          <li class="list__item"><strong><%= kontaktAndmedData.paarid[i].estKey %>:</strong> <%= kontaktAndmedData.paarid[i].est %></li>
+          <% } %>
+        </ul>
+      </div>
+      <div class="page-kontakt__small-box">
+        <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= kontaktNumbridData.pealkiri.est %></h3>
+        <ul class="list">
+          <% for (var i = 0; i < kontaktNumbridData.numbrid.length; i++) { %>
+          <li class="list__item"><strong><%= kontaktNumbridData.numbrid[i].estKey %>:</strong> <%= kontaktNumbridData.numbrid[i].number %></li>
+          <% } %>
         </ul>
       </div>
     </div>
     <div class="page-kontakt__text-box">
       <div class="page-kontakt__small-box">
-        <h3 class="heading--tertiary heading--purple u-margin-bottom-big">Segakoor Noorus MTÜ</h3>
+        <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= kontaktMtuData.pealkiri.est %></h3>
         <ul class="list">
-          <li class="list__item"><strong>Aadress:</strong> Mooni 9-3, Tallinn, 10613</li>
-          <li class="list__item"><strong>Reg. nr.:</strong> 80011101</li>
-          <li class="list__item"><strong>a/a:</strong> EE377700771002888740 (LHV)</li>
+          <% for (var i = 0; i < kontaktMtuData.paarid.length; i++) { %>
+          <li class="list__item"><strong><%= kontaktMtuData.paarid[i].estKey %>:</strong> <%= kontaktMtuData.paarid[i].est %></li>
+          <% } %>
         </ul>
       </div>
       <div class="page-kontakt__small-box">
+        <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= kontaktIkoonidData.pealkiri.est %></h3>
         <div class="page-kontakt__icons">
-          <a href="https://www.facebook.com/segakoorNoorus/" class="page-kontakt__link" aria-label="Facebooki link">
-            <i class="fab fa-facebook-f page-kontakt__icon"></i>
+          <% for (var i = 0; i < kontaktIkoonidData.ikoonid.length; i++) { %>
+          <a href="<%= kontaktIkoonidData.ikoonid[i].link %>" class="page-kontakt__link" aria-label="Facebooki link">
+            <i class="<%= kontaktIkoonidData.ikoonid[i].ikoon %> page-kontakt__icon"></i>
           </a>
-          <a href="https://www.instagram.com/segakoornoorus/" class="page-kontakt__link" aria-label="Instagrami link">
-            <i class="fab fa-instagram page-kontakt__icon"></i>
-          </a>
+          <% } %>
         </div>
       </div>
     </div>

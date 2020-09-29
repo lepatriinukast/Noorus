@@ -1,0 +1,98 @@
+<%- include partials/head {pageTitle: pageTitle, paiseikoon: paiseikoon} -%>
+<%- include partials/admin-popup -%>
+
+<body class="page-admin">
+  <div class="page-admin__fixed-box page-admin__fixed-box--left">
+    <div class="page-admin__btn-box">
+      <a href="/" class="page-admin__btn">Kodulehele</a>
+    </div>
+  </div>
+  <div class="page-admin__fixed-box page-admin__fixed-box--right">
+    <div class="page-admin__btn-box">
+      <a href="/admin" class="page-admin__btn">Adminilehele</a>
+    </div>
+  </div>
+<h2 class="page-admin__title">Andmebaas</h2>
+<h2 class="page-admin__title u-margin-top-big">Registreerunute nimekiri</h2>
+<table class="page-admin__table">
+  <tr>
+    <% for (var i = 0; i < vastuvottAnkeetData.valjad.length; i++) { %>
+    <th class="page-admin__table-cell page-admin__heading"><%= vastuvottAnkeetData.valjad[i].est %></th>
+    <% } %>
+  </tr>
+<% for (var a = 0; a < ankeetData.length; a++) { %>
+  <tr class="andmebaasLoik" id="andmebaasLoik<%= a + 1 %>" name="andmebaasLoik<%= a + 1 %>">
+    <% for (var i = 0; i < vastuvottAnkeetData.valjad.length; i++) { %>
+    <td class="page-admin__table-cell"><%= ankeetData[a][i] %></td>
+    <% } %>
+    <td class ="page-admin__small-btn andmebaasLoikDeleteBtn" id="andmebaasLoikDeleteBtn<%= a + 1 %>" name="andmebaasLoikDeleteBtn<%= a + 1 %>">Kustuta</td>
+  </tr>
+  <% } %>
+</table>
+<h2 class="page-admin__title">Möödunud sündmused</h2>
+<form action="/upload/moodunud" method="post" class="page-admin__form" id="moodunud">
+<div class="page-admin__form-wrapper" id="moodunudForm">
+  <% for (var a = 0; a < moodunudData.length; a++) { %>
+  <div class="page-admin__subform moodunudSubform" name="moodunud<%= a + 1 %>Subform" id="moodunud<%= a + 1 %>Subform">
+    <h2 class="page-admin__subtitle moodunudHeading" id="moodunud<%= a + 1 %>Heading" name="moodunud<%= a + 1 %>Heading">Sündmus <%= a + 1 %></h2>
+    <div class="page-admin__form-box">
+      <div class="page-admin__form-field">
+        <h3 class="page-admin__heading">Plakat</h3>
+        <input type="file" id="moodunud<%= a + 1 %>Plakat" name="moodunud<%= a + 1 %>Plakat" class="page-admin__hidden-input file moodunudPlakat">
+        <label for="moodunud<%= a + 1 %>Plakat" class="page-admin__small-btn moodunudPlakatLabel" id="moodunud<%= a + 1 %>PlakatLabel" name="moodunud<%= a + 1 %>PlakatLabel">Vali fail</label>
+        <p class="page-admin__input-placeholder moodunudPlakatPlaceholder" id="moodunud<%= a + 1 %>PlakatPlaceholder" name="moodunud<%= a + 1 %>PlakatPlaceholder"><%= plakatid[a].filename %></p>
+        <img class="page-admin__icon moodunudPlakatImg" src="<%= plakatid[a].url %>" id="moodunud<%= a + 1 %>PlakatImg" name="moodunud<%= a + 1 %>PlakatImg" alt="Plakat <%= a + 1 %>">
+      </div>
+      <div class="page-admin__form-field">
+        <h3 class="page-admin__heading">Pealkiri</h3>
+        <p class="page-admin__text">EST</p>
+        <input type="text" class="page-admin__input input moodunudPealkiriEst" id="moodunud<%= a + 1 %>PealkiriEst" name="moodunud<%= a + 1 %>PealkiriEst" value="<%= moodunudData[a].pealkiri.est %>">
+        <p class="page-admin__text">EN</p>
+        <input type="text" class="page-admin__input input moodunudPealkiriEn" id="moodunud<%= a + 1 %>PealkiriEn" name="moodunud<%= a + 1 %>PealkiriEn" value="<%= moodunudData[a].pealkiri.en %>">
+      </div>
+    </div>
+    <div class="page-admin__form-box moodunudLoikKohtForm" id="moodunud<%= a + 1 %>LoikKohtForm" name="moodunud<%= a + 1 %>LoikKohtForm">
+      <% for (var i = 0; i < moodunudKohtData[a].kohad.length; i++) { %>
+      <div class="page-admin__form-field moodunud<%= a + 1 %>LoikKoht" id="moodunud<%= a + 1 %>LoikKoht<%= i + 1 %>" data-heading="Koht ja aeg">
+        <h3 class="page-admin__heading moodunud<%= a + 1 %>LoikKohtHeading">Koht ja aeg <%= i + 1 %></h3>
+        <p class="page-admin__text">EST</p>
+        <textarea type="text" class="page-admin__input page-admin__text-area input moodunud<%= a + 1 %>LoikKohtEst" id="moodunud<%= a + 1 %>LoikKohtEst<%= i + 1 %>" name="moodunud<%= a + 1 %>LoikKohtEst<%= i + 1 %>" rows="1"><%= moodunudKohtData[a].kohad[i].est %></textarea>
+        <p class="page-admin__text">EN</p>
+        <textarea type="text" class="page-admin__input page-admin__text-area input moodunud<%= a + 1 %>LoikKohtEn" id="moodunud<%= a + 1 %>LoikKohtEn<%= i + 1 %>" name="moodunud<%= a + 1 %>LoikKohtEn<%= i + 1 %>" rows="1"><%= moodunudKohtData[a].kohad[i].en %></textarea>
+        <p class="page-admin__text">LINK</p>
+        <input type="url" class="page-admin__input input moodunud<%= a + 1 %>LoikKohtLink" id="moodunud<%= a + 1 %>LoikKohtLink<%= i + 1 %>" name="moodunud<%= a + 1 %>LoikKohtLink<%= i + 1 %>" value="<%= moodunudKohtData[a].kohad[i].link %>">
+        <button class="page-admin__small-btn moodunudLoikKohtDeleteBtn moodunud<%= a + 1 %>LoikKohtDeleteBtn" type="button" id="moodunud<%= a + 1 %>LoikKohtDeleteBtn<%= i + 1 %>" name="moodunud<%= a + 1 %>LoikKohtDeleteBtn<%= i + 1 %>">Kustuta</button>
+      </div>
+      <% } %>
+    </div>
+    <div class="page-admin__form-box">
+      <button class="page-admin__small-btn moodunudLoikKohtAddBtn" type="button" id="moodunud<%= a + 1 %>LoikKohtAddBtn">+ Lisa koht ja aeg +</button>
+    </div>
+    <div class="page-admin__form-box moodunudLoikForm" id="moodunud<%= a + 1 %>LoikForm" name="moodunud<%= a + 1 %>LoikForm">
+      <% for (var i = 0; i < moodunudData[a].loigud.length; i++) { %>
+      <div class="page-admin__form-field moodunud<%= a + 1 %>Loik" id="moodunud<%= a + 1 %>Loik<%= i + 1 %>" data-heading="Rida">
+        <h3 class="page-admin__heading moodunud<%= a + 1 %>LoikHeading">Rida <%= i + 1 %></h3>
+        <p class="page-admin__text">EST</p>
+        <textarea type="text" class="page-admin__input page-admin__text-area input moodunud<%= a + 1 %>LoikEst" id="moodunud<%= a + 1 %>LoikEst<%= i + 1 %>" name="moodunud<%= a + 1 %>LoikEst<%= i + 1 %>" rows="1"><%= moodunudData[a].loigud[i].est %></textarea>
+        <p class="page-admin__text">EN</p>
+        <textarea type="text" class="page-admin__input page-admin__text-area input moodunud<%= a + 1 %>LoikEn" id="moodunud<%= a + 1 %>LoikEn<%= i + 1 %>" name="moodunud<%= a + 1 %>LoikEn<%= i + 1 %>" rows="1"><%= moodunudData[a].loigud[i].en %></textarea>
+        <button class="page-admin__small-btn moodunudLoikDeleteBtn moodunud<%= a + 1 %>LoikDeleteBtn" type="button" id="moodunud<%= a + 1 %>LoikDeleteBtn<%= i + 1 %>" name="moodunud<%= a + 1 %>LoikDeleteBtn<%= i + 1 %>">Kustuta</button>
+      </div>
+      <% } %>
+    </div>
+    <div class="page-admin__form-box">
+      <button class="page-admin__small-btn moodunudLoikAddBtn" type="button" id="moodunud<%= a + 1 %>LoikAddBtn">+ Lisa rida +</button>
+    </div>
+    <button class="page-admin__btn" type="submit">Salvesta</button>
+    <div class="page-admin__form-box">
+      <button class="page-admin__small-btn moodunudDeleteBtn" type="button" id="moodunud<%= a + 1 %>DeleteBtn">Kustuta sündmus</button>
+      <button class="page-admin__small-btn moodunudRestoreBtn" type="button" id="moodunud<%= a + 1 %>RestoreBtn">Taasta sündmus</button>
+    </div>
+  </div>
+  <% } %>
+</div>
+</form>
+
+</body>
+
+<%- include partials/footer -%>

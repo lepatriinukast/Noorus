@@ -4,49 +4,58 @@
   <section class="page-sundmused__section">
     <div class="page-sundmused__intro-box">
       <h2 class="heading--secondary heading--purple u-margin-bottom-big">Sündmused</h2>
-      <p class="paragraph--large paragraph--purple">Segakoor Nooruse hooaja jooksul toimub mitmeid rohkem või vähem traditsioonilisi sündmusi. Vaata, millised projektid on tulemas. Allpool leiad infot ka juba möödunud sündmuste kohta</p>
+      <% for (var i = 0; i < sundmusedSissejuhatusData.length; i++) { %>
+      <p class="paragraph--large paragraph--purple"><%= sundmusedSissejuhatusData[i].est %></p>
+      <% } %>
     </div>
-    <div class="error-message">
-      <h3 class="heading--purple heading--tertiary u-margin-bottom-big">Oh sa mu meie!</h3>
-      <p class="paragraph--large paragraph--purple">Kahjuks pole lähiajal tulekul ühtki sündmust.</p>
-    </div>
-    <div class="page-sundmused__event" id="1">
-      <img src="/img/noorus3.jpg" alt="Nooruse logo" class="page-sundmused__img page-sundmused__img--landscape">
+    <% for (var a = 0; a < sundmusedData.length; a++) { %>
+    <div class="page-sundmused__event" id="<%= a + 1 %>">
+      <img src="<% if (plakatid[a].url !== "") { %>
+        <%= plakatid[a].url %>
+        <% } else { %>img/noorus3.jpg<% } %>"
+         alt="Sündmus <%= a + 1 %>" class="page-sundmused__img page-sundmused__img--landscape">
       <div class="page-sundmused__text-box">
-        <h3 class="heading--tertiary heading--purple u-margin-bottom-big">Noorus 60</h3>
+        <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= sundmusedData[a].pealkiri.est %></h3>
         <ul class="list u-margin-bottom-small">
-          <li class="list__item list__item--large">25.04.2020 Tartus, Eesti Rahva Muuseumis</li>
-          <li class="list__item list__item--large">1.05.2020 Tallinnas, EMTA kontserdi- ja teatrimaja suures saalis</li>
+          <% for (var i = 0; i < sundmusedKohtData[a].kohad.length; i++) { %>
+          <li class="list__item list__item--large">
+            <% if (sundmusedKohtData[a].kohad[i].link !== "") { %> <a class="list__link" href="<%= sundmusedKohtData[a].kohad[i].link %>"><% } %>
+              <%= sundmusedKohtData[a].kohad[i].est %>
+              <% if (sundmusedKohtData[a].kohad[i].link !== "") { %></a><% } %>
+          </li>
+          <% } %>
         </ul>
         <ul class="list u-margin-bottom-small">
-          <li class="list__item list__item--large">Segakoor Noorus</li>
-          <li class="list__item list__item--large">Dirigent Maarja Helstein</li>
+          <% for (var i = 0; i < sundmusedData[a].loigud.length; i++) { %>
+          <li class="list__item list__item--small"><%= sundmusedData[a].loigud[i].est %></li>
+          <% } %>
         </ul>
-        <p class="paragraph--small paragraph--purple">22. novembril 2019 möödub segakoor Nooruse sünnist 60 aastat. Tähistame tähtsat verstaposti 2020. kevadel oma uue ilmuva plaadi ning pidulike kontsertidega</p>
       </div>
     </div>
+    <% } %>
   </section>
   <section class="page-sundmused__section" id="moodunud-sundmused">
     <div class="page-sundmused__intro-box">
       <h2 class="heading--secondary heading--purple">Möödunud sündmused</h2>
     </div>
-    <div class="page-sundmused__event" id="past1">
-      <img src="/img/past1.jpg" alt="Duruflé reekviemi plakat" class="page-sundmused__img page-sundmused__img--past page-sundmused__img--landscape">
+    <% for (var a = 0; a < moodunudData.length; a++) { %>
+    <div class="page-sundmused__event" id="past<%= a + 1 %>">
+      <img src="<%= moodunudPlakatid[a].url %>" alt="Möödunud sündmus <%= a + 1 %>" class="page-sundmused__img page-sundmused__img--past page-sundmused__img--landscape">
       <div class="page-sundmused__text-box">
-        <h3 class="heading--tertiary heading--purple u-margin-bottom-big">Maurice Duruflé Reekviem</h3>
+        <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= moodunudData[a].pealkiri.est %></h3>
         <ul class="list u-margin-bottom-small">
-          <li class="list__item list__item--large">01. novembril kell 19:00 Tallinna Kaarli kirik</li>
-          <li class="list__item list__item--large">02. novembril kell 19:00 Pärnu Kontserdimaja</li>
-          <li class="list__item list__item--large">03. novembril kell 16:00 Tartu Pauluse kirik</li>
+          <% for (var i = 0; i < moodunudKohtData[a].kohad.length; i++) { %>
+          <li class="list__item list__item--large"><%= moodunudKohtData[a].kohad[i].est %></li>
+          <% } %>
         </ul>
         <ul class="list u-margin-bottom-small">
-          <li class="list__item list__item--large">Segakoor K.O.O.R., Tallinna Kammerkoor ja segakoor Noorus</li>
-          <li class="list__item list__item--large">Orelil Ene Salumäe, tšellol Egmont Välja</li>
-          <li class="list__item list__item--large">Solistid: Atlan Karp (Opera Veto) ja Aule Urb (RO Estonia, Opera Veto)</li>
-          <li class="list__item list__item--large">Dirigent Raul Talmar</li>
+          <% for (var i = 0; i < moodunudData[a].loigud.length; i++) { %>
+          <li class="list__item list__item--large"><%= moodunudData[a].loigud[i].est %></li>
+          <% } %>
         </ul>
       </div>
     </div>
+    <% } %>
   </section>
 </div>
 <%- include partials/footnav -%>

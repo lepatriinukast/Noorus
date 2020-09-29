@@ -64,134 +64,69 @@
       </div>
     </div>
   </section>
-  <section class="section-dirigendid" id="section-conductors">
+  <section class="section-dirigendid" id="section-dirigendid">
     <h2 class="heading--secondary heading--purple"><%= pealkirjadData[2].en %></h2>
+    <% for (var a = 0; a < dirigendidData.length; a++) { %>
     <div class="section-dirigendid__container">
       <div class="section-dirigendid__text-box">
-        <h3 class="heading--tertiary heading--purple u-margin-bottom-big">Maarja Helstein</h3>
-        <p class="paragraph--small paragraph--purple u-margin-bottom-small">...began her career in Noorus in 2009 as the assistant conductor. She is the head conductor of the choir since 2012. She has studied conducting at Heino Eller Tartu Music
-          College (under Triin
-          Koch) and in Estonian Academy of Music and Theatre (under prof. Ants Soots). She has also studied singing at the Georg Ots Tallinn Music College (under Heli Veskus).</p>
-        <p class="paragraph--small paragraph--purple u-margin-bottom-small">Maarja has worked as a chorus master for the alumni choir of Academic Women's Choir of the University of Tartu (2007-2009), as a conductor for the mixed choir "New World"
-          (2009-2010) and the Choir
-          of Estonian Academy of Security Sciences (2012-2013). Aside from Noorus, Maarja currently also works as a singer at Estonian Philharmonic Chamber Choir.</p>
-        <p class="paragraph--small paragraph--purple">In January 2014, Maarja was named the young conductor of the year by Estonian Choral Association. In July 2017, she won the Conductors Promotion Prize at the international choir competition Ave
-          Verum in Austria.</p>
-
+        <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= dirigendidData[a].nimi %></h3>
+        <% for (var i = 0; i < dirigendidData[a].loigud.length; i++) { %>
+        <p class="paragraph--small paragraph--purple u-margin-bottom-small"><%= dirigendidData[a].loigud[i].en %></p>
+        <% } %>
       </div>
-      <div class="section-dirigendid__img section-dirigendid__img--1">
+      <div class="section-dirigendid__img" style="background-image: url('..<%= portreed[a].url %>')">
       </div>
     </div>
-    <div class="section-dirigendid__container">
-      <div class="section-dirigendid__text-box">
-        <h3 class="heading--tertiary heading--purple u-margin-bottom-big">Taavi Hark</h3>
-        <p class="paragraph--small paragraph--purple u-margin-bottom-small">...has studied conducting at Tallinn Music High School (under Anneli Mäeots) and classical singing at Georg Ots Tallinn Music College (under Tarmo Sild). Currently, Taavi is studying music science
-          at Estonian Academy of Music and Theatre.</p>
-        <p class="paragraph--small paragraph--purple u-margin-bottom-small">Taavi is a versatile musician, whose interest in music was first sparked by his joining the Tallinn Boys Choir. Later, he turned to playing the clarinet (II prize at the National Competition) and eventually developed an interest in
-          conducting.</p>
-          <p class="paragraph--small paragraph--purple">Besides making music, Taavi also likes to read and write about it. For instance, he has frequently contributed to the music journal "Muusika". In 2016, he was awarded an accolade by the magazine "Sirp" for his participation in the competition of writing music articles.</p>
-      </div>
-      <div class="section-dirigendid__img section-dirigendid__img--2">
-      </div>
-    </div>
+    <% } %>
   </section>
   <section class="section-ajalugu" id="section-history">
     <h2 class="heading--secondary heading--purple"><%= pealkirjadData[3].en %></h2>
     <div class="section-ajalugu__container">
-      <h3 class="heading--tertiary heading--purple u-margin-bottom-big">60 years of youthful Noorus:</h3>
+      <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= ajaluguSissekandedData.pealkiri.en %></h3>
       <ul class="list">
-        <li class="list__item list__item--small"><strong>1959</strong> In November, mixed choir <strong>NOORUS</strong> was founded. The first conductor was <strong>AUGUST LÜÜS</strong>. The first rehearsal was attended by 22 singers.</li>
-        <li class="list__item list__item--small"><strong>1960</strong> In January, the first public performance took place. The number of singers had already risen to 78.</li>
-        <li class="list__item list__item--small"><strong>1963</strong> The choir was awarded a diploma by the Supreme Soviet of the Estonian Soviet Socialist Republic, two years later it was named a People's Ensemble of the Soviet Union.</li>
-        <li class="list__item list__item--small"><strong>1966</strong> <strong>MAIE KIVITA</strong> became the assistant conductor at Noorus.</li>
-        <li class="list__item list__item--small"><strong>1969</strong> The first important victory - Noorus was awarded II place at Anniversary Song Festival choir competition.</li>
-        <li class="list__item list__item--small"><strong>1970</strong> In autumn, Noorus performed independently in the Central Television of the USSR.</li>
-        <li class="list__item list__item--small"><strong>1976</strong> A very important event for the choir took place: The unification of the choirs Noorus and Kevade (the mixed choir of the 22. high school of Tallinn), and the forming of a new choir nicknamed Uus Noorus (New Youth); Maie Kivita remained the assistant conductor of the new choir, but <strong>ENE ÜLEOJA</strong> became the new head conductor; This year Noorus was also awarded a Certificate of Honor by the Central Committee of the Komsomol.</li>
-        <li class="list__item list__item--small"><strong>1981</strong> I prize in Celje (Yugoslavia).</li>
-        <li class="list__item list__item--small"><strong>1982</strong> I prize at a choir competition honoring the 100. birthday of the Estonian composer Mart Saar. </li>
-        <li class="list__item list__item--small"><strong>1988</strong> I prize in Neerpelt (Belgium); I prize at the Tallinn '88' choir festival and I place in Budapest (Hungary).</li>
-        <li class="list__item list__item--small"><strong>1991</strong> I prize in Arnheim (The Netherlands); <strong>RAUL TALMAR</strong> became the new head conductor, having previously taken part in the choir's work as a singer.</li>
-        <li class="list__item list__item--small"><strong>1994</strong> II prize in Riva Del Garda (Italy).</li>
-        <li class="list__item list__item--small"><strong>1995</strong> II prize in Cork (Ireland).</li>
-        <li class="list__item list__item--small"><strong>1998</strong> III prize on Rhodos (Greece.)</li>
-        <li class="list__item list__item--small"><strong>2002</strong> II place at Schubert Festival in Vienna (Austria).</li>
-        <li class="list__item list__item--small"><strong>2003</strong> An accolade at the Youth Music Festival in Gatchina for the best rendition of a sacral piece.</li>
-        <li class="list__item list__item--small"><strong>2004</strong> A concert tour to Germany to celebrate Estonia joining the European Union.</li>
-        <li class="list__item list__item--small"><strong>2008</strong> Põltsamaa Chamber Choir Festival- First category III place and participation in the Grand Prix round.</li>
-        <li class="list__item list__item--small"><strong>2010</strong> Haapsalu Chamber Choir Ferstival- First category I place and participation in the Grand Prix round.</li>
-        <li class="list__item list__item--small"><strong>2012</strong> <strong>MAARJA HELSTEIN</strong> became the new head conductor, having previously worked as the assistant conductor.</li>
-        <li class="list__item list__item--small"><strong>2013</strong> The beginning of a new self-created concert series "Poets in Estonian music"; Golden Diploma at the Bielsko-Biała International Choir Festival (Poland).</li>
-        <li class="list__item list__item--small"><strong>2014</strong> 1 Silver and 2 Golden Diplomas at the Tonen2000 International Choir Biennial in Naaldwijk (The Netherlands), which is one III and two II prizes.</li>
-        <li class="list__item list__item--small"><strong>2015</strong> IV place at Tallinn 2015 International Choir Festival in the chamber choir categoryt; Continuing of the concert series "Poets in Estonian music", with concerts dedicated to the poetry of Marie Under and Henrik Visnapuu.</li>
-        <li class="list__item list__item--small"><strong>2016</strong> VI place at the International Baltic Sea Choir Competition.</li>
-        <li class="list__item list__item--small"><strong>2017</strong> V prize in the chamber choir category at Tallinn 2017 International Choir Festival; Silver Diploma and the Award for Best Conductor at the Ave Verum International Choir Competition in Austria;
-          Concert “Eesti muld ja Eesti RUJA” (Estonian Soul and Estonian RUJA), featuring ensemble Ruja.</li>
-        <li class="list__item list__item--small"><strong>2018</strong> VI place at the City of Derry International Choir Festival.</li>
-        <li class="list__item list__item--small"><strong>2019</strong> The premiere and recording of Mariliis Valkonen's “Lendutõus” ("Taking Flight"); recording of a new CD.</li>
+        <% for (var i = 0; i < ajaluguSissekandedData.sissekanded.length; i++) { %>
+        <li class="list__item list__item--small"><strong><%= ajaluguSissekandedData.sissekanded[i].aasta %></strong> <%= ajaluguSissekandedData.sissekanded[i].en %></li>
+        <% } %>
       </ul>
+      <% for (var a = 0; a < ajaluguSektsioonidData.length; a++) { %>
       <div class="section-ajalugu__text-box">
-        <h3 class="heading--tertiary heading--purple u-margin-bottom-big">Conductors and assistant conductors throughout the years:</h3>
-        <p class="paragraph--small paragraph--purple">August Lüüs, Peeter Perens sen., Maie Kivita, Ene Üleoja, Merike Toro, Aime Pärisalu, Lauri Sirp, Aivar Leštšinski, Raul Talmar, Janne Fridolin, Kristiina Poska, Susan Lahesalu, Eveliin Öövel, Jana Perens, Maarja Helstein, Markus
-          Leppoja, Hendrik Ojasaar, Taavi Hark.</p>
+        <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= ajaluguSektsioonidData[a].pealkiri.en %></h3>
+        <% for (var i = 0; i < ajaluguSektsioonidData[a].loigud.length; i++) { %>
+        <p class="paragraph--small paragraph--purple u-margin-bottom-small"><%= ajaluguSektsioonidData[a].loigud[i].en %></p>
+        <% } %>
       </div>
-      <div class="section-ajalugu__text-box">
-        <h3 class="heading--tertiary heading--purple u-margin-bottom-big">Voice coaches:</h3>
-        <p class="paragraph--small paragraph--purple">Ludmilla Issakova, Anja Riska, Uku Joller, Kalev Keeroja.</p>
-      </div>
-      <div class="section-ajalugu__text-box">
-        <h3 class="heading--tertiary heading--purple u-margin-bottom-big">Repertoire:</h3>
-        <p class="paragraph--small paragraph--purple u-margin-bottom-big">The repertoire of mixed choir Noorus has always had a place for vocal-instrumental masterpieces, such as "Magnificat" by Johan Sebastian Bach, "Gloria" by Antonio Vivaldi, "Te Deum" and “Messe de minuit” by Marc-Antoine Charpentier,
-          "Messiah" by Georg Friedrich Händel, "Requiem" by Maurice Durufle, "In Principio" by Arvo Pärt, "Amores" by Eino Tamberg, "New Year's Oratorio" and “Mass nr 2” by Urmas Sisask, Cantata "Ilus Maa" ("Beautiful Country") by Rein Rannap, risotorios “Roheline muna” ("Green Egg"), “Näärmed” ("Glands") and others by Alo Mattiisen.</p>
-        <p class="paragraph--small paragraph--purple u-margin-bottom-big">Traditionally, popular music has also been a part of Noorus' repertoire. Thus, the setting of Raimond Valgre's songs by A.Männik, potpourri of the music of ABBA, and
-          the interpretations of Beatles' music by the vocal group King Singers have long been a part of the choir's concert programs. Songbooks titled „Noorus laulab” ("Noorus sings") and “Noorus laulab II” ("Noorus sings vol. 2") containing the choir's favourite songs, have been published.</p>
-        <p class="paragraph--small paragraph--purple">Throughout the last ten years, Noorus has largely focused its attention on performing contemporary music and lots of choral pieces have been commissioned from young Estonian composers. Some of these will be included on the the CD, that is due to come out in 2019.
-In 2013, A new concert series called "Luuletajad Eesti Muusikas" ("Poets in Estonian Music") was created. Thus far it has included concerts featuring the poetry of Ernst Enno, Marie Under and Henrik Visnapuu.</p>
-      </div>
-      <div class="section-ajalugu__text-box">
-        <h3 class="heading--tertiary heading--purple u-margin-bottom-big">CD-d:</h3>
-        <p class="paragraph--small paragraph--purple">First CD in 1990, “Jõulumuusika” 1997, “Roheline Muna. Näärmed” 2000, “Salanaine” 2005, “Lapsemeelsed jõulud” 2007, “Läbilõige” 2009.</p>
-      </div>
+      <% } %>
     </div>
   </section>
   <section class="section-meedia" id="section-media">
     <h2 class="heading--secondary heading--purple"><%= pealkirjadData[4].en %></h2>
     <div class="section-meedia__container">
+      <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= meediaSissejuhatusData.pealkiri.en %></h3>
+      <% for (var i = 0; i < meediaSissejuhatusData.loigud.length; i++) { %>
+      <p class="paragraph--small paragraph--purple u-margin-bottom-small"><%= meediaSissejuhatusData.loigud[i].en %></p>
+      <% } %>
+      <h3 class="heading--tertiary heading--purple u-margin-top-big u-margin-bottom-big"><%= meediaVideodData.pealkiri.en %></h3>
+      <% for (var i = 0; i < meediaVideodData.manustamislingid.length; i++) { %>
       <div class="section-meedia__iframe">
-        <iframe class="iframe" src="https://www.youtube.com/embed/pQvOhzc4uGo" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
-      <div class="section-meedia__iframe">
-        <iframe class="iframe" src="https://www.youtube.com/embed/IwWq6usdyNw" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
-      <div class="section-meedia__iframe">
-        <iframe class="iframe" src="https://www.youtube.com/embed/Pjs8j3Tcf2I" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
-      <h3 class="heading--tertiary heading--purple u-margin-bottom-big">Links:</h3>
+        <iframe class="iframe" src="<%= meediaVideodData.manustamislingid[i] %>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+      <% } %>
+      <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= meediaLingidData.pealkiri.en %></h3>
       <ul class="list">
-        <li class="list__item list__item--small"><a href="https://arhiiv.err.ee/vaata/uks-koorilaul-paikesele?fbclid=IwAR1DaDrDfg7HcWPxaMd8h5Go9hO_Sa31cP1WJCbmD-XBD9OTpKTp7Ndh350" class="list__link">Üks koorilaul: Päikesele</a></li>
-        <li class="list__item list__item--small"><a href="https://arhiiv.err.ee/vaata/uks-koorilaul-kangakudumise-laul?fbclid=IwAR1DaDrDfg7HcWPxaMd8h5Go9hO_Sa31cP1WJCbmD-XBD9OTpKTp7Ndh350" class="list__link">Üks koorilaul: Kangakudumise laul</a>
-        </li>
-        <li class="list__item list__item--small"><a href="https://arhiiv.err.ee/vaata/uks-koorilaul-ta-lendab-mesipuu-poole?fbclid=IwAR3tbZskZZtK1f3MlUuLXeADlYDhEXPhLIWeOfchkkiSjLEAbLyAtUX7qD0" class="list__link">Üks koorilaul: Ta lendab mesipuu
-            poole</a></li>
-        <li class="list__item list__item--small"><a href="https://arhiiv.err.ee/vaata/uks-koorilaul-ma-lillesideme-votaks?fbclid=IwAR2uvMilIxv2j_1orW7J_SoFZNxU7mTPmHyzN3YfmhQ6hzNeQJYAJRA9LIs" class="list__link">Üks koorilaul: Ma lillesideme
-            võtaks</a></li>
+        <% for (var i = 0; i < meediaLingidData.lingid.length; i++) { %>
+        <li class="list__item list__item--small"><a href="<%= meediaLingidData.lingid[i].link %>" class="list__link"><%= meediaLingidData.lingid[i].en %></a></li>
+        <% } %>
       </ul>
     </div>
   </section>
   <section class="section-toetajad" id="section-sponsors">
     <h2 class="heading--secondary heading--purple"><%= pealkirjadData[5].en %></h2>
     <div class="section-toetajad__container">
+      <% for (var i = 0; i < toetajadData.length; i++) { %>
       <div class="section-toetajad__logo-box">
-        <a href="http://www.kooriyhing.ee/"><img src="/img/logo1.png" alt="" class="section-toetajad__logo"></a>
+        <a href="<%= toetajadData[i].link %>"><img src="<%= toetajadData[i].url %>" alt="Logo <%= i + 1 %>" class="section-toetajad__logo"></a>
       </div>
-      <div class="section-toetajad__logo-box">
-        <a href="https://www.keskkonnaagentuur.ee/"><img src="/img/logo2.png" alt="" class="section-toetajad__logo"></a>
-      </div>
-      <div class="section-toetajad__logo-box">
-        <a href="https://www.kulka.ee/"> <img src="/img/logo3.png" alt="" class="section-toetajad__logo"></a>
-      </div>
-      <div class="section-toetajad__logo-box">
-        <a href="https://sa.laulupidu.ee/"><img src="/img/logo4.png" alt="" class="section-toetajad__logo"></a>
-      </div>
-      <div class="section-toetajad__logo-box">
-        <a href="https://www.tallinn.ee/kultuuriamet"><img src="/img/logo5.png" alt="" class="section-toetajad__logo"></a>
-      </div>
+      <% } %>
     </div>
   </section>
 </div>
