@@ -23,80 +23,369 @@ function getMarkupText() {
 
   if (boldBtn.checked === true) {
 
-    // if yes, get all the inputs on the page as an array
+    // if yes, get the selected text as a js object
 
-    var inputs = document.querySelectorAll(".input");
+    var selection = window.getSelection();
 
-    // loop through the array
+    // the bold/unbold button has two different methods-  it bolds/unbolds already written selected input text
+    // or in case no suitable text is selected, the button stays down and allows to type bold text
 
-    for (var i = 0; i < inputs.length; i++) {
+    // firstly we will go through the first scenario- check if any text is selected at all
 
-        // obtain the index of the first selected character
+    if (selection.isCollapsed === false) {
 
-        var start = inputs[i].selectionStart;
+      // get the selected text as a string
 
-        // obtain the index of the last selected character
+      var selectionString = selection.toString();
 
-        var finish = inputs[i].selectionEnd;
+      // get the anchor node of the selection object (the node, where the selection starts)
 
-        // obtain all the text in the input
+      var anchor = selection.anchorNode;
 
-        var allText = inputs[i].value;
+      // get the focus node of the selection object (the node, where the selection ends)
 
-        // obtain the selected text
+      var focus = selection.focusNode;
 
-        var selection = allText.slice(start, finish);
+      // get the closest parent of the anchor node with a class of "input"
 
-          // check if the each input has any selected text
+      var anchorParent = anchor.parentNode;
 
-          if (selection !== "" ) {
+      // get the closest parent of the focus node with a class of "input"
 
-            // if yes, focus the input
+      var focusParent = focus.parentNode;
 
-            inputs[i].focus();
+      // both the anchorParent and focusParent nodes should either have a class of "input" in their classlist
+      // or if not, their own parent element should have it- whatever the case, by finding this class, we should get the editable input
 
-            // obtain the input text that occurs before the selected part
+      var mainInput = anchorParent.closest(".input");
 
-            var beforeSelection = allText.slice(0, start);
+      // the bolding/unbolding of selected text should only work if the mainInput exists,
+      // otherwise the selected text is not valid for bolding/unbolding and the button will call for its second method
 
-// obtain the input text that occurs after the selected part
+      if (mainInput !== null) {
 
-            var afterSelection = allText.slice(finish, -1);
+        // create an array of the childnodes of the editable input
+        // (these are text nodes and possible "b" elements with text nodes of their own as children)
+
+        var childNodes = Array.from(mainInput.childNodes);
+
+        // map out the child nodes of the mainInput (we have a function for that)
+
+        var childNodesData = getChildNodesData(childNodes);
+
+        // map out the selected text in relation to the mainInput (we have a function for that)
+
+        var selectionData = getSelectionData(selection, anchor, focus, childNodes);
+
+        // check if we need to bold or unbold the selected text
+        // unbolding happens only when both the beginning and end of the selection are on the same text node
+        // and located between "b" tags
 
 
-            // construct a new string from the two obtained above, plus the selection between them
+        // UNBOLDING WILL HAPPEN HERE:
 
-            var newInputText = beforeSelection + selection.bold() + afterSelection;
+        if (selectionData.beginningIndex === selectionData.endIndex && selectionData.beginningBold === true) {
 
-            // check if the input is a text-area
+          // everything here only happens on one node, so we only need one of either beginningIndex or endIndex
 
-            if (inputs[i].tagName === "TEXTAREA") {
+          var indexUnbold = selectionData.beginningIndex;
 
-              // if yes, update its innerHTML property
+          // use the selection offsets to slice the node text into beforeSelection and afterSelection strings
 
-              inputs[i].innerHTML = newInputText;
+          var beforeSelectionUnbold = selectionData.beginningNodeText.slice(0, selectionData.beginningOffset);
+          var afterSelectionUnbold = selectionData.endNodeText.slice(selectionData.endOffset);
 
-              // check if the input is a regular one
+          // add "b" tags to these slices to keep them bold, but leave them out for the selected part
+          // then construct a new string out of all these parts
 
-            } else if (inputs[i].tagName === "INPUT") {
+          var newTextUnbold = beforeSelectionUnbold.bold() + selectionString + afterSelectionUnbold.bold();
 
-              // if yes, update its value property
+          // now we have changed the node where the selection was located,
+          // but we have to create the whole new innerHTML for the mainInput
+          // we will populate an empty array for this purpose
 
-              inputs[i].value = newInputText;
+          var textArrayUnbold = [];
+
+          // loop through the childNodesData array to replace all the text that it contains
+
+          for (var i = 0; i < childNodesData.length; i++) {
+
+            // check if the current item's index is the one we obtained earlier from the selectionData
+
+            if (i === indexUnbold) {
+
+              // if yes, replace the current item's text content with the string we created above
+              // and push the new text to the array created above
+
+              textArrayUnbold.push(newTextUnbold);
+
+            } else {
+
+              // if not, we will keep the original text, unless the item is bold
+
+              if (childNodesData[i].bold === true) {
+
+                // in this case we add bold tags to the original text
+
+                var boldTextUnbold = childNodesData[i].text.bold();
+
+                // push the altered text to the new array
+
+                textArrayUnbold.push(boldTextUnbold);
+
+                // if the item is not bold either, use the original text
+
+              } else if (childNodesData[i].bold === false) {
+
+                // get the original text
+
+                var textUnbold = childNodesData[i].text;
+
+                // and push it to the new array
+
+                textArrayUnbold.push(textUnbold);
+              }
+            }
+          }
+
+          // construct a long string from the newly created array
+
+          var newInnerHTMLUnbold = textArrayUnbold.join("");
+
+          // this string will be the new innerHTML for the mainInput
+
+          mainInput.innerHTML = newInnerHTMLUnbold;
+
+          // uncheck the bold/unbold button
+
+          boldBtn.checked = false;
+
+          // in all other cases we make the selected text bold
+
+
+          // BOLDING WILL HAPPEN HERE:
+
+        } else {
+
+          // check if the selection begins and ends on the same node
+
+          if (selectionData.beginningIndex === selectionData.endIndex) {
+
+            // if yes, we will change only one node and need the text and index for only this one node
+
+            var indexBoldSimple = selectionData.beginningIndex;
+
+            // use the selection offsets to slice the node text into beforeSelection and afterSelection strings
+
+            var beforeSelectionBoldSimple = selectionData.beginningNodeText.slice(0, selectionData.beginningOffset);
+            var afterSelectionBoldSimple = selectionData.endNodeText.slice(selectionData.endOffset);
+
+            // construct new node text from these slices and a selection string between bold tags
+
+            var newTextBoldSimple = beforeSelectionBoldSimple + selectionString.bold() + afterSelectionBoldSimple;
+
+            // now we have changed the node where the selection was located,
+            // but we have to create the whole new innerHTML for the mainInput
+            // we will populate an empty array for this purpose
+
+            var textArrayBoldSimple = [];
+
+            // loop through the childNodesData array to replace all the text that it contains
+
+            for (var a = 0; a < childNodesData.length; a++) {
+
+              // check if the current item's index is the one we obtained earlier from the selectionData
+
+              if (a === indexBoldSimple) {
+
+                // if yes, replace the current item's text content with the string we created above
+                // and push the new text to the array created above
+
+                textArrayBoldSimple.push(newTextBoldSimple);
+
+              } else {
+
+                // if not, we will keep the original text, unless the item is bold
+
+                if (childNodesData[a].bold === true) {
+
+                  // in this case we add bold tags to the original text
+
+                  var boldTextBoldSimple = childNodesData[a].text.bold();
+
+                  // push the altered text to the new array
+
+                  textArrayBoldSimple.push(boldTextBoldSimple);
+
+                  // if the item is not bold either, use the original text
+
+                } else if (childNodesData[a].bold === false) {
+
+                  // get the original text
+
+                  var textBoldSimple = childNodesData[a].text;
+
+                  // and push it to the new array
+
+                  textArrayBoldSimple.push(textBoldSimple);
+                }
+              }
             }
 
+            // construct a long string from the newly created array
+
+            var newInnerHTMLBoldSimple = textArrayBoldSimple.join("");
+
+            // this string will be the new innerHTML for the mainInput
+
+            mainInput.innerHTML = newInnerHTMLBoldSimple;
+
+            // uncheck the bold/unbold button
+
+            boldBtn.checked = false;
+
+            // if the selection does not begin and end on the same node,
+             // it means some of the selected text is bold and some of it not
+
+          } else {
+
+            // get the indexes of the node where the selection starts and for the one where it ends
+
+            var beginningIndexBold = selectionData.beginningIndex;
+            var endIndexBold = selectionData.endIndex;
+
+            // use the selection offsets to slice the node text into beforeSelection and afterSelection strings
+
+            var beforeSelectionBold = selectionData.beginningNodeText.slice(0, selectionData.beginningOffset);
 
 
-            // remove the selection
+            var afterSelectionBold = selectionData.endNodeText.slice(selectionData.endOffset);
 
-            inputs[i].setSelectionRange(0,0);
+            // create an empty array which will eventually be populated by all the text of the mainInput
 
-            // remove focus from the input
+            var textArrayBold = [];
 
-            inputs[i].blur();
+            // loop through the childNodesData array to replace all the text that it contains
 
+            for (var b = 0; b < childNodesData.length; b++) {
+
+              // first let's deal with the nodes that are not part of the selection
+              // (which means their index is either smaller than beginningIndexBold, or bigger than endIndexBold)
+              // (if there are any nodes that lie fully inside the selection, we will ignore them completely)
+
+              if (b < beginningIndexBold || b > endIndexBold) {
+
+                // check if this particular node is bold
+
+                if (childNodesData[b].bold === true) {
+
+                  // if yes, put the original text between "b" tags
+
+                  var boldOutsideSelectionText = childNodesData[b].text.bold();
+
+                  // push this text into the array created above
+
+                  textArrayBold.push(boldOutsideSelectionText);
+
+                  // if the current node is not bold, we will obviously not need the "b" tags
+
+                } else if (childNodesData[b].bold === false) {
+
+                  // use unchanged original text from the current node
+
+                  var outsideSelectionText = childNodesData[b].text;
+
+                  // push this text into the array created above
+
+                  textArrayBold.push(outsideSelectionText);
+                }
+
+                // check if the current node is the one where the selection starts on
+                // the text content of this node needs to be replaced by whatever text comes on this node
+                 // before the selection plus then the entirety of the selected text
+
+              } else if (b === beginningIndexBold) {
+
+                // if yes, check if it is bold
+
+                if (childNodesData[b].bold === true) {
+
+                  // if yes, we need to add a "b" to the beginning of the newly constructed string
+
+                  var newTextBoldBeginning = "<b>" + beforeSelectionBold + selectionString;
+
+                  // push the new text into the array created above
+
+                  textArrayBold.push(newTextBoldBeginning);
+
+                  // if this node is not bold, then the "b" tag comes right before the selected text
+
+                } else if (childNodesData[b].bold === false) {
+
+                  // create this string
+
+                  var newTextRegularBeginning = beforeSelectionBold + "<b>" + selectionString;
+
+                  textArrayBold.push(newTextRegularBeginning);
+
+                }
+
+                // check if the current iterator corresponds to the index of the node where the selection ends
+
+              } else if (b === endIndexBold) {
+
+                // if yes, check if this node is bold
+
+                if (childNodesData[b].bold === true) {
+
+                  // if yes, we need to add a "b" to the end of the text that comes on this node after the selection ends
+
+                  var newTextBoldEnd = afterSelectionBold + "</b>";
+
+                  // push the new text into the array created above
+
+                  textArrayBold.push(newTextBoldEnd);
+
+                  // if this node is not bold, then the "b" tag comes right before the text that comes on this node after the selection ends
+
+                } else if (childNodesData[b].bold === false) {
+
+                  // create this string
+
+                  var newTextRegularEnd = "</b>" + afterSelectionBold;
+
+                  // push the new text into the array created above
+
+                  textArrayBold.push(newTextRegularEnd);
+                }
+              }
+            }
+
+            // construct a long string from the newly created array
+
+            var newInnerHTMLBold = textArrayBold.join("");
+
+            // merge adjacent bold nodes into one using a simple string replacement
+
+            var adjustedInnerHTMLBold = newInnerHTMLBold.replaceAll("</b><b>", "");
+
+            // this string will be the new innerHTML for the mainInput
+
+            mainInput.innerHTML = newInnerHTMLBold;
+
+            // uncheck the bold/unbold button
+
+            boldBtn.checked = false;
           }
+        }
+      }
+
+    } else {
+
+      // THE BUTTON WILL STAY DOWN
     }
+
+
 
 
 
@@ -105,7 +394,205 @@ function getMarkupText() {
   }
 }
 
+// function for getting data about the inner structure of the editable input elements
+// (what is the text content and whether there is any bold text)
 
+function getChildNodesData(array) {
+
+  // create an empty array, which will later be populated by js objects
+  // containing data about the child nodes of the editable input
+
+  var dataArray = [];
+
+  // loop through the given array of nodes
+
+  for (var i = 0; i < array.length; i++) {
+
+    // check if the current node has a data attribute
+
+    if (array[i].data !== undefined) {
+
+      // if yes, it is a regular text node and not bold
+      // get its text content as well and create a js object out of the obtained data
+
+      var regularNode = {
+        text: array[i].data,
+        bold: false
+      };
+
+      // push the object into the array created above
+
+      dataArray.push(regularNode);
+
+    } else {
+
+      // if the data attribute is undefined, we have an element node
+      // (which in our case can only be a "b" node)
+      // get its text content as well and create a js object out of the obtained data
+
+      var boldNode = {
+        text: array[i].innerHTML,
+        bold: true
+      };
+
+      // push the object into the array created above
+
+      dataArray.push(boldNode);
+    }
+  }
+
+  // return the now populated array
+
+  return dataArray;
+
+}
+
+
+// function for getting data about the selected text
+// (its beginning and end points and whether anything is bold)
+
+function getSelectionData(selection, anchor, focus, array) {
+
+  // firstly find out what the indexes are for the anchor and focus nodes
+  // in relation to the given array and whether they are bold or not
+
+  var anchorData = compareIndexes(anchor, array);
+
+  var focusData = compareIndexes(focus, array);
+
+  // anchor and focus are not the same as the beginning and end points of the selection,
+  // but we can use them to check if the selection has been made backwards (in which case the anchor comes after the focus)
+
+  var backwards = checkIfBackwards(selection, anchorData, focusData);
+
+  // now use a function to create a javascript object with all the obtained data about the selected text
+
+  var selectionData = createSelectionData(selection, anchorData, focusData, backwards);
+
+  // return the retrieved object
+
+  return selectionData;
+}
+
+
+// function for determining the location of the selection's beginning and end
+// in relation to its parent element and whether either of them is located between bold tags
+
+function compareIndexes(node, array) {
+
+  // find out, where is the given node located in the given array
+
+  var index = array.indexOf(node);
+
+  // check if there is any such node in the given array at all
+
+  if (index === -1) {
+
+    // if not, it means that the given node is inside "b" tags, and we will find its parent node in the given array instead
+
+    var parent = node.parentNode;
+
+    // get the index of the parent node inside the given array
+
+    var parentIndex = array.indexOf(parent);
+
+    // return an object with the obtained index and the bold attribute set as "true"
+
+    var indexObject1 = {
+      index: parentIndex,
+      bold: true
+    };
+
+    return indexObject1;
+
+  } else {
+
+    // return an object with the obtained index and the bold attribute set as "false"
+
+    var indexObject2 = {
+      index: index,
+      bold: false
+    };
+
+    return indexObject2;
+  }
+}
+
+
+// function for checking if the selection has been made backwards (focus comes before anchor)
+
+function checkIfBackwards(selection, anchorData, focusData) {
+
+  // if the anchorNode comes before the focusNode, the selection is not backwards
+
+  if (anchorData.index < focusData.index) {
+
+    return false;
+
+    // if it's the other way around, the selection is backwards
+
+  } else if (anchorData.index > focusData.index) {
+
+    return true;
+
+    // if the selection ends and starts on the same node, compare the corresponding offsets instead
+
+  } else if (anchorData.index === focusData.index) {
+
+    // if the anchorOffset comes before focusOffset, the selection is not backwards
+
+    if (selection.anchorOffset < selection.focusOffset) {
+
+      return false;
+
+      // if it is the other way around, the selection is backwards
+
+    } else if (selection.anchorOffset > selection.focusOffset) {
+
+      return true;
+    }
+  }
+}
+
+
+// function for creating a javascript object with necessary information about the selected text
+
+function createSelectionData(selection, anchorData, focusData, backwards) {
+
+  // this function can return one of the two following javascript objects,
+  // depending if the selection has been made backwards or not
+
+  if (backwards === false) {
+
+    var selectionData1 = {
+      beginningIndex: anchorData.index,
+      beginningOffset: selection.anchorOffset,
+      beginningBold: anchorData.bold,
+      beginningNodeText: selection.anchorNode.data,
+      endIndex: focusData.index,
+      endOffset: selection.focusOffset,
+      endBold: focusData.bold,
+      endNodeText: selection.focusNode.data
+    };
+
+    return selectionData1;
+
+  } else if (backwards === true) {
+
+    var selectionData2 = {
+      beginningIndex: focusData.index,
+      beginningOffset: selection.focusOffset,
+      beginningBold: focusData.bold,
+      beginningNodeText: selection.focusNode.data,
+      endIndex: anchorData.index,
+      endOffset: selection.anchorOffset,
+      endBold: anchorData.bold,
+      endNodeText: selection.anchorNode.data
+    };
+
+    return selectionData2;
+  }
+}
 
 
 
@@ -321,8 +808,13 @@ for (let i = 0; i < moodunudPlakatArray.length; i++) {
 
 
 
+// text inputs on the admin pages have two versions-
+// one is the real input, the content of which will be sent to the server,
+// the second one is a corresponding editable div, which will be displayed on the page
+// the values of both versions of a particular input must be identical
 
-//get all the relevant text inputs on the page as an array
+
+//get all the editable text inputs on the page as an array
 
 var inputArray = document.querySelectorAll(".input");
 
@@ -337,11 +829,31 @@ if (inputArray !== null) {
   }
 }
 
-// manually update the value property of the text inputs that have been changed by the admin
+// manually update the value property of the fake text inputs that have been changed by the admin
+// and also carry it over to the corresponding hidden input
 
 function updateInputValue(event) {
-  var changedInputValue = event.target.value;
+
+  // get what is currently written into the editable input
+
+  var changedInputValue = event.target.innerHTML;
+
+  // set its value attribute to what is currently written into the editable input
+
   this.setAttribute("value", changedInputValue);
+
+  // get the id of the current editable input
+
+  var inputId = event.target.id;
+
+  // from this id, also input the id of the corresponding hidden input
+  // this will be the same string minus two of its last characters
+
+  var realInput = document.getElementById(inputId.slice(0, -2));
+
+  // change the value of the "real" hidden input accordingly as well
+
+  realInput.setAttribute("value", changedInputValue);
 }
 
 
