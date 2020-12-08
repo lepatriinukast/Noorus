@@ -1,0 +1,64 @@
+// Styles for the vastuvõtt page
+
+.page-pood {
+  &__container {
+    height: 100%;
+    padding: 3rem;
+    text-align: center;
+  }
+
+  &__content-box {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 3rem;
+    max-width: 100rem;
+    margin: 3rem auto;
+    @media screen and (max-width: 62.5em) {
+      flex-wrap: wrap;
+    }
+  }
+
+  &__text-wrapper {
+    text-align: left;
+    @media screen and (max-width: 62.5em) {
+      text-align: center;
+    }
+  }
+
+  &__text-box {
+    display: block;
+    overflow: hidden;
+  }
+
+  &__link-box {
+    padding: 1.5rem 0 0;
+  }
+
+  &__btn-box {
+    padding: 2rem 0 0;
+  }
+
+  &__price {
+    display: inline-block;
+    margin-right: 3rem;
+  }
+
+  &__img {
+    flex: 0 0 35rem;
+    height: 30rem;
+    margin-right: 5rem;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    @include boxShadow;
+    @media screen and (max-width: 62.5em) {
+      margin-bottom: 3rem;
+      margin-right: 0;
+    }
+    @media screen and (max-width: 19.375em) {
+      flex: 0 0 20rem;
+      height: 20rem;
+    }
+  }
+}

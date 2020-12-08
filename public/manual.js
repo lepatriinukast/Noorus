@@ -39,10 +39,16 @@
     <div class="page-admin__form-field somethingLoik" id="somethingLoik<%= i + 1 %>" data-heading="Some subheading">
       <h3 class="page-admin__heading somethingLoikHeading">Some subheading <%= i + 1 %></h3>
 
-// custom text inputs (There are many custom text inputs- replace "InputType" with the name of the particular one you need, the HTML textarea can also be used)
+// custom text inputs (There are many custom text inputs- replace "InputType" with the name of the particular one you need)
 
       <p class="page-admin__text">Heading for the text input</p>
-      <input class="page-admin__input input somethingLoikInputType" type="text" id="somethingLoikInputType<%= i + 1 %>" name="somethingLoikInputType<%= i + 1 %>" value="<%= someData.someInputTypeValue %>">
+      <input class="page-admin__input input somethingLoikInputType" type="text" id="somethingLoikInputType<%= i + 1 %>" name="somethingLoikInputType<%= i + 1 %>" value="<%- someData.someInputTypeValue %>">
+
+// for boldable text-area inputs require a hidden input and a corresponding editable div
+
+<p class="page-admin__text">Heading for the text input</p>
+<div class="page-admin__input input editable-input somethingLoikInputTypeEd" id="somethingLoikInputType<%= i + 1 %>Ed" name="somethingLoikInputType<%= i + 1 %>Ed" value="<%- someData.someInputTypeValue %>">
+<input class="page-admin__input somethingLoikInputType" type="text" id="somethingLoikInputType<%= i + 1 %>" name="somethingLoikInputType<%= i + 1 %>" value="<%- someData.someInputTypeValue %>">
 
 
 // "file" input:
@@ -209,6 +215,22 @@
     // also needs identical id and name attributes of "someNameLoikInputTyper<%= i + 1 %>"
     // note that "InputType" actually needs to be replaced everywhere by the name of the particular input needed
 
+// CUSTOM BOLDABLE TEXT-AREAS (page-admin__input) and (page-admin__hidden-input)
+
+    // needs TWO elements-
+
+    // firstly a div with classes "input" and "editable-input" and the contenteditable attribute set to "true",
+    // the very last class in the classlist needs to be named "someNameLoikInputTypeEd"
+    // also needs an id of "someNameLoikInputType<%= i + 1 %>Ed"
+
+     // secondly an input with the class "page-admin__hidden input"
+     // the very last class in its classlist has to be "someNameLoikInputType"
+     // also needs identical id and name attributes of "someNameLoikInputType<%= i + 1 %>"
+
+      // note that "InputType" actually needs to be replaced everywhere by the name of the particular input needed,
+      // whatever string replaces "InputType" on one of these elements has to be the same on the other one as well
+
+      // note also that with both elements all the html provided by ejs has to be between these tags <%- %> not these <%= %>
 
 // DELETE "LOIK" BUTTON (page-admin__small-btn):
 

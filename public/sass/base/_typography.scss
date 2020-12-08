@@ -38,6 +38,7 @@ body {
 
 .paragraph {
   white-space: pre-line;
+
   &--large {
     font-size: 1.6rem;
     line-height: 2.5rem;
@@ -56,13 +57,31 @@ body {
     }
   }
 
+  &--tiny {
+    font-size: 1rem;
+    line-height: 2rem;
+    font-weight: 200;
+  }
+
   &--purple {
     color: $color-primary-dark;
+  }
+
+  &--red {
+    color: red;
   }
 
   &--white {
     color: $color-white;
     @include textShadow;
+  }
+
+  &--grey {
+    color: $color-grey-light;
+  }
+
+  &--inline {
+    display: inline-block;
   }
 }
 
@@ -70,17 +89,17 @@ body {
   list-style: none;
 
   &__item {
-    padding: .5rem 0;
+    padding: 0.5rem 0;
     color: $color-primary-dark;
     font-size: 1.6rem;
     line-height: 2.5rem;
 
     &--small {
-    font-weight: 200;
+      font-weight: 200;
     }
 
     &--large {
-    font-weight: 700;
+      font-weight: 700;
     }
 
     strong {
@@ -101,12 +120,35 @@ body {
   }
 }
 
+.link {
+  text-decoration: none;
+  transition-property: transform, color;
+  transition-duration: 0.5s;
+
+  &:focus {
+    outline-color: blue;
+    outline-width: thick;
+  }
+
+  &--purple {
+    color: $color-primary-dark;
+
+    &:hover {
+      color: $color-primary-light;
+    }
+  }
+
+  &--white {
+    color: $color-white;
+  }
+}
+
 .form {
   &,
   &__input {
     font-family: inherit;
-    font-size: 1.3rem;
+    font-size: 1.6rem;
     line-height: 2.5rem;
-    font-weight: 500;
+    font-weight: 700;
   }
 }

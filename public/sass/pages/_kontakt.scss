@@ -3,31 +3,24 @@
 .page-kontakt {
   position: relative;
 
-  &__content {
-    padding: 3rem 5rem;
-  }
-
   &__container {
+    padding: 3rem 5rem;
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     align-items: center;
-    flex-wrap: wrap;
   }
 
   &__text-box {
-    flex: 0 0 40%;
-    margin-right: 3rem;
-    @media screen and (max-width: 36.5625em) {
-      flex: 0 0 100%;
-      margin-bottom: 3rem;
-    }
+    display: flex;
+    max-width: 70rem;
+    flex-direction: column;
+    align-items: center;
   }
 
   &__small-box {
-    &:not(:last-child) {
-      margin-bottom: 5rem;
+    padding: 3rem 0;
+    text-align: center;
     }
-  }
 
   &__icons {
     display: flex;

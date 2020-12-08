@@ -1,0 +1,101 @@
+<%- include partials/head {pageTitle: pageTitle} -%>
+<%- include partials/navigation-en {currentPage: currentPage} -%>
+<div class="page-telli__container">
+  <h2 class="heading--secondary heading--purple u-margin-bottom-big">Order</h2>
+  <p class="paragraph--large paragraph--purple">Choose your products and amounts, fill in the form and we will contact you.</p>
+ <form action="/upload/telli" method="post" name="orderForm" id="orderForm">
+  <div class="form">
+    <div class="page-telli__order-form">
+      <div class="page-telli__column">
+        <a class="paragraph--large link link--purple" href="/shop/#contentBox1">Book "60 aastat Nooruse kõla"</a>
+        <a class="paragraph--large link link--purple" href="/shop/#contentBox2">CD "Lendutõus" </a>
+        <a class="paragraph--large link link--purple" href="/shop/#contentBox3">CD "Läbilõige"</a>
+        <a class="paragraph--large link link--purple" href="/shop/#contentBox4">CD "Salanaine"</a>
+        <a class="paragraph--large link link--purple" href="/shop/#contentBox5">CD "Lapsemeelsed jõulud"</a>
+        <a class="paragraph--large link link--purple" href="/shop/#contentBox6">BIRTHDAY COMBO</a>
+        <a class="paragraph--large link link--purple" href="/shop/#contentBox7">CHRISTMAS COMBO</a>
+      </div>
+      <div class="page-telli__column">
+        <div class="page-telli__input-box">
+          <a class="link numberBtnMinus" id="numberBtnMinus1" href="#"><i class="fas fa-minus-circle form__number-btn"></i></a>
+          <input class="form__input form__number-input itemCount" type="number" min="0" step="1" max="99" name="itemCount1" id="itemCount1" data-price="15" data-heading="Raamat '60 aastat Nooruse kõla'" <% if (number === "1")  {%> value="1" <% } else {%> value="0" <% }%>>
+          <a class="link numberBtnPlus" id="numberBtnPlus1" href="#"><i class="fas fa-plus-circle form__number-btn"></i></a>
+        </div>
+        <div class="page-telli__input-box">
+          <a class="link numberBtnMinus" id="numberBtnMinus2" href="#"><i class="fas fa-minus-circle form__number-btn"></i></a>
+          <input class="form__input form__number-input itemCount" type="number" min="0" step="1" max="99" name="itemCount2" id="itemCount2" data-price="15" data-heading="CD 'Lendutõus'" <% if (number === "2")  {%> value="1" <% } else {%> value="0" <% }%>>
+          <a class="link numberBtnPlus" id="numberBtnPlus2" href="#"><i class="fas fa-plus-circle form__number-btn"></i></a>
+        </div>
+        <div class="page-telli__input-box">
+          <a class="link numberBtnMinus" id="numberBtnMinus3" href="#"><i class="fas fa-minus-circle form__number-btn"></i></a>
+          <input class="form__input form__number-input itemCount" type="number" min="0" step="1" max="99" name="itemCount3" id="itemCount3" data-price="7" data-heading="CD 'Läbilõige'" <% if (number === "3")  {%> value="1" <% } else {%> value="0" <% }%>>
+          <a class="link numberBtnPlus" id="numberBtnPlus3" href="#"><i class="fas fa-plus-circle form__number-btn"></i></a>
+        </div>
+        <div class="page-telli__input-box">
+          <a class="link numberBtnMinus" id="numberBtnMinus4" href="#"><i class="fas fa-minus-circle form__number-btn"></i></a>
+          <input class="form__input form__number-input itemCount" type="number" min="0" step="1" max="99" name="itemCount4" id="itemCount4" data-price="7" data-heading="CD 'Salanaine'" <% if (number === "4")  {%> value="1" <% } else {%> value="0" <% }%>>
+          <a class="link numberBtnPlus" id="numberBtnPlus4" href="#"><i class="fas fa-plus-circle form__number-btn"></i></a>
+        </div>
+        <div class="page-telli__input-box">
+          <a class="link numberBtnMinus" id="numberBtnMinus5" href="#"><i class="fas fa-minus-circle form__number-btn"></i></a>
+          <input class="form__input form__number-input itemCount" type="number" min="0" step="1" max="99" name="itemCount5" id="itemCount5" data-price="7" data-heading="CD 'Lapsemeelsed jõulud'" <% if (number === "5")  {%> value="1" <% } else {%> value="0" <% }%>>
+          <a class="link numberBtnPlus" id="numberBtnPlus5" href="#"><i class="fas fa-plus-circle form__number-btn"></i></a>
+        </div>
+        <div class="page-telli__input-box">
+          <a class="link numberBtnMinus" id="numberBtnMinus6" href="#"><i class="fas fa-minus-circle form__number-btn"></i></a>
+          <input class="form__input form__number-input itemCount" type="number" min="0" step="1" max="99" name="itemCount6" id="itemCount6" data-price="25" data-heading="Juubelikombo" <% if (number === "6")  {%> value="1" <% } else {%> value="0" <% }%>>
+          <a class="link numberBtnPlus" id="numberBtnPlus6" href="#"><i class="fas fa-plus-circle form__number-btn"></i></a>
+        </div>
+        <div class="page-telli__input-box">
+          <a class="link numberBtnMinus" id="numberBtnMinus7" href="#"><i class="fas fa-minus-circle form__number-btn"></i></a>
+          <input class="form__input form__number-input itemCount" type="number" min="0" step="1" max="99" name="itemCount7" id="itemCount7" data-price="18" data-heading="Jõulukombo" <% if (number === "7")  {%> value="1" <% } else {%> value="0" <% }%>>
+          <a class="link numberBtnPlus" id="numberBtnPlus7" href="#"><i class="fas fa-plus-circle form__number-btn"></i></a>
+        </div>
+      </div>
+      <div class="page-telli__column">
+        <p class="paragraph--large paragraph--grey price" data-price="15" id="price1">15 €</p>
+        <p class="paragraph--large paragraph--grey price" data-price="15" id="price2">15 €</p>
+        <p class="paragraph--large paragraph--grey price" data-price="7" id="price3">7 €</p>
+        <p class="paragraph--large paragraph--grey price" data-price="7" id="price4">7 €</p>
+        <p class="paragraph--large paragraph--grey price" data-price="7" id="price5">7 €</p>
+        <p class="paragraph--large paragraph--grey price" data-price="25" id="price6">25 €</p>
+        <p class="paragraph--large paragraph--grey price" data-price="18" id="price7">18 €</p>
+      </div>
+    </div>
+    <div class="page-telli__sum-box">
+      <h2 class="heading--tertiary heading--purple" data-language="en" id="sum">Total: 0 €</h2>
+      <input class="form__hidden-checkbox" type="checkbox" name="hiddenCheckbox" id="hiddenCheckbox" required oninvalid="this.setCustomValidity('Please choose a product!')"
+ oninput="setCustomValidity('')" aria-hidden>
+ <input type="hidden" name="hiddenSum" id="hiddenSum" value="0">
+    </div>
+  </div>
+  <div class="form">
+    <h3 class="heading--tertiary heading--purple">Contact information</h3>
+    <div class="form__column">
+      <div class="form__field">
+        <p class="paragraph--small paragraph--purple paragraph--inline u-margin-right-small">*</p>
+        <input type="text" class="form__input" name="name" id="name" placeholder="Name" required aria-label="Name">
+      </div>
+      <div class="form__field">
+        <p class="paragraph--small paragraph--purple paragraph--inline u-margin-right-small">*</p>
+        <input type="text" class="form__input" name="postAddress" id="postAddress" placeholder="Postal address" required aria-label="Postal address">
+      </div>
+      <div class="form__field">
+        <p class="paragraph--small paragraph--purple paragraph--inline u-margin-right-small">*</p>
+        <input type="email" class="form__input" name="eMail" id="eMail" placeholder="E-mail" required aria-label="E-mail">
+      </div>
+      <div class="form__field">
+        <p class="paragraph--small paragraph--purple paragraph--inline u-margin-right-small"></p>
+        <input type="tel" class="form__input" name="phoneNumber" id="phoneNumber" placeholder="Phone number" aria-label="Phone number">
+      </div>
+      <div class="form__field">
+        <p class="paragraph--small paragraph--purple paragraph--inline u-margin-right-small"></p>
+        <textarea class="form__input form__text-area" id="additionalInfo" name="additionalInfo" rows="1" placeholder="Additional information" aria-label="Additional information"></textarea>
+      </div>
+    </div>
+    <button class="btn btn--main btn--dark" type="submit" name="submitBtn">Order</button>
+    <p class="paragraph--small paragraph--purple u-margin-top-big">Your contact information will only be used for the purpose of fulfilling the order.</p>
+  </div>
+  </form>
+</div>
+<%- include partials/footer -%>

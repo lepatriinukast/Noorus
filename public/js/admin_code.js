@@ -1,598 +1,4 @@
-// UTILITY FUNCTIONS
-
-
-// function for getting the last element of an array
-
-function getLastElement(array) {
-  var lastElement = array[array.length - 1];
-  return lastElement;
-}
-
-// function for getting the parent node of a specified element
-
-function getParent(element) {
-  var parent = element.parentNode;
-  return parent;
-}
-
-// function for bolding/unbolding text on inputs, both on the admin page and the page that we want to update
-
-function getMarkupText() {
-
-  // check if the bold/unbold button is checked
-
-  if (boldBtn.checked === true) {
-
-    // if yes, get the selected text as a js object
-
-    var selection = window.getSelection();
-
-    // the bold/unbold button has two different methods-  it bolds/unbolds already written selected input text
-    // or in case no suitable text is selected, the button stays down and allows to type bold text
-
-    // firstly we will go through the first scenario- check if any text is selected at all
-
-    if (selection.isCollapsed === false) {
-
-      // get the selected text as a string
-
-      var selectionString = selection.toString();
-
-      // get the anchor node of the selection object (the node, where the selection starts)
-
-      var anchor = selection.anchorNode;
-
-      // get the focus node of the selection object (the node, where the selection ends)
-
-      var focus = selection.focusNode;
-
-      // get the closest parent of the anchor node with a class of "input"
-
-      var anchorParent = anchor.parentNode;
-
-      // get the closest parent of the focus node with a class of "input"
-
-      var focusParent = focus.parentNode;
-
-      // both the anchorParent and focusParent nodes should either have a class of "input" in their classlist
-      // or if not, their own parent element should have it- whatever the case, by finding this class, we should get the editable input
-
-      var mainInput = anchorParent.closest(".input");
-
-      // the bolding/unbolding of selected text should only work if the mainInput exists,
-      // otherwise the selected text is not valid for bolding/unbolding and the button will call for its second method
-
-      if (mainInput !== null) {
-
-        // create an array of the childnodes of the editable input
-        // (these are text nodes and possible "b" elements with text nodes of their own as children)
-
-        var childNodes = Array.from(mainInput.childNodes);
-
-        // map out the child nodes of the mainInput (we have a function for that)
-
-        var childNodesData = getChildNodesData(childNodes);
-
-        // map out the selected text in relation to the mainInput (we have a function for that)
-
-        var selectionData = getSelectionData(selection, anchor, focus, childNodes);
-
-        // check if we need to bold or unbold the selected text
-        // unbolding happens only when both the beginning and end of the selection are on the same text node
-        // and located between "b" tags
-
-
-        // UNBOLDING WILL HAPPEN HERE:
-
-        if (selectionData.beginningIndex === selectionData.endIndex && selectionData.beginningBold === true) {
-
-          // everything here only happens on one node, so we only need one of either beginningIndex or endIndex
-
-          var indexUnbold = selectionData.beginningIndex;
-
-          // use the selection offsets to slice the node text into beforeSelection and afterSelection strings
-
-          var beforeSelectionUnbold = selectionData.beginningNodeText.slice(0, selectionData.beginningOffset);
-          var afterSelectionUnbold = selectionData.endNodeText.slice(selectionData.endOffset);
-
-          // add "b" tags to these slices to keep them bold, but leave them out for the selected part
-          // then construct a new string out of all these parts
-
-          var newTextUnbold = beforeSelectionUnbold.bold() + selectionString + afterSelectionUnbold.bold();
-
-          // now we have changed the node where the selection was located,
-          // but we have to create the whole new innerHTML for the mainInput
-          // we will populate an empty array for this purpose
-
-          var textArrayUnbold = [];
-
-          // loop through the childNodesData array to replace all the text that it contains
-
-          for (var i = 0; i < childNodesData.length; i++) {
-
-            // check if the current item's index is the one we obtained earlier from the selectionData
-
-            if (i === indexUnbold) {
-
-              // if yes, replace the current item's text content with the string we created above
-              // and push the new text to the array created above
-
-              textArrayUnbold.push(newTextUnbold);
-
-            } else {
-
-              // if not, we will keep the original text, unless the item is bold
-
-              if (childNodesData[i].bold === true) {
-
-                // in this case we add bold tags to the original text
-
-                var boldTextUnbold = childNodesData[i].text.bold();
-
-                // push the altered text to the new array
-
-                textArrayUnbold.push(boldTextUnbold);
-
-                // if the item is not bold either, use the original text
-
-              } else if (childNodesData[i].bold === false) {
-
-                // get the original text
-
-                var textUnbold = childNodesData[i].text;
-
-                // and push it to the new array
-
-                textArrayUnbold.push(textUnbold);
-              }
-            }
-          }
-
-          // construct a long string from the newly created array
-
-          var newInnerHTMLUnbold = textArrayUnbold.join("");
-
-          // this string will be the new innerHTML for the mainInput
-
-          mainInput.innerHTML = newInnerHTMLUnbold;
-
-          // uncheck the bold/unbold button
-
-          boldBtn.checked = false;
-
-          // in all other cases we make the selected text bold
-
-
-          // BOLDING WILL HAPPEN HERE:
-
-        } else {
-
-          // check if the selection begins and ends on the same node
-
-          if (selectionData.beginningIndex === selectionData.endIndex) {
-
-            // if yes, we will change only one node and need the text and index for only this one node
-
-            var indexBoldSimple = selectionData.beginningIndex;
-
-            // use the selection offsets to slice the node text into beforeSelection and afterSelection strings
-
-            var beforeSelectionBoldSimple = selectionData.beginningNodeText.slice(0, selectionData.beginningOffset);
-            var afterSelectionBoldSimple = selectionData.endNodeText.slice(selectionData.endOffset);
-
-            // construct new node text from these slices and a selection string between bold tags
-
-            var newTextBoldSimple = beforeSelectionBoldSimple + selectionString.bold() + afterSelectionBoldSimple;
-
-            // now we have changed the node where the selection was located,
-            // but we have to create the whole new innerHTML for the mainInput
-            // we will populate an empty array for this purpose
-
-            var textArrayBoldSimple = [];
-
-            // loop through the childNodesData array to replace all the text that it contains
-
-            for (var a = 0; a < childNodesData.length; a++) {
-
-              // check if the current item's index is the one we obtained earlier from the selectionData
-
-              if (a === indexBoldSimple) {
-
-                // if yes, replace the current item's text content with the string we created above
-                // and push the new text to the array created above
-
-                textArrayBoldSimple.push(newTextBoldSimple);
-
-              } else {
-
-                // if not, we will keep the original text, unless the item is bold
-
-                if (childNodesData[a].bold === true) {
-
-                  // in this case we add bold tags to the original text
-
-                  var boldTextBoldSimple = childNodesData[a].text.bold();
-
-                  // push the altered text to the new array
-
-                  textArrayBoldSimple.push(boldTextBoldSimple);
-
-                  // if the item is not bold either, use the original text
-
-                } else if (childNodesData[a].bold === false) {
-
-                  // get the original text
-
-                  var textBoldSimple = childNodesData[a].text;
-
-                  // and push it to the new array
-
-                  textArrayBoldSimple.push(textBoldSimple);
-                }
-              }
-            }
-
-            // construct a long string from the newly created array
-
-            var newInnerHTMLBoldSimple = textArrayBoldSimple.join("");
-
-            // this string will be the new innerHTML for the mainInput
-
-            mainInput.innerHTML = newInnerHTMLBoldSimple;
-
-            // uncheck the bold/unbold button
-
-            boldBtn.checked = false;
-
-            // if the selection does not begin and end on the same node,
-             // it means some of the selected text is bold and some of it not
-
-          } else {
-
-            // get the indexes of the node where the selection starts and for the one where it ends
-
-            var beginningIndexBold = selectionData.beginningIndex;
-            var endIndexBold = selectionData.endIndex;
-
-            // use the selection offsets to slice the node text into beforeSelection and afterSelection strings
-
-            var beforeSelectionBold = selectionData.beginningNodeText.slice(0, selectionData.beginningOffset);
-
-
-            var afterSelectionBold = selectionData.endNodeText.slice(selectionData.endOffset);
-
-            // create an empty array which will eventually be populated by all the text of the mainInput
-
-            var textArrayBold = [];
-
-            // loop through the childNodesData array to replace all the text that it contains
-
-            for (var b = 0; b < childNodesData.length; b++) {
-
-              // first let's deal with the nodes that are not part of the selection
-              // (which means their index is either smaller than beginningIndexBold, or bigger than endIndexBold)
-              // (if there are any nodes that lie fully inside the selection, we will ignore them completely)
-
-              if (b < beginningIndexBold || b > endIndexBold) {
-
-                // check if this particular node is bold
-
-                if (childNodesData[b].bold === true) {
-
-                  // if yes, put the original text between "b" tags
-
-                  var boldOutsideSelectionText = childNodesData[b].text.bold();
-
-                  // push this text into the array created above
-
-                  textArrayBold.push(boldOutsideSelectionText);
-
-                  // if the current node is not bold, we will obviously not need the "b" tags
-
-                } else if (childNodesData[b].bold === false) {
-
-                  // use unchanged original text from the current node
-
-                  var outsideSelectionText = childNodesData[b].text;
-
-                  // push this text into the array created above
-
-                  textArrayBold.push(outsideSelectionText);
-                }
-
-                // check if the current node is the one where the selection starts on
-                // the text content of this node needs to be replaced by whatever text comes on this node
-                 // before the selection plus then the entirety of the selected text
-
-              } else if (b === beginningIndexBold) {
-
-                // if yes, check if it is bold
-
-                if (childNodesData[b].bold === true) {
-
-                  // if yes, we need to add a "b" to the beginning of the newly constructed string
-
-                  var newTextBoldBeginning = "<b>" + beforeSelectionBold + selectionString;
-
-                  // push the new text into the array created above
-
-                  textArrayBold.push(newTextBoldBeginning);
-
-                  // if this node is not bold, then the "b" tag comes right before the selected text
-
-                } else if (childNodesData[b].bold === false) {
-
-                  // create this string
-
-                  var newTextRegularBeginning = beforeSelectionBold + "<b>" + selectionString;
-
-                  textArrayBold.push(newTextRegularBeginning);
-
-                }
-
-                // check if the current iterator corresponds to the index of the node where the selection ends
-
-              } else if (b === endIndexBold) {
-
-                // if yes, check if this node is bold
-
-                if (childNodesData[b].bold === true) {
-
-                  // if yes, we need to add a "b" to the end of the text that comes on this node after the selection ends
-
-                  var newTextBoldEnd = afterSelectionBold + "</b>";
-
-                  // push the new text into the array created above
-
-                  textArrayBold.push(newTextBoldEnd);
-
-                  // if this node is not bold, then the "b" tag comes right before the text that comes on this node after the selection ends
-
-                } else if (childNodesData[b].bold === false) {
-
-                  // create this string
-
-                  var newTextRegularEnd = "</b>" + afterSelectionBold;
-
-                  // push the new text into the array created above
-
-                  textArrayBold.push(newTextRegularEnd);
-                }
-              }
-            }
-
-            // construct a long string from the newly created array
-
-            var newInnerHTMLBold = textArrayBold.join("");
-
-            // merge adjacent bold nodes into one using a simple string replacement
-
-            var adjustedInnerHTMLBold = newInnerHTMLBold.replaceAll("</b><b>", "");
-
-            // this string will be the new innerHTML for the mainInput
-
-            mainInput.innerHTML = newInnerHTMLBold;
-
-            // uncheck the bold/unbold button
-
-            boldBtn.checked = false;
-          }
-        }
-      }
-
-    } else {
-
-      // THE BUTTON WILL STAY DOWN
-    }
-
-
-
-
-
-  } else if (boldBtn.checked === false) {
-    console.log("No");
-  }
-}
-
-// function for getting data about the inner structure of the editable input elements
-// (what is the text content and whether there is any bold text)
-
-function getChildNodesData(array) {
-
-  // create an empty array, which will later be populated by js objects
-  // containing data about the child nodes of the editable input
-
-  var dataArray = [];
-
-  // loop through the given array of nodes
-
-  for (var i = 0; i < array.length; i++) {
-
-    // check if the current node has a data attribute
-
-    if (array[i].data !== undefined) {
-
-      // if yes, it is a regular text node and not bold
-      // get its text content as well and create a js object out of the obtained data
-
-      var regularNode = {
-        text: array[i].data,
-        bold: false
-      };
-
-      // push the object into the array created above
-
-      dataArray.push(regularNode);
-
-    } else {
-
-      // if the data attribute is undefined, we have an element node
-      // (which in our case can only be a "b" node)
-      // get its text content as well and create a js object out of the obtained data
-
-      var boldNode = {
-        text: array[i].innerHTML,
-        bold: true
-      };
-
-      // push the object into the array created above
-
-      dataArray.push(boldNode);
-    }
-  }
-
-  // return the now populated array
-
-  return dataArray;
-
-}
-
-
-// function for getting data about the selected text
-// (its beginning and end points and whether anything is bold)
-
-function getSelectionData(selection, anchor, focus, array) {
-
-  // firstly find out what the indexes are for the anchor and focus nodes
-  // in relation to the given array and whether they are bold or not
-
-  var anchorData = compareIndexes(anchor, array);
-
-  var focusData = compareIndexes(focus, array);
-
-  // anchor and focus are not the same as the beginning and end points of the selection,
-  // but we can use them to check if the selection has been made backwards (in which case the anchor comes after the focus)
-
-  var backwards = checkIfBackwards(selection, anchorData, focusData);
-
-  // now use a function to create a javascript object with all the obtained data about the selected text
-
-  var selectionData = createSelectionData(selection, anchorData, focusData, backwards);
-
-  // return the retrieved object
-
-  return selectionData;
-}
-
-
-// function for determining the location of the selection's beginning and end
-// in relation to its parent element and whether either of them is located between bold tags
-
-function compareIndexes(node, array) {
-
-  // find out, where is the given node located in the given array
-
-  var index = array.indexOf(node);
-
-  // check if there is any such node in the given array at all
-
-  if (index === -1) {
-
-    // if not, it means that the given node is inside "b" tags, and we will find its parent node in the given array instead
-
-    var parent = node.parentNode;
-
-    // get the index of the parent node inside the given array
-
-    var parentIndex = array.indexOf(parent);
-
-    // return an object with the obtained index and the bold attribute set as "true"
-
-    var indexObject1 = {
-      index: parentIndex,
-      bold: true
-    };
-
-    return indexObject1;
-
-  } else {
-
-    // return an object with the obtained index and the bold attribute set as "false"
-
-    var indexObject2 = {
-      index: index,
-      bold: false
-    };
-
-    return indexObject2;
-  }
-}
-
-
-// function for checking if the selection has been made backwards (focus comes before anchor)
-
-function checkIfBackwards(selection, anchorData, focusData) {
-
-  // if the anchorNode comes before the focusNode, the selection is not backwards
-
-  if (anchorData.index < focusData.index) {
-
-    return false;
-
-    // if it's the other way around, the selection is backwards
-
-  } else if (anchorData.index > focusData.index) {
-
-    return true;
-
-    // if the selection ends and starts on the same node, compare the corresponding offsets instead
-
-  } else if (anchorData.index === focusData.index) {
-
-    // if the anchorOffset comes before focusOffset, the selection is not backwards
-
-    if (selection.anchorOffset < selection.focusOffset) {
-
-      return false;
-
-      // if it is the other way around, the selection is backwards
-
-    } else if (selection.anchorOffset > selection.focusOffset) {
-
-      return true;
-    }
-  }
-}
-
-
-// function for creating a javascript object with necessary information about the selected text
-
-function createSelectionData(selection, anchorData, focusData, backwards) {
-
-  // this function can return one of the two following javascript objects,
-  // depending if the selection has been made backwards or not
-
-  if (backwards === false) {
-
-    var selectionData1 = {
-      beginningIndex: anchorData.index,
-      beginningOffset: selection.anchorOffset,
-      beginningBold: anchorData.bold,
-      beginningNodeText: selection.anchorNode.data,
-      endIndex: focusData.index,
-      endOffset: selection.focusOffset,
-      endBold: focusData.bold,
-      endNodeText: selection.focusNode.data
-    };
-
-    return selectionData1;
-
-  } else if (backwards === true) {
-
-    var selectionData2 = {
-      beginningIndex: focusData.index,
-      beginningOffset: selection.focusOffset,
-      beginningBold: focusData.bold,
-      beginningNodeText: selection.focusNode.data,
-      endIndex: anchorData.index,
-      endOffset: selection.anchorOffset,
-      endBold: anchorData.bold,
-      endNodeText: selection.anchorNode.data
-    };
-
-    return selectionData2;
-  }
-}
+// J S  E X E C U T I O N  C O D E  F O R  T H E  A D M I N   P A G E S
 
 
 
@@ -601,67 +7,9 @@ function createSelectionData(selection, anchorData, focusData, backwards) {
 
 
 
-// success
 
-function createSuccessMessage() {
-  successPopup.classList.remove("hide");
-  successPopup.classList.add("show");
-  successBtn.focus();
-}
+// listen for clicks and keypresses on the different popup buttons and display or remove messages accordingly
 
-
-// failure
-
-function createFailureMessage() {
-  failurePopup.classList.remove("hide");
-  failurePopup.classList.add("show");
-  failureBtn.focus();
-}
-
-
-// are you sure you want to delete this?
-
-function createDeleteMessage(event, destination, subform) {
-  deletePopup.classList.remove("hide");
-  deletePopup.classList.add("show");
-  deleteNoBtn.focus();
-
-  // register the event target
-
-  var element = event.target;
-
-  // get the parent node of the event target
-
-  var parent = getParent(element);
-
-  // add an event listener to the "Yes" button on the delete popup and pass in the parent subform as an argument
-
-  deleteYesBtn.addEventListener("click", function(event) {
-
-      // when the button is clicked, call the commenceDelete function
-
-      commenceDelete(event, parent, destination, subform);
-    },
-
-    // below is the options object of the event handler, which removes the event listener after it has run once,
-    // otherwise the event listeners would just pile up when the containing function is run multiple times
-
-    {
-      once: true
-    });
-}
-
-
-// function for removing a popup message
-
-function removeMessage(popupType) {
-  popupType.classList.remove("show");
-  popupType.classList.add("hide");
-}
-
-
-
-// listen for clicks and keypresses and display or remove messages accordingly
 
 if (successBtn !== null) {
   successBtn.addEventListener("keydown", function(event) {
@@ -697,6 +45,90 @@ if (deleteNoBtn !== null) {
 }
 
 
+// function for displaying a success message
+
+
+function createSuccessMessage() {
+
+  // make the success popup visible on the screen using utility classes
+
+  successPopup.classList.remove("hide");
+  successPopup.classList.add("show");
+
+  // focus the "OK" button
+
+  successBtn.focus();
+}
+
+
+// function for displaying a failure message
+
+
+function createFailureMessage() {
+
+  // make the failure popup visible on the screen using utility classes
+
+  failurePopup.classList.remove("hide");
+  failurePopup.classList.add("show");
+
+  // focus the "OK" button
+
+  failureBtn.focus();
+}
+
+
+//function for displaying the message "Are you sure you want to delete this?"
+
+
+function createDeleteMessage(event, destination, subform) {
+
+  // make the popup visible using utility classes
+
+  deletePopup.classList.remove("hide");
+  deletePopup.classList.add("show");
+
+  // focus the "NO" button
+
+  deleteNoBtn.focus();
+
+  // register the event target
+
+  var element = event.target;
+
+  // get the parent node of the event target
+
+  var parent = getParent(element);
+
+  // add an event listener to the "Yes" button on the delete popup and pass in the parent subform as an argument
+
+  deleteYesBtn.addEventListener("click", function(event) {
+
+      // when the button is clicked, call the commenceDelete function (this will start an ajax call and is defined further down this file)
+
+      commenceDelete(event, parent, destination, subform);
+    },
+
+    // below is the options object of the event handler, which removes the event listener after it has run once,
+    // otherwise the event listeners would just pile up when the containing function is run multiple times
+
+    {
+      once: true
+    });
+}
+
+
+// function for removing a popup message
+
+
+function removeMessage(popupType) {
+
+  // remove a popup using utility classes
+
+  popupType.classList.remove("show");
+  popupType.classList.add("hide");
+}
+
+
 
 
 // CHANGE THE LABELS AND PREVIEWS UNDER PICTURE UPLOAD BUTTONS
@@ -704,7 +136,39 @@ if (deleteNoBtn !== null) {
 
 
 
-// change the labels and picture samples
+// loop through the images array and call the changePreview function once for each input in the array
+
+
+for (var i = 0; i < images.length; i++) {
+  changePreview(images[i]);
+}
+
+
+// for images in a different array, call the function in separate for loops
+
+
+for (let i = 0; i < dirigendidPortreeArray.length; i++) {
+  changePreview(dirigendidPortreeArray[i]);
+}
+
+
+for (let i = 0; i < toetajadLoikFileArray.length; i++) {
+  changePreview(toetajadLoikFileArray[i], i);
+}
+
+
+for (let i = 0; i < sundmusedPlakatArray.length; i++) {
+  changePreview(sundmusedPlakatArray[i]);
+}
+
+
+for (let i = 0; i < moodunudPlakatArray.length; i++) {
+  changePreview(moodunudPlakatArray[i]);
+}
+
+
+// function for changing the labels and picture samples
+
 
 function changePreview(imgInput, iterator) {
 
@@ -774,37 +238,11 @@ function changePreview(imgInput, iterator) {
   }
 }
 
-// loop through the array and call the changePreview function once for each input in the array
-
-for (var i = 0; i < images.length; i++) {
-  changePreview(images[i]);
-}
-
-// for images in an array, call the function in separate for loops
-
-for (var i = 0; i < dirigendidPortreeArray.length; i++) {
-  changePreview(dirigendidPortreeArray[i]);
-}
-
-
-for (let i = 0; i < toetajadLoikFileArray.length; i++) {
-  changePreview(toetajadLoikFileArray[i], i);
-}
-
-
-for (let i = 0; i < sundmusedPlakatArray.length; i++) {
-  changePreview(sundmusedPlakatArray[i]);
-}
-
-
-for (let i = 0; i < moodunudPlakatArray.length; i++) {
-  changePreview(moodunudPlakatArray[i]);
-}
-
 
 
 
 // REGISTER TEXT UPDATES ON ALL THE ADMIN PAGES
+
 
 
 
@@ -822,38 +260,771 @@ var inputArray = document.querySelectorAll(".input");
 
 if (inputArray !== null) {
 
-  // loop through all the inputs and have them listen to value updates
+  // loop through all the inputs and have them listen to value updates and innerHTML modification
 
   for (var i = 0; i < inputArray.length; i++) {
+    inputArray[i].addEventListener("DOMSubtreeModified", updateInputValue);
     inputArray[i].addEventListener("input", updateInputValue);
   }
 }
 
-// manually update the value property of the fake text inputs that have been changed by the admin
-// and also carry it over to the corresponding hidden input
+
+// function for manually updating the value property of the fake text inputs that have been changed by the admin
+// and also for carrying it over to the corresponding hidden input
+
 
 function updateInputValue(event) {
-
-  // get what is currently written into the editable input
-
-  var changedInputValue = event.target.innerHTML;
-
-  // set its value attribute to what is currently written into the editable input
-
-  this.setAttribute("value", changedInputValue);
 
   // get the id of the current editable input
 
   var inputId = event.target.id;
 
-  // from this id, also input the id of the corresponding hidden input
-  // this will be the same string minus two of its last characters
+  // the text nodes are also counted as event targets, but they do not have id-s and need to be ignored
 
-  var realInput = document.getElementById(inputId.slice(0, -2));
+  if (inputId !== undefined) {
 
-  // change the value of the "real" hidden input accordingly as well
+    // get what is currently written into the input
 
-  realInput.setAttribute("value", changedInputValue);
+    var changedInputValue = getChangedInputValue(event.target);
+
+    // set the value attribute of the edited input to what is currently written into the input
+
+    this.setAttribute("value", changedInputValue);
+
+    // get the two last characters of the input id
+
+    var idEnding = inputId.slice(-2);
+
+    // check if these characters are "Ed"
+
+    if (idEnding === "Ed") {
+
+      // if yes, the input is actually an editable div and we need to manually update a corresponding hidden input as well
+      // the id attribute of this hidden input will be the id of the editable div minus its two last characters
+
+      var realInputId = inputId.slice(0, -2);
+
+      // get this hidden input
+
+      var realInput = document.getElementById(realInputId);
+
+      // update its value attribute as well
+
+      realInput.setAttribute("value", changedInputValue);
+    }
+  }
+}
+
+
+//function for getting what is currently being written into an input
+
+
+function getChangedInputValue(input) {
+
+  // check if the edited input is an actual HTML input
+
+  if (input.tagName === "INPUT") {
+
+    // if yes, return its value attribute
+
+    return input.value;
+
+  } else {
+
+    // if not return its innerHTML attribute
+
+    return input.innerHTML;
+  }
+}
+
+
+
+// BOLDING/UNBOLDING
+
+
+
+
+// loop through the array of "fake" inputs and listen to focus events
+
+
+for (var i = 0; i < editableInputArray.length; i++) {
+
+  editableInputArray[i].addEventListener("focus", function(event) {
+
+    // when a "fake" input is focused, display the bold btn using utility classes
+
+    boldBtn.classList.remove("hide");
+    boldBtn.classList.add("show");
+  });
+
+
+  // loop through the array of "fake" inputs and listen to blur events
+
+
+  editableInputArray[i].addEventListener("blur", function(event) {
+
+    // if a "fake" input loses focus, remove the bold button from the page using utility classes
+
+    boldBtn.classList.remove("show");
+    boldBtn.classList.add("hide");
+  });
+}
+
+
+// listen for clicks on the bold text button
+
+
+if (boldBtn !== null) {
+
+  boldBtn.addEventListener("click", getMarkupText);
+
+  // also listen specifically for the mousedown effect, because that is where the blur effect happens
+
+  boldBtn.addEventListener("mousedown", function(event) {
+
+    // stop the blur effect from happening
+
+    event.preventDefault();
+  });
+}
+
+
+// function for bolding/unbolding text on inputs, both on the admin page and the page that we want to update
+
+
+function getMarkupText() {
+
+  // prevent the href attribute from working on the button
+
+  event.preventDefault();
+
+  // get the selected text as a js object
+
+  var selection = window.getSelection();
+
+  // the bold/unbold button has two different methods-  it bolds/unbolds already written selected input text
+  // or in case no suitable text is selected, the button stays down and allows to type bold text
+
+  // firstly we will go through the first scenario- check if any text is selected at all
+
+  if (selection.isCollapsed === false) {
+
+    // get the selected text as a string
+
+    var selectionString = selection.toString();
+
+    // get the anchor node of the selection object (the node, where the selection starts)
+
+    var anchor = selection.anchorNode;
+
+    // get the focus node of the selection object (the node, where the selection ends)
+
+    var focus = selection.focusNode;
+
+    // get the closest parent of the anchor node with a class of "input"
+
+    var anchorParent = anchor.parentNode;
+
+    // get the closest parent of the focus node with a class of "input"
+
+    var focusParent = focus.parentNode;
+
+    // both the anchorParent and focusParent nodes should either have a class of "input" in their classlist
+    // or if not, their own parent element should have it- whatever the case, by finding this class, we should get the editable input
+
+    var mainInput = anchorParent.closest(".editable-input");
+
+    // the bolding/unbolding of selected text should only work if the mainInput exists,
+    // otherwise the selected text is not valid for bolding/unbolding and the button will call for its second method
+
+    if (mainInput !== null) {
+
+      // convert the innerHTML of the mainInput into a string
+
+      var innerHTMLString = mainInput.innerHTML.toString();
+
+      // create an array of the childnodes of the editable input
+      // (these are text nodes and possible "b" elements with text nodes of their own as children)
+
+      var childNodes = Array.from(mainInput.childNodes);
+
+      // map out the child nodes of the mainInput (we have a function for that)
+
+      var childNodesData = getChildNodesData(childNodes);
+
+      // map out the selected text in relation to the mainInput (we have a function for that)
+
+      var selectionData = getSelectionData(selection, anchor, focus, childNodes);
+
+      // check if we need to bold or unbold the selected text
+      // unbolding happens only when both the beginning and end of the selection are on the same text node
+      // and located between "b" tags
+
+      // UNBOLDING WILL HAPPEN HERE:
+
+      if (selectionData.beginningIndex === selectionData.endIndex && selectionData.beginningBold === true) {
+
+        // everything here only happens on one node, so we only need one of either beginningIndex or endIndex
+
+        var indexUnbold = selectionData.beginningIndex;
+
+        // use the selection offsets to slice the node text into beforeSelection and afterSelection strings
+
+        var beforeSelectionUnbold = selectionData.beginningNodeText.slice(0, selectionData.beginningOffset);
+        var afterSelectionUnbold = selectionData.endNodeText.slice(selectionData.endOffset);
+
+        // use a function to check if the there is any text at all before and after the selection
+        // and if yes, return the text inside bold tags
+
+        var beforeSelectionTagged = getOptionalBoldTags(beforeSelectionUnbold);
+        var afterSelectionTagged = getOptionalBoldTags(afterSelectionUnbold);
+
+        // now construct the full node text from these building blocks we created above
+
+        var newTextUnbold = beforeSelectionTagged + selectionString + afterSelectionTagged;
+
+        // now we have changed the node where the selection was located,
+        // but we have to create the whole new innerHTML for the mainInput
+        // we will populate an empty array for this purpose
+
+        var textArrayUnbold = [];
+
+        // loop through the childNodesData array to replace all the text that it contains
+
+        for (var i = 0; i < childNodesData.length; i++) {
+
+          // check if the current item's index is the one we obtained earlier from the selectionData
+
+          if (i === indexUnbold) {
+
+            // if yes, replace the current item's text content with the string we created above
+            // and push the new text to the array created above
+
+            textArrayUnbold.push(newTextUnbold);
+
+          } else {
+
+            // if not, we will keep the original text, unless the item is bold
+
+            if (childNodesData[i].bold === true) {
+
+              // in this case we add bold tags to the original text
+
+              var boldTextUnbold = childNodesData[i].text.bold();
+
+              // push the altered text to the new array
+
+              textArrayUnbold.push(boldTextUnbold);
+
+              // if the item is not bold either, use the original text
+
+            } else if (childNodesData[i].bold === false) {
+
+              // get the original text
+
+              var textUnbold = childNodesData[i].text;
+
+              // and push it to the new array
+
+              textArrayUnbold.push(textUnbold);
+            }
+          }
+        }
+
+        // construct a long string from the newly created array
+
+        var newInnerHTMLUnbold = textArrayUnbold.join("");
+
+        // this string will be the new innerHTML for the mainInput
+
+        mainInput.innerHTML = newInnerHTMLUnbold;
+
+        // in all other cases we make the selected text bold
+
+
+        // BOLDING WILL HAPPEN HERE:
+
+      } else {
+
+        // check if the selection begins and ends on the same node
+
+        if (selectionData.beginningIndex === selectionData.endIndex) {
+
+          // if yes, we will change only one node and need the text and index for only this one node
+
+          var indexBoldSimple = selectionData.beginningIndex;
+
+          // use the selection offsets to slice the node text into beforeSelection and afterSelection strings
+
+          var beforeSelectionBoldSimple = selectionData.beginningNodeText.slice(0, selectionData.beginningOffset);
+          var afterSelectionBoldSimple = selectionData.endNodeText.slice(selectionData.endOffset);
+
+          // construct new node text from these slices and a selection string between bold tags
+
+          var newTextBoldSimple = beforeSelectionBoldSimple + selectionString.bold() + afterSelectionBoldSimple;
+
+          // now we have changed the node where the selection was located,
+          // but we have to create the whole new innerHTML for the mainInput
+          // we will populate an empty array for this purpose
+
+          var textArrayBoldSimple = [];
+
+          // also create an empty object, which will later contain the index number of the changed node
+
+          var nodeIndexBoldSimple = {};
+
+          // loop through the childNodesData array to replace all the text that it contains
+
+          for (var a = 0; a < childNodesData.length; a++) {
+
+            // check if the current item's index is the one we obtained earlier from the selectionData
+
+            if (a === indexBoldSimple) {
+
+              // if yes, replace the current item's text content with the string we created above
+              // and push the new text to the array created above
+
+              textArrayBoldSimple.push(newTextBoldSimple);
+
+              // check if the newly bolded text is in the beginning of the text node
+
+              if (newTextBoldSimple.indexOf("<b>") !== 0) {
+
+                // if not, populate the nodeIndexBoldSimple object with a number that is the iterator plus 1
+
+                nodeIndexBoldSimple.index = a + 1;
+
+              } else if (newTextBoldSimple.indexOf("<b>") === 0) {
+
+                // if the newly bolded text is in the beginning of the text node, don't add 1 to the iterator
+
+                nodeIndexBoldSimple.index = a;
+              }
+
+            } else {
+
+              // if not, we will keep the original text, unless the item is bold
+
+              if (childNodesData[a].bold === true) {
+
+                // in this case we add bold tags to the original text
+
+                var boldTextBoldSimple = childNodesData[a].text.bold();
+
+                // push the altered text to the new array
+
+                textArrayBoldSimple.push(boldTextBoldSimple);
+
+                // if the item is not bold either, use the original text
+
+              } else if (childNodesData[a].bold === false) {
+
+                // get the original text
+
+                var textBoldSimple = childNodesData[a].text;
+
+                // and push it to the new array
+
+                textArrayBoldSimple.push(textBoldSimple);
+              }
+            }
+          }
+
+          // construct a long string from the newly created array, while also merging adjacent bold nodes into one longer bold node
+
+          var newInnerHTMLBoldSimple = textArrayBoldSimple.join("").replaceAll("</b><b>","");
+
+          // this string will be the new innerHTML for the mainInput
+
+          mainInput.innerHTML = newInnerHTMLBoldSimple;
+
+          // in order to restore the selection to where it was, create a range object
+
+          var range = document.createRange();
+
+          // capture all the text nodes in the new mainInput element into an array
+
+          var newTextNodes = mainInput.childNodes;
+
+          // set the start and end points for the new range object- we will need to provide the node, which it will occur on
+          // in order to do that, we can select the right text node from the above array using the nodeIndexBoldSimple object created earlier
+          // after the comma we provide the offset value, which is 0 for the start of the text node and 1 for the end
+
+          range.setStart(newTextNodes[nodeIndexBoldSimple.index], 0);
+          range.setEnd(newTextNodes[nodeIndexBoldSimple.index], 1);
+
+          // remove all range objects from the previous selection
+
+          selection.removeAllRanges();
+
+          // replace it with the newly constructed range
+
+          selection.addRange(range);
+
+
+          // if the selection does not begin and end on the same node,
+          // it means some of the selected text is bold and some of it not
+
+        } else {
+
+          // get the indices of the node where the selection starts and for the one where it ends
+
+          var beginningIndexBold = selectionData.beginningIndex;
+          var endIndexBold = selectionData.endIndex;
+
+          // use the selection offsets to slice the node text into beforeSelection and afterSelection strings
+
+          var beforeSelectionBold = selectionData.beginningNodeText.slice(0, selectionData.beginningOffset);
+
+
+          var afterSelectionBold = selectionData.endNodeText.slice(selectionData.endOffset);
+
+          // create an empty array which will eventually be populated by all the text of the mainInput
+
+          var textArrayBold = [];
+
+          // loop through the childNodesData array to replace all the text that it contains
+
+          for (var b = 0; b < childNodesData.length; b++) {
+
+            // first let's deal with the nodes that are not part of the selection
+            // (which means their index is either smaller than beginningIndexBold, or bigger than endIndexBold)
+            // (if there are any nodes that lie fully inside the selection, we will ignore them completely)
+
+            if (b < beginningIndexBold || b > endIndexBold) {
+
+              // check if this particular node is bold
+
+              if (childNodesData[b].bold === true) {
+
+                // if yes, put the original text between "b" tags
+
+                var boldOutsideSelectionText = childNodesData[b].text.bold();
+
+                // push this text into the array created above
+
+                textArrayBold.push(boldOutsideSelectionText);
+
+                // if the current node is not bold, we will obviously not need the "b" tags
+
+              } else if (childNodesData[b].bold === false) {
+
+                // use unchanged original text from the current node
+
+                var outsideSelectionText = childNodesData[b].text;
+
+                // push this text into the array created above
+
+                textArrayBold.push(outsideSelectionText);
+              }
+
+              // check if the current node is the one where the selection starts on
+              // the text content of this node needs to be replaced by whatever text comes on this node
+              // before the selection plus then the entirety of the selected text
+
+            } else if (b === beginningIndexBold) {
+
+              // if yes, check if it is bold
+
+              if (childNodesData[b].bold === true) {
+
+                // if yes, we need to add a "b" to the beginning of the newly constructed string
+
+                var newTextBoldBeginning = "<b>" + beforeSelectionBold + selectionString;
+
+                // push the new text into the array created above
+
+                textArrayBold.push(newTextBoldBeginning);
+
+                // if this node is not bold, then the "b" tag comes right before the selected text
+
+              } else if (childNodesData[b].bold === false) {
+
+                // create this string
+
+                var newTextRegularBeginning = beforeSelectionBold + "<b>" + selectionString;
+
+                textArrayBold.push(newTextRegularBeginning);
+
+              }
+
+              // check if the current iterator corresponds to the index of the node where the selection ends
+
+            } else if (b === endIndexBold) {
+
+              // if yes, check if this node is bold
+
+              if (childNodesData[b].bold === true) {
+
+                // if yes, we need to add a "b" to the end of the text that comes on this node after the selection ends
+
+                var newTextBoldEnd = afterSelectionBold + "</b>";
+
+                // push the new text into the array created above
+
+                textArrayBold.push(newTextBoldEnd);
+
+                // if this node is not bold, then the "b" tag comes right before the text that comes on this node after the selection ends
+
+              } else if (childNodesData[b].bold === false) {
+
+                // create this string
+
+                var newTextRegularEnd = "</b>" + afterSelectionBold;
+
+                // push the new text into the array created above
+
+                textArrayBold.push(newTextRegularEnd);
+              }
+            }
+          }
+
+          // construct a long string from the newly created array
+
+          var newInnerHTMLBold = textArrayBold.join("");
+
+          // merge adjacent bold nodes into one using a simple string replacement
+
+          var adjustedInnerHTMLBold = newInnerHTMLBold.replaceAll("</b><b>", "");
+
+          // this string will be the new innerHTML for the mainInput
+
+          mainInput.innerHTML = newInnerHTMLBold;
+
+
+          var selectionIndexBold = newInnerHTMLBold.indexOf(selectionString);
+        }
+      }
+    }
+  }
+}
+
+
+// function for checking if there is any content in a string
+// and if yes, adding bold tags to it
+
+
+function getOptionalBoldTags(string) {
+
+  // check if the provided string is an empty one
+
+  if (string === "") {
+
+    // if yes, return the empty string
+
+    return string;
+
+  } else {
+
+    // if the string is not empty, return it with bold tags
+
+    return string.bold();
+  }
+}
+
+
+// function for getting data about the inner structure of the editable input elements
+// (what is the text content and whether there is any bold text)
+
+
+function getChildNodesData(array) {
+
+  // create an empty array, which will later be populated by js objects
+  // containing data about the child nodes of the editable input
+
+  var dataArray = [];
+
+  // loop through the given array of nodes
+
+  for (var i = 0; i < array.length; i++) {
+
+    // check if the current node has a data attribute
+
+    if (array[i].data !== undefined) {
+
+      // if yes, it is a regular text node and not bold
+      // get its text content as well and create a js object out of the obtained data
+
+      var regularNode = {
+        text: array[i].data,
+        bold: false
+      };
+
+      // push the object into the array created above
+
+      dataArray.push(regularNode);
+
+    } else {
+
+      // if the data attribute is undefined, we have an element node
+      // (which in our case can only be a "b" node)
+      // get its text content as well and create a js object out of the obtained data
+
+      var boldNode = {
+        text: array[i].innerHTML,
+        bold: true
+      };
+
+      // push the object into the array created above
+
+      dataArray.push(boldNode);
+    }
+  }
+
+  // return the now populated array
+
+  return dataArray;
+}
+
+
+// function for getting data about the selected text
+// (its beginning and end points and whether anything is bold)
+
+
+function getSelectionData(selection, anchor, focus, array) {
+
+  // firstly find out what the indices are for the anchor and focus nodes
+  // in relation to the given array and whether they are bold or not
+
+  var anchorData = compareIndices(anchor, array);
+
+  var focusData = compareIndices(focus, array);
+
+  // anchor and focus are not the same as the beginning and end points of the selection,
+  // but we can use them to check if the selection has been made backwards (in which case the anchor comes after the focus)
+
+  var backwards = checkIfBackwards(selection, anchorData, focusData);
+
+  // now use a function to create a javascript object with all the obtained data about the selected text
+
+  var selectionData = createSelectionData(selection, anchorData, focusData, backwards);
+
+  // return the retrieved object
+
+  return selectionData;
+}
+
+
+// function for determining the location of the selection's beginning and end
+// in relation to its parent element and whether either of them is located between bold tags
+
+
+function compareIndices(node, array) {
+
+  // find out, where is the given node located in the given array
+
+  var index = array.indexOf(node);
+
+  // check if there is any such node in the given array at all
+
+  if (index === -1) {
+
+    // if not, it means that the given node is inside "b" tags, and we will find its parent node in the given array instead
+
+    var parent = node.parentNode;
+
+    // get the index of the parent node inside the given array
+
+    var parentIndex = array.indexOf(parent);
+
+    // return an object with the obtained index and the bold attribute set as "true"
+
+    var indexObject1 = {
+      index: parentIndex,
+      bold: true
+    };
+
+    return indexObject1;
+
+  } else {
+
+    // return an object with the obtained index and the bold attribute set as "false"
+
+    var indexObject2 = {
+      index: index,
+      bold: false
+    };
+
+    return indexObject2;
+  }
+}
+
+
+// function for checking if the selection has been made backwards (focus comes before anchor)
+
+
+function checkIfBackwards(selection, anchorData, focusData) {
+
+  // if the anchorNode comes before the focusNode, the selection is not backwards
+
+  if (anchorData.index < focusData.index) {
+
+    return false;
+
+    // if it's the other way around, the selection is backwards
+
+  } else if (anchorData.index > focusData.index) {
+
+    return true;
+
+    // if the selection ends and starts on the same node, compare the corresponding offsets instead
+
+  } else if (anchorData.index === focusData.index) {
+
+    // if the anchorOffset comes before focusOffset, the selection is not backwards
+
+    if (selection.anchorOffset < selection.focusOffset) {
+
+      return false;
+
+      // if it is the other way around, the selection is backwards
+
+    } else if (selection.anchorOffset > selection.focusOffset) {
+
+      return true;
+    }
+  }
+}
+
+
+// function for creating a javascript object with necessary information about the selected text
+
+
+function createSelectionData(selection, anchorData, focusData, backwards) {
+
+  // this function can return one of the two following javascript objects,
+  // depending if the selection has been made backwards or not
+
+  if (backwards === false) {
+
+    var selectionData1 = {
+      beginningIndex: anchorData.index,
+      beginningOffset: selection.anchorOffset,
+      beginningBold: anchorData.bold,
+      beginningNodeText: selection.anchorNode.data,
+      endIndex: focusData.index,
+      endOffset: selection.focusOffset,
+      endBold: focusData.bold,
+      endNodeText: selection.focusNode.data
+    };
+
+    return selectionData1;
+
+  } else if (backwards === true) {
+
+    var selectionData2 = {
+      beginningIndex: focusData.index,
+      beginningOffset: selection.focusOffset,
+      beginningBold: focusData.bold,
+      beginningNodeText: selection.focusNode.data,
+      endIndex: anchorData.index,
+      endOffset: selection.anchorOffset,
+      endBold: anchorData.bold,
+      endNodeText: selection.anchorNode.data
+    };
+
+    return selectionData2;
+  }
 }
 
 
@@ -865,6 +1036,7 @@ function updateInputValue(event) {
 
 
 // function for getting relevant DOM element arrays using the name of the subform
+
 
 function getArrays(elementName) {
 
@@ -878,6 +1050,8 @@ function getArrays(elementName) {
     numberArray: Array.from(document.querySelectorAll("." + elementName + "Number")),
     estArray: Array.from(document.querySelectorAll("." + elementName + "Est")),
     enArray: Array.from(document.querySelectorAll("." + elementName + "En")),
+    estEdArray: Array.from(document.querySelectorAll("." + elementName + "EstEd")),
+    enEdArray: Array.from(document.querySelectorAll("." + elementName + "EnEd")),
     estKeyArray: Array.from(document.querySelectorAll("." + elementName + "EstKey")),
     enKeyArray: Array.from(document.querySelectorAll("." + elementName + "EnKey")),
     fileArray: Array.from(document.querySelectorAll("." + elementName + "File")),
@@ -893,7 +1067,9 @@ function getArrays(elementName) {
   return arrays;
 }
 
+
 // function for getting the relevant DOM arrays specifically for the "dirigendid" subforms
+
 
 function getDirigendidSubforms() {
 
@@ -945,6 +1121,7 @@ function getDirigendidSubforms() {
 
 // function for getting the relevant DOM arrays specifically for the "ajalugu" subforms
 
+
 function getAjaluguSubforms() {
 
   // construct an object out of the elements on the "ajalugu" subform
@@ -990,7 +1167,9 @@ function getAjaluguSubforms() {
   return ajaluguSubforms;
 }
 
+
 // function for getting the relevant DOM arrays specifically for the "sundmused" subforms
+
 
 function getSundmusedSubforms() {
 
@@ -1057,11 +1236,11 @@ function getSundmusedSubforms() {
   }
 
   return sundmusedSubforms;
-
 }
 
 
 // function for getting the relevant DOM arrays specifically for the "moodunud" subforms
+
 
 function getMoodunudSubforms() {
 
@@ -1128,11 +1307,11 @@ function getMoodunudSubforms() {
   }
 
   return moodunudSubforms;
-
 }
 
 
 // function for getting the names of the relevant DOM element arrays
+
 
 function getArrayNames(elementName) {
 
@@ -1146,6 +1325,8 @@ function getArrayNames(elementName) {
     arrayNameIcon: elementName + "Icon",
     arrayNameEst: elementName + "Est",
     arrayNameEn: elementName + "En",
+    arrayNameEstEd: elementName + "EstEd",
+    arrayNameEnEd: elementName + "EnEd",
     arrayNameEstKey: elementName + "EstKey",
     arrayNameEnKey: elementName + "EnKey",
     arrayNameFile: elementName + "File",
@@ -1162,8 +1343,8 @@ function getArrayNames(elementName) {
 }
 
 
-
 // function for getting the index of the deleted "loik" element in the array
+
 
 function getArrayIndex(element, elementName) {
 
@@ -1183,6 +1364,7 @@ function getArrayIndex(element, elementName) {
 
 // function for getting the index of the deleted "dirigendid" subform in the array
 
+
 function getDirigendidSubformIndex(element) {
 
   // get the subforms object
@@ -1200,6 +1382,7 @@ function getDirigendidSubformIndex(element) {
 
 
 // function for getting the index of the deleted "ajalugu" subform in the array
+
 
 function getAjaluguSubformIndex(element) {
 
@@ -1219,6 +1402,7 @@ function getAjaluguSubformIndex(element) {
 
 // function for getting the index of the deleted "sundmused" subform in the array
 
+
 function getSundmusedSubformIndex(element) {
 
   // get the subforms object
@@ -1236,6 +1420,7 @@ function getSundmusedSubformIndex(element) {
 
 
 // function for getting the index of the deleted "moodunud" subform in the array
+
 
 function getMoodunudSubformIndex(element) {
 
@@ -1262,6 +1447,7 @@ function getMoodunudSubformIndex(element) {
 
 // function for getting the relevant arrays from the ajax response text using the selector name
 
+
 function getDocArrays(doc, selectorName) {
 
   // construct an object from the retrieved arrays
@@ -1274,6 +1460,8 @@ function getDocArrays(doc, selectorName) {
     docNumberArray: doc.querySelectorAll("." + selectorName + "Number"),
     docEstArray: doc.querySelectorAll("." + selectorName + "Est"),
     docEnArray: doc.querySelectorAll("." + selectorName + "En"),
+    docEstEdArray: doc.querySelectorAll("." + selectorName + "EstEd"),
+    docEnEdArray: doc.querySelectorAll("." + selectorName + "EnEd"),
     docEstKeyArray: doc.querySelectorAll("." + selectorName + "EstKey"),
     docEnKeyArray: doc.querySelectorAll("." + selectorName + "EnKey"),
     docFileArray: doc.querySelectorAll("." + selectorName + "File"),
@@ -1289,7 +1477,9 @@ function getDocArrays(doc, selectorName) {
   return docArrays;
 }
 
+
 // function for getting the relevant arrays from the ajax response text for specifically the "dirigendid" subforms
+
 
 function getDocDirigendidSubforms(doc) {
 
@@ -1316,6 +1506,7 @@ function getDocDirigendidSubforms(doc) {
 
 // function for getting the relevant arrays from the ajax response text for specifically the "ajalugu" subforms
 
+
 function getDocAjaluguSubforms(doc) {
 
   // construct an object of the retrieved arrays
@@ -1337,6 +1528,7 @@ function getDocAjaluguSubforms(doc) {
 
 
 // function for getting the relevant arrays from the ajax response text for specifically the "sundmused" subforms
+
 
 function getDocSundmusedSubforms(doc) {
 
@@ -1365,6 +1557,7 @@ function getDocSundmusedSubforms(doc) {
 
 // function for getting elements from each array which will be added to the page
 
+
 function getDocElements(doc, selectorName) {
 
   // retrieve the arrays from the ajax response text
@@ -1381,6 +1574,8 @@ function getDocElements(doc, selectorName) {
     docNumberElement: getLastElement(docArrays.docNumberArray),
     docEstElement: getLastElement(docArrays.docEstArray),
     docEnElement: getLastElement(docArrays.docEnArray),
+    docEstEdElement: getLastElement(docArrays.docEstEdArray),
+    docEnEdElement: getLastElement(docArrays.docEnEdArray),
     docEstKeyElement: getLastElement(docArrays.docEstKeyArray),
     docEnKeyElement: getLastElement(docArrays.docEnKeyArray),
     docFileElement: getLastElement(docArrays.docFileArray),
@@ -1398,6 +1593,7 @@ function getDocElements(doc, selectorName) {
 
 
 // get the last elements from each of the arrays related to the "dirigendid" subform (the ones, which will be added to the page)
+
 
 function getDocDirigendidSubformElements(doc) {
 
@@ -1422,6 +1618,7 @@ function getDocDirigendidSubformElements(doc) {
 
 // get the last elements from each of the arrays related to the "ajalugu" subform (the ones, which will be added to the page)
 
+
 function getDocAjaluguSubformElements(doc) {
 
   var docAjaluguSubforms = getDocAjaluguSubforms(doc);
@@ -1441,6 +1638,7 @@ function getDocAjaluguSubformElements(doc) {
 
 
 // get the last elements from each of the arrays related to the "sundmused" subform (the ones, which will be added to the page)
+
 
 function getDocSundmusedSubformElements(doc) {
 
@@ -1466,12 +1664,14 @@ function getDocSundmusedSubformElements(doc) {
 
 
 
+
 // FUNCTIONS FOR ADDING AND DELETING DOM ELEMENTS ASYNCHRONOUSLY
 
 
 
 
 // function for deleting elements from the page and database
+
 
 function commenceDelete(event, target, destination, subform) {
 
@@ -1602,7 +1802,8 @@ function commenceDelete(event, target, destination, subform) {
 }
 
 
-// delete a "loik" element from the page
+// function for deleting a "loik" element from the page
+
 
 function deleteElement(element, elementData) {
   element.parentNode.removeChild(element);
@@ -1613,7 +1814,8 @@ function deleteElement(element, elementData) {
 }
 
 
-// delete a "dirigendid" subform from the page
+//function for deleting a "dirigendid" subform from the page
+
 
 function deleteDirigendidSubform(element, elementData) {
   element.parentNode.removeChild(element);
@@ -1624,7 +1826,8 @@ function deleteDirigendidSubform(element, elementData) {
 }
 
 
-// delete an "ajalugu" subform from the page
+//function for deleting an "ajalugu" subform from the page
+
 
 function deleteAjaluguSubform(element, elementData) {
   element.parentNode.removeChild(element);
@@ -1635,7 +1838,8 @@ function deleteAjaluguSubform(element, elementData) {
 }
 
 
-// delete a "sundmused" subform from the page
+//function for deleting a "sundmused" subform from the page
+
 
 function deleteSundmusedSubform(element, elementData) {
   element.parentNode.removeChild(element);
@@ -1646,7 +1850,8 @@ function deleteSundmusedSubform(element, elementData) {
 }
 
 
-// delete a "moodunud" subform from the page
+//function for deleting a "moodunud" subform from the page
+
 
 function deleteMoodunudSubform(element, elementData) {
   element.parentNode.removeChild(element);
@@ -1660,6 +1865,7 @@ function deleteMoodunudSubform(element, elementData) {
 
 // function for updating the arrays affected by the deletion of a "loik" element
 
+
 function updateArrays(element, elementData) {
 
   // remove the deleted element from each of the arrays using the received index
@@ -1671,6 +1877,8 @@ function updateArrays(element, elementData) {
   elementData.arrays.numberArray.splice(elementData.arrayIndex, 1);
   elementData.arrays.estArray.splice(elementData.arrayIndex, 1);
   elementData.arrays.enArray.splice(elementData.arrayIndex, 1);
+  elementData.arrays.estEdArray.splice(elementData.arrayIndex, 1);
+  elementData.arrays.enEdArray.splice(elementData.arrayIndex, 1);
   elementData.arrays.estKeyArray.splice(elementData.arrayIndex, 1);
   elementData.arrays.enKeyArray.splice(elementData.arrayIndex, 1);
   elementData.arrays.fileArray.splice(elementData.arrayIndex, 1);
@@ -1687,6 +1895,7 @@ function updateArrays(element, elementData) {
 
 
 // function for updating the arrays affected by the deletion of a "dirigendid" subform
+
 
 function updateDirigendidSubforms(element, elementData) {
 
@@ -1716,6 +1925,7 @@ function updateDirigendidSubforms(element, elementData) {
 
 // function for updating the arrays affected by the deletion of a "ajalugu" subform
 
+
 function updateAjaluguSubforms(element, elementData) {
 
   // remove the deleted element from each of the arrays using the received index
@@ -1740,6 +1950,7 @@ function updateAjaluguSubforms(element, elementData) {
 
 
 // function for updating the arrays affected by the deletion of a "sundmused" subform
+
 
 function updateSundmusedSubforms(element, elementData) {
 
@@ -1777,6 +1988,7 @@ function updateSundmusedSubforms(element, elementData) {
 
 
 // function for updating the arrays affected by the deletion of a "moodunud" subform
+
 
 function updateMoodunudSubforms(element, elementData) {
 
@@ -1816,6 +2028,7 @@ function updateMoodunudSubforms(element, elementData) {
 
 // function for updating the properties of the DOM elements inside altered "loik" -related node lists
 
+
 function updateProperties(elementData) {
 
   for (var i = 0; i < elementData.arrays.array.length; i++) {
@@ -1852,6 +2065,14 @@ function updateProperties(elementData) {
       elementData.arrays.enArray[i].setAttribute("id", elementData.arrayNames.arrayNameEn + idNumber);
       elementData.arrays.enArray[i].setAttribute("name", elementData.arrayNames.arrayNameEn + idNumber);
     }
+    if (elementData.arrays.estEdArray[i] !== undefined) {
+      elementData.arrays.estEdArray[i].setAttribute("id", elementData.arrayNames.arrayNameEst + idNumber + "Ed");
+      elementData.arrays.estEdArray[i].setAttribute("name", elementData.arrayNames.arrayNameEst + idNumber + "Ed");
+    }
+    if (elementData.arrays.enEdArray[i] !== undefined) {
+      elementData.arrays.enEdArray[i].setAttribute("id", elementData.arrayNames.arrayNameEn + idNumber + "Ed");
+      elementData.arrays.enEdArray[i].setAttribute("name", elementData.arrayNames.arrayNameEn + idNumber + "Ed");
+    }
     if (elementData.arrays.estKeyArray[i] !== undefined) {
       elementData.arrays.estKeyArray[i].setAttribute("id", elementData.arrayNames.arrayNameEstKey + idNumber);
       elementData.arrays.enKeyArray[i].setAttribute("name", elementData.arrayNames.arrayNameEnKey + idNumber);
@@ -1887,6 +2108,7 @@ function updateProperties(elementData) {
 
 
 // function for updating the properties of the DOM elements inside the altered "dirigendid" subforms
+
 
 function updateDirigendidSubformProperties(elementData) {
 
@@ -1955,6 +2177,7 @@ function updateDirigendidSubformProperties(elementData) {
 
 // function for updating the properties of the DOM elements inside the altered "ajalugu" subforms
 
+
 function updateAjaluguSubformProperties(elementData) {
 
   for (var i = 0; i < elementData.subforms.subformArray.length; i++) {
@@ -2013,6 +2236,7 @@ function updateAjaluguSubformProperties(elementData) {
 
 
 // function for updating the properties of the DOM elements inside the altered "sundmused" subforms
+
 
 function updateSundmusedSubformProperties(elementData) {
 
@@ -2118,6 +2342,7 @@ function updateSundmusedSubformProperties(elementData) {
 
 // function for updating the properties of the DOM elements inside the altered "moodunud" subforms
 
+
 function updateMoodunudSubformProperties(elementData) {
 
   for (var i = 0; i < elementData.subforms.subformArray.length; i++) {
@@ -2222,6 +2447,7 @@ function updateMoodunudSubformProperties(elementData) {
 
 // function for dynamically retrieving all the node lists that are affected by a "loik" element deletion
 
+
 function getElementData(element) {
 
   // get the classlist of the provided element
@@ -2250,6 +2476,7 @@ function getElementData(element) {
 
 // function for retrieving all the node lists that are affected by a "dirigendid" subform deletion
 
+
 function getDirigendidSubformData(element) {
 
   // create an object from the relevant "dirigendid" subform data
@@ -2266,6 +2493,7 @@ function getDirigendidSubformData(element) {
 
 
 // function for retrieving all the node lists that are affected by a "ajalugu" subform deletion
+
 
 function getAjaluguSubformData(element) {
 
@@ -2284,6 +2512,7 @@ function getAjaluguSubformData(element) {
 
 // function for retrieving all the node lists that are affected by a "sundmused" subform deletion
 
+
 function getSundmusedSubformData(element) {
 
   // create an object from the relevant "sundmused" subform data
@@ -2300,6 +2529,7 @@ function getSundmusedSubformData(element) {
 
 
 // function for retrieving all the node lists that are affected by a "moodunud" subform deletion
+
 
 function getMoodunudSubformData(element) {
 
@@ -2318,6 +2548,7 @@ function getMoodunudSubformData(element) {
 
 
 // add an element
+
 
 function addElement(event, doc, destination, subform) {
 
@@ -2450,6 +2681,7 @@ function addElement(event, doc, destination, subform) {
 
 // function for pushing the asynchronously added elements to the arrays on the actual page
 
+
 function pushArrays(arrays, elements) {
 
   arrays.array.push(elements.docElement);
@@ -2459,6 +2691,8 @@ function pushArrays(arrays, elements) {
   arrays.numberArray.push(elements.docNumberElement);
   arrays.estArray.push(elements.docEstElement);
   arrays.enArray.push(elements.docEnElement);
+  arrays.estEdArray.push(elements.docEstEdElement);
+  arrays.enEdArray.push(elements.docEnEdElement);
   arrays.estKeyArray.push(elements.docEstKeyElement);
   arrays.enKeyArray.push(elements.docEnKeyElement);
   arrays.fileArray.push(elements.docFileElement);
@@ -2471,7 +2705,9 @@ function pushArrays(arrays, elements) {
   return arrays;
 }
 
+
 // function for pushing the asynchronously added arrays on the "dirigendid" subform to the arrays on the actual page
+
 
 function pushDirigendidSubform(arrays, elements) {
 
@@ -2498,6 +2734,7 @@ function pushDirigendidSubform(arrays, elements) {
 
 // function for pushing the asynchronously added arrays on the "dirigendid" subform to the arrays on the actual page
 
+
 function pushAjaluguSubform(arrays, elements) {
 
   arrays.subformArray.push(elements.docSubformElement);
@@ -2513,6 +2750,7 @@ function pushAjaluguSubform(arrays, elements) {
 
 
 // function for pushing the asynchronously added arrays on the "sundmused" subform to the arrays on the actual page
+
 
 function pushSundmusedSubform(arrays, elements) {
 
@@ -2543,481 +2781,41 @@ function pushSundmusedSubform(arrays, elements) {
 
 // function for appending the added "loik" element to the actual page
 
+
 function appendElement(form, docElements) {
 
   // append the new element to the form
 
   form.append(docElements.docElement);
+
+  // query for all the children of the added element that have a class of "input"
+
+  var inputChildren = docElements.docElement.querySelectorAll(".input");
+
+  // check if there are any at all
+
+  if (inputChildren.length !== 0) {
+
+    // if yes, loop through the inputs and have them listen to value updates and innerHTML modification
+
+    for (var i = 0; i < inputChildren.length; i++) {
+      inputChildren[i].addEventListener("DOMSubtreeModified", updateInputValue);
+      inputChildren[i].addEventListener("input", updateInputValue);
+    }
+  }
 }
 
 
 // function for appending the added subform to the actual page
 
+
 function appendSubform(form, docSubforms) {
+
 
   // append the new element to the form
 
   form.append(docSubforms.docSubformElement);
 }
-
-
-
-
-// DATA CREATION FUNCTIONS FOR AJAX POST CALLS THAT ARE HANDLED BY BODY-PARSER
-
-
-
-
-function createAvalehtTekstidData(event) {
-  if (avalehtTekstid !== null) {
-    var avalehtTekstidData = {
-      suurPealkiri: {
-        est: encodeURIComponent(document.getElementById("suurPealkiriEst").value),
-        en: encodeURIComponent(document.getElementById("suurPealkiriEn").value)
-      },
-      jatkuPealkiri: {
-        est: encodeURIComponent(document.getElementById("jatkuPealkiriEst").value),
-        en: encodeURIComponent(document.getElementById("jatkuPealkiriEn").value)
-      },
-      sektsiooniPealkiri1: {
-        est: encodeURIComponent(document.getElementById("sektsiooniPealkiriEst1").value),
-        en: encodeURIComponent(document.getElementById("sektsiooniPealkiriEn1").value)
-      },
-      sektsiooniTekst1: {
-        est: encodeURIComponent(document.getElementById("sektsiooniTekstEst1").value),
-        en: encodeURIComponent(document.getElementById("sektsiooniTekstEn1").value)
-      },
-      sektsiooniPealkiri2: {
-        est: encodeURIComponent(document.getElementById("sektsiooniPealkiriEst2").value),
-        en: encodeURIComponent(document.getElementById("sektsiooniPealkiriEn2").value)
-      },
-      sektsiooniTekst2: {
-        est: encodeURIComponent(document.getElementById("sektsiooniTekstEst2").value),
-        en: encodeURIComponent(document.getElementById("sektsiooniTekstEn2").value)
-      },
-    };
-    return avalehtTekstidData;
-  }
-}
-
-function createKooristPealkirjadData(event) {
-  if (kooristPealkirjad !== null) {
-    var pealkirjadData = [];
-    for (var i = 0; i < 6; i++) {
-      indexNumber = i + 1;
-      var pealkiri = {
-        est: encodeURIComponent(document.getElementById("pealkiriEst" + indexNumber).value),
-        en: encodeURIComponent(document.getElementById("pealkiriEn" + indexNumber).value),
-      };
-      pealkirjadData.push(pealkiri);
-    }
-    return pealkirjadData;
-  }
-}
-
-function createKooristLiikmedData(event) {
-  if (kooristLiikmed !== null) {
-    var liikmedData = {
-      haaleruhmaNimed: [],
-      haaleruhmaTutvustused: [],
-      lauljadPealkiri: {
-        est: encodeURIComponent(document.getElementById("lauljadPealkiriEst").value),
-        en: encodeURIComponent(document.getElementById("lauljadPealkiriEn").value)
-      },
-      sopranid: encodeURIComponent(document.getElementById("sopranid").value),
-      aldid: encodeURIComponent(document.getElementById("aldid").value),
-      tenorid: encodeURIComponent(document.getElementById("tenorid").value),
-      bassid: encodeURIComponent(document.getElementById("bassid").value),
-      vilistlastePealkiri: {
-        est: encodeURIComponent(document.getElementById("vilistlastePealkiriEst").value),
-        en: encodeURIComponent(document.getElementById("vilistlastePealkiriEn").value)
-      },
-      vilistlasteNimekiri: {
-        est: encodeURIComponent(document.getElementById("vilistlasteNimekiriEst").value),
-        en: encodeURIComponent(document.getElementById("vilistlasteNimekiriEn").value)
-      },
-      loigud: []
-    };
-
-    for (var i = 1; i < 5; i++) {
-      var haaleruhmaNimi = {
-        est: encodeURIComponent(document.getElementById("haaleruhmaNimiEst" + i).value),
-        en: encodeURIComponent(document.getElementById("haaleruhmaNimiEn" + i).value)
-      };
-      var haaleruhmaTutvustus = {
-        est: encodeURIComponent(document.getElementById("haaleruhmaTutvustusEst" + i).value),
-        en: encodeURIComponent(document.getElementById("haaleruhmaTutvustusEn" + i).value)
-      };
-      liikmedData.haaleruhmaNimed.push(haaleruhmaNimi);
-      liikmedData.haaleruhmaTutvustused.push(haaleruhmaTutvustus);
-    }
-
-    for (var a = 0; a < document.querySelectorAll(".liikmedLoik").length; a++) {
-      var loik = {
-        est: encodeURIComponent(document.querySelectorAll(".liikmedLoikEst")[a].value),
-        en: encodeURIComponent(document.querySelectorAll(".liikmedLoikEn")[a].value),
-      };
-      liikmedData.loigud.push(loik);
-    }
-    return liikmedData;
-  }
-}
-
-function createKooristAjaluguData(event) {
-
-  if (kooristAjalugu !== null) {
-
-    var ajaluguData = {
-      sissejuhatus: {
-        pealkiri: {
-          est: encodeURIComponent(document.getElementById("ajaluguSissejuhatusPealkiriEst").value),
-          en: encodeURIComponent(document.getElementById("ajaluguSissejuhatusPealkiriEn").value)
-        },
-        loigud: []
-      },
-      ajajoon: {
-        pealkiri: {
-          est: encodeURIComponent(document.getElementById("ajaluguSissekannePealkiriEst").value),
-          en: encodeURIComponent(document.getElementById("ajaluguSissekannePealkiriEn").value)
-        },
-        sissekanded: []
-      },
-      sektsioonid: []
-    };
-
-    for (var i = 0; i < document.querySelectorAll(".ajaluguSissekanneLoik").length; i++) {
-      var sissekanne = {
-        year: encodeURIComponent(document.querySelectorAll(".ajaluguSissekanneLoikYear")[i].value),
-        est: encodeURIComponent(document.querySelectorAll(".ajaluguSissekanneLoikEst")[i].value),
-        en: encodeURIComponent(document.querySelectorAll(".ajaluguSissekanneLoikEn")[i].value)
-      };
-      ajaluguData.ajajoon.sissekanded.push(sissekanne);
-    }
-
-    for (var a = 0; a < document.querySelectorAll(".ajaluguSissejuhatusLoik").length; a++) {
-      var sissejuhatavLoik = {
-        est: encodeURIComponent(document.querySelectorAll(".ajaluguSissejuhatusLoikEst")[a].value),
-        en: encodeURIComponent(document.querySelectorAll(".ajaluguSissejuhatusLoikEn")[a].value)
-      };
-      ajaluguData.sissejuhatus.loigud.push(sissejuhatavLoik);
-    }
-
-    for (var b = 0; b < document.querySelectorAll(".ajaluguSubform").length; b++) {
-      var sektsioon = {
-        pealkiri: {
-          est: encodeURIComponent(document.querySelectorAll(".ajaluguPealkiriEst")[b].value),
-          en: encodeURIComponent(document.querySelectorAll(".ajaluguPealkiriEn")[b].value)
-        },
-        loigud: []
-      };
-
-      var indexNumber = b + 1;
-
-      for (var c = 0; c < document.querySelectorAll(".ajalugu" + indexNumber + "Loik").length; c++) {
-
-        var loik = {
-          est: encodeURIComponent(document.querySelectorAll(".ajalugu" + indexNumber + "LoikEst")[c].value),
-          en: encodeURIComponent(document.querySelectorAll(".ajalugu" + indexNumber + "LoikEn")[c].value)
-        };
-        sektsioon.loigud.push(loik);
-      }
-      ajaluguData.sektsioonid.push(sektsioon);
-    }
-    return ajaluguData;
-  }
-}
-
-function createKooristMeediaData(event) {
-
-  if (kooristMeedia !== null) {
-
-    var meediaData = {
-
-      sissejuhatus: {
-        pealkiri: {
-          est: encodeURIComponent(document.getElementById("meediaPealkiriEst").value),
-          en: encodeURIComponent(document.getElementById("meediaPealkiriEn").value)
-        },
-        loigud: []
-      },
-      videod: {
-        pealkiri: {
-          est: encodeURIComponent(document.getElementById("meediaVideoPealkiriEst").value),
-          en: encodeURIComponent(document.getElementById("meediaVideoPealkiriEn").value)
-        },
-        manustamislingid: []
-      },
-      muudLingid: {
-        pealkiri: {
-          est: encodeURIComponent(document.getElementById("meediaLinkPealkiriEst").value),
-          en: encodeURIComponent(document.getElementById("meediaLinkPealkiriEn").value)
-        },
-        lingid: []
-      },
-    };
-
-    for (var i = 0; i < document.querySelectorAll(".meediaLoik").length; i++) {
-      var loik = {
-        est: encodeURIComponent(document.querySelectorAll(".meediaLoikEst")[i].value),
-        en: encodeURIComponent(document.querySelectorAll(".meediaLoikEn")[i].value),
-      };
-      meediaData.sissejuhatus.loigud.push(loik);
-    }
-    for (var a = 0; a < document.querySelectorAll(".meediaVideoLoik").length; a++) {
-      var manustamislink = encodeURIComponent(document.querySelectorAll(".meediaVideoLoikLink")[a].value);
-      meediaData.videod.manustamislingid.push(manustamislink);
-    }
-    for (var b = 0; b < document.querySelectorAll(".meediaLinkLoik").length; b++) {
-      var link = {
-        est: encodeURIComponent(document.querySelectorAll(".meediaLinkLoikEst")[b].value),
-        en: encodeURIComponent(document.querySelectorAll(".meediaLinkLoikEn")[b].value),
-        link: encodeURIComponent(document.querySelectorAll(".meediaLinkLoikLink")[b].value),
-      };
-      meediaData.muudLingid.lingid.push(link);
-    }
-    return meediaData;
-  }
-}
-
-function createKontaktData() {
-
-  var kontaktData = {
-    uldine: {
-      loigud: []
-    },
-    andmed: {
-      pealkiri: {
-        est: encodeURIComponent(document.getElementById("andmedPealkiriEst").value),
-        en: encodeURIComponent(document.getElementById("andmedPealkiriEn").value),
-      },
-      paarid: []
-    },
-    numbrid: {
-      pealkiri: {
-        est: encodeURIComponent(document.getElementById("numbridPealkiriEst").value),
-        en: encodeURIComponent(document.getElementById("numbridPealkiriEn").value),
-      },
-      numbrid: []
-    },
-    mtu: {
-      pealkiri: {
-        est: encodeURIComponent(document.getElementById("mtuPealkiriEst").value),
-        en: encodeURIComponent(document.getElementById("mtuPealkiriEn").value),
-      },
-      paarid: []
-    },
-    ikoonid: {
-      pealkiri: {
-        est: encodeURIComponent(document.getElementById("ikoonidPealkiriEst").value),
-        en: encodeURIComponent(document.getElementById("ikoonidPealkiriEn").value),
-      },
-      ikoonid: []
-    },
-  };
-  for (var i = 0; i < document.querySelectorAll(".uldineLoik").length; i++) {
-
-    var loik = {
-      est: encodeURIComponent(document.querySelectorAll(".uldineLoikEst")[i].value),
-      en: encodeURIComponent(document.querySelectorAll(".uldineLoikEn")[i].value)
-    };
-    kontaktData.uldine.loigud.push(loik);
-  }
-  for (var a = 0; a < document.querySelectorAll(".andmedLoik").length; a++) {
-    var teaveAndmed = {
-      estKey: encodeURIComponent(document.querySelectorAll(".andmedLoikEstKey")[a].value),
-      enKey: encodeURIComponent(document.querySelectorAll(".andmedLoikEnKey")[a].value),
-      est: encodeURIComponent(document.querySelectorAll(".andmedLoikEst")[a].value),
-      en: encodeURIComponent(document.querySelectorAll(".andmedLoikEn")[a].value)
-    };
-    kontaktData.andmed.paarid.push(teaveAndmed);
-  }
-  for (var b = 0; b < document.querySelectorAll(".numbridLoik").length; b++) {
-    var number = {
-      estKey: encodeURIComponent(document.querySelectorAll(".numbridLoikEstKey")[b].value),
-      enKey: encodeURIComponent(document.querySelectorAll(".numbridLoikEnKey")[b].value),
-      number: encodeURIComponent(document.querySelectorAll(".numbridLoikNumber")[b].value)
-    };
-    kontaktData.numbrid.numbrid.push(number);
-  }
-  for (var c = 0; c < document.querySelectorAll(".mtuLoik").length; c++) {
-    var teaveMtu = {
-      estKey: document.querySelectorAll(".mtuLoikEstKey")[c].value,
-      enKey: document.querySelectorAll(".mtuLoikEnKey")[c].value,
-      est: document.querySelectorAll(".mtuLoikEst")[c].value,
-      en: document.querySelectorAll(".mtuLoikEn")[c].value
-    };
-    kontaktData.mtu.paarid.push(teaveMtu);
-  }
-  for (var d = 0; d < document.querySelectorAll(".ikoonidLoik").length; d++) {
-    var ikoon = {
-      icon: document.querySelectorAll(".ikoonidLoikIcon")[d].value,
-      link: document.querySelectorAll(".ikoonidLoikLink")[d].value
-    };
-    kontaktData.ikoonid.ikoonid.push(ikoon);
-  }
-  return kontaktData;
-}
-
-
-function createVastuvottData() {
-
-  var vastuvottData = {
-    tekstid: {
-      loigud: []
-    },
-    ankeet: {
-      pealkiri: {
-        est: encodeURIComponent(document.getElementById("ankeetPealkiriEst").value),
-        en: encodeURIComponent(document.getElementById("ankeetPealkiriEn").value)
-      },
-      valjad: []
-    }
-  };
-  for (var i = 0; i < document.querySelectorAll(".vastuvottLoik").length; i++) {
-    var loik = {
-      est: encodeURIComponent(document.querySelectorAll(".vastuvottLoikEst")[i].value),
-      en: encodeURIComponent(document.querySelectorAll(".vastuvottLoikEn")[i].value),
-    };
-    vastuvottData.tekstid.loigud.push(loik);
-  }
-  for (var a = 0; a < document.querySelectorAll(".ankeetLoik").length; a++) {
-    var vali = {
-      est: encodeURIComponent(document.querySelectorAll(".ankeetLoikEst")[a].value),
-      en: encodeURIComponent(document.querySelectorAll(".ankeetLoikEn")[a].value),
-    };
-    vastuvottData.ankeet.valjad.push(vali);
-  }
-  return vastuvottData;
-}
-
-
-function createAnkeetData() {
-
-  var ankeetData = [];
-
-  for (var i = 0; i < document.querySelectorAll(".ankeetField").length; i++) {
-    var vali = "'" + encodeURIComponent(document.querySelectorAll(".ankeetField")[i].value + "'");
-
-    ankeetData.push(vali);
-  }
-
-  return ankeetData;
-}
-
-// function that creates nothing relevant (used for ajax post requests that have no data to send)
-
-function createNonData() {
-  return "Not data";
-}
-
-// function that creates the data necessary for deleting "loik" elements
-
-function createDeleteData(target) {
-
-  // get the classlist of the deleted element
-
-  var classList = target.classList;
-
-  // get the last name in the classlist, which is also the name of the subform
-
-  var lastElement = getLastElement(classList);
-
-  // get the length of the subform's name in characters
-
-  var nameLength = lastElement.length;
-
-  // create the "deleteData" object for sending to the server,
-  // where the formName propery comes from the elements classlist and the idNumber is the number retrieved from the end of the element's id
-
-  var deleteData = {
-    formName: lastElement,
-    idNumber: target.id.slice(nameLength)
-  };
-
-  // return the object
-
-  return deleteData;
-}
-
-
-// function for creating the data necessary to delete a "dirigendid" subform, which will be sent to the server
-
-function createDeleteDirigendidData(target) {
-
-  // obtain the id number of the deleted subform using the target id and construct a js object to send to the server
-
-  var deleteData = {
-    formName: "dirigendidSubform",
-    idNumber: target.id.slice(10, -7)
-  };
-
-  // return the constructed object
-
-  return deleteData;
-}
-
-
-// function for creating the data necessary to delete a "sundmused" subform, which will be sent to the server
-
-function createDeleteAjaluguData(target) {
-
-  // obtain the id number of the deleted subform using the target id and construct a js object to send to the server
-
-  var deleteData = {
-    formName: "ajaluguSubform",
-    idNumber: target.id.slice(7, -7)
-  };
-
-  // return the constructed object
-
-  return deleteData;
-}
-
-
-// function for creating the data necessary to delete a "sundmused" subform, which will be sent to the server
-
-function createDeleteSundmusedData(target, textQuery) {
-
-  // obtain the id number of the deleted subform using the target id
-
-  var idNumber = target.id.slice(9, -7);
-
-
-  // construct a js object that includes information about the deleted element, which will be sent to the server
-
-  var deleteData = {
-    textQuery: textQuery,
-    formName: "sundmusedSubform",
-    idNumber: idNumber
-  };
-
-  // return the constructed object
-
-  return deleteData;
-}
-
-
-// function for creating the data necessary to delete a "moodunud" subform, which will be sent to the server
-
-function createDeleteMoodunudData(target) {
-
-  // obtain the id number of the deleted subform using the target id
-
-  var idNumber = target.id.slice(8, -7);
-
-
-  // construct a js object that includes information about the deleted element, which will be sent to the server
-
-  var deleteData = {
-    formName: "sundmusedSubform",
-    idNumber: idNumber
-  };
-
-  // return the constructed object
-
-  return deleteData;
-}
-
 
 
 
@@ -3121,8 +2919,8 @@ if (ankeet !== null) {
 }
 
 
+// add an event listener to the whole document, which listens for clicks on the various add and delete buttons on the admin/koorist page
 
-// add an event listener, which listens for clicks on the various add and delete buttons on the admin/koorist page
 
 document.addEventListener("click", function(event) {
 
@@ -3144,6 +2942,8 @@ document.addEventListener("click", function(event) {
     ajaxBodyParser(event, new BodyParserParam(createNonData, "meedia/link/new", "create", "koorist"));
   } else if (event.target === toetajadLoikAddBtn) {
     ajaxBodyParser(event, new BodyParserParam(createNonData, "toetajad/new", "create", "koorist"));
+  } else if (event.target === kontaktSissejuhatusLoikAddBtn) {
+    ajaxBodyParser(event, new BodyParserParam(createNonData, "kontakt/sissejuhatus/new", "create", "kontakt"));
   } else if (event.target === uldineLoikAddBtn) {
     ajaxBodyParser(event, new BodyParserParam(createNonData, "kontakt/uldine/new", "create", "kontakt"));
   } else if (event.target === andmedLoikAddBtn) {
@@ -3155,12 +2955,11 @@ document.addEventListener("click", function(event) {
   } else if (event.target === ikoonidLoikAddBtn) {
     ajaxBodyParser(event, new BodyParserParam(createNonData, "kontakt/ikoonid/new", "create", "kontakt"));
   } else if (event.target === vastuvottLoikAddBtn) {
-    ajaxBodyParser(event, new BodyParserParam(createNonData, "vastuvott/new", "create", "vastuvott"));
+    ajaxBodyParser(event, new BodyParserParam(createNonData, "vastuvott/new", "create", "kontakt"));
   } else if (event.target === ankeetLoikAddBtn) {
-    ajaxBodyParser(event, new BodyParserParam(createNonData, "vastuvott/ankeet/new", "create", "vastuvott"));
+    ajaxBodyParser(event, new BodyParserParam(createNonData, "vastuvott/ankeet/new", "create", "kontakt"));
   } else if (event.target === sundmusedSissejuhatusLoikAddBtn) {
     ajaxBodyParser(event, new BodyParserParam(createNonData, "sundmused/sissejuhatus/new", "create", "sundmused"));
-
 
     // check if the clicked element is a dynamically created add new "loik" button on a "dirigendid" subform
 
@@ -3175,8 +2974,6 @@ document.addEventListener("click", function(event) {
 
     ajaxBodyParser(event, new BodyParserParam(createNonData, "dirigendid" + addDirigendidLoikIdNumber + "/new", "create", "koorist"));
 
-
-
     // check if the clicked element is a dynamically created add new "loik" button on a "ajalugu" subform
 
   } else if (event.target.classList.contains("ajaluguLoikAddBtn")) {
@@ -3189,8 +2986,6 @@ document.addEventListener("click", function(event) {
     // call the ajax function, with the destination route being "ajalugu" + the id number
 
     ajaxBodyParser(event, new BodyParserParam(createNonData, "ajalugu" + addAjaluguLoikIdNumber + "/new", "create", "koorist"));
-
-
 
     // check if the clicked element is a dynamically created add new "loik" button on a "sundmused" subform
 
@@ -3205,8 +3000,6 @@ document.addEventListener("click", function(event) {
 
     ajaxBodyParser(event, new BodyParserParam(createNonData, "sundmused" + addSundmusedLoikIdNumber + "/new", "create", "sundmused"));
 
-
-
     // check if the clicked element is a dynamically created add new "loikKoht" button on a "sundmused" subform
 
   } else if (event.target.classList.contains("sundmusedLoikKohtAddBtn")) {
@@ -3219,8 +3012,6 @@ document.addEventListener("click", function(event) {
     // call the ajax function, with the destination route being "sundmused/koht" + the id number
 
     ajaxBodyParser(event, new BodyParserParam(createNonData, "sundmused/koht" + addSundmusedLoikKohtIdNumber + "/new", "create", "sundmused"));
-
-
 
     // check if the clicked element is a dynamically created add new "loik" button on a "moodunud" subform
 
@@ -3235,8 +3026,6 @@ document.addEventListener("click", function(event) {
 
     ajaxBodyParser(event, new BodyParserParam(createNonData, "moodunud" + addMoodunudLoikIdNumber + "/new", "create", "andmebaas"));
 
-
-
     // check if the clicked element is a dynamically created add new "loikKoht" button on a "moodunud" subform
 
   } else if (event.target.classList.contains("moodunudLoikKohtAddBtn")) {
@@ -3249,8 +3038,6 @@ document.addEventListener("click", function(event) {
     // call the ajax function, with the destination route being "moodunud/koht" + the id number
 
     ajaxBodyParser(event, new BodyParserParam(createNonData, "moodunud/koht" + addMoodunudLoikKohtIdNumber + "/new", "create", "andmebaas"));
-
-
 
     // check if the clicked element is a previously defined add new "dirigendid" subform button
 
@@ -3266,7 +3053,6 @@ document.addEventListener("click", function(event) {
 
   } else if (event.target === sundmusedAddBtn) {
     ajaxBodyParser(event, new BodyParserParam(createNonData, "sundmused/new", "create", "sundmused", "sundmused"));
-
 
     // check if the clicked element is a specific delete "loik" button
 
@@ -3286,6 +3072,8 @@ document.addEventListener("click", function(event) {
     createDeleteMessage(event, "meedia/link");
   } else if (event.target.classList.contains("toetajadLoikDeleteBtn")) {
     createDeleteMessage(event, "toetajad");
+  } else if (event.target.classList.contains("kontaktSissejuhatusLoikDeleteBtn")) {
+    createDeleteMessage(event, "kontakt/sissejuhatus");
   } else if (event.target.classList.contains("uldineLoikDeleteBtn")) {
     createDeleteMessage(event, "kontakt/uldine");
   } else if (event.target.classList.contains("andmedLoikDeleteBtn")) {
@@ -3316,8 +3104,6 @@ document.addEventListener("click", function(event) {
     var deleteLoikIdNumber = event.target.id.slice(10, endOfNumber);
     createDeleteMessage(event, "dirigendid" + deleteLoikIdNumber);
 
-
-
     // check if the clicked element is a delete "loik" button on a dynamically created "ajalugu" subform
 
   } else if (event.target.classList.contains("ajaluguLoikDeleteBtn")) {
@@ -3328,7 +3114,6 @@ document.addEventListener("click", function(event) {
     var endOfAjaluguNumber = event.target.id.indexOf("LoikDeleteBtn");
     var deleteAjaluguLoikIdNumber = event.target.id.slice(7, endOfAjaluguNumber);
     createDeleteMessage(event, "ajalugu" + deleteAjaluguLoikIdNumber);
-
 
     // check if the clicked element is a delete "loik" button on a dynamically created "sundmused" subform
 
@@ -3341,7 +3126,6 @@ document.addEventListener("click", function(event) {
     var deleteSundmusedLoikIdNumber = event.target.id.slice(9, endOfSundmusedNumber);
     createDeleteMessage(event, "sundmused" + deleteSundmusedLoikIdNumber);
 
-
     // check if the clicked element is a delete "loikKoht" button on a dynamically created "sundmused" subform
 
   } else if (event.target.classList.contains("sundmusedLoikKohtDeleteBtn")) {
@@ -3352,7 +3136,6 @@ document.addEventListener("click", function(event) {
     var endOfSundmusedNumberKoht = event.target.id.indexOf("LoikKohtDeleteBtn");
     var deleteSundmusedLoikKohtIdNumber = event.target.id.slice(9, endOfSundmusedNumberKoht);
     createDeleteMessage(event, "sundmused/koht" + deleteSundmusedLoikKohtIdNumber);
-
 
     // check if the clicked element is a delete "loik" button on a dynamically created "moodunud" subform
 
@@ -3365,7 +3148,6 @@ document.addEventListener("click", function(event) {
     var deleteMoodunudLoikIdNumber = event.target.id.slice(8, endOfMoodunudNumber);
     createDeleteMessage(event, "moodunud" + deleteMoodunudLoikIdNumber);
 
-
     // check if the clicked element is a delete "loikKoht" button on a dynamically created "moodunud" subform
 
   } else if (event.target.classList.contains("moodunudLoikKohtDeleteBtn")) {
@@ -3376,8 +3158,6 @@ document.addEventListener("click", function(event) {
     var endOfMoodunudNumberKoht = event.target.id.indexOf("LoikKohtDeleteBtn");
     var deleteMoodunudLoikKohtIdNumber = event.target.id.slice(8, endOfMoodunudNumberKoht);
     createDeleteMessage(event, "moodunud/koht" + deleteMoodunudLoikKohtIdNumber);
-
-
 
     // check if the clicked element is a delete "dirigendid" subform button
 
@@ -3394,33 +3174,37 @@ document.addEventListener("click", function(event) {
   } else if (event.target.classList.contains("sundmusedDeleteBtn")) {
     createDeleteMessage(event, "sundmused", "sundmused");
 
+// check if the clicked element is a delete "moodunud" subform button
 
   } else if (event.target.classList.contains("moodunudDeleteBtn")) {
     createDeleteMessage(event, "moodunud", "moodunud");
 
+// check if the clicked element is a restore "sundmused" subform button
 
   } else if (event.target.classList.contains("moodunudRestoreBtn")) {
     createDeleteMessage(event, "moodunud/restore", "moodunud");
   }
 });
 
-// listen for changes on the bold text button
 
-boldBtn.addEventListener("change", getMarkupText);
 
 
 // CREATE AJAX CALL PARAMETERS WITH A CONSTRUCTOR FUNCTION
 
 
 
+
 // for multer
+
 
 function MulterParam(formName, destination) {
   this.formName = formName;
   this.destination = destination;
 }
 
+
 // for body-parser
+
 
 function BodyParserParam(functionName, postDestination, type, getDestination, subform) {
   this.functionName = functionName;
@@ -3434,6 +3218,8 @@ function BodyParserParam(functionName, postDestination, type, getDestination, su
 
 
 // AJAX GET REQUESTS
+
+
 
 
 function ajaxGetNew(event, location, destination, subform) {
@@ -3492,6 +3278,7 @@ function ajaxGetNew(event, location, destination, subform) {
 
 // create an ajax request for uploading pictures and text with multer (function takes an object with two params as an input)
 
+
 function ajaxMulter(event, params) {
 
   // prevent default action (form submitting in a regular manner)
@@ -3541,6 +3328,7 @@ function ajaxMulter(event, params) {
 
 
 // create an ajax request for updating, adding and deleting text, which will be handled by body-parser, (function takes the event and an object with three params as an input)
+
 
 function ajaxBodyParser(event, params) {
 

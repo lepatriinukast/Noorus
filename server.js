@@ -9,6 +9,7 @@ const ejs = require("ejs");
 const mysql = require("mysql");
 const multer = require("multer");
 const path = require("path");
+const nodemailer = require("nodemailer");
 
 // setup express and body-parser for creating routes and getting data from the client-side
 
@@ -37,15 +38,15 @@ con.connect(function(err) {
   console.log("Connected!");
 });
 
-// an asynchronous function for updating the database
+// setup an email transporter
 
-async function updateDatabase(sql, values) {
-  con.query(sql, values, function(err, result) {
-    if (err) throw err;
-  });
-}
-
-
+const transporter = nodemailer.createTransport({
+  service: 'outlook',
+  auth: {
+    user: 'joosep_trumm@hotmail.com',
+    pass: 'Oomega0001'
+  }
+});
 
 // setup multer storage engine for picture uploads
 
@@ -57,6 +58,15 @@ var storage = multer.diskStorage({
     cb(null, file.originalname);
   }
 });
+
+// an asynchronous function for updating the database
+
+async function updateDatabase(sql, values) {
+  con.query(sql, values, function(err, result) {
+    if (err) throw err;
+  });
+}
+
 
 // ESTONIAN ROUTES
 
@@ -639,60 +649,30 @@ app.get("/koorist", function(req, res) {
 });
 
 
-app.get("/vastuvott", function(req, res) {
-  var pageTitle = "Vastuvõtt";
-  var currentPage = "en/join-us";
+app.get("/pood", function(req, res) {
+  var pageTitle = "Pood";
+  var currentPage = "en/shop";
   con.query("SELECT * FROM avalehtpildid ORDER BY id", function(err, result) {
     if (err) throw err;
     var paiseikoon = {
       url: result[0].url,
       filename: result[0].url.slice(5)
     };
-    con.query("SELECT * FROM vastuvotttekstid ORDER BY id", function(err, result) {
+    con.query("SELECT * FROM pealkirjad ORDER BY id", function(err, result) {
       if (err) throw err;
-      var vastuvottTekstidData = [];
-      for (var i = 1; i < result.length; i++) {
-        var loik = {
+      var pealkirjadData = [];
+      for (var i = 0; i < result.length; i++) {
+        var pealkiri = {
           est: result[i].est,
           en: result[i].en
         };
-        vastuvottTekstidData.push(loik);
+        pealkirjadData.push(pealkiri);
       }
-      con.query("SELECT * FROM vastuvottAnkeet ORDER BY id", function(err, result) {
-        if (err) throw err;
-        var vastuvottAnkeetData = {
-          pealkiri: {
-            est: result[0].est,
-            en: result[0].en
-          },
-          valjad: []
-        };
-        for (var i = 1; i < result.length; i++) {
-          var vali = {
-            est: result[i].est,
-            en: result[i].en
-          };
-          vastuvottAnkeetData.valjad.push(vali);
-        }
-        con.query("SELECT * FROM pealkirjad ORDER BY id", function(err, result) {
-          if (err) throw err;
-          var pealkirjadData = [];
-          for (var i = 0; i < result.length; i++) {
-            var pealkiri = {
-              est: result[i].est,
-              en: result[i].en
-            };
-            pealkirjadData.push(pealkiri);
-          }
-          res.render("vastuvott", {
-            pageTitle: pageTitle,
-            currentPage: currentPage,
-            paiseikoon: paiseikoon,
-            pealkirjadData: pealkirjadData,
-            vastuvottTekstidData: vastuvottTekstidData,
-            vastuvottAnkeetData: vastuvottAnkeetData,
-          });
-        });
+      res.render("pood", {
+        pageTitle: pageTitle,
+        currentPage: currentPage,
+        paiseikoon: paiseikoon,
+        pealkirjadData: pealkirjadData,
       });
     });
   });
@@ -996,111 +976,143 @@ app.get("/kontakt", function(req, res) {
       url: result[0].url,
       filename: result[0].url.slice(5)
     };
-    con.query("SELECT * FROM kontaktuldine ORDER BY id", function(err, result) {
+    con.query("SELECT * FROM kontaktsissejuhatus ORDER BY id", function(err, result) {
       if (err) throw err;
-      var kontaktUldineData = {
-        pealkiri: {
-          est: result[0].est,
-          en: result[0].en
-        },
+      var kontaktSissejuhatusData = {
         loigud: []
       };
-      for (var i = 1; i < result.length; i++) {
+      for (var i = 0; i < result.length; i++) {
         var loik = {
           est: result[i].est,
           en: result[i].en
         };
-        kontaktUldineData.loigud.push(loik);
+        kontaktSissejuhatusData.loigud.push(loik);
       }
-      con.query("SELECT * FROM kontaktandmed ORDER BY id", function(err, result) {
+      con.query("SELECT * FROM kontaktuldine ORDER BY id", function(err, result) {
         if (err) throw err;
-        var kontaktAndmedData = {
+        var kontaktUldineData = {
           pealkiri: {
             est: result[0].est,
             en: result[0].en
           },
-          paarid: []
+          loigud: []
         };
         for (var i = 1; i < result.length; i++) {
-          var teave = {
-            estKey: result[i].estkey,
-            enKey: result[i].enkey,
+          var loik = {
             est: result[i].est,
             en: result[i].en
           };
-          kontaktAndmedData.paarid.push(teave);
+          kontaktUldineData.loigud.push(loik);
         }
-        con.query("SELECT * FROM kontaktnumbrid ORDER BY id", function(err, result) {
+        con.query("SELECT * FROM kontaktandmed ORDER BY id", function(err, result) {
           if (err) throw err;
-          var kontaktNumbridData = {
+          var kontaktAndmedData = {
             pealkiri: {
               est: result[0].est,
               en: result[0].en
             },
-            numbrid: []
+            paarid: []
           };
           for (var i = 1; i < result.length; i++) {
-            var number = {
+            var teave = {
               estKey: result[i].estkey,
               enKey: result[i].enkey,
-              number: result[i].number,
+              est: result[i].est,
+              en: result[i].en
             };
-            kontaktNumbridData.numbrid.push(number);
+            kontaktAndmedData.paarid.push(teave);
           }
-          con.query("SELECT * FROM kontaktmtu ORDER BY id", function(err, result) {
+          con.query("SELECT * FROM kontaktnumbrid ORDER BY id", function(err, result) {
             if (err) throw err;
-            var kontaktMtuData = {
+            var kontaktNumbridData = {
               pealkiri: {
                 est: result[0].est,
                 en: result[0].en
               },
-              paarid: []
+              numbrid: []
             };
             for (var i = 1; i < result.length; i++) {
-              var teave = {
+              var number = {
                 estKey: result[i].estkey,
                 enKey: result[i].enkey,
-                est: result[i].est,
-                en: result[i].en,
+                number: result[i].number,
               };
-              kontaktMtuData.paarid.push(teave);
+              kontaktNumbridData.numbrid.push(number);
             }
-            con.query("SELECT * FROM kontaktikoonid ORDER BY id", function(err, result) {
+            con.query("SELECT * FROM kontaktmtu ORDER BY id", function(err, result) {
               if (err) throw err;
-              var kontaktIkoonidData = {
+              var kontaktMtuData = {
                 pealkiri: {
                   est: result[0].est,
                   en: result[0].en
                 },
-                ikoonid: []
+                paarid: []
               };
               for (var i = 1; i < result.length; i++) {
-                var ikoon = {
-                  ikoon: result[i].icon,
-                  link: result[i].link,
+                var teave = {
+                  estKey: result[i].estkey,
+                  enKey: result[i].enkey,
+                  est: result[i].est,
+                  en: result[i].en,
                 };
-                kontaktIkoonidData.ikoonid.push(ikoon);
+                kontaktMtuData.paarid.push(teave);
               }
-              con.query("SELECT * FROM pealkirjad ORDER BY id", function(err, result) {
+              con.query("SELECT * FROM vastuvotttekstid ORDER BY id", function(err, result) {
                 if (err) throw err;
-                var pealkirjadData = [];
-                for (var i = 0; i < result.length; i++) {
-                  var pealkiri = {
+                var vastuvottTekstidData = {
+                  pealkiri: {
+                    est: result[0].est,
+                    en: result[0].en,
+                  },
+                  loigud: []
+                };
+                for (var i = 1; i < result.length; i++) {
+                  var loik = {
                     est: result[i].est,
                     en: result[i].en
                   };
-                  pealkirjadData.push(pealkiri);
+                  vastuvottTekstidData.loigud.push(loik);
                 }
-                res.render("kontakt", {
-                  pageTitle: pageTitle,
-                  currentPage: currentPage,
-                  paiseikoon: paiseikoon,
-                  pealkirjadData: pealkirjadData,
-                  kontaktUldineData: kontaktUldineData,
-                  kontaktAndmedData: kontaktAndmedData,
-                  kontaktNumbridData: kontaktNumbridData,
-                  kontaktMtuData: kontaktMtuData,
-                  kontaktIkoonidData: kontaktIkoonidData
+                con.query("SELECT * FROM vastuvottankeet ORDER BY id", function(err, result) {
+                  if (err) throw err;
+                  var vastuvottAnkeetData = {
+                    pealkiri: {
+                      est: result[0].est,
+                      en: result[0].en
+                    },
+                    valjad: []
+                  };
+                  for (var i = 1; i < result.length; i++) {
+                    var vali = {
+                      est: result[i].est,
+                      en: result[i].en
+                    };
+                    vastuvottAnkeetData.valjad.push(vali);
+                  }
+                  con.query("SELECT * FROM pealkirjad ORDER BY id", function(err, result) {
+                    if (err) throw err;
+                    var pealkirjadData = [];
+                    for (var i = 0; i < result.length; i++) {
+                      var pealkiri = {
+                        est: result[i].est,
+                        en: result[i].en
+                      };
+                      pealkirjadData.push(pealkiri);
+                    }
+                    res.render("kontakt", {
+                      pageTitle: pageTitle,
+                      currentPage: currentPage,
+                      paiseikoon: paiseikoon,
+                      pealkirjadData: pealkirjadData,
+                      kontaktSissejuhatusData: kontaktSissejuhatusData,
+                      kontaktUldineData: kontaktUldineData,
+                      kontaktAndmedData: kontaktAndmedData,
+                      kontaktNumbridData: kontaktNumbridData,
+                      kontaktMtuData: kontaktMtuData,
+                      vastuvottTekstidData: vastuvottTekstidData,
+                      vastuvottAnkeetData: vastuvottAnkeetData
+                    });
+                  });
                 });
               });
             });
@@ -1110,6 +1122,98 @@ app.get("/kontakt", function(req, res) {
     });
   });
 });
+
+app.get("/telli" + ":number", function(req, res) {
+  var number = req.params.number;
+  var pageTitle = "Telli";
+  var currentPage = "en/order" + number;
+  con.query("SELECT * FROM avalehtpildid ORDER BY id", function(err, result) {
+    if (err) throw err;
+    var paiseikoon = {
+      url: result[0].url,
+      filename: result[0].url.slice(5)
+    };
+    con.query("SELECT * FROM pealkirjad ORDER BY id", function(err, result) {
+      if (err) throw err;
+      var pealkirjadData = [];
+      for (var i = 0; i < result.length; i++) {
+        var pealkiri = {
+          est: result[i].est,
+          en: result[i].en
+        };
+        pealkirjadData.push(pealkiri);
+      }
+      res.render("telli", {
+        pageTitle: pageTitle,
+        currentPage: currentPage,
+        number: number,
+        paiseikoon: paiseikoon,
+        pealkirjadData: pealkirjadData
+      });
+    });
+  });
+});
+
+app.get("/edastatud", function(req, res) {
+  var pageTitle = "Tellimus Edastatud";
+  var currentPage = "en/confirmed";
+  con.query("SELECT * FROM avalehtpildid ORDER BY id", function(err, result) {
+    if (err) throw err;
+    var paiseikoon = {
+      url: result[0].url,
+      filename: result[0].url.slice(5)
+    };
+    con.query("SELECT * FROM pealkirjad ORDER BY id", function(err, result) {
+      if (err) throw err;
+      var pealkirjadData = [];
+      for (var i = 0; i < result.length; i++) {
+        var pealkiri = {
+          est: result[i].est,
+          en: result[i].en
+        };
+        pealkirjadData.push(pealkiri);
+      }
+      res.render("edastatud", {
+        pageTitle: pageTitle,
+        currentPage: currentPage,
+        paiseikoon: paiseikoon,
+        pealkirjadData: pealkirjadData
+      });
+    });
+  });
+});
+
+
+app.get("/nurjunud", function(req, res) {
+  var pageTitle = "Tellimus ebaõnnestus";
+  var currentPage = "en/failed";
+  con.query("SELECT * FROM avalehtpildid ORDER BY id", function(err, result) {
+    if (err) throw err;
+    var paiseikoon = {
+      url: result[0].url,
+      filename: result[0].url.slice(5)
+    };
+    con.query("SELECT * FROM pealkirjad ORDER BY id", function(err, result) {
+      if (err) throw err;
+      var pealkirjadData = [];
+      for (var i = 0; i < result.length; i++) {
+        var pealkiri = {
+          est: result[i].est,
+          en: result[i].en
+        };
+        pealkirjadData.push(pealkiri);
+      }
+      res.render("nurjunud", {
+        pageTitle: pageTitle,
+        currentPage: currentPage,
+        paiseikoon: paiseikoon,
+        pealkirjadData: pealkirjadData
+      });
+    });
+  });
+});
+
+
 
 // ENGLISH ROUTES
 
@@ -1693,60 +1797,30 @@ app.get("/en/about-us", function(req, res) {
   });
 });
 
-app.get("/en/join-us", function(req, res) {
-  var pageTitle = "Join us";
-  var currentPage = "vastuvott";
+app.get("/en/shop", function(req, res) {
+  var pageTitle = "Shop";
+  var currentPage = "pood";
   con.query("SELECT * FROM avalehtpildid ORDER BY id", function(err, result) {
     if (err) throw err;
     var paiseikoon = {
       url: result[0].url,
       filename: result[0].url.slice(5)
     };
-    con.query("SELECT * FROM vastuvotttekstid ORDER BY id", function(err, result) {
+    con.query("SELECT * FROM pealkirjad ORDER BY id", function(err, result) {
       if (err) throw err;
-      var vastuvottTekstidData = [];
-      for (var i = 1; i < result.length; i++) {
-        var loik = {
+      var pealkirjadData = [];
+      for (var i = 0; i < result.length; i++) {
+        var pealkiri = {
           est: result[i].est,
           en: result[i].en
         };
-        vastuvottTekstidData.push(loik);
+        pealkirjadData.push(pealkiri);
       }
-      con.query("SELECT * FROM vastuvottAnkeet ORDER BY id", function(err, result) {
-        if (err) throw err;
-        var vastuvottAnkeetData = {
-          pealkiri: {
-            est: result[0].est,
-            en: result[0].en
-          },
-          valjad: []
-        };
-        for (var i = 1; i < result.length; i++) {
-          var vali = {
-            est: result[i].est,
-            en: result[i].en
-          };
-          vastuvottAnkeetData.valjad.push(vali);
-        }
-        con.query("SELECT * FROM pealkirjad ORDER BY id", function(err, result) {
-          if (err) throw err;
-          var pealkirjadData = [];
-          for (var i = 0; i < result.length; i++) {
-            var pealkiri = {
-              est: result[i].est,
-              en: result[i].en
-            };
-            pealkirjadData.push(pealkiri);
-          }
-          res.render("join-us", {
-            pageTitle: pageTitle,
-            currentPage: currentPage,
-            paiseikoon: paiseikoon,
-            pealkirjadData: pealkirjadData,
-            vastuvottTekstidData: vastuvottTekstidData,
-            vastuvottAnkeetData: vastuvottAnkeetData
-          });
-        });
+      res.render("shop", {
+        pageTitle: pageTitle,
+        currentPage: currentPage,
+        paiseikoon: paiseikoon,
+        pealkirjadData: pealkirjadData
       });
     });
   });
@@ -2050,111 +2124,143 @@ app.get("/en/contact", function(req, res) {
       url: result[0].url,
       filename: result[0].url.slice(5)
     };
-    con.query("SELECT * FROM kontaktuldine ORDER BY id", function(err, result) {
+    con.query("SELECT * FROM kontaktsissejuhatus ORDER BY id", function(err, result) {
       if (err) throw err;
-      var kontaktUldineData = {
-        pealkiri: {
-          est: result[0].est,
-          en: result[0].en
-        },
+      var kontaktSissejuhatusData = {
         loigud: []
       };
-      for (var i = 1; i < result.length; i++) {
+      for (var i = 0; i < result.length; i++) {
         var loik = {
           est: result[i].est,
           en: result[i].en
         };
-        kontaktUldineData.loigud.push(loik);
+        kontaktSissejuhatusData.loigud.push(loik);
       }
-      con.query("SELECT * FROM kontaktandmed ORDER BY id", function(err, result) {
+      con.query("SELECT * FROM kontaktuldine ORDER BY id", function(err, result) {
         if (err) throw err;
-        var kontaktAndmedData = {
+        var kontaktUldineData = {
           pealkiri: {
             est: result[0].est,
             en: result[0].en
           },
-          paarid: []
+          loigud: []
         };
         for (var i = 1; i < result.length; i++) {
-          var teave = {
-            estKey: result[i].estkey,
-            enKey: result[i].enkey,
+          var loik = {
             est: result[i].est,
             en: result[i].en
           };
-          kontaktAndmedData.paarid.push(teave);
+          kontaktUldineData.loigud.push(loik);
         }
-        con.query("SELECT * FROM kontaktnumbrid ORDER BY id", function(err, result) {
+        con.query("SELECT * FROM kontaktandmed ORDER BY id", function(err, result) {
           if (err) throw err;
-          var kontaktNumbridData = {
+          var kontaktAndmedData = {
             pealkiri: {
               est: result[0].est,
               en: result[0].en
             },
-            numbrid: []
+            paarid: []
           };
           for (var i = 1; i < result.length; i++) {
-            var number = {
+            var teave = {
               estKey: result[i].estkey,
               enKey: result[i].enkey,
-              number: result[i].number,
+              est: result[i].est,
+              en: result[i].en
             };
-            kontaktNumbridData.numbrid.push(number);
+            kontaktAndmedData.paarid.push(teave);
           }
-          con.query("SELECT * FROM kontaktmtu ORDER BY id", function(err, result) {
+          con.query("SELECT * FROM kontaktnumbrid ORDER BY id", function(err, result) {
             if (err) throw err;
-            var kontaktMtuData = {
+            var kontaktNumbridData = {
               pealkiri: {
                 est: result[0].est,
                 en: result[0].en
               },
-              paarid: []
+              numbrid: []
             };
             for (var i = 1; i < result.length; i++) {
-              var teave = {
+              var number = {
                 estKey: result[i].estkey,
                 enKey: result[i].enkey,
-                est: result[i].est,
-                en: result[i].en,
+                number: result[i].number,
               };
-              kontaktMtuData.paarid.push(teave);
+              kontaktNumbridData.numbrid.push(number);
             }
-            con.query("SELECT * FROM kontaktikoonid ORDER BY id", function(err, result) {
+            con.query("SELECT * FROM kontaktmtu ORDER BY id", function(err, result) {
               if (err) throw err;
-              var kontaktIkoonidData = {
+              var kontaktMtuData = {
                 pealkiri: {
                   est: result[0].est,
                   en: result[0].en
                 },
-                ikoonid: []
+                paarid: []
               };
               for (var i = 1; i < result.length; i++) {
-                var ikoon = {
-                  ikoon: result[i].icon,
-                  link: result[i].link,
+                var teave = {
+                  estKey: result[i].estkey,
+                  enKey: result[i].enkey,
+                  est: result[i].est,
+                  en: result[i].en,
                 };
-                kontaktIkoonidData.ikoonid.push(ikoon);
+                kontaktMtuData.paarid.push(teave);
               }
-              con.query("SELECT * FROM pealkirjad ORDER BY id", function(err, result) {
+              con.query("SELECT * FROM vastuvotttekstid ORDER BY id", function(err, result) {
                 if (err) throw err;
-                var pealkirjadData = [];
-                for (var i = 0; i < result.length; i++) {
-                  var pealkiri = {
+                var vastuvottTekstidData = {
+                  pealkiri: {
+                    est: result[0].est,
+                    en: result[0].en,
+                  },
+                  loigud: []
+                };
+                for (var i = 1; i < result.length; i++) {
+                  var loik = {
                     est: result[i].est,
                     en: result[i].en
                   };
-                  pealkirjadData.push(pealkiri);
+                  vastuvottTekstidData.loigud.push(loik);
                 }
-                res.render("contact", {
-                  pageTitle: pageTitle,
-                  currentPage: currentPage,
-                  paiseikoon: paiseikoon,
-                  pealkirjadData: pealkirjadData,
-                  kontaktUldineData: kontaktUldineData,
-                  kontaktAndmedData: kontaktAndmedData,
-                  kontaktNumbridData: kontaktNumbridData,
-                  kontaktMtuData: kontaktMtuData,
-                  kontaktIkoonidData: kontaktIkoonidData
+                con.query("SELECT * FROM vastuvottAnkeet ORDER BY id", function(err, result) {
+                  if (err) throw err;
+                  var vastuvottAnkeetData = {
+                    pealkiri: {
+                      est: result[0].est,
+                      en: result[0].en
+                    },
+                    valjad: []
+                  };
+                  for (var i = 1; i < result.length; i++) {
+                    var vali = {
+                      est: result[i].est,
+                      en: result[i].en
+                    };
+                    vastuvottAnkeetData.valjad.push(vali);
+                  }
+                  con.query("SELECT * FROM pealkirjad ORDER BY id", function(err, result) {
+                    if (err) throw err;
+                    var pealkirjadData = [];
+                    for (var i = 0; i < result.length; i++) {
+                      var pealkiri = {
+                        est: result[i].est,
+                        en: result[i].en
+                      };
+                      pealkirjadData.push(pealkiri);
+                    }
+                    res.render("contact", {
+                      pageTitle: pageTitle,
+                      currentPage: currentPage,
+                      paiseikoon: paiseikoon,
+                      pealkirjadData: pealkirjadData,
+                      kontaktSissejuhatusData: kontaktSissejuhatusData,
+                      kontaktUldineData: kontaktUldineData,
+                      kontaktAndmedData: kontaktAndmedData,
+                      kontaktNumbridData: kontaktNumbridData,
+                      kontaktMtuData: kontaktMtuData,
+                      vastuvottTekstidData: vastuvottTekstidData,
+                      vastuvottAnkeetData: vastuvottAnkeetData
+                    });
+                  });
                 });
               });
             });
@@ -2164,6 +2270,97 @@ app.get("/en/contact", function(req, res) {
     });
   });
 });
+
+
+app.get("/en/order" + ":number", function(req, res) {
+  var number = req.params.number;
+  var pageTitle = "Order";
+  var currentPage = "telli" + number;
+  con.query("SELECT * FROM avalehtpildid ORDER BY id", function(err, result) {
+    if (err) throw err;
+    var paiseikoon = {
+      url: result[0].url,
+      filename: result[0].url.slice(5)
+    };
+    con.query("SELECT * FROM pealkirjad ORDER BY id", function(err, result) {
+      if (err) throw err;
+      var pealkirjadData = [];
+      for (var i = 0; i < result.length; i++) {
+        var pealkiri = {
+          est: result[i].est,
+          en: result[i].en
+        };
+        pealkirjadData.push(pealkiri);
+      }
+      res.render("order", {
+        pageTitle: pageTitle,
+        currentPage: currentPage,
+        number: number,
+        paiseikoon: paiseikoon,
+        pealkirjadData: pealkirjadData
+      });
+    });
+  });
+});
+
+app.get("/en/confirmed", function(req, res) {
+  var pageTitle = "Order confirmed";
+  var currentPage = "edastatud";
+  con.query("SELECT * FROM avalehtpildid ORDER BY id", function(err, result) {
+    if (err) throw err;
+    var paiseikoon = {
+      url: result[0].url,
+      filename: result[0].url.slice(5)
+    };
+    con.query("SELECT * FROM pealkirjad ORDER BY id", function(err, result) {
+      if (err) throw err;
+      var pealkirjadData = [];
+      for (var i = 0; i < result.length; i++) {
+        var pealkiri = {
+          est: result[i].est,
+          en: result[i].en
+        };
+        pealkirjadData.push(pealkiri);
+      }
+      res.render("confirmed", {
+        pageTitle: pageTitle,
+        currentPage: currentPage,
+        paiseikoon: paiseikoon,
+        pealkirjadData: pealkirjadData
+      });
+    });
+  });
+});
+
+app.get("/en/failed", function(req, res) {
+  var pageTitle = "Tellimus ebaõnnestus";
+  var currentPage = "nurjunud";
+  con.query("SELECT * FROM avalehtpildid ORDER BY id", function(err, result) {
+    if (err) throw err;
+    var paiseikoon = {
+      url: result[0].url,
+      filename: result[0].url.slice(5)
+    };
+    con.query("SELECT * FROM pealkirjad ORDER BY id", function(err, result) {
+      if (err) throw err;
+      var pealkirjadData = [];
+      for (var i = 0; i < result.length; i++) {
+        var pealkiri = {
+          est: result[i].est,
+          en: result[i].en
+        };
+        pealkirjadData.push(pealkiri);
+      }
+      res.render("failed", {
+        pageTitle: pageTitle,
+        currentPage: currentPage,
+        paiseikoon: paiseikoon,
+        pealkirjadData: pealkirjadData
+      });
+    });
+  });
+});
+
 
 // admin routes
 
@@ -2780,100 +2977,144 @@ app.get("/admin/kontakt", function(req, res) {
       url: result[0].url,
       filename: result[0].url.slice(5)
     };
-    con.query("SELECT * FROM kontaktuldine ORDER BY id", function(err, result) {
+    con.query("SELECT * FROM kontaktsissejuhatus ORDER BY id", function(err, result) {
       if (err) throw err;
-      var kontaktUldineData = {
-        pealkiri: {
-          est: result[0].est,
-          en: result[0].en
-        },
+      var kontaktSissejuhatusData = {
         loigud: []
       };
-      for (var i = 1; i < result.length; i++) {
+      for (var i = 0; i < result.length; i++) {
         var loik = {
           est: result[i].est,
           en: result[i].en
         };
-        kontaktUldineData.loigud.push(loik);
+        kontaktSissejuhatusData.loigud.push(loik);
       }
-      con.query("SELECT * FROM kontaktandmed ORDER BY id", function(err, result) {
+      con.query("SELECT * FROM kontaktuldine ORDER BY id", function(err, result) {
         if (err) throw err;
-        var kontaktAndmedData = {
+        var kontaktUldineData = {
           pealkiri: {
             est: result[0].est,
             en: result[0].en
           },
-          paarid: []
+          loigud: []
         };
         for (var i = 1; i < result.length; i++) {
-          var teave = {
-            estKey: result[i].estkey,
-            enKey: result[i].enkey,
+          var loik = {
             est: result[i].est,
             en: result[i].en
           };
-          kontaktAndmedData.paarid.push(teave);
+          kontaktUldineData.loigud.push(loik);
         }
-        con.query("SELECT * FROM kontaktnumbrid ORDER BY id", function(err, result) {
+        con.query("SELECT * FROM kontaktandmed ORDER BY id", function(err, result) {
           if (err) throw err;
-          var kontaktNumbridData = {
+          var kontaktAndmedData = {
             pealkiri: {
               est: result[0].est,
               en: result[0].en
             },
-            numbrid: []
+            paarid: []
           };
           for (var i = 1; i < result.length; i++) {
-            var number = {
+            var teave = {
               estKey: result[i].estkey,
               enKey: result[i].enkey,
-              number: result[i].number,
+              est: result[i].est,
+              en: result[i].en
             };
-            kontaktNumbridData.numbrid.push(number);
+            kontaktAndmedData.paarid.push(teave);
           }
-          con.query("SELECT * FROM kontaktmtu ORDER BY id", function(err, result) {
+          con.query("SELECT * FROM kontaktnumbrid ORDER BY id", function(err, result) {
             if (err) throw err;
-            var kontaktMtuData = {
+            var kontaktNumbridData = {
               pealkiri: {
                 est: result[0].est,
                 en: result[0].en
               },
-              paarid: []
+              numbrid: []
             };
             for (var i = 1; i < result.length; i++) {
-              var teave = {
+              var number = {
                 estKey: result[i].estkey,
                 enKey: result[i].enkey,
-                est: result[i].est,
-                en: result[i].en,
+                number: result[i].number,
               };
-              kontaktMtuData.paarid.push(teave);
+              kontaktNumbridData.numbrid.push(number);
             }
-            con.query("SELECT * FROM kontaktikoonid ORDER BY id", function(err, result) {
+            con.query("SELECT * FROM kontaktmtu ORDER BY id", function(err, result) {
               if (err) throw err;
-              var kontaktIkoonidData = {
+              var kontaktMtuData = {
                 pealkiri: {
                   est: result[0].est,
                   en: result[0].en
                 },
-                ikoonid: []
+                paarid: []
               };
               for (var i = 1; i < result.length; i++) {
-                var ikoon = {
-                  ikoon: result[i].icon,
-                  link: result[i].link,
+                var teave = {
+                  estKey: result[i].estkey,
+                  enKey: result[i].enkey,
+                  est: result[i].est,
+                  en: result[i].en,
                 };
-                kontaktIkoonidData.ikoonid.push(ikoon);
+                kontaktMtuData.paarid.push(teave);
               }
-              res.render("admin_kontakt", {
-                pageTitle: pageTitle,
-                routeName: routeName,
-                paiseikoon: paiseikoon,
-                kontaktUldineData: kontaktUldineData,
-                kontaktAndmedData: kontaktAndmedData,
-                kontaktNumbridData: kontaktNumbridData,
-                kontaktMtuData: kontaktMtuData,
-                kontaktIkoonidData: kontaktIkoonidData
+              con.query("SELECT * FROM vastuvotttekstid ORDER BY id", function(err, result) {
+                if (err) throw err;
+                var vastuvottTekstidData = {
+                  pealkiri: {
+                    est: result[0].est,
+                    en: result[0].en,
+                  },
+                  loigud: []
+                };
+                for (var i = 1; i < result.length; i++) {
+                  var loik = {
+                    est: result[i].est,
+                    en: result[i].en
+                  };
+                  vastuvottTekstidData.loigud.push(loik);
+                }
+                con.query("SELECT * FROM vastuvottAnkeet ORDER BY id", function(err, result) {
+                  if (err) throw err;
+                  var vastuvottAnkeetData = {
+                    pealkiri: {
+                      est: result[0].est,
+                      en: result[0].en
+                    },
+                    valjad: []
+                  };
+                  for (var i = 1; i < result.length; i++) {
+                    var vali = {
+                      est: result[i].est,
+                      en: result[i].en
+                    };
+                    vastuvottAnkeetData.valjad.push(vali);
+                  }
+                  con.query("SELECT * FROM pealkirjad ORDER BY id", function(err, result) {
+                    if (err) throw err;
+                    var pealkirjadData = [];
+                    for (var i = 0; i < result.length; i++) {
+                      var pealkiri = {
+                        est: result[i].est,
+                        en: result[i].en
+                      };
+                      pealkirjadData.push(pealkiri);
+                    }
+                    res.render("admin_kontakt", {
+                      pageTitle: pageTitle,
+                      routeName: routeName,
+                      paiseikoon: paiseikoon,
+                      kontaktSissejuhatusData: kontaktSissejuhatusData,
+                      kontaktUldineData: kontaktUldineData,
+                      kontaktAndmedData: kontaktAndmedData,
+                      kontaktNumbridData: kontaktNumbridData,
+                      kontaktMtuData: kontaktMtuData,
+                      vastuvottTekstidData: vastuvottTekstidData,
+                      vastuvottAnkeetData: vastuvottAnkeetData,
+                      pealkirjadData: pealkirjadData
+                    });
+                  });
+                });
               });
             });
           });
@@ -2884,9 +3125,9 @@ app.get("/admin/kontakt", function(req, res) {
 });
 
 
-app.get("/admin/vastuvott", function(req, res) {
-  var pageTitle = "admin/vastuvott";
-  var routeName = "/vastuvott";
+app.get("/admin/pood", function(req, res) {
+  var pageTitle = "admin/pood";
+  var routeName = "/pood";
   con.query("SELECT * FROM avalehtpildid ORDER BY id", function(err, result) {
     if (err) throw err;
     var paiseikoon = {
@@ -2895,13 +3136,19 @@ app.get("/admin/vastuvott", function(req, res) {
     };
     con.query("SELECT * FROM vastuvotttekstid ORDER BY id", function(err, result) {
       if (err) throw err;
-      var vastuvottTekstidData = [];
+      var vastuvottTekstidData = {
+        pealkiri: {
+          est: result[0].est,
+          en: result[0].en,
+        },
+        loigud: []
+      };
       for (var i = 1; i < result.length; i++) {
         var loik = {
           est: result[i].est,
           en: result[i].en
         };
-        vastuvottTekstidData.push(loik);
+        vastuvottTekstidData.loigud.push(loik);
       }
       con.query("SELECT * FROM vastuvottAnkeet ORDER BY id", function(err, result) {
         if (err) throw err;
@@ -2929,7 +3176,7 @@ app.get("/admin/vastuvott", function(req, res) {
             };
             pealkirjadData.push(pealkiri);
           }
-          res.render("admin_vastuvott", {
+          res.render("admin_pood", {
             pageTitle: pageTitle,
             routeName: routeName,
             paiseikoon: paiseikoon,
@@ -3346,6 +3593,8 @@ app.post("/upload/sissejuhatus", async function(req, res) {
 
     var keys = Object.keys(req.body);
 
+    console.log(keys);
+
     // Get the index of the last element in the keys array
 
     var index = keys.length - 1;
@@ -3362,7 +3611,7 @@ app.post("/upload/sissejuhatus", async function(req, res) {
 
     // query the database for the "loik" entries
 
-    con.query("SELECT * FROM sissejuhatustekstid", async function(err, result) {
+    con.query("SELECT * FROM sissejuhatustekstid ORDER by ID", async function(err, result) {
       if (err) throw err;
 
       // the "loik" entries start from result[1]- retrieve all those and push their name properties into the empty array above
@@ -5658,7 +5907,7 @@ app.post("/upload/toetajad/delete", function(req, res) {
 });
 
 
-// update the "kontakt" page
+// update the first part of the "kontakt" page
 
 app.post("/upload/kontakt", async function(req, res) {
 
@@ -5684,21 +5933,16 @@ app.post("/upload/kontakt", async function(req, res) {
     est: kontaktData.mtu.pealkiri.est,
     en: kontaktData.mtu.pealkiri.en,
   };
-  var pealkiriIkoonid = {
-    est: kontaktData.ikoonid.pealkiri.est,
-    en: kontaktData.ikoonid.pealkiri.en,
-  };
 
   // populate the pealkirjad array with these objects
 
   pealkirjad.push(pealkiriAndmed);
   pealkirjad.push(pealkiriNumbrid);
   pealkirjad.push(pealkiriMtu);
-  pealkirjad.push(pealkiriIkoonid);
 
   // create an array of all the four database table names that have "pealkiri" entries on the "kontakt" page
 
-  var tabeliNimed = ["kontaktandmed", "kontaktnumbrid", "kontaktmtu", "kontaktikoonid"];
+  var tabeliNimed = ["kontaktandmed", "kontaktnumbrid", "kontaktmtu", "kontaktuldine"];
 
   // loop through the pealkirjad array
 
@@ -5723,9 +5967,9 @@ app.post("/upload/kontakt", async function(req, res) {
     await updateDatabase(sqlPealkirjad, valuesPealkirjad);
   }
 
-  // query the database for "loik" entries in the "üldine" section on the "kontakt" page
+  // query the database for "loik" entries in the "sissejuhatus" section on the "kontakt" page
 
-  con.query("SELECT * FROM kontaktuldine ORDER BY id", async function(err, result) {
+  con.query("SELECT * FROM kontaktsissejuhatus ORDER BY id", async function(err, result) {
     if (err) throw err;
 
     // go through each result
@@ -5738,8 +5982,42 @@ app.post("/upload/kontakt", async function(req, res) {
 
       // for each result capture the relevant est and en properties from the data received from the client-side using the same iterator
 
-      var estProperty = kontaktData.uldine.loigud[i].est;
-      var enProperty = kontaktData.uldine.loigud[i].en;
+      var estProperty = kontaktData.sissejuhatus.loigud[i].est;
+      var enProperty = kontaktData.sissejuhatus.loigud[i].en;
+
+      // create a values array for the sql text using the variables created above
+
+      var values = [estProperty, enProperty, nameProperty];
+
+      // create the sql text
+
+      var sql = "UPDATE kontaktsissejuhatus SET est = ?, en = ? WHERE name = ?";
+
+      // update the database
+
+      await updateDatabase(sql, values);
+    }
+  });
+
+  // query the database for "loik" entries in the "üldine" section on the "kontakt" page
+
+  con.query("SELECT * FROM kontaktuldine ORDER BY id", async function(err, result) {
+    if (err) throw err;
+
+    // go through each result
+
+    for (var i = 1; i < result.length; i++) {
+
+      // obtain the name of each "loik" database entry
+
+      var nameProperty = result[i].name;
+
+      // for each result capture the relevant est and en properties from the data received from the client-side
+      // we can use the same iterator if we substract 1 from it
+      // (since these arrays are relevant from position 0 not 1 like the database results)
+
+      var estProperty = kontaktData.uldine.loigud[i - 1].est;
+      var enProperty = kontaktData.uldine.loigud[i - 1].en;
 
       // create a values array for the sql text using the variables created above
 
@@ -5862,38 +6140,69 @@ app.post("/upload/kontakt", async function(req, res) {
     }
   });
 
-  // query the database for "ikoon" entries in the "ikoonid" section on the "kontakt" page
+  // send a server response
 
-  con.query("SELECT * FROM kontaktikoonid ORDER BY id", async function(err, result) {
+  res.send("OK!");
+});
+
+
+// add a new "loik" element to the introduction section on the "kontakt" page
+
+app.post("/upload/kontakt/sissejuhatus/new", function(req, res) {
+
+  // create variables for new database entries- est and en properties will be empty strings, while the name property will be "loik" + current timestamp
+
+  var nameProperty = "loik" + Date.now();
+  var estProperty = "";
+  var enProperty = "";
+
+  // create the sql text with the variables created above
+
+  var sql = "INSERT INTO kontaktsissejuhatus (name, est, en) VALUES ('" + nameProperty + "', '" + estProperty + "', '" + enProperty + "')";
+
+  // insert the new entry into the database
+
+  updateDatabase(sql);
+
+  // send a server response
+
+  res.send("OK!");
+});
+
+
+// delete a "loik" element from the introduction section on the "kontakt" page
+
+app.post("/upload/kontakt/sissejuhatus/delete", function(req, res) {
+
+  // retrieve and parse the data sent by the browser via an ajax call- this will contain the id number of the deleted element
+
+  var deleteLoikData = JSON.parse(req.body.data);
+
+  // query the database for all the "loik" entries
+
+  con.query("SELECT * FROM kontaktsissejuhatus ORDER by id", function(err, result) {
     if (err) throw err;
 
-    // go through each result, taking into account that the "ikoon" entries start from position 1 not 0
+    // to find the right result, we need to know its index number-
+    // this will be the id number of the deleted element minus 1 (since js starts to count from 0 not 1)
 
-    for (var i = 1; i < result.length; i++) {
+    var currentIndex = deleteLoikData.idNumber - 1;
 
-      // obtain the name of each "ikoon" database entry
+    // get the database entry of the deleted element
 
-      var nameProperty = result[i].name;
+    var currentResult = result[currentIndex];
 
-      // for each result capture the relevant icon and link properties from the data received from the client-side
-      // we can use the same iterator if we substract 1 from it
-      // (since these arrays are relevant from position 0 not 1 like the database results)
+    // get the name property of the database entry
 
-      var iconProperty = kontaktData.ikoonid.ikoonid[i - 1].icon;
-      var linkProperty = kontaktData.ikoonid.ikoonid[i - 1].link;
+    var nameProperty = currentResult.name;
 
-      // create a values array for the sql text using the variables created above
+    // create the sql text
 
-      var values = [linkProperty, iconProperty, nameProperty];
+    var sql = "DELETE FROM kontaktsissejuhatus WHERE name = '" + nameProperty + "'";
 
-      // create the sql text
+    // delete the entry from the database
 
-      var sql = "UPDATE kontaktikoonid SET link = ?, icon = ? WHERE name = ?";
-
-      // update the database
-
-      await updateDatabase(sql, values);
-    }
+    updateDatabase(sql);
   });
 
   // send a server response
@@ -5902,8 +6211,7 @@ app.post("/upload/kontakt", async function(req, res) {
 });
 
 
-
-// add a new "loik" element to the yupper left section on the "kontakt" page
+// add a new "loik" element to the middle section on the "kontakt" page
 
 app.post("/upload/kontakt/uldine/new", function(req, res) {
 
@@ -5927,7 +6235,7 @@ app.post("/upload/kontakt/uldine/new", function(req, res) {
 });
 
 
-// delete a "loik" element from the upper left section on the "kontakt" page
+// delete a "loik" element from the middle section on the "kontakt" page
 
 app.post("/upload/kontakt/uldine/delete", function(req, res) {
 
@@ -5945,9 +6253,13 @@ app.post("/upload/kontakt/uldine/delete", function(req, res) {
 
     var currentIndex = deleteLoikData.idNumber - 1;
 
+    // as the "loik" elements start from the second result onwards, add 1 to the index number
+
+    var realIndex = currentIndex + 1;
+
     // get the database entry of the deleted element
 
-    var currentResult = result[currentIndex];
+    var currentResult = result[realIndex];
 
     // get the name property of the database entry
 
@@ -5964,7 +6276,7 @@ app.post("/upload/kontakt/uldine/delete", function(req, res) {
 
   // send a server response
 
-  res.send("OK!");;
+  res.send("OK!");
 });
 
 
@@ -6181,79 +6493,7 @@ app.post("/upload/kontakt/mtu/delete", function(req, res) {
   res.send("OK!");
 });
 
-
-// add a new icon to the "ikoonid" section on the "kontakt" page
-
-app.post("/upload/kontakt/ikoonid/new", function(req, res) {
-
-  // create variables for new database entries- est, en, icon and link properties will be empty strings, while the name property will be "ikoon" + current timestamp
-
-  var nameProperty = "ikoon" + Date.now();
-  var estProperty = "";
-  var enProperty = "";
-  var iconProperty = "";
-  var linkProperty = "";
-
-  // create the sql text with the variables created above
-
-  var sql = "INSERT INTO kontaktikoonid (name, est, en, icon, link) VALUES ('" + nameProperty + "', '" + estProperty + "', '" + enProperty + "', '" + iconProperty + "', '" + linkProperty + "')";
-
-  // insert the new entry into the database
-
-  updateDatabase(sql);
-
-  // send a server response
-
-  res.send("OK!");
-});
-
-
-// delete an icon from the "ikoonid" section on the "kontakt" page
-
-app.post("/upload/kontakt/ikoonid/delete", function(req, res) {
-
-  // retrieve and parse the data sent by the browser via an ajax call- this will contain the id number of the deleted element
-
-  var deleteLoikData = JSON.parse(req.body.data);
-
-  // query the database for all the "icon" entries
-
-  con.query("SELECT * FROM kontaktikoonid ORDER by id", function(err, result) {
-    if (err) throw err;
-
-    // to find the right result, we need to know its index number-
-    // this will be the id number of the deleted element minus 1 (since js starts to count from 0 not 1)
-
-    var currentIndex = deleteLoikData.idNumber - 1;
-
-    // as the "icon" elements start from the second result onwards, add 1 to the index number
-
-    var realIndex = currentIndex + 1;
-
-    // get the database entry of the deleted element
-
-    var currentResult = result[realIndex];
-
-    // get the name property of the database entry
-
-    var nameProperty = currentResult.name;
-
-    // create the sql text
-
-    var sql = "DELETE FROM kontaktikoonid WHERE name = '" + nameProperty + "'";
-
-    // delete the entry from the database
-
-    updateDatabase(sql);
-  });
-
-  // send a server response
-
-  res.send("OK!");
-});
-
-
-// update the "vastuvõtt" page
+// update the "vastuvõtt" section on the "kontakt" page
 
 app.post("/upload/vastuvott", async function(req, res) {
 
@@ -6261,10 +6501,10 @@ app.post("/upload/vastuvott", async function(req, res) {
 
   var vastuvottData = JSON.parse(req.body.data);
 
-  // for updating the "pealkiri" entry in the "ankeet" section, obtain the est and en values from the data object sent from the browser
+  // for updating the "pealkiri" entry in the "vastuvott" section, obtain the est and en values from the data object sent from the browser
 
-  var estProperty = vastuvottData.ankeet.pealkiri.est;
-  var enProperty = vastuvottData.ankeet.pealkiri.en;
+  var estProperty = vastuvottData.tekstid.pealkiri.est;
+  var enProperty = vastuvottData.tekstid.pealkiri.en;
 
   // create the values object with est and en properties
 
@@ -6272,11 +6512,28 @@ app.post("/upload/vastuvott", async function(req, res) {
 
   // create the sql text for updating the database
 
-  var sqlPealkiri = "UPDATE vastuvottankeet SET est = ?, en = ? WHERE name = 'pealkiri'";
+  var sqlPealkiri = "UPDATE vastuvotttekstid SET est = ?, en = ? WHERE name = 'pealkiri'";
 
   // update the database
 
   updateDatabase(sqlPealkiri, valuesPealkiri);
+
+  // for updating the "pealkiri" entry in the "ankeet" section, obtain the est and en values from the data object sent from the browser
+
+  var estPropertyAnkeet = vastuvottData.ankeet.pealkiri.est;
+  var enPropertyAnkeet = vastuvottData.ankeet.pealkiri.en;
+
+  // create the values object with est and en properties
+
+  var valuesPealkiriAnkeet = [estPropertyAnkeet, enPropertyAnkeet];
+
+  // create the sql text for updating the database
+
+  var sqlPealkiriAnkeet = "UPDATE vastuvottankeet SET est = ?, en = ? WHERE name = 'pealkiri'";
+
+  // update the database
+
+  updateDatabase(sqlPealkiriAnkeet, valuesPealkiriAnkeet);
 
   // query the database for "loik" entries in the "vastuvotttekstid" table
 
@@ -6350,7 +6607,7 @@ app.post("/upload/vastuvott", async function(req, res) {
 });
 
 
-// add a new loik to the "tekstid" section on the "vastuvõtt" page
+// add a new loik to the "tekstid" section on the "vastuvõtt" part of the "kontakt" page
 
 app.post("/upload/vastuvott/new", function(req, res) {
 
@@ -6374,7 +6631,7 @@ app.post("/upload/vastuvott/new", function(req, res) {
 });
 
 
-// delete a "loik" element from the "tekstid" section on the "vastuvott" page
+// delete a "loik" element from the "tekstid" section on the "vastuvott" part of the "kontakt" page
 
 app.post("/upload/vastuvott/delete", function(req, res) {
 
@@ -6415,7 +6672,7 @@ app.post("/upload/vastuvott/delete", function(req, res) {
 });
 
 
-// add a new field to the "ankeet" section on the "vastuvõtt" page
+// add a new field to the "ankeet" section on the "kontakt" page
 
 app.post("/upload/vastuvott/ankeet/new", function(req, res) {
 
@@ -6447,7 +6704,7 @@ app.post("/upload/vastuvott/ankeet/new", function(req, res) {
 });
 
 
-// delete a field from the ankeet" section on the "vastuvott" page
+// delete a field from the ankeet" section on the "kontakt" page
 
 app.post("/upload/vastuvott/ankeet/delete", function(req, res) {
 
@@ -9243,9 +9500,9 @@ app.post("/upload/ankeet", function(req, res) {
 
   con.query("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'segakoorNoorus' AND TABLE_NAME = 'ankeet'", function(err, result) {
 
-// create an empty array, which will later be populated by column names
+    // create an empty array, which will later be populated by column names
 
-var nameProperties = [];
+    var nameProperties = [];
 
     // loop through the results (starting from position 1, because position 0 is occupied by the id column, which we don't need)
 
@@ -9262,16 +9519,16 @@ var nameProperties = [];
 
     // convert both the ankeetData and nameProperties arrays into strings
 
-var namesString = nameProperties.join(", ");
-var valuesString = ankeetData.join(", ");
+    var namesString = nameProperties.join(", ");
+    var valuesString = ankeetData.join(", ");
 
-// create the sql text to insert all the values into the database table
+    // create the sql text to insert all the values into the database table
 
-var sql = "INSERT INTO ankeet (" + namesString + ") VALUES (" + valuesString + ")";
+    var sql = "INSERT INTO ankeet (" + namesString + ") VALUES (" + valuesString + ")";
 
-      // update the database
+    // update the database
 
-      updateDatabase(sql);
+    updateDatabase(sql);
 
 
     // send a server response
@@ -9321,6 +9578,25 @@ app.post("/upload/ankeet/delete", function(req, res) {
   res.send("OK!");
 });
 
+// retrieve the data that was sent from the form on "telli" page and send an email containing this data
+
+app.post("/upload/telli", function(req, res, next) {
+  var text = req.body.text;
+  var mailOptions = {
+    from: 'joosep_trumm@hotmail.com',
+    to: 'joosep_trumm@hotmail.com',
+    subject: 'Uus tellimus Nooruse kodulehelt',
+    html: text
+  };
+  transporter.sendMail(mailOptions, function(error, info) {
+    if (error) {
+      next(error);
+    } else {
+      console.log('Email sent: ' + info.response);
+      res.send("OK");
+    }
+  });
+});
 
 
 

@@ -1,51 +1,54 @@
-<%- include partials/head {pageTitle: pageTitle, paiseikoon: paiseikoon} -%>
+<%- include partials/head-en {pageTitle: pageTitle, paiseikoon: paiseikoon} -%>
 <%- include partials/navigation-en {currentPage: currentPage} -%>
-<div class="page-kontakt__content">
+<div class="page-kontakt__container">
   <h2 class="heading--secondary heading--purple u-margin-bottom-big">Contact</h2>
-  <div class="page-kontakt__container">
-    <div class="page-kontakt__text-box">
-      <div class="page-kontakt__small-box">
-        <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= kontaktUldineData.pealkiri.en %></h3>
-        <% for (var i = 0; i < kontaktUldineData.loigud.length; i++) { %>
-        <p class="paragraph--large paragraph--purple u-margin-bottom-big"><%= kontaktUldineData.loigud[i].en %></p>
-        <% } %>
-        </div>
-        <div class="page-kontakt__small-box">
-          <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= kontaktAndmedData.pealkiri.en %></h3>
-          <ul class="list">
-            <% for (var i = 0; i < kontaktAndmedData.paarid.length; i++) { %>
-            <li class="list__item"><strong><%= kontaktAndmedData.paarid[i].enKey %>:</strong> <%= kontaktAndmedData.paarid[i].en %></li>
-            <% } %>
-          </ul>
-      </div>
-      <div class="page-kontakt__small-box">
-        <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= kontaktNumbridData.pealkiri.en %></h3>
-        <ul class="list">
-          <% for (var i = 0; i < kontaktNumbridData.numbrid.length; i++) { %>
-          <li class="list__item"><strong><%= kontaktNumbridData.numbrid[i].enKey %>:</strong> <%= kontaktNumbridData.numbrid[i].number %></li>
-          <% } %>
-        </ul>
-      </div>
+  <div class="page-kontakt__text-box">
+    <div class="page-kontakt__small-box">
+      <% for (var i = 0; i < kontaktSissejuhatusData.loigud.length; i++) { %>
+      <p class="paragraph--small paragraph--purple"><%= kontaktSissejuhatusData.loigud[i].en %></p>
+      <% } %>
     </div>
-    <div class="page-kontakt__text-box">
-      <div class="page-kontakt__small-box">
-        <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= kontaktMtuData.pealkiri.en %></h3>
-        <ul class="list">
-          <% for (var i = 0; i < kontaktMtuData.paarid.length; i++) { %>
-          <li class="list__item"><strong><%= kontaktMtuData.paarid[i].enKey %>:</strong> <%= kontaktMtuData.paarid[i].en %></li>
-          <% } %>
-        </ul>
-      </div>
-      <div class="page-kontakt__small-box">
-        <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= kontaktIkoonidData.pealkiri.en %></h3>
-        <div class="page-kontakt__icons">
-          <% for (var i = 0; i < kontaktIkoonidData.ikoonid.length; i++) { %>
-          <a href="<%= kontaktIkoonidData.ikoonid[i].link %>" class="page-kontakt__link" aria-label="Facebooki link">
-            <i class="<%= kontaktIkoonidData.ikoonid[i].ikoon %> page-kontakt__icon"></i>
-          </a>
-          <% } %>
+    <div class="page-kontakt__small-box">
+      <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= kontaktAndmedData.pealkiri.en %></h3>
+      <% for (var i = 0; i < kontaktAndmedData.paarid.length; i++) { %>
+      <p class="paragraph--small paragraph--purple"><strong><%= kontaktAndmedData.paarid[i].enKey %>:</strong> <%= kontaktAndmedData.paarid[i].en %></p>
+      <% } %>
+    </div>
+    <div class="page-kontakt__small-box">
+      <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= kontaktNumbridData.pealkiri.en %></h3>
+      <ul class="list">
+        <% for (var i = 0; i < kontaktNumbridData.numbrid.length; i++) { %>
+        <li class="list__item"><strong><%= kontaktNumbridData.numbrid[i].enKey %>:</strong> <%= kontaktNumbridData.numbrid[i].number %></li>
+        <% } %>
+      </ul>
+    </div>
+    <div class="page-kontakt__small-box">
+      <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= kontaktMtuData.pealkiri.en %></h3>
+      <ul class="list">
+        <% for (var i = 0; i < kontaktMtuData.paarid.length; i++) { %>
+        <li class="list__item"><strong><%= kontaktMtuData.paarid[i].enKey %>:</strong> <%= kontaktMtuData.paarid[i].en %></li>
+        <% } %>
+      </ul>
+    </div>
+    <div class="page-kontakt__small-box">
+      <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= kontaktUldineData.pealkiri.en %></h3>
+      <% for (var i = 0; i < kontaktUldineData.loigud.length; i++) { %>
+      <p class="paragraph--small paragraph--purple"><%= kontaktUldineData.loigud[i].en %></p>
+      <% } %>
+    </div>
+  </div>
+  <div class="page-kontakt__text-box">
+    <div class="form__column">
+      <form action="" class="form" name="vastuvott">
+        <h3 class="heading--tertiary heading--purple u-margin-bottom-small"><%= vastuvottAnkeetData.pealkiri.en %></h3>
+        <% for (var i = 0; i < vastuvottAnkeetData.valjad.length; i++) { %>
+        <div class="form__field">
+          <p class="paragraph--small paragraph--purple paragraph--inline u-margin-right-small">*</p>
+          <input type="text" class="form__input" name="" placeholder="<%= vastuvottAnkeetData.valjad[i].en %>" required aria-label="<%= vastuvottAnkeetData.valjad[i].en %>">
         </div>
-      </div>
+        <% } %>
+        <button class="btn btn--main btn--dark u-margin-top-small" type="submit" name="submit">Send</button>
+      </form>
     </div>
   </div>
 </div>

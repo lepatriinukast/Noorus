@@ -1,5 +1,11 @@
+// J S  V A R I A B L E   D E F I N I T I O N S   F O R   T H E   A D M I N   P A G E S
 
-// GET ALL THE RELEVANT DOM ELEMENTS
+
+
+// GET ALL THE RELEVANT DOM ELEMENTS (FORMS, SUBFORMS, BUTTONS, INPUTS, POPUPS)
+
+
+
 
 // forms
 
@@ -24,7 +30,6 @@ var dirigendidSubformArray = Array.from(document.querySelectorAll(".dirigendidSu
 var ajaluguSubformArray = Array.from(document.querySelectorAll(".ajaluguSubform"));
 var sundmusedSubformArray = Array.from(document.querySelectorAll(".sundmusedSubform"));
 var moodunudSubformArray = Array.from(document.querySelectorAll(".moodunudSubform"));
-
 
 // image upload inputs
 
@@ -71,6 +76,7 @@ var meediaLoikAddBtn = document.getElementById("meediaLoikAddBtn");
 var meediaVideoLoikAddBtn = document.getElementById("meediaVideoLoikAddBtn");
 var meediaLinkLoikAddBtn = document.getElementById("meediaLinkLoikAddBtn");
 var toetajadLoikAddBtn = document.getElementById("toetajadLoikAddBtn");
+var kontaktSissejuhatusLoikAddBtn = document.getElementById("kontaktSissejuhatusLoikAddBtn");
 var uldineLoikAddBtn = document.getElementById("uldineLoikAddBtn");
 var andmedLoikAddBtn = document.getElementById("andmedLoikAddBtn");
 var numbridLoikAddBtn = document.getElementById("numbridLoikAddBtn");
@@ -105,6 +111,7 @@ var meediaLoikDeleteBtnArray = Array.from(document.querySelectorAll(".meediaLoik
 var meediaVideoLoikDeleteBtnArray = Array.from(document.querySelectorAll(".meediaVideoLoikDeleteBtn"));
 var meediaLinkLoikDeleteBtnArray = Array.from(document.querySelectorAll(".meediaLinkLoikDeleteBtn"));
 var toetajadLoikDeleteBtnArray = Array.from(document.querySelectorAll(".toetajadLoikDeleteBtn"));
+var kontaktSissejuhatusLoikDeleteBtnArray = Array.from(document.querySelectorAll(".kontaktSissejuhatusLoikDeleteBtn"));
 var uldineLoikDeleteBtnArray = Array.from(document.querySelectorAll(".uldineLoikDeleteBtn"));
 var andmedLoikDeleteBtnArray = Array.from(document.querySelectorAll(".andmedLoikDeleteBtn"));
 var numbridLoikDeleteBtnArray = Array.from(document.querySelectorAll(".numbridLoikDeleteBtn"));
@@ -171,3 +178,7 @@ var dirigendidDeleteBtnArray = Array.from(document.querySelectorAll(".dirigendid
 var ajaluguDeleteBtnArray = Array.from(document.querySelectorAll(".ajaluguDeleteBtn"));
 var sundmusedDeleteBtnArray = Array.from(document.querySelectorAll(".sundmusedDeleteBtn"));
 var moodunudDeleteBtnArray = Array.from(document.querySelectorAll(".moodunudDeleteBtn"));
+
+// get all the "fake" inputs on a page as an array
+
+var editableInputArray = document.querySelectorAll(".editable-input");
