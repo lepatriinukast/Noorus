@@ -30,14 +30,14 @@ var popup = document.getElementById("popup");
 var popupForm = document.getElementById("popup-form");
 var popupButton = document.getElementById("popup-button");
 
-// button arrays on the "pood" page
+// arrays of dynamic elements on the "pood" page
 
 var linkBtnArray = document.querySelectorAll(".linkBtn");
 var orderBtnArray = document.querySelectorAll(".orderBtn");
+var textBoxArray = document.querySelectorAll(".textBox");
 
 // buttons and dynamic elements on the "telli" page
 
-var orderForm = document.getElementById("orderForm");
 var hiddenCheckbox = document.getElementById("hiddenCheckbox");
 var hiddenSum = document.getElementById("hiddenSum");
 var itemCountArray = document.querySelectorAll(".itemCount");
@@ -45,6 +45,11 @@ var numberBtnMinusArray = document.querySelectorAll(".numberBtnMinus");
 var numberBtnPlusArray = document.querySelectorAll(".numberBtnPlus");
 var priceArray = document.querySelectorAll(".price");
 var sum = document.getElementById("sum");
+
+// client-side forms
+
+var orderForm = document.getElementById("orderForm");
+var contactForm = document.getElementById("contactForm");
 
 
 
@@ -286,6 +291,30 @@ function listenEvents(event) {
 
 
 
+// call the changePrice function on all the price elements when loading the page
+
+
+for (var i = 0; i < priceArray.length; i++) {
+
+  // get each price element in the array separately
+
+  var priceElement = priceArray[i];
+
+  // use the same iterator and get a corresponding number input from the itemCountArray
+
+  var numberInput = itemCountArray[i];
+
+  // check the value of this number input
+
+  if (numberInput.value != 0) {
+
+    // if it is anything other than 0, call the changePrice function
+
+    changePrice(priceElement, i);
+  }
+}
+
+
 //listen to clicks and touches on the "show more" buttons on the "pood" page
 
 
@@ -399,15 +428,58 @@ for (let i = 0; i < itemCountArray.length; i++) {
 }
 
 
-// listen to the "submit" event on the "telli" page
+// listen to the "submit" event on the "telli" and "kontakt" pages
 
 
 if (orderForm !== null) {
   orderForm.addEventListener("submit", function(event) {
-    ajaxPostForm(event);
+    ajaxPostForm(event, "telli/email", createOrderData());
   });
 }
 
+if (contactForm !== null) {
+  contactForm.addEventListener("submit", function(event) {
+    alert("A");
+    ajaxPostForm(event, "kontakt/email", createContactData());
+  });
+}
+
+
+// when the "pood" page loads, check if any textbox elements are overflown
+
+if (textBoxArray.length !== 0) {
+  for (var i = 0; i < textBoxArray.length; i++) {
+    checkIfOverflown(textBoxArray[i]);
+  }
+}
+
+
+// function that checks whether the element is vertically overflown
+
+function checkIfOverflown(element) {
+
+  // check if the provided element is overflown
+
+  if (element.scrollHeight > element.clientHeight) {
+
+    // if yes, obtain its id attribute
+
+    var id = element.id;
+
+    // get the id number from the end of the id
+
+    var idNumber = id.slice(7);
+
+    // use this id number to get a corresponding link button on the page
+
+    var linkBtn = document.getElementById("linkBtn" + idNumber);
+
+    // display this link button by removing the "delete" class from its classlist
+
+    linkBtn.classList.remove("delete");
+  }
+
+}
 
 // function for showing the overflown contents of an item on the "pood" page
 
@@ -805,31 +877,32 @@ function calculateSum() {
 }
 
 
-
-// function for creating the order data to be sent to the server
+// functions for creating data about client-side forms to be sent to the server
 
 
 function createOrderData() {
 
   var data = {
-    contactInfo: {
-      name: document.getElementById("name").value,
-      postAddress: document.getElementById("postAddress").value,
-      eMail: document.getElementById("eMail").value,
-      phoneNumber: document.getElementById("phoneNumber").value,
-      additionalInfo: document.getElementById("additionalInfo").value
-    },
+    contactInfo: [],
     sum: document.getElementById("sum").innerHTML,
     items: []
   };
+  for (var i = 0; i < document.querySelectorAll(".telliField").length; i++) {
 
-  for (var i = 0; i < document.querySelectorAll(".itemCount").length; i++) {
+    var pair = {
+      key: document.querySelectorAll(".telliField")[i].getAttribute("placeholder"),
+      field: document.querySelectorAll(".telliField")[i].value,
+    };
+    data.contactInfo.push(pair);
+  }
+
+  for (var a = 0; a < document.querySelectorAll(".itemCount").length; a++) {
 
     var item = {
-      name: document.querySelectorAll(".itemCount")[i].dataset.heading,
-      count: document.querySelectorAll(".itemCount")[i].value,
-      price: document.querySelectorAll(".itemCount")[i].dataset.price,
-      totalPrice: Number(document.querySelectorAll(".itemCount")[i].value) * Number(document.querySelectorAll(".itemCount")[i].dataset.price)
+      name: document.querySelectorAll(".itemCount")[a].dataset.heading,
+      count: document.querySelectorAll(".itemCount")[a].value,
+      price: document.querySelectorAll(".itemCount")[a].dataset.price,
+      totalPrice: Number(document.querySelectorAll(".itemCount")[a].value) * Number(document.querySelectorAll(".itemCount")[a].dataset.price)
     };
 
     if (item.count != 0) {
@@ -839,18 +912,67 @@ function createOrderData() {
 
   var itemStrings = [];
 
-  for (var i = 0; i < data.items.length; i++) {
+  for (var b = 0; b < data.items.length; b++) {
 
-    var itemString = data.items[i].name + "-  kogus: " + data.items[i].count + ",  toote hind: " + data.items[i].price + " €";
+    var itemString = data.items[b].name + "-  kogus: " + data.items[b].count + ",  toote hind: " + data.items[b].price + " €";
 
     itemStrings.push(itemString);
   }
 
   var itemsJoined = itemStrings.join("<br>");
 
-  var eMailText = '<p>Tellitud tooted: <br> <br>' + itemsJoined + '<br> <br>' + data.sum + '<br> <br> Tellija kontaktandmed: <br> <br> Nimi: ' + data.contactInfo.name + '<br> Postiaadress: ' + data.contactInfo.postAddress + '<br> E-mail: ' + data.contactInfo.eMail + '<br> Telefoninumber: ' + data.contactInfo.phoneNumber + '<br> Lisainfo: ' + data.contactInfo.additionalInfo + '</p>';
+  var contactStrings = [];
 
-return eMailText;
+  for (var c = 0; c < data.contactInfo.length; c++) {
+
+    var placeholderString = data.contactInfo[c].key;
+    var fieldString = data.contactInfo[c].field;
+
+    var contactString = placeholderString + ": " + fieldString;
+
+    contactStrings.push(contactString);
+  }
+
+  var contactJoined = contactStrings.join("<br>");
+
+  var eMailText = '<p>Tellitud tooted: <br> <br>' + itemsJoined + '<br> <br>' + data.sum + '<br> <br> Tellija kontaktandmed: <br> <br>' + contactJoined + '</p>';
+
+  return eMailText;
+}
+
+
+function createContactData() {
+
+  var data = {
+    contactInfo: [],
+  };
+  for (var i = 0; i < document.querySelectorAll(".vastuvottField").length; i++) {
+
+    var pair = {
+      key: document.querySelectorAll(".vastuvottField")[i].getAttribute("placeholder"),
+      field: document.querySelectorAll(".vastuvottField")[i].value,
+    };
+    data.contactInfo.push(pair);
+  }
+
+  var contactStrings = [];
+
+  for (var c = 0; c < data.contactInfo.length; c++) {
+
+    var placeholderString = data.contactInfo[c].key;
+    var fieldString = data.contactInfo[c].field;
+
+    var contactString = placeholderString + ": " + fieldString;
+
+    contactStrings.push(contactString);
+  }
+
+  var contactJoined = contactStrings.join("<br>");
+
+  var eMailText = '<p>Registreerunu andmed: <br> <br>' + contactJoined + '</p>';
+
+console.log(eMailText);
+  return eMailText;
 }
 
 
@@ -858,7 +980,7 @@ return eMailText;
 // function for posting data from the "telli" page to the server
 
 
-function ajaxPostForm(event) {
+function ajaxPostForm(event, destination, dataFunction) {
 
   // prevent the form from submitting
 
@@ -870,7 +992,7 @@ function ajaxPostForm(event) {
 
   // open an XHTTP post request
 
-  xhr.open("POST", "/upload/telli", true);
+  xhr.open("POST", "/upload/" + destination, true);
 
   // manually set a request header, so that the server knows what type of data to expect
 
@@ -878,11 +1000,13 @@ function ajaxPostForm(event) {
 
   // get the data that will be sent to the server by calling a data creation function
 
-  var data = createOrderData();
+  var data = dataFunction;
 
   // turn the created data into JSON
 
   var jsonData = JSON.stringify(data);
+
+  console.log(jsonData);
 
   // check if the request is ready
 
@@ -897,7 +1021,7 @@ function ajaxPostForm(event) {
       // if there is a problem, create a failure message
 
     } else if (this.status !== 200) {
-        window.location.href = "/nurjunud";
+      window.location.href = "/nurjunud";
     }
   };
 

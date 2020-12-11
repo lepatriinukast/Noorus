@@ -3,6 +3,29 @@
 
 
 
+// function that creates the output string from boolean values
+
+function convertCheckedValue(boolean) {
+
+  // check if the provided boolean is true
+
+  if (boolean === true) {
+
+    // if yes, return a "*"
+
+    return "*";
+
+    // if not, return an empty string
+
+  } else {
+
+    return "";
+  }
+}
+
+
+
+
 //Functions that create data for ajax post calls handled by body-parser
 
 
@@ -292,7 +315,6 @@ function createKontaktData() {
     };
     kontaktData.mtu.paarid.push(teaveMtu);
   }
-  console.log(kontaktData);
   return kontaktData;
 }
 
@@ -318,7 +340,7 @@ function createVastuvottData() {
   for (var i = 0; i < document.querySelectorAll(".vastuvottLoik").length; i++) {
     var loik = {
       est: encodeURIComponent(document.querySelectorAll(".vastuvottLoikEst")[i].value),
-      en: encodeURIComponent(document.querySelectorAll(".vastuvottLoikEn")[i].value),
+      en: encodeURIComponent(document.querySelectorAll(".vastuvottLoikEn")[i].value)
     };
     vastuvottData.tekstid.loigud.push(loik);
   }
@@ -326,10 +348,47 @@ function createVastuvottData() {
     var vali = {
       est: encodeURIComponent(document.querySelectorAll(".ankeetLoikEst")[a].value),
       en: encodeURIComponent(document.querySelectorAll(".ankeetLoikEn")[a].value),
+      checked: convertCheckedValue(document.querySelectorAll(".ankeetLoikCheckbox")[a].checked)
     };
     vastuvottData.ankeet.valjad.push(vali);
   }
   return vastuvottData;
+}
+
+
+function createTelliData() {
+
+  var telliData = {
+      loigud: [],
+    ankeet: {
+      pealkiri: {
+        est: encodeURIComponent(document.getElementById("kontaktandmedPealkiriEst").value),
+        en: encodeURIComponent(document.getElementById("kontaktandmedPealkiriEn").value)
+      },
+      jarelloik: {
+        est: encodeURIComponent(document.getElementById("kontaktandmedJarelloikEst").value),
+        en: encodeURIComponent(document.getElementById("kontaktandmedJarelloikEn").value)
+      },
+      valjad: []
+    }
+  };
+  for (var i = 0; i < document.querySelectorAll(".telliLoik").length; i++) {
+    var loik = {
+      est: encodeURIComponent(document.querySelectorAll(".telliLoikEst")[i].value),
+      en: encodeURIComponent(document.querySelectorAll(".telliLoikEn")[i].value)
+    };
+    telliData.loigud.push(loik);
+  }
+  for (var a = 0; a < document.querySelectorAll(".kontaktandmedLoik").length; a++) {
+    var vali = {
+      est: encodeURIComponent(document.querySelectorAll(".kontaktandmedLoikEst")[a].value),
+      en: encodeURIComponent(document.querySelectorAll(".kontaktandmedLoikEn")[a].value),
+      checked: convertCheckedValue(document.querySelectorAll(".kontaktandmedLoikCheckbox")[a].checked)
+    };
+    telliData.ankeet.valjad.push(vali);
+  }
+  console.log(telliData);
+  return telliData;
 }
 
 
@@ -399,7 +458,7 @@ function createDeleteDirigendidData(target) {
 }
 
 
-// function for creating the data necessary to delete a "sundmused" subform, which will be sent to the server
+// function for creating the data necessary to delete an "ajalugu" subform, which will be sent to the server
 
 function createDeleteAjaluguData(target) {
 
@@ -439,6 +498,28 @@ function createDeleteSundmusedData(target, textQuery) {
 }
 
 
+// function for creating the data necessary to delete a "pood" subform, which will be sent to the server
+
+function createDeletePoodData(target) {
+
+  // obtain the id number of the deleted subform using the target id
+
+  var idNumber = target.id.slice(4, -7);
+
+
+  // construct a js object that includes information about the deleted element, which will be sent to the server
+
+  var deleteData = {
+    formName: "poodSubform",
+    idNumber: idNumber
+  };
+
+  // return the constructed object
+
+  return deleteData;
+}
+
+
 // function for creating the data necessary to delete a "moodunud" subform, which will be sent to the server
 
 function createDeleteMoodunudData(target) {
@@ -451,7 +532,7 @@ function createDeleteMoodunudData(target) {
   // construct a js object that includes information about the deleted element, which will be sent to the server
 
   var deleteData = {
-    formName: "sundmusedSubform",
+    formName: "moodunudSubform",
     idNumber: idNumber
   };
 

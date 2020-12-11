@@ -13,23 +13,9 @@
     </div>
   </div>
 <h2 class="page-admin__title">Andmebaas</h2>
-<h2 class="page-admin__title u-margin-top-big">Registreerunute nimekiri</h2>
-<table class="page-admin__table">
-  <tr>
-    <% for (var i = 0; i < vastuvottAnkeetData.valjad.length; i++) { %>
-    <th class="page-admin__table-cell page-admin__heading"><%= vastuvottAnkeetData.valjad[i].est %></th>
-    <% } %>
-  </tr>
-<% for (var a = 0; a < ankeetData.length; a++) { %>
-  <tr class="andmebaasLoik" id="andmebaasLoik<%= a + 1 %>" name="andmebaasLoik<%= a + 1 %>">
-    <% for (var i = 0; i < vastuvottAnkeetData.valjad.length; i++) { %>
-    <td class="page-admin__table-cell"><%= ankeetData[a][i] %></td>
-    <% } %>
-    <td class ="page-admin__small-btn andmebaasLoikDeleteBtn" id="andmebaasLoikDeleteBtn<%= a + 1 %>" name="andmebaasLoikDeleteBtn<%= a + 1 %>">Kustuta</td>
-  </tr>
-  <% } %>
-</table>
-<h2 class="page-admin__title">Möödunud sündmused</h2>
+<h2 class="page-admin__subtitle u-margin-top-big">Registreerunute nimekiri</h2>
+
+<h2 class="page-admin__subtitle">Möödunud sündmused</h2>
 <form action="/upload/moodunud" method="post" class="page-admin__form" id="moodunud">
 <div class="page-admin__form-wrapper" id="moodunudForm">
   <% for (var a = 0; a < moodunudData.length; a++) { %>

@@ -11,9 +11,9 @@ var con = mysql.createConnection({
 
 con.connect(function(err) {
   if (err) throw err;
-  var sql = "INSERT INTO kontaktuldine (name, est, en) VALUES ?";
+  var sql = "INSERT INTO telliankeet (name, est, en, checked) VALUES ?";
   var values = [
-    ["pealkiri", "a", "u"],
+    ["jarelloik", "a", "u", ""],
   ];
   con.query(sql, [values], function(err, result) {
     if (err) throw err;

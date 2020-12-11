@@ -658,21 +658,129 @@ app.get("/pood", function(req, res) {
       url: result[0].url,
       filename: result[0].url.slice(5)
     };
-    con.query("SELECT * FROM pealkirjad ORDER BY id", function(err, result) {
+    con.query("SELECT * FROM poodsissejuhatus ORDER BY id", function(err, result) {
       if (err) throw err;
-      var pealkirjadData = [];
+      var poodSissejuhatusData = {
+        loigud: []
+      };
       for (var i = 0; i < result.length; i++) {
-        var pealkiri = {
+        var loik = {
           est: result[i].est,
           en: result[i].en
         };
-        pealkirjadData.push(pealkiri);
+        poodSissejuhatusData.loigud.push(loik);
       }
-      res.render("pood", {
-        pageTitle: pageTitle,
-        currentPage: currentPage,
-        paiseikoon: paiseikoon,
-        pealkirjadData: pealkirjadData,
+      // find the dynamic "pood" tables from the database and sort them into an array
+
+      var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'segakoorNoorus' ORDER by table_name";
+
+      con.query(sql, async function(err, result) {
+        if (err) throw err;
+
+        var poodTableNames = [];
+
+        for (var i = 0; i < result.length; i++) {
+
+          var tableName = (result[i].table_name);
+
+          if (tableName.indexOf("pood") !== -1 && tableName.indexOf("pildid") === -1 && tableName.indexOf("sissejuhatus") === -1) {
+
+            poodTableNames.push(tableName);
+          }
+        }
+
+        var sortedPoodTableNames = poodTableNames.sort(function(a, b) {
+          return a - b;
+        });
+
+
+        // to get the necessary data for dynamic subforms, we need to use async functions with promises,
+        // this is necessary, because we often need to wait for database queries,
+        // but because we need to have loops in our code, we cannot use callbacks like we normally do
+        // (for this advanced js code, we also use new arrow functions)
+
+
+        // a function, which returns a promise that will be resolved to a "pood" object once the database query has completed,
+        // takes an argument, which is the relevant database table name
+
+
+        const constructPoodPromise = tableName => {
+
+          return new Promise((resolve, reject) => {
+
+            con.query("SELECT * FROM " + tableName + " ORDER by id", function(err, result) {
+              if (err) throw err;
+
+              var pood = {
+                toode: {
+                  est: result[0].est,
+                  en: result[0].en,
+                  price: result[0].price
+                },
+                loigud: []
+              };
+              for (let b = 1; b < result.length; b++) {
+                var loik = {
+                  est: result[b].est,
+                  en: result[b].en,
+                  price: 0
+                };
+                pood.loigud.push(loik);
+              }
+              if (err) {
+                reject(err);
+              } else {
+                resolve(pood);
+              }
+            });
+          });
+        };
+
+
+        // create an array of the "pood" promises constructed above, using the map method
+
+        const poodDataPromise = sortedPoodTableNames.map(async tableName => {
+
+          const pood = await constructPoodPromise(tableName);
+
+          return pood;
+        });
+
+        // wait for all the promises to be resolved into an array of "pood" objects
+
+        var poodData = await Promise.all(poodDataPromise);
+
+        con.query("SELECT * FROM poodpildid ORDER by id", function(err, result) {
+          if (err) throw err;
+          var pildid = [];
+          for (var i = 0; i < result.length; i++) {
+            var pilt = {
+              url: result[i].url,
+              filename: result[i].url.slice(5)
+            };
+            pildid.push(pilt);
+          }
+          con.query("SELECT * FROM pealkirjad ORDER BY id", function(err, result) {
+            if (err) throw err;
+            var pealkirjadData = [];
+            for (var i = 0; i < result.length; i++) {
+              var pealkiri = {
+                est: result[i].est,
+                en: result[i].en
+              };
+              pealkirjadData.push(pealkiri);
+            }
+            res.render("pood", {
+              pageTitle: pageTitle,
+              currentPage: currentPage,
+              paiseikoon: paiseikoon,
+              pealkirjadData: pealkirjadData,
+              poodSissejuhatusData: poodSissejuhatusData,
+              poodData: poodData,
+              pildid: pildid,
+            });
+          });
+        });
       });
     });
   });
@@ -1085,7 +1193,8 @@ app.get("/kontakt", function(req, res) {
                   for (var i = 1; i < result.length; i++) {
                     var vali = {
                       est: result[i].est,
-                      en: result[i].en
+                      en: result[i].en,
+                      checked: result[i].checked
                     };
                     vastuvottAnkeetData.valjad.push(vali);
                   }
@@ -1133,22 +1242,140 @@ app.get("/telli" + ":number", function(req, res) {
       url: result[0].url,
       filename: result[0].url.slice(5)
     };
-    con.query("SELECT * FROM pealkirjad ORDER BY id", function(err, result) {
+    con.query("SELECT * FROM telli ORDER BY id", function(err, result) {
       if (err) throw err;
-      var pealkirjadData = [];
+      var telliData = {
+        loigud: []
+      };
       for (var i = 0; i < result.length; i++) {
-        var pealkiri = {
+        var loik = {
           est: result[i].est,
           en: result[i].en
         };
-        pealkirjadData.push(pealkiri);
+        telliData.loigud.push(loik);
       }
-      res.render("telli", {
-        pageTitle: pageTitle,
-        currentPage: currentPage,
-        number: number,
-        paiseikoon: paiseikoon,
-        pealkirjadData: pealkirjadData
+      con.query("SELECT * FROM telliankeet ORDER BY id", function(err, result) {
+        if (err) throw err;
+        var telliAnkeetData = {
+          pealkiri: {
+            est: result[0].est,
+            en: result[0].en
+          },
+          jarelloik: {
+            est: result[1].est,
+            en: result[1].en
+          },
+          valjad: []
+        };
+        for (var i = 2; i < result.length; i++) {
+          var vali = {
+            est: result[i].est,
+            en: result[i].en,
+            checked: result[i].checked
+          };
+          telliAnkeetData.valjad.push(vali);
+        }
+        // find the dynamic "pood" tables from the database and sort them into an array
+
+        var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'segakoorNoorus' ORDER by table_name";
+
+        con.query(sql, async function(err, result) {
+          if (err) throw err;
+
+          var poodTableNames = [];
+
+          for (var i = 0; i < result.length; i++) {
+
+            var tableName = (result[i].table_name);
+
+            if (tableName.indexOf("pood") !== -1 && tableName.indexOf("pildid") === -1 && tableName.indexOf("sissejuhatus") === -1) {
+
+              poodTableNames.push(tableName);
+            }
+          }
+
+          var sortedPoodTableNames = poodTableNames.sort(function(a, b) {
+            return a - b;
+          });
+
+
+          // to get the necessary data for dynamic subforms, we need to use async functions with promises,
+          // this is necessary, because we often need to wait for database queries,
+          // but because we need to have loops in our code, we cannot use callbacks like we normally do
+          // (for this advanced js code, we also use new arrow functions)
+
+
+          // a function, which returns a promise that will be resolved to a "pood" object once the database query has completed,
+          // takes an argument, which is the relevant database table name
+
+
+          const constructPoodPromise = tableName => {
+
+            return new Promise((resolve, reject) => {
+
+              con.query("SELECT * FROM " + tableName + " ORDER by id", function(err, result) {
+                if (err) throw err;
+
+                var pood = {
+                  toode: {
+                    est: result[0].est,
+                    en: result[0].en,
+                    price: result[0].price
+                  },
+                  loigud: []
+                };
+                for (let b = 1; b < result.length; b++) {
+                  var loik = {
+                    est: result[b].est,
+                    en: result[b].en,
+                    price: result[b].price
+                  };
+                  pood.loigud.push(loik);
+                }
+                if (err) {
+                  reject(err);
+                } else {
+                  resolve(pood);
+                }
+              });
+            });
+          };
+
+
+          // create an array of the "pood" promises constructed above, using the map method
+
+          const poodDataPromise = sortedPoodTableNames.map(async tableName => {
+
+            const pood = await constructPoodPromise(tableName);
+
+            return pood;
+          });
+
+          // wait for all the promises to be resolved into an array of "pood" objects
+
+          var poodData = await Promise.all(poodDataPromise);
+          con.query("SELECT * FROM pealkirjad ORDER BY id", function(err, result) {
+            if (err) throw err;
+            var pealkirjadData = [];
+            for (var i = 0; i < result.length; i++) {
+              var pealkiri = {
+                est: result[i].est,
+                en: result[i].en
+              };
+              pealkirjadData.push(pealkiri);
+            }
+            res.render("telli", {
+              pageTitle: pageTitle,
+              currentPage: currentPage,
+              number: number,
+              paiseikoon: paiseikoon,
+              pealkirjadData: pealkirjadData,
+              telliData: telliData,
+              telliAnkeetData: telliAnkeetData,
+              poodData: poodData
+            });
+          });
+        });
       });
     });
   });
@@ -1806,25 +2033,134 @@ app.get("/en/shop", function(req, res) {
       url: result[0].url,
       filename: result[0].url.slice(5)
     };
-    con.query("SELECT * FROM pealkirjad ORDER BY id", function(err, result) {
+    con.query("SELECT * FROM poodsissejuhatus ORDER BY id", function(err, result) {
       if (err) throw err;
-      var pealkirjadData = [];
+      var poodSissejuhatusData = {
+        loigud: []
+      };
       for (var i = 0; i < result.length; i++) {
-        var pealkiri = {
+        var loik = {
           est: result[i].est,
           en: result[i].en
         };
-        pealkirjadData.push(pealkiri);
+        poodSissejuhatusData.loigud.push(loik);
       }
-      res.render("shop", {
-        pageTitle: pageTitle,
-        currentPage: currentPage,
-        paiseikoon: paiseikoon,
-        pealkirjadData: pealkirjadData
+      // find the dynamic "pood" tables from the database and sort them into an array
+
+      var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'segakoorNoorus' ORDER by table_name";
+
+      con.query(sql, async function(err, result) {
+        if (err) throw err;
+
+        var poodTableNames = [];
+
+        for (var i = 0; i < result.length; i++) {
+
+          var tableName = (result[i].table_name);
+
+          if (tableName.indexOf("pood") !== -1 && tableName.indexOf("pildid") === -1 && tableName.indexOf("sissejuhatus") === -1) {
+
+            poodTableNames.push(tableName);
+          }
+        }
+
+        var sortedPoodTableNames = poodTableNames.sort(function(a, b) {
+          return a - b;
+        });
+
+
+        // to get the necessary data for dynamic subforms, we need to use async functions with promises,
+        // this is necessary, because we often need to wait for database queries,
+        // but because we need to have loops in our code, we cannot use callbacks like we normally do
+        // (for this advanced js code, we also use new arrow functions)
+
+
+        // a function, which returns a promise that will be resolved to a "pood" object once the database query has completed,
+        // takes an argument, which is the relevant database table name
+
+
+        const constructPoodPromise = tableName => {
+
+          return new Promise((resolve, reject) => {
+
+            con.query("SELECT * FROM " + tableName + " ORDER by id", function(err, result) {
+              if (err) throw err;
+
+              var pood = {
+                toode: {
+                  est: result[0].est,
+                  en: result[0].en,
+                  price: result[0].price
+                },
+                loigud: []
+              };
+              for (let b = 1; b < result.length; b++) {
+                var loik = {
+                  est: result[b].est,
+                  en: result[b].en,
+                  price: 0
+                };
+                pood.loigud.push(loik);
+              }
+              if (err) {
+                reject(err);
+              } else {
+                resolve(pood);
+              }
+            });
+          });
+        };
+
+
+        // create an array of the "pood" promises constructed above, using the map method
+
+        const poodDataPromise = sortedPoodTableNames.map(async tableName => {
+
+          const pood = await constructPoodPromise(tableName);
+
+          return pood;
+        });
+
+        // wait for all the promises to be resolved into an array of "pood" objects
+
+        var poodData = await Promise.all(poodDataPromise);
+
+        con.query("SELECT * FROM poodpildid ORDER by id", function(err, result) {
+          if (err) throw err;
+          var pildid = [];
+          for (var i = 0; i < result.length; i++) {
+            var pilt = {
+              url: result[i].url,
+              filename: result[i].url.slice(5)
+            };
+            pildid.push(pilt);
+          }
+          con.query("SELECT * FROM pealkirjad ORDER BY id", function(err, result) {
+            if (err) throw err;
+            var pealkirjadData = [];
+            for (var i = 0; i < result.length; i++) {
+              var pealkiri = {
+                est: result[i].est,
+                en: result[i].en
+              };
+              pealkirjadData.push(pealkiri);
+            }
+            res.render("shop", {
+              pageTitle: pageTitle,
+              currentPage: currentPage,
+              paiseikoon: paiseikoon,
+              pealkirjadData: pealkirjadData,
+              poodSissejuhatusData: poodSissejuhatusData,
+              poodData: poodData,
+              pildid: pildid,
+            });
+          });
+        });
       });
     });
   });
 });
+
 
 app.get("/en/events", function(req, res) {
   var pageTitle = "Events";
@@ -2233,7 +2569,8 @@ app.get("/en/contact", function(req, res) {
                   for (var i = 1; i < result.length; i++) {
                     var vali = {
                       est: result[i].est,
-                      en: result[i].en
+                      en: result[i].en,
+                      checked: result[i].checked
                     };
                     vastuvottAnkeetData.valjad.push(vali);
                   }
@@ -2282,22 +2619,140 @@ app.get("/en/order" + ":number", function(req, res) {
       url: result[0].url,
       filename: result[0].url.slice(5)
     };
-    con.query("SELECT * FROM pealkirjad ORDER BY id", function(err, result) {
+    con.query("SELECT * FROM telli ORDER BY id", function(err, result) {
       if (err) throw err;
-      var pealkirjadData = [];
+      var telliData = {
+        loigud: []
+      };
       for (var i = 0; i < result.length; i++) {
-        var pealkiri = {
+        var loik = {
           est: result[i].est,
           en: result[i].en
         };
-        pealkirjadData.push(pealkiri);
+        telliData.loigud.push(loik);
       }
-      res.render("order", {
-        pageTitle: pageTitle,
-        currentPage: currentPage,
-        number: number,
-        paiseikoon: paiseikoon,
-        pealkirjadData: pealkirjadData
+      con.query("SELECT * FROM telliankeet ORDER BY id", function(err, result) {
+        if (err) throw err;
+        var telliAnkeetData = {
+          pealkiri: {
+            est: result[0].est,
+            en: result[0].en
+          },
+          jarelloik: {
+            est: result[1].est,
+            en: result[1].en
+          },
+          valjad: []
+        };
+        for (var i = 2; i < result.length; i++) {
+          var vali = {
+            est: result[i].est,
+            en: result[i].en,
+            checked: result[i].checked
+          };
+          telliAnkeetData.valjad.push(vali);
+        }
+        // find the dynamic "pood" tables from the database and sort them into an array
+
+        var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'segakoorNoorus' ORDER by table_name";
+
+        con.query(sql, async function(err, result) {
+          if (err) throw err;
+
+          var poodTableNames = [];
+
+          for (var i = 0; i < result.length; i++) {
+
+            var tableName = (result[i].table_name);
+
+            if (tableName.indexOf("pood") !== -1 && tableName.indexOf("pildid") === -1 && tableName.indexOf("sissejuhatus") === -1) {
+
+              poodTableNames.push(tableName);
+            }
+          }
+
+          var sortedPoodTableNames = poodTableNames.sort(function(a, b) {
+            return a - b;
+          });
+
+
+          // to get the necessary data for dynamic subforms, we need to use async functions with promises,
+          // this is necessary, because we often need to wait for database queries,
+          // but because we need to have loops in our code, we cannot use callbacks like we normally do
+          // (for this advanced js code, we also use new arrow functions)
+
+
+          // a function, which returns a promise that will be resolved to a "pood" object once the database query has completed,
+          // takes an argument, which is the relevant database table name
+
+
+          const constructPoodPromise = tableName => {
+
+            return new Promise((resolve, reject) => {
+
+              con.query("SELECT * FROM " + tableName + " ORDER by id", function(err, result) {
+                if (err) throw err;
+
+                var pood = {
+                  toode: {
+                    est: result[0].est,
+                    en: result[0].en,
+                    price: result[0].price
+                  },
+                  loigud: []
+                };
+                for (let b = 1; b < result.length; b++) {
+                  var loik = {
+                    est: result[b].est,
+                    en: result[b].en,
+                    price: result[b].price
+                  };
+                  pood.loigud.push(loik);
+                }
+                if (err) {
+                  reject(err);
+                } else {
+                  resolve(pood);
+                }
+              });
+            });
+          };
+
+
+          // create an array of the "pood" promises constructed above, using the map method
+
+          const poodDataPromise = sortedPoodTableNames.map(async tableName => {
+
+            const pood = await constructPoodPromise(tableName);
+
+            return pood;
+          });
+
+          // wait for all the promises to be resolved into an array of "pood" objects
+
+          var poodData = await Promise.all(poodDataPromise);
+          con.query("SELECT * FROM pealkirjad ORDER BY id", function(err, result) {
+            if (err) throw err;
+            var pealkirjadData = [];
+            for (var i = 0; i < result.length; i++) {
+              var pealkiri = {
+                est: result[i].est,
+                en: result[i].en
+              };
+              pealkirjadData.push(pealkiri);
+            }
+            res.render("order", {
+              pageTitle: pageTitle,
+              currentPage: currentPage,
+              number: number,
+              paiseikoon: paiseikoon,
+              pealkirjadData: pealkirjadData,
+              telliData: telliData,
+              telliAnkeetData: telliAnkeetData,
+              poodData: poodData
+            });
+          });
+        });
       });
     });
   });
@@ -3086,7 +3541,8 @@ app.get("/admin/kontakt", function(req, res) {
                   for (var i = 1; i < result.length; i++) {
                     var vali = {
                       est: result[i].est,
-                      en: result[i].en
+                      en: result[i].en,
+                      checked: result[i].checked
                     };
                     vastuvottAnkeetData.valjad.push(vali);
                   }
@@ -3134,55 +3590,164 @@ app.get("/admin/pood", function(req, res) {
       url: result[0].url,
       filename: result[0].url.slice(5)
     };
-    con.query("SELECT * FROM vastuvotttekstid ORDER BY id", function(err, result) {
+    con.query("SELECT * FROM poodsissejuhatus ORDER BY id", function(err, result) {
       if (err) throw err;
-      var vastuvottTekstidData = {
-        pealkiri: {
-          est: result[0].est,
-          en: result[0].en,
-        },
+      var poodSissejuhatusData = {
         loigud: []
       };
-      for (var i = 1; i < result.length; i++) {
+      for (var i = 0; i < result.length; i++) {
         var loik = {
           est: result[i].est,
           en: result[i].en
         };
-        vastuvottTekstidData.loigud.push(loik);
+        poodSissejuhatusData.loigud.push(loik);
       }
-      con.query("SELECT * FROM vastuvottAnkeet ORDER BY id", function(err, result) {
+      // find the dynamic "pood" tables from the database and sort them into an array
+
+      var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'segakoorNoorus' ORDER by table_name";
+
+      con.query(sql, async function(err, result) {
         if (err) throw err;
-        var vastuvottAnkeetData = {
-          pealkiri: {
-            est: result[0].est,
-            en: result[0].en
-          },
-          valjad: []
-        };
-        for (var i = 1; i < result.length; i++) {
-          var vali = {
-            est: result[i].est,
-            en: result[i].en
-          };
-          vastuvottAnkeetData.valjad.push(vali);
-        }
-        con.query("SELECT * FROM pealkirjad ORDER BY id", function(err, result) {
-          if (err) throw err;
-          var pealkirjadData = [];
-          for (var i = 0; i < result.length; i++) {
-            var pealkiri = {
-              est: result[i].est,
-              en: result[i].en
-            };
-            pealkirjadData.push(pealkiri);
+
+        var poodTableNames = [];
+
+        for (var i = 0; i < result.length; i++) {
+
+          var tableName = (result[i].table_name);
+
+          if (tableName.indexOf("pood") !== -1 && tableName.indexOf("pildid") === -1 && tableName.indexOf("sissejuhatus") === -1) {
+
+            poodTableNames.push(tableName);
           }
-          res.render("admin_pood", {
-            pageTitle: pageTitle,
-            routeName: routeName,
-            paiseikoon: paiseikoon,
-            pealkirjadData: pealkirjadData,
-            vastuvottTekstidData: vastuvottTekstidData,
-            vastuvottAnkeetData: vastuvottAnkeetData
+        }
+
+        var sortedPoodTableNames = poodTableNames.sort(function(a, b) {
+          return a - b;
+        });
+
+
+        // to get the necessary data for dynamic subforms, we need to use async functions with promises,
+        // this is necessary, because we often need to wait for database queries,
+        // but because we need to have loops in our code, we cannot use callbacks like we normally do
+        // (for this advanced js code, we also use new arrow functions)
+
+
+        // a function, which returns a promise that will be resolved to a "pood" object once the database query has completed,
+        // takes an argument, which is the relevant database table name
+
+
+        const constructPoodPromise = tableName => {
+
+          return new Promise((resolve, reject) => {
+
+            con.query("SELECT * FROM " + tableName + " ORDER by id", function(err, result) {
+              if (err) throw err;
+
+              var pood = {
+                toode: {
+                  est: result[0].est,
+                  en: result[0].en,
+                  price: result[0].price
+                },
+                loigud: []
+              };
+              for (let b = 1; b < result.length; b++) {
+                var loik = {
+                  est: result[b].est,
+                  en: result[b].en,
+                  price: result[b].price
+                };
+                pood.loigud.push(loik);
+              }
+              if (err) {
+                reject(err);
+              } else {
+                resolve(pood);
+              }
+            });
+          });
+        };
+
+
+        // create an array of the "pood" promises constructed above, using the map method
+
+        const poodDataPromise = sortedPoodTableNames.map(async tableName => {
+
+          const pood = await constructPoodPromise(tableName);
+
+          return pood;
+        });
+
+        // wait for all the promises to be resolved into an array of "pood" objects
+
+        var poodData = await Promise.all(poodDataPromise);
+
+        con.query("SELECT * FROM poodpildid ORDER by id", function(err, result) {
+          if (err) throw err;
+          var pildid = [];
+          for (var i = 0; i < result.length; i++) {
+            var pilt = {
+              url: result[i].url,
+              filename: result[i].url.slice(5)
+            };
+            pildid.push(pilt);
+          }
+          con.query("SELECT * FROM telli ORDER BY id", function(err, result) {
+            if (err) throw err;
+            var telliData = {
+              loigud: []
+            };
+            for (var i = 0; i < result.length; i++) {
+              var loik = {
+                est: result[i].est,
+                en: result[i].en
+              };
+              telliData.loigud.push(loik);
+            }
+            con.query("SELECT * FROM telliankeet ORDER BY id", function(err, result) {
+              if (err) throw err;
+              var telliAnkeetData = {
+                pealkiri: {
+                  est: result[0].est,
+                  en: result[0].en
+                },
+                jarelloik: {
+                  est: result[1].est,
+                  en: result[1].en
+                },
+                valjad: []
+              };
+              for (var i = 2; i < result.length; i++) {
+                var vali = {
+                  est: result[i].est,
+                  en: result[i].en,
+                  checked: result[i].checked
+                };
+                telliAnkeetData.valjad.push(vali);
+              }
+              con.query("SELECT * FROM pealkirjad ORDER BY id", function(err, result) {
+                if (err) throw err;
+                var pealkirjadData = [];
+                for (var i = 0; i < result.length; i++) {
+                  var pealkiri = {
+                    est: result[i].est,
+                    en: result[i].en
+                  };
+                  pealkirjadData.push(pealkiri);
+                }
+                res.render("admin_pood", {
+                  pageTitle: pageTitle,
+                  routeName: routeName,
+                  paiseikoon: paiseikoon,
+                  pealkirjadData: pealkirjadData,
+                  poodSissejuhatusData: poodSissejuhatusData,
+                  poodData: poodData,
+                  pildid: pildid,
+                  telliData: telliData,
+                  telliAnkeetData: telliAnkeetData
+                });
+              });
+            });
           });
         });
       });
@@ -3222,7 +3787,8 @@ app.get("/admin/andmebaas", function(req, res) {
         for (var i = 1; i < result.length; i++) {
           var vali = {
             est: result[i].est,
-            en: result[i].en
+            en: result[i].en,
+            checked: result[i].checked
           };
           vastuvottAnkeetData.valjad.push(vali);
         }
@@ -3592,8 +4158,6 @@ app.post("/upload/sissejuhatus", async function(req, res) {
     // get the input names from the submitted data as an array (They have been sent to the server as object keys)
 
     var keys = Object.keys(req.body);
-
-    console.log(keys);
 
     // Get the index of the last element in the keys array
 
@@ -6493,6 +7057,7 @@ app.post("/upload/kontakt/mtu/delete", function(req, res) {
   res.send("OK!");
 });
 
+
 // update the "vastuvõtt" section on the "kontakt" page
 
 app.post("/upload/vastuvott", async function(req, res) {
@@ -6586,14 +7151,15 @@ app.post("/upload/vastuvott", async function(req, res) {
 
       var estProperty = vastuvottData.ankeet.valjad[i - 1].est;
       var enProperty = vastuvottData.ankeet.valjad[i - 1].en;
+      var checkedProperty = vastuvottData.ankeet.valjad[i - 1].checked;
 
       // create a values object using those variables
 
-      var values = [estProperty, enProperty, nameProperty];
+      var values = [estProperty, enProperty, checkedProperty, nameProperty];
 
       // create the sql text for updating the database
 
-      var sql = "UPDATE vastuvottankeet SET est = ?, en = ? WHERE name = ?";
+      var sql = "UPDATE vastuvottankeet SET est = ?, en = ?, checked = ? WHERE name = ?";
 
       // update the database
 
@@ -6676,27 +7242,21 @@ app.post("/upload/vastuvott/delete", function(req, res) {
 
 app.post("/upload/vastuvott/ankeet/new", function(req, res) {
 
-  // create variables for new database entries- est and en properties will be empty strings, while the name property will be "vali" + current timestamp
+  // create variables for new database entries- est, en and checked properties will be empty strings,
+  // while the name property will be "vali" + current timestamp
 
   var nameProperty = "vali" + Date.now();
   var estProperty = "";
   var enProperty = "";
+  var checkedProperty = "";
 
   // create the sql text with the variables created above
 
-  var sql = "INSERT INTO vastuvottankeet (name, est, en) VALUES ('" + nameProperty + "', '" + estProperty + "', '" + enProperty + "')";
+  var sql = "INSERT INTO vastuvottankeet (name, est, en, checked) VALUES ('" + nameProperty + "', '" + estProperty + "', '" + enProperty + "', '" + checkedProperty + "')";
 
   // insert the new entry into the database
 
   updateDatabase(sql);
-
-  // create the sql text to add a new column to the associated "ankeet" database table
-
-  var sqlAlter = "ALTER TABLE ankeet ADD " + nameProperty + " varchar(255)";
-
-  // add a new column to the "ankeet" table
-
-  updateDatabase(sqlAlter);
 
   // send a server response
 
@@ -6741,14 +7301,6 @@ app.post("/upload/vastuvott/ankeet/delete", function(req, res) {
     // delete the entry from the database
 
     updateDatabase(sql);
-
-    // create the sql text to delete the corresponding column from the associated "ankeet" table
-
-    var sqlAlter = "ALTER TABLE ankeet DROP COLUMN " + nameProperty;
-
-    // delete the column
-
-    updateDatabase(sqlAlter);
 
     // send a server response
 
@@ -7574,11 +8126,11 @@ app.post("/upload/sundmused/new", async function(req, res) {
 
   // create the sql text for inserting a "pealkiri" entry into one of the new tables
 
-  var sqlInsert = "INSERT INTO " + namePropertyTable + " (name, est, en) VALUES ('pealkiri','', '')"
+  var sqlInsert = "INSERT INTO " + namePropertyTable + " (name, est, en) VALUES ('pealkiri','', '')";
 
   // insert the entry into the new table
 
-  updateDatabase(sqlInsert)
+  updateDatabase(sqlInsert);
 
   // create a name property variable for a new entry to the "sundmusedpildid" table in the database, this will be "plakat" + the current timestamp
 
@@ -8175,6 +8727,1130 @@ app.post("/upload/sundmused/koht" + ":number/delete", function(req, res) {
 
       res.send("OK!");
     });
+  });
+});
+
+
+// update the "pood" page
+
+
+app.post("/upload/pood", function(req, res) {
+
+  // create an empty array that will be populated by the field objects, which will contain the name and maxCount attributes of the uploaded images
+
+  var fieldsArray = [];
+
+  // query the database for existing entries for the "pilt" images
+
+  con.query("SELECT * FROM poodpildid ORDER by id", function(err, result) {
+    if (err) throw err;
+
+    // create as many field objects as there are database entries
+
+    for (var i = 0; i < result.length; i++) {
+
+      // each "pilt" image has a number in its name, which is the iterator + 1 (since normal people start counting from 1 not 0)
+
+      var indexNumber = i + 1;
+
+      // create the field object
+
+      var field = {
+        name: "pood" + indexNumber + "Pilt",
+        maxCount: 1
+      };
+
+      // push the field object into the array above
+
+      fieldsArray.push(field);
+    }
+
+    // setup a picture upload function with the "multer" module and specify the name and storage method of the uploaded files
+
+    var upload = multer({
+      storage: storage
+    }).fields(fieldsArray);
+
+    // initialize the upload
+
+    upload(req, res, async function(err) {
+      if (err) throw err;
+
+      // obtain the keys of the req.files object (which contains information about uploaded images)
+
+      var keysPildid = Object.keys(req.files);
+
+      // create a name and url property for each key in the req.files object
+
+      for (let i = 0; i < keysPildid.length; i++) {
+
+        // get each key separately
+
+        var currentKeyPildid = keysPildid[i];
+
+        // using the key, get the corresponding image in the req.files object
+
+        var currentImg = req.files[currentKeyPildid];
+
+        // check if a corresponding image exists for each key
+
+        if (currentImg !== undefined) {
+
+          // if yes, construct the url property from the images originalname property
+
+          var urlProperty = "/img/" + currentImg[0].originalname;
+
+          // obtain the index number within the image's fieldname, in the specified position
+
+          var indexNumber = currentImg[0].fieldname.slice(4, -4);
+
+          // since js starts counting from 0 not 1, subtract 1 from the index number
+
+          var realIndex = indexNumber - 1;
+
+          // get the database result that corresponds to the obtained index
+
+          var nameProperty = result[realIndex].name;
+
+          // create the sql text
+
+          var sqlPildid = "UPDATE poodpildid SET url = ? WHERE name = ?";
+
+          // create an array, which will contain values that will replace question marks in the sql text
+
+          var valuesPildid = [urlProperty, nameProperty];
+
+          // update the database
+
+          await updateDatabase(sqlPildid, valuesPildid);
+        }
+      }
+
+      // query the "poodsissejuhatus" table for entries
+
+      con.query("SELECT * FROM poodsissejuhatus ORDER BY id", async function(err, result) {
+        if (err) throw err;
+
+        // loop through the results
+
+        for (var i = 0; i < result.length; i++) {
+
+          // get the name property for each result
+
+          var nameProperty = result[i].name;
+
+          // to get the user-inputted values for each of the required inputs, we need to know their index numbers
+          // we get it for each result by adding 1 to the iterator (because normal people start counting from 1 not 0)
+
+          var indexNumber = i + 1;
+
+          // construct the keys by which to access the user-inputted values
+
+          var estKey = "poodSissejuhatusLoikEst" + indexNumber;
+          var enKey = "poodSissejuhatusLoikEn" + indexNumber;
+
+          // get the user-inputted values
+
+          var estProperty = req.body[estKey];
+          var enProperty = req.body[enKey];
+
+          // for each result, create an array of the obtained values
+
+          var values = [estProperty, enProperty, nameProperty];
+
+          // create the sql text for updating the database, where question marks will be replaced from the values array created above
+
+          var sql = "UPDATE poodsissejuhatus SET est = ?, en = ? WHERE name = ?";
+
+          // update the database
+
+          await updateDatabase(sql, values);
+        }
+
+        // create the sql text to query the database for table names (we eventually need the ones named "pood" + timestamp)
+
+        var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'segakoorNoorus'";
+
+        // make the database query
+
+        con.query(sql, async function(err, result) {
+          if (err) throw err;
+
+          // create an empty array that will be populated by the names of the relevant tables in the database
+
+          var tableNames = [];
+
+          // loop through all the tables in the database
+
+          for (var i = 0; i < result.length; i++) {
+
+            // capture the name of each table in a variable
+
+            var tableName = (result[i].table_name);
+
+            // one type of relevant tables have "pood" string in their name, but not "pildid" or "sissejuhatus" string
+
+            if (tableName.indexOf("pood") !== -1 &&
+              tableName.indexOf("pildid") === -1 &&
+              tableName.indexOf("sissejuhatus") === -1) {
+
+              // push the relevant table names into the above array
+
+              tableNames.push(tableName);
+            }
+          }
+
+          // the tables have a timestamp in their name- sort the arrays in ascending order
+
+          var sortedTableNames = tableNames.sort(function(a, b) {
+            return a - b;
+          });
+
+          // obtain all the name properties of the text inputs on the "pood" page
+
+          var keysTekstid = Object.keys(req.body);
+
+          // create an empty array, where the name properties of the dynamic text inputs will be stored
+
+          var keysLoik = [];
+
+          // to get the "loik" input names, loop through all the input names obtained above
+
+          for (var a = 0; a < keysTekstid.length; a++) {
+
+            // capture each input name in a variable
+
+            var keyTekstid = keysTekstid[a];
+
+            // check if the input name contains the string "Loik" but not "Sissejuhatus"
+
+            if (keyTekstid.indexOf("Loik") !== -1 && keyTekstid.indexOf("Sissejuhatus") === -1) {
+
+              // if yes, store the input in the keysLoik array
+
+              keysLoik.push(keyTekstid);
+            }
+          }
+
+          // sort all "loik" input names into an array of objects, which at first will be empty
+
+          var sortedKeysLoik = [];
+
+          // loop through all the "loik" input names
+
+          for (var e = 0; e < keysLoik.length; e++) {
+
+            // capture the index number of the database table that each of those input names are referring to-
+            // this will be a number in the input name after the word "pood" and before "Loik"
+
+            // determine where the letters "Loik" are in the input name
+
+            var loikIndex = keysLoik[e].indexOf("Loik");
+
+            // get the table index between the words "pood" and "loik"
+
+            var tableIndex = keysLoik[e].slice(4, loikIndex);
+
+            // the input name also has an element index, which determines the position of this particular entry in the database table-
+            // we find this number at the end of the input name, after either the letters "Est" or "En"
+
+            // check if the input name contains the letters "Est"
+
+            if (keysLoik[e].indexOf("Est") !== -1) {
+
+              // if yes, find out the position of those letters in the input name and add 3 to that index,
+              // because "Est" is three letters long and we need to know where is the end rather than the beginning of those three letters
+
+              var estEndIndex = keysLoik[e].indexOf("Est") + 3;
+
+              // now that we know where the end of the letters "Est" is, we can use it to obtain the element index number,
+              // which is situated right after those letters
+
+              var estElementIndex = keysLoik[e].slice(estEndIndex);
+
+              // for each input name create an object, which also holds the table and element indexes obtained above,
+              // then push this object into an array created above
+
+              sortedKeysLoik.push({
+                name: keysLoik[e],
+                tableIndex: tableIndex,
+                elementIndex: estElementIndex
+              });
+
+              // check if the input name contains the letters "En" (It should if it doesn't contain the letters "Est")
+
+            } else if (keysLoik[e].indexOf("En") !== -1) {
+
+              // if yes, find out where the last letter of the word "En" is located in the input name
+
+              var enEndIndex = keysLoik[e].indexOf("En") + 2;
+
+              // use that information to get the element index, which is located right after the letters "En" in the input name
+
+              var enElementIndex = keysLoik[e].slice(enEndIndex);
+
+              // for each input name create an object, which also holds the table and element indexes obtained above,
+              // then push this object into an array created above
+
+              sortedKeysLoik.push({
+                name: keysLoik[e],
+                tableIndex: tableIndex,
+                elementIndex: enElementIndex
+              });
+
+              // check if the input name contains the letters "Number"
+
+            } else if (keysLoik[e].indexOf("Number") !== -1) {
+
+              // if yes, find out where the last letter of the word "Number" is located in the input name
+
+              var numberEndIndex = keysLoik[e].indexOf("Number") + 6;
+
+              // use that information to get the element index, which is located right after the letters "Number" in the input name
+
+              var numberElementIndex = keysLoik[e].slice(numberEndIndex);
+
+              // for each input name create an object, which also holds the table and element indexes obtained above,
+              // then push this object into an array created above
+
+              sortedKeysLoik.push({
+                name: keysLoik[e],
+                tableIndex: tableIndex,
+                elementIndex: numberElementIndex
+              });
+            }
+          }
+
+
+          // create an empty array for all the database tables, where the "poodLoik" entries are stored
+
+          var currentTableNames = [];
+
+          // create empty arrays for the data about "Est" and "En" inputs
+
+          var estDataArray = [];
+          var enDataArray = [];
+
+          // using the sortedKeysLoik array, obtain the data about "Est" inputs-
+          // only every second object in the array will be an "Est" object, that is why the iterator will always be increased by 2 in the loop
+
+          for (let g = 0; g < sortedKeysLoik.length; g += 2) {
+
+            // for every "Est" object obtain the tableIndex, which will be used to select a relevant database table,
+            // also subtract 1 from this index, because javascript starts counting from 0
+
+            var currentTableIndex = sortedKeysLoik[g].tableIndex - 1;
+
+            // using this index, get the name of the database table that contains the data about the current input,
+            // the database names have already been stored and sorted in an array named sortedTableNames
+
+            var currentTableName = sortedTableNames[currentTableIndex];
+
+            // push the table name into the array created above
+
+            currentTableNames.push(currentTableName);
+
+            // for each input, obtain the user-inputted value (using the req.body object of multer)
+
+            var estValue = req.body[sortedKeysLoik[g].name];
+
+            // get the element index from each input
+
+            var estIndex = sortedKeysLoik[g].elementIndex;
+
+            // subtract 1 from this index, because javascript starts counting from 0
+
+            var currentEstIndex = estIndex - 1;
+
+            // add 1 to this index, since the relevant entries start from position 1 onwards
+
+            var realEstIndex = currentEstIndex + 1;
+
+            // using the obtained data, create a javascript object
+
+            var estData = {
+              value: estValue,
+              elementIndex: realEstIndex
+            };
+
+            // push this object into the array created above
+
+            estDataArray.push(estData);
+          }
+
+          // for the "En" inputs loop through the sortedKeysLoik array way once more, but this time the iterator will start on position 1 not 0
+
+          for (let h = 1; h < sortedKeysLoik.length; h += 2) {
+
+            // capture the user-inputted value for each input
+
+            var enValue = req.body[sortedKeysLoik[h].name];
+
+            // capture the element index for each input
+
+            var enIndex = sortedKeysLoik[h].elementIndex;
+
+            // subtract 1 from this index, because javascript starts counting from 0
+
+            var currentEnIndex = enIndex - 1;
+
+            // add 1 to this index, since the relevant entries start from position 1 onwards
+
+            var realEnIndex = currentEnIndex + 1;
+
+            // using the obtained data, create a javascript object
+
+            var enData = {
+              value: enValue,
+              elementIndex: realEnIndex
+            };
+
+            // push this object into the array created above
+
+            enDataArray.push(enData);
+          }
+
+          // to update the correct entries in the correct database tables, loop through the currentTableNames array,
+          // which now contains all the relevant table names in the right order-
+          // use the keyword "let" for the iterator, because this way the iterator can be passed into the con.query callback
+
+          for (let l = 0; l < currentTableNames.length; l++) {
+
+            // query for all entries in each of the tables
+
+            con.query("SELECT * FROM " + currentTableNames[l] + " ORDER by id", async function(err, result) {
+              if (err) throw err;
+
+              // get the correct entry from the table using the elementIndex property created above-
+              // in this case we loop through the estDataArray object, to update all the estonian inputs
+
+              var nameProperty = result[estDataArray[l].elementIndex].name;
+
+              // create a values variable for the sql text to update the database table-
+              // this will consist of the user-inputted value and the name property created above
+
+              var values = [estDataArray[l].value, nameProperty];
+
+              // create the sql text using the relevant entry from the currentTableNames array
+
+              var sql = "UPDATE " + currentTableNames[l] + " SET est = ? WHERE name = ?";
+
+              // update the database using the sql text values object created above
+
+              await updateDatabase(sql, values);
+            });
+          }
+
+
+          // loop through the currentTableNames array once more, but this time the english inputs will be updated
+
+          for (let m = 0; m < currentTableNames.length; m++) {
+
+            // query for all entries in each of the tables
+
+            con.query("SELECT * FROM " + currentTableNames[m] + " ORDER by id", async function(err, result) {
+              if (err) throw err;
+
+              // get the correct entry from the table using the elementIndex property created above-
+              // in this case we loop through the enDataArray object, to update all the english inputs
+
+              var nameProperty = result[enDataArray[m].elementIndex].name;
+
+              // create a values variable for the sql text to update the database table-
+              // this will consist of the user-inputted value and the name property created above
+
+              var values = [enDataArray[m].value, nameProperty];
+
+              // create the sql text using the relevant entry from the currentTableNames array
+
+              var sql = "UPDATE " + currentTableNames[m] + " SET en = ? WHERE name = ?";
+
+              // update the database using the sql text values object created above
+
+              await updateDatabase(sql, values);
+            });
+          }
+
+          // loop through all the (sorted) "pood" table names again
+
+          for (var r = 0; r < sortedTableNames.length; r++) {
+
+            // capture each table name in a variable
+
+            var thisTableName = sortedTableNames[r];
+
+            // for the user-inputted values, we need to know all the input names, which all have an index number in them,
+            // use the iterator and add 1 to it (because the index numbers start from 1 not 0) to get this number
+
+            var indexNumberToode = r + 1;
+
+            // construct the input names
+
+            var toodeEstKey = "pood" + indexNumberToode + "ToodeEst";
+            var toodeEnKey = "pood" + indexNumberToode + "ToodeEn";
+            var toodeNumberKey = "pood" + indexNumberToode + "ToodeNumber";
+
+            // capture the values of these inputs
+
+            var estPropertyToode = req.body[toodeEstKey];
+            var enPropertyToode = req.body[toodeEnKey];
+            var numberPropertyToode = req.body[toodeNumberKey];
+
+            // create an array of these values
+
+            var valuesToode = [estPropertyToode, enPropertyToode, numberPropertyToode];
+
+            // create the sql text for updating the "toode" entries
+
+            var sqlToode = "UPDATE " + thisTableName + " SET est = ?, en = ?, price = ? WHERE name = 'toode'";
+
+            // update the database
+
+            await updateDatabase(sqlToode, valuesToode);
+          }
+
+          // send a server response
+
+          res.send("OK!");
+        });
+      });
+    });
+  });
+});
+
+
+// add a new subform for the "pood" page
+
+app.post("/upload/pood/new", async function(req, res) {
+
+  // create a name for a new table in the database- this will be "pood" + the current timestamp
+
+  var namePropertyTable = "pood" + Date.now();
+
+  // create the sql text for creating a new table
+
+  var sqlCreate = "CREATE TABLE " + namePropertyTable + " (id int NOT NULL AUTO_INCREMENT, name varchar(255), est varchar(3000), en varchar(3000), price varchar(255), PRIMARY KEY(id)) CHARACTER SET utf8 COLLATE utf8_unicode_ci";
+
+  // create a new table using the sql text
+
+  updateDatabase(sqlCreate);
+
+  // create sql text to alter the character set of the new table using the table name created above
+
+  var sqlAlter = "ALTER TABLE " + namePropertyTable + " CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci";
+
+  // execute the alteration
+
+  updateDatabase(sqlAlter);
+
+  // create the sql text for inserting a "toode" entry into the new table
+
+  var sqlInsert = "INSERT INTO " + namePropertyTable + " (name, est, en, price) VALUES ('toode', '', '', '')";
+
+  // insert the entry into the new table
+
+  updateDatabase(sqlInsert);
+
+  // create a name property variable for a new entry to the "poodpildid" table in the database, this will be "pilt" + the current timestamp
+
+  var namePropertyPilt = "pilt" + Date.now();
+
+  // create the sql text, where namePropertyPilt is the variable created above
+
+  var sqlPilt = "INSERT INTO poodpildid (name, url) VALUES ('" + namePropertyPilt + "', '')";
+
+  // insert the new "pilt" entry into the database
+
+  updateDatabase(sqlPilt);
+
+  // send a server response
+
+  res.send("OK!");
+});
+
+
+// delete a subform from the "pood" page
+
+
+app.post("/upload/pood/delete", function(req, res) {
+
+  // retrieve and parse the data sent by the browser via an ajax call- this will contain the id number of the deleted subform
+
+  var deleteSubformData = JSON.parse(req.body.data);
+
+  // to find the right result, we need to know the subform's index number-
+  // this will be the id number of the deleted subform minus 1 (since js starts to count from 0 not 1)
+
+  var indexNumber = deleteSubformData.idNumber - 1;
+
+  // create the sql text for querying the database for the tables related to the "pood" subforms
+
+  var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'segakoorNoorus'";
+
+  // make the database query
+
+  con.query(sql, function(err, result) {
+    if (err) throw err;
+
+    // create an empty array, which will later be populated by relevant table names
+
+    var tableNames = [];
+
+    // loop through all the tables in the database
+
+    for (var i = 0; i < result.length; i++) {
+
+      // capture the name of each table in a variable
+
+      var tableName = (result[i].table_name);
+
+      // firstly, capture the tables that have "pood" string in their name, but not "pildid" or "sissejuhatus" strings
+
+      if (tableName.indexOf("pood") !== -1 &&
+        tableName.indexOf("pildid") === -1 &&
+        tableName.indexOf("sissejuhatus") === -1) {
+
+        // push the table names into the above array
+
+        tableNames.push(tableName);
+      }
+    }
+
+    // the tables have a timestamp in their name- sort the array in ascending order
+
+    var sortedTableNames = tableNames.sort(function(a, b) {
+      return a - b;
+    });
+
+    // get the table from the array that corresponds to the deleted subform using the retrieved index number
+
+    var currentResult = sortedTableNames[indexNumber];
+
+    // the retrieved table name will be included in the sql text as a variable
+
+    var nameProperty = currentResult;
+
+    // create the sql text for deleting the database table
+
+    var sqlDelete = "DROP TABLE " + nameProperty;
+
+    // delete the table
+
+    updateDatabase(sqlDelete);
+  });
+
+  // the image on the deleted subform is stored in a different table- get all the images in this table as an array
+
+  con.query("SELECT * FROM poodpildid ORDER by id", function(err, result) {
+    if (err) throw err;
+
+    // the correct result can be found with the index number retrieved previously
+
+    var currentResult = result[indexNumber];
+
+    // get the properties for the correct image
+
+    var idProperty = currentResult.id;
+    var nameProperty = currentResult.name;
+    var urlProperty = currentResult.url;
+
+    // create the sql text for deleting the corresponding entry from the database table
+
+    var sqlDelete = "DELETE FROM poodpildid WHERE name = '" + nameProperty + "'";
+
+    // delete the entry from the database
+
+    updateDatabase(sqlDelete);
+
+    // send a server response
+
+    res.send("OK!");
+  });
+});
+
+
+// add a new "loik" element to the "sissejuhatus" section on the "pood" page
+
+app.post("/upload/pood/sissejuhatus/new", function(req, res) {
+
+  // create variables for new database entries- est and en properties will be empty strings, while the name property will be "loik" + current timestamp
+
+  var nameProperty = "loik" + Date.now();
+  var estProperty = "";
+  var enProperty = "";
+
+  // create the sql text with the variables created above
+
+  var sql = "INSERT INTO poodsissejuhatus (name, est, en) VALUES ('" + nameProperty + "', '" + estProperty + "', '" + enProperty + "')";
+
+  // insert the new entry into the database
+
+  updateDatabase(sql);
+
+  // send a server response
+
+  res.send("OK!");
+});
+
+
+// delete a "loik" element from the "sissejuhatus" section on the "pood" page
+
+app.post("/upload/pood/sissejuhatus/delete", function(req, res) {
+
+  // retrieve and parse the data sent by the browser via an ajax call- this will contain the id number of the deleted element
+
+  var deleteLoikData = JSON.parse(req.body.data);
+
+  // query the database for all the "loik" entries
+
+  con.query("SELECT * FROM poodsissejuhatus ORDER by id", function(err, result) {
+    if (err) throw err;
+
+    // to find the right result, we need to know its index number-
+    // this will be the id number of the deleted element minus 1 (since js starts to count from 0 not 1)
+
+    var currentIndex = deleteLoikData.idNumber - 1;
+
+    // get the database entry of the deleted element
+
+    var currentResult = result[currentIndex];
+
+    // get the name property of the database entry
+
+    var nameProperty = currentResult.name;
+
+    // create the sql text
+
+    var sql = "DELETE FROM poodsissejuhatus WHERE name = '" + nameProperty + "'";
+
+    // delete the entry from the database
+
+    updateDatabase(sql);
+  });
+
+  // send a server response
+
+  res.send("OK!");
+});
+
+
+// add a new "loik" element to the "pood" subform on the "pood" page-
+// because this is a dynamic route, handling several user-created databases, it also uses a custom parameter, which is the ":number" part
+
+
+app.post("/upload/pood" + ":number/new", function(req, res) {
+
+  // create the sql text that selects all the tables in the database
+
+  var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'segakoorNoorus'";
+
+  // make the database query
+
+  con.query(sql, function(err, result) {
+    if (err) throw err;
+
+    // create an empty array that will be populated by the names of the relevant tables in the database
+
+    var tableNames = [];
+
+    // loop through all the tables in the database
+
+    for (var i = 0; i < result.length; i++) {
+
+      // capture the name of each table in a variable
+
+      var tableName = (result[i].table_name);
+
+      // the relevant table has a "pood" string in their name, but not "pildid" or "sissejuhatus" string
+
+      if (tableName.indexOf("pood") !== -1 &&
+        tableName.indexOf("pildid") === -1 &&
+        tableName.indexOf("sissejuhatus") === -1) {
+
+        // push the relevant table names into the tableNames array
+
+        tableNames.push(tableName);
+      }
+    }
+
+    // the tables have a timestamp in their name- sort the array in ascending order
+
+    var sortedTableNames = tableNames.sort(function(a, b) {
+      return a - b;
+    });
+
+    // req.params is a number that is captured from the post route that the ajax call is made to,
+    // while indexNumber is the same number - 1 (because of course programmers start to count from 0)
+
+    var indexNumber = req.params.number - 1;
+
+    // use the indexNumber to get the relevant database table
+
+    var currentResult = sortedTableNames[indexNumber];
+
+    // create variables for the new entry that will be added to the relevant table-
+    // est, en and number properties will be empty strings, while the name property will be "loik" + current timestamp
+
+    var nameProperty = "loik" + Date.now();
+    var estProperty = "";
+    var enProperty = "";
+    var priceProperty = "";
+
+    // create the sql text with the variables created above
+
+    var sql = "INSERT INTO " + currentResult + " (name, est, en, price) VALUES ('" + nameProperty + "', '" + estProperty + "', '" + enProperty + "', '" + priceProperty + "')";
+
+    // // insert the new entry into the corresponding database table
+
+    updateDatabase(sql);
+  });
+
+  // send a server response
+
+  res.send("OK!");
+});
+
+
+// delete a "loik" element from the "pood" subform on the "pood" page-
+// because this is a dynamic route handling several user-created databases, it also uses a custom parameter, which is the ":number" part
+
+app.post("/upload/pood" + ":number/delete", function(req, res) {
+
+  // retrieve and parse the data sent by the browser via an ajax call- this will contain the id number of the deleted element
+
+  var deleteLoikData = JSON.parse(req.body.data);
+
+  // create the sql text to query the database for table names (we eventually need the ones named "pood" + timestamp)
+
+  var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'segakoorNoorus'";
+
+  // make the database query
+
+  con.query(sql, function(err, result) {
+    if (err) throw err;
+
+    // create an empty array that will be populated by the names of the relevant tables in the database
+
+    var tableNames = [];
+
+    // loop through all the tables in the database
+
+    for (var i = 0; i < result.length; i++) {
+
+      // capture the name of each table in a variable
+
+      var tableName = (result[i].table_name);
+
+      // the relevant tables have a "pood" string in their name, but not "pildid", "sissejuhatus" or "koht" string
+
+      if (tableName.indexOf("pood") !== -1 &&
+        tableName.indexOf("pildid") === -1 &&
+        tableName.indexOf("sissejuhatus") === -1) {
+
+        // push the relevant table names into the tableNames array
+
+        tableNames.push(tableName);
+      }
+    }
+
+    // the tables have a timestamp in their name- sort the array in ascending order
+
+    var sortedTableNames = tableNames.sort(function(a, b) {
+      return a - b;
+    });
+
+    // get the relevant table's position in the array, using the custom route parameter (which is a number)
+
+    var indexNumber = req.params.number - 1;
+
+    // get the relevant table
+
+    var currentTableName = sortedTableNames[indexNumber];
+
+    // query the selected table for all the "rida" entries
+
+    con.query("SELECT * FROM " + currentTableName + " ORDER by id", function(err, result) {
+      if (err) throw err;
+
+      // to find the right result, we need to know its index number-
+      // this will be the id number of the deleted element minus 1 (since js starts to count from 0 not 1)
+
+      var currentIndex = deleteLoikData.idNumber - 1;
+
+      // because the "loik" elements start from position 1 (position 0 occupied, by the "toode" entry), add 1 to the index
+
+      var realIndex = currentIndex + 1;
+
+      // get the database entry of the deleted "loik" element
+
+      var currentResult = result[realIndex];
+
+      // get the name property of the database entry
+
+      var nameProperty = currentResult.name;
+
+      // create the sql text
+
+      var sql = "DELETE FROM " + currentTableName + " WHERE name = '" + nameProperty + "'";
+
+      // delete the entry from the database
+
+      updateDatabase(sql);
+
+      // send a server response
+
+      res.send("OK!");
+    });
+  });
+});
+
+
+// update the "telli" part of the "pood" page
+
+app.post("/upload/telli", function(req, res) {
+
+  // parse the JSON data sent from the client side
+
+  var telliData = JSON.parse(req.body.data);
+
+  // for updating the "pealkiri" entry in the "kontaktandmed" section, obtain the est and en values from the data object sent from the browser
+
+  var estPropertyPealkiri = telliData.ankeet.pealkiri.est;
+  var enPropertyPealkiri = telliData.ankeet.pealkiri.en;
+
+  // create the values object with est and en properties
+
+  var valuesPealkiri = [estPropertyPealkiri, enPropertyPealkiri];
+
+  // create the sql text for updating the database
+
+  var sqlPealkiri = "UPDATE telliankeet SET est = ?, en = ? WHERE name = 'pealkiri'";
+
+  // update the database
+
+  updateDatabase(sqlPealkiri, valuesPealkiri);
+
+  // for updating the "jarelloik" entry in the "kontaktandmed" section, obtain the est and en values from the data object sent from the browser
+
+  var estPropertyJarelloik = telliData.ankeet.jarelloik.est;
+  var enPropertyJarelloik = telliData.ankeet.jarelloik.en;
+
+  // create the values object with est and en properties
+
+  var valuesJarelloik = [estPropertyJarelloik, enPropertyJarelloik];
+
+  // create the sql text for updating the database
+
+  var sqlJarelloik = "UPDATE telliankeet SET est = ?, en = ? WHERE name = 'jarelloik'";
+
+  // update the database
+
+  updateDatabase(sqlJarelloik, valuesJarelloik);
+
+  // query the database for "loik" entries in the "telli" table
+
+  con.query("SELECT * FROM telli ORDER BY id", async function(err, result) {
+    if (err) throw err;
+
+    // loop through the results
+
+    for (var i = 0; i < result.length; i++) {
+
+      // for each relevant entry, get its name property
+
+      var nameProperty = result[i].name;
+
+      // use the iterator to obtain the user-inputted values from the vastuvottData object sent by the browser
+
+      var estProperty = telliData.loigud[i].est;
+      var enProperty = telliData.loigud[i].en;
+
+      // create a values object using those variables
+
+      var values = [estProperty, enProperty, nameProperty];
+
+      // create the sql text for updating the database
+
+      var sql = "UPDATE telli SET est = ?, en = ? WHERE name = ?";
+
+      // update the database
+
+      await updateDatabase(sql, values);
+    }
+  });
+
+  // query the database for "vali" entries in the "telliankeet" table
+
+  con.query("SELECT * FROM telliankeet ORDER BY id", async function(err, result) {
+    if (err) throw err;
+
+    // loop through the results ("vali" entries start from position 2)
+
+    for (var i = 2; i < result.length; i++) {
+
+      // for each relevant entry, get its name property
+
+      var nameProperty = result[i].name;
+
+      // modify the iterator by substracting 2 from it and use it to obtain the user-inputted values from the vastuvottData object sent by the browser
+      // (the relevant array in the vastuvottData object corresponds to the database results with the exception that it starts from position 0 not 2)
+
+      var estProperty = telliData.ankeet.valjad[i - 2].est;
+      var enProperty = telliData.ankeet.valjad[i - 2].en;
+      var checkedProperty = telliData.ankeet.valjad[i - 2].checked;
+
+      // create a values object using those variables
+
+      var values = [estProperty, enProperty, checkedProperty, nameProperty];
+
+      // create the sql text for updating the database
+
+      var sql = "UPDATE telliankeet SET est = ?, en = ?, checked = ? WHERE name = ?";
+
+      // update the database
+
+      await updateDatabase(sql, values);
+    }
+  });
+
+  // send a server response
+
+  res.send("OK!");
+});
+
+
+// add a new loik to the "telli" section on the "pood" page
+
+app.post("/upload/telli/new", function(req, res) {
+
+  // create variables for new database entries- est and en properties will be empty strings, while the name property will be "loik" + current timestamp
+
+  var nameProperty = "loik" + Date.now();
+  var estProperty = "";
+  var enProperty = "";
+
+  // create the sql text with the variables created above
+
+  var sql = "INSERT INTO telli (name, est, en) VALUES ('" + nameProperty + "', '" + estProperty + "', '" + enProperty + "')";
+
+  // insert the new entry into the database
+
+  updateDatabase(sql);
+
+  // send a server response
+
+  res.send("OK!");
+});
+
+
+// delete a "loik" element from the "telli" part of the "pood" page
+
+app.post("/upload/telli/delete", function(req, res) {
+
+  // retrieve and parse the data sent by the browser via an ajax call- this will contain the id number of the deleted element
+
+  var deleteLoikData = JSON.parse(req.body.data);
+
+  // query the database for all the "loik" entries
+
+  con.query("SELECT * FROM telli ORDER by id", function(err, result) {
+    if (err) throw err;
+
+    // to find the right result, we need to know its index number-
+    // this will be the id number of the deleted element minus 1 (since js starts to count from 0 not 1)
+
+    var currentIndex = deleteLoikData.idNumber - 1;
+
+    // get the database entry of the deleted element
+
+    var currentResult = result[currentIndex];
+
+    // get the name property of the database entry
+
+    var nameProperty = currentResult.name;
+
+    // create the sql text
+
+    var sql = "DELETE FROM telli WHERE name = '" + nameProperty + "'";
+
+    // delete the entry from the database
+
+    updateDatabase(sql);
+  });
+
+  // send a server response
+
+  res.send("OK!");
+});
+
+
+// add a new field to the "kontaktandmed" section on the "pood" page
+
+app.post("/upload/telli/kontaktandmed/new", function(req, res) {
+
+  // create variables for new database entries- est, en and checked properties will be empty strings,
+  // while the name property will be "vali" + current timestamp
+
+  var nameProperty = "vali" + Date.now();
+  var estProperty = "";
+  var enProperty = "";
+  var checkedProperty = "";
+
+  // create the sql text with the variables created above
+
+  var sql = "INSERT INTO telliankeet (name, est, en, checked) VALUES ('" + nameProperty + "', '" + estProperty + "', '" + enProperty + "', '" + checkedProperty + "')";
+
+  // insert the new entry into the database
+
+  updateDatabase(sql);
+
+  // send a server response
+
+  res.send("OK!");
+});
+
+
+// delete a field from the "kontaktandmed" section on the "pood" page
+
+app.post("/upload/telli/kontaktandmed/delete", function(req, res) {
+
+  // retrieve and parse the data sent by the browser via an ajax call- this will contain the id number of the deleted element
+
+  var deleteLoikData = JSON.parse(req.body.data);
+
+  // query the database for all the "vali" entries
+
+  con.query("SELECT * FROM telliankeet ORDER by id", function(err, result) {
+    if (err) throw err;
+
+    // to find the right result, we need to know its index number-
+    // this will be the id number of the deleted element minus 1 (since js starts to count from 0 not 1)
+
+    var currentIndex = deleteLoikData.idNumber - 1;
+
+    // as the "vali" elements start from the third result onwards, add 2 to the index number
+
+    var realIndex = currentIndex + 2;
+
+    // get the database entry of the deleted element
+
+    var currentResult = result[realIndex];
+
+    // get the name property of the database entry
+
+    var nameProperty = currentResult.name;
+
+    // create the sql text
+
+    var sql = "DELETE FROM telliankeet WHERE name = '" + nameProperty + "'";
+
+    // delete the entry from the database
+
+    updateDatabase(sql);
+
+    // send a server response
+
+    res.send("OK!");
   });
 });
 
@@ -9490,98 +11166,12 @@ app.post("/upload/moodunud/koht" + ":number/delete", function(req, res) {
 });
 
 
-app.post("/upload/ankeet", function(req, res) {
 
-  // parse the JSON data sent from client-side into a javascript array
-
-  var ankeetData = JSON.parse(req.body.data);
-
-  // query the database for the column names in the "ankeet" table
-
-  con.query("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'segakoorNoorus' AND TABLE_NAME = 'ankeet'", function(err, result) {
-
-    // create an empty array, which will later be populated by column names
-
-    var nameProperties = [];
-
-    // loop through the results (starting from position 1, because position 0 is occupied by the id column, which we don't need)
-
-    for (var i = 1; i < result.length; i++) {
-
-      // capture the name property for each entry in the table
-
-      var nameProperty = result[i].COLUMN_NAME;
-
-      // push the captured name property into the nameProperties array
-
-      nameProperties.push(nameProperty);
-    }
-
-    // convert both the ankeetData and nameProperties arrays into strings
-
-    var namesString = nameProperties.join(", ");
-    var valuesString = ankeetData.join(", ");
-
-    // create the sql text to insert all the values into the database table
-
-    var sql = "INSERT INTO ankeet (" + namesString + ") VALUES (" + valuesString + ")";
-
-    // update the database
-
-    updateDatabase(sql);
-
-
-    // send a server response
-
-    res.send("OK");
-  });
-});
-
-
-// delete a registration entry from the "andmebaas" page
-
-app.post("/upload/ankeet/delete", function(req, res) {
-
-  // retrieve and parse the data sent by the browser via an ajax call- this will contain the id number of the deleted element
-
-  var deleteLoikData = JSON.parse(req.body.data);
-
-  // query the database for all the "loik" entries
-
-  con.query("SELECT * FROM ankeet ORDER by id DESC", function(err, result) {
-    if (err) throw err;
-
-    // to find the right result, we need to know its index number-
-    // this will be the id number of the deleted element minus 1 (since js starts to count from 0 not 1)
-
-    var currentIndex = deleteLoikData.idNumber - 1;
-
-    // get the database entry of the deleted element
-
-    var currentResult = result[currentIndex];
-
-    // get the id property of the database entry
-
-    var idProperty = currentResult.id;
-
-    // create the sql text
-
-    var sql = "DELETE FROM ankeet WHERE id = '" + idProperty + "'";
-
-    // delete the entry from the database
-
-    updateDatabase(sql);
-  });
-
-  // send a server response
-
-  res.send("OK!");
-});
 
 // retrieve the data that was sent from the form on "telli" page and send an email containing this data
 
-app.post("/upload/telli", function(req, res, next) {
-  var text = req.body.text;
+app.post("/upload/telli/email", function(req, res, next) {
+  var text = JSON.parse(req.body.text);
   var mailOptions = {
     from: 'joosep_trumm@hotmail.com',
     to: 'joosep_trumm@hotmail.com',
@@ -9592,14 +11182,31 @@ app.post("/upload/telli", function(req, res, next) {
     if (error) {
       next(error);
     } else {
-      console.log('Email sent: ' + info.response);
       res.send("OK");
     }
   });
 });
 
 
+// retrieve the data that was sent from the form on "kontakt" page and send an email containing this data
 
+app.post("/upload/kontakt/email", function(req, res, next) {
+
+  var text = JSON.parse(req.body.text);
+  var mailOptions = {
+    from: 'joosep_trumm@hotmail.com',
+    to: 'joosep_trumm@hotmail.com',
+    subject: 'Ettelaulmisele registreerimine',
+    html: text
+  };
+  transporter.sendMail(mailOptions, function(error, info) {
+    if (error) {
+      next(error);
+    } else {
+      res.send("OK");
+    }
+  });
+});
 
 
 

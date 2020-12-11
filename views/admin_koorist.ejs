@@ -366,7 +366,7 @@
     <button class="page-admin__small-btn" type="button" id="meediaLoikAddBtn">+ Lisa sissejuhatav lõik +</button>
   </div>
   <button class="page-admin__btn" type="submit">Salvesta</button>
-  <h2 class="page-admin__subtitle" id="meediaVideoHeading" name="meediaVideoHeading">Youtube'i videod</h2>
+  <h2 class="page-admin__subtitle" id="meediaVideoHeading" name="meediaVideoHeading">Manustamislingid</h2>
   <div class="page-admin__form-box">
     <div class="page-admin__form-field">
       <h3 class="page-admin__heading">Sektsiooni pealkiri</h3>
@@ -378,9 +378,9 @@
   </div>
   <div class="page-admin__form-box" id="meediaVideoLoikForm">
     <% for (var i = 0; i < meediaVideodData.manustamislingid.length; i++) { %>
-    <div class="page-admin__form-field meediaVideoLoik" id="meediaVideoLoik<%= i + 1 %>" data-heading="Youtube'i video">
-      <h3 class="page-admin__heading meediaVideoLoikHeading">Youtube'i video <%= i + 1 %></h3>
-      <p class="page-admin__text">MANUSTAMISLINK</p>
+    <div class="page-admin__form-field meediaVideoLoik" id="meediaVideoLoik<%= i + 1 %>" data-heading="Manustamislink">
+      <h3 class="page-admin__heading meediaVideoLoikHeading">Manustamislink <%= i + 1 %></h3>
+      <p class="page-admin__text">LINK</p>
       <input type="text" class="page-admin__input input meediaVideoLoikLink" id="meediaVideoLoikLink<%= i + 1 %>" name="meediaVideoLoikLink<%= i + 1 %>" value="<%= meediaVideodData.manustamislingid[i] %>">
       <button class="page-admin__small-btn deleteBtn meediaVideoLoikDeleteBtn" type="button" id="meediaVideoLoikDeleteBtn<%= i + 1 %>" name="meediaVideoLoikDeleteBtn<%= i + 1 %>">Kustuta</button>
     </div>

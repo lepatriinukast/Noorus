@@ -172,10 +172,6 @@
       <input type="text" class="page-admin__input input" name="ankeetPealkiriEn" id="ankeetPealkiriEn" value="<%= vastuvottAnkeetData.pealkiri.en %>">
     </div>
   </div>
-  <div class="page-admin__instruction-box">
-    <p class="page-admin__heading"><strong>NB!</strong></p>
-    <p class="page-admin__small-text"><strong>Kustutades ankeedilt välja, kustuvad vastavad registrid ka andmebaasist!</strong></p>
-</div>
   <div class="page-admin__form-box" id="ankeetLoikForm">
     <% for (var i = 0; i < vastuvottAnkeetData.valjad.length; i++) { %>
     <div class="page-admin__form-field ankeetLoik" id="ankeetLoik<%= i + 1 %>" data-heading="Väli">
@@ -183,7 +179,9 @@
       <p class="page-admin__text u-margin-top-big">EST</p>
       <input class="page-admin__input input ankeetLoikEst" type="text" id="ankeetLoikEst<%= i + 1 %>" name="ankeetLoikEst<%= i + 1 %>" value="<%= vastuvottAnkeetData.valjad[i].est %>">
       <p class="page-admin__text">EN</p>
-      <input class="page-admin__input input ankeetLoikEn" type="text" id="andkeetLoikEn<%= i + 1 %>" name="ankeetLoikEn<%= i + 1 %>" value="<%= vastuvottAnkeetData.valjad[i].en %>">
+      <input class="page-admin__input input ankeetLoikEn" type="text" id="ankeetLoikEn<%= i + 1 %>" name="ankeetLoikEn<%= i + 1 %>" value="<%= vastuvottAnkeetData.valjad[i].en %>">
+      <p class="page-admin__text">KOHUSTUSLIK</p>
+      <input class="page-admin__checkbox input ankeetLoikCheckbox" type="checkbox" id="ankeetLoikCheckbox<%= i + 1 %>" name="ankeetLoikCheckbox<%= i + 1 %>" <% if (vastuvottAnkeetData.valjad[i].checked === "*") { %> checked <% } %> >
       <button class="page-admin__small-btn deleteBtn ankeetLoikDeleteBtn" type="button" id="ankeetLoikDeleteBtn<%= i + 1 %>" name="ankeetLoikDeleteBtn<%= i + 1 %>">Kustuta</button>
     </div>
     <% } %>

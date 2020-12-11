@@ -166,6 +166,10 @@ for (let i = 0; i < moodunudPlakatArray.length; i++) {
   changePreview(moodunudPlakatArray[i]);
 }
 
+for (let i = 0; i < poodPiltArray.length; i++) {
+  changePreview(poodPiltArray[i]);
+}
+
 
 // function for changing the labels and picture samples
 
@@ -1054,6 +1058,7 @@ function getArrays(elementName) {
     enEdArray: Array.from(document.querySelectorAll("." + elementName + "EnEd")),
     estKeyArray: Array.from(document.querySelectorAll("." + elementName + "EstKey")),
     enKeyArray: Array.from(document.querySelectorAll("." + elementName + "EnKey")),
+    checkboxArray: Array.from(document.querySelectorAll("." + elementName + "Checkbox")),
     fileArray: Array.from(document.querySelectorAll("." + elementName + "File")),
     labelArray: Array.from(document.querySelectorAll("." + elementName + "Label")),
     placeholderArray: Array.from(document.querySelectorAll("." + elementName + "Placeholder")),
@@ -1239,6 +1244,58 @@ function getSundmusedSubforms() {
 }
 
 
+// function for getting the relevant DOM arrays specifically for the "pood" subforms
+
+
+function getPoodSubforms() {
+
+  // construct an object out of the elements on the "pood" subform
+
+  var poodSubforms = {
+
+    subformArray: Array.from(document.querySelectorAll(".poodSubform")),
+    subformToodeEstArray: Array.from(document.querySelectorAll(".poodToodeEst")),
+    subformToodeEnArray: Array.from(document.querySelectorAll(".poodToodeEn")),
+    subformToodeNumberArray: Array.from(document.querySelectorAll(".poodToodeNumber")),
+    subformPiltArray: Array.from(document.querySelectorAll(".poodPilt")),
+    subformPiltLabelArray: Array.from(document.querySelectorAll(".poodPiltLabel")),
+    subformPiltPlaceholderArray: Array.from(document.querySelectorAll(".poodPiltPlaceholder")),
+    subformPiltImgArray: Array.from(document.querySelectorAll(".poodPiltImg")),
+    subformHeadingArray: Array.from(document.querySelectorAll(".poodHeading")),
+    subformLoikFormArray: Array.from(document.querySelectorAll(".poodLoikForm")),
+    subformLoikAddBtnArray: Array.from(document.querySelectorAll(".poodLoikAddBtn")),
+    subformDeleteBtnArray: Array.from(document.querySelectorAll(".poodDeleteBtn")),
+    subformLoikArrays: [],
+    subformLoikEstArrays: [],
+    subformLoikEnArrays: [],
+    subformLoikHeadingArrays: [],
+    subformLoikDeleteBtnArrays: [],
+  };
+
+  // populate the empty arrays using a for loop
+
+  for (var i = 0; i < poodSubforms.subformLoikFormArray.length; i++) {
+
+    var idNumber = i + 1;
+    var subformLoikArray = Array.from(document.querySelectorAll(".pood" + idNumber + "Loik"));
+    var subformLoikEstArray = Array.from(document.querySelectorAll(".pood" + idNumber + "LoikEst"));
+    var subformLoikEnArray = Array.from(document.querySelectorAll(".pood" + idNumber + "LoikEn"));
+    var subformLoikHeadingArray = Array.from(document.querySelectorAll(".pood" + idNumber + "LoikHeading"));
+    var subformLoikDeleteBtnArray = Array.from(document.querySelectorAll(".pood" + idNumber + "LoikDeleteBtn"));
+
+    // push these arrays into the poodSubforms object
+
+    poodSubforms.subformLoikArrays.push(subformLoikArray);
+    poodSubforms.subformLoikEstArrays.push(subformLoikEstArray);
+    poodSubforms.subformLoikEnArrays.push(subformLoikEnArray);
+    poodSubforms.subformLoikHeadingArrays.push(subformLoikHeadingArray);
+    poodSubforms.subformLoikDeleteBtnArrays.push(subformLoikDeleteBtnArray);
+  }
+
+  return poodSubforms;
+}
+
+
 // function for getting the relevant DOM arrays specifically for the "moodunud" subforms
 
 
@@ -1329,6 +1386,7 @@ function getArrayNames(elementName) {
     arrayNameEnEd: elementName + "EnEd",
     arrayNameEstKey: elementName + "EstKey",
     arrayNameEnKey: elementName + "EnKey",
+    arrayNameCheckbox: elementName + "Checkbox",
     arrayNameFile: elementName + "File",
     arrayNameLabel: elementName + "Label",
     arrayNamePlaceholder: elementName + "Placeholder",
@@ -1419,6 +1477,25 @@ function getSundmusedSubformIndex(element) {
 }
 
 
+// function for getting the index of the deleted "pood" subform in the array
+
+
+function getPoodSubformIndex(element) {
+
+  // get the subforms object
+
+  var poodSubforms = getPoodSubforms();
+
+  // get the index of the deleted subform in its array
+
+  var poodSubformIndex = poodSubforms.subformArray.indexOf(element);
+
+  // return the retrieved index
+
+  return poodSubformIndex;
+}
+
+
 // function for getting the index of the deleted "moodunud" subform in the array
 
 
@@ -1464,6 +1541,7 @@ function getDocArrays(doc, selectorName) {
     docEnEdArray: doc.querySelectorAll("." + selectorName + "EnEd"),
     docEstKeyArray: doc.querySelectorAll("." + selectorName + "EstKey"),
     docEnKeyArray: doc.querySelectorAll("." + selectorName + "EnKey"),
+    docCheckboxArray: doc.querySelectorAll("." + selectorName + "Checkbox"),
     docFileArray: doc.querySelectorAll("." + selectorName + "File"),
     docLabelArray: doc.querySelectorAll("." + selectorName + "Label"),
     docPlaceholderArray: doc.querySelectorAll("." + selectorName + "Placeholder"),
@@ -1555,6 +1633,34 @@ function getDocSundmusedSubforms(doc) {
 }
 
 
+// function for getting the relevant arrays from the ajax response text for specifically the "pood" subforms
+
+
+function getDocPoodSubforms(doc) {
+
+  // construct an object of the retrieved arrays
+
+  var docPoodSubforms = {
+    docSubformArray: doc.querySelectorAll(".poodSubform"),
+    docSubformToodeEstArray: doc.querySelectorAll(".poodToodeEst"),
+    docSubformToodeEnArray: doc.querySelectorAll(".poodToodeEn"),
+    docSubformToodeNumberArray: doc.querySelectorAll(".poodToodeNumber"),
+    docSubformPiltArray: doc.querySelectorAll(".poodPilt"),
+    docSubformPiltLabelArray: doc.querySelectorAll(".poodPiltLabel"),
+    docSubformPiltPlaceholderArray: doc.querySelectorAll(".poodPiltPlaceholder"),
+    docSubformPiltImgArray: doc.querySelectorAll(".poodPiltImg"),
+    docSubformHeadingArray: doc.querySelectorAll(".poodHeading"),
+    docSubformLoikFormArray: doc.querySelectorAll(".poodLoikForm"),
+    docSubformLoikAddBtnArray: doc.querySelectorAll(".poodLoikAddBtn"),
+    docSubformDeleteBtnArray: doc.querySelectorAll(".poodDeleteBtn")
+  };
+
+  // return the object
+
+  return docPoodSubforms;
+}
+
+
 // function for getting elements from each array which will be added to the page
 
 
@@ -1578,6 +1684,7 @@ function getDocElements(doc, selectorName) {
     docEnEdElement: getLastElement(docArrays.docEnEdArray),
     docEstKeyElement: getLastElement(docArrays.docEstKeyArray),
     docEnKeyElement: getLastElement(docArrays.docEnKeyArray),
+    docCheckboxElement: getLastElement(docArrays.docCheckboxArray),
     docFileElement: getLastElement(docArrays.docFileArray),
     docLabelElement: getLastElement(docArrays.docLabelArray),
     docPlaceholderElement: getLastElement(docArrays.docPlaceholderArray),
@@ -1660,6 +1767,32 @@ function getDocSundmusedSubformElements(doc) {
   };
 
   return docSundmusedSubformElements;
+}
+
+
+// get the last elements from each of the arrays related to the "sundmused" subform (the ones, which will be added to the page)
+
+
+function getDocPoodSubformElements(doc) {
+
+  var docPoodSubforms = getDocPoodSubforms(doc);
+
+  var docPoodSubformElements = {
+    docSubformElement: getLastElement(docPoodSubforms.docSubformArray),
+    docSubformToodeEstElement: getLastElement(docPoodSubforms.docSubformToodeEstArray),
+    docSubformToodeEnElement: getLastElement(docPoodSubforms.docSubformToodeEnArray),
+    docSubformToodeNumberElement: getLastElement(docPoodSubforms.docSubformToodeNumberArray),
+    docSubformPiltElement: getLastElement(docPoodSubforms.docSubformPiltArray),
+    docSubformPiltLabelElement: getLastElement(docPoodSubforms.docSubformPiltLabelArray),
+    docSubformPiltPlaceholderElement: getLastElement(docPoodSubforms.docSubformPiltPlaceholderArray),
+    docSubformPiltImgElement: getLastElement(docPoodSubforms.docSubformPiltImgArray),
+    docSubformHeadingElement: getLastElement(docPoodSubforms.docSubformHeadingArray),
+    docSubformLoikFormElement: getLastElement(docPoodSubforms.docSubformLoikFormArray),
+    docSubformLoikAddBtnElement: getLastElement(docPoodSubforms.docSubformLoikAddBtnArray),
+    docSubformDeleteBtnElement: getLastElement(docPoodSubforms.docSubformDeleteBtnArray)
+  };
+
+  return docPoodSubformElements;
 }
 
 
@@ -1761,6 +1894,28 @@ function commenceDelete(event, target, destination, subform) {
       return createDeleteSundmusedData(sundmusedParent, textQuery);
     }, destination + "/delete", "delete"));
 
+    // check, if the subform input has been specified as "pood"
+
+  } else if (subform === "pood") {
+
+    // if yes, get the parent element of the target input
+
+    var poodParent = getParent(target);
+
+    // get the the relevant attributes of the deleted subform
+
+    var poodSubformData = getPoodSubformData(poodParent);
+
+    // the parent element is the one we want to delete- call the below function to do that
+
+    deletePoodSubform(poodParent, poodSubformData);
+
+    // call an ajax request to delete relevant data from the database
+
+    ajaxBodyParser(event, new BodyParserParam(function() {
+      return createDeletePoodData(poodParent);
+    }, destination + "/delete", "delete"));
+
     // check, if the subform input has been specified as "moodunud"
 
   } else if (subform === "moodunud") {
@@ -1850,6 +2005,18 @@ function deleteSundmusedSubform(element, elementData) {
 }
 
 
+//function for deleting a "pood" subform from the page
+
+
+function deletePoodSubform(element, elementData) {
+  element.parentNode.removeChild(element);
+
+  // update the attributes of all subforms left on the page
+
+  updatePoodSubforms(element, elementData);
+}
+
+
 //function for deleting a "moodunud" subform from the page
 
 
@@ -1881,6 +2048,7 @@ function updateArrays(element, elementData) {
   elementData.arrays.enEdArray.splice(elementData.arrayIndex, 1);
   elementData.arrays.estKeyArray.splice(elementData.arrayIndex, 1);
   elementData.arrays.enKeyArray.splice(elementData.arrayIndex, 1);
+  elementData.arrays.checkboxArray.splice(elementData.arrayIndex, 1);
   elementData.arrays.fileArray.splice(elementData.arrayIndex, 1);
   elementData.arrays.labelArray.splice(elementData.arrayIndex, 1);
   elementData.arrays.placeholderArray.splice(elementData.arrayIndex, 1);
@@ -1987,6 +2155,37 @@ function updateSundmusedSubforms(element, elementData) {
 }
 
 
+// function for updating the arrays affected by the deletion of a "pood" subform
+
+
+function updatePoodSubforms(element, elementData) {
+
+  // remove the deleted element from each of the arrays using the received index
+
+  elementData.subforms.subformArray.splice(elementData.subformIndex, 1);
+  elementData.subforms.subformToodeEstArray.splice(elementData.subformIndex, 1);
+  elementData.subforms.subformToodeEnArray.splice(elementData.subformIndex, 1);
+  elementData.subforms.subformToodeNumberArray.splice(elementData.subformIndex, 1);
+  elementData.subforms.subformPiltArray.splice(elementData.subformIndex, 1);
+  elementData.subforms.subformPiltLabelArray.splice(elementData.subformIndex, 1);
+  elementData.subforms.subformPiltPlaceholderArray.splice(elementData.subformIndex, 1);
+  elementData.subforms.subformPiltImgArray.splice(elementData.subformIndex, 1);
+  elementData.subforms.subformHeadingArray.splice(elementData.subformIndex, 1);
+  elementData.subforms.subformLoikFormArray.splice(elementData.subformIndex, 1);
+  elementData.subforms.subformLoikAddBtnArray.splice(elementData.subformIndex, 1);
+  elementData.subforms.subformDeleteBtnArray.splice(elementData.subformIndex, 1);
+  elementData.subforms.subformLoikArrays.splice(elementData.subformIndex, 1);
+  elementData.subforms.subformLoikEstArrays.splice(elementData.subformIndex, 1);
+  elementData.subforms.subformLoikEnArrays.splice(elementData.subformIndex, 1);
+  elementData.subforms.subformLoikHeadingArrays.splice(elementData.subformIndex, 1);
+  elementData.subforms.subformLoikDeleteBtnArrays.splice(elementData.subformIndex, 1);
+
+  // update the properties of the DOM elements that have been affected by element deletion
+
+  updatePoodSubformProperties(elementData);
+}
+
+
 // function for updating the arrays affected by the deletion of a "moodunud" subform
 
 
@@ -2075,11 +2274,15 @@ function updateProperties(elementData) {
     }
     if (elementData.arrays.estKeyArray[i] !== undefined) {
       elementData.arrays.estKeyArray[i].setAttribute("id", elementData.arrayNames.arrayNameEstKey + idNumber);
-      elementData.arrays.enKeyArray[i].setAttribute("name", elementData.arrayNames.arrayNameEnKey + idNumber);
+      elementData.arrays.estKeyArray[i].setAttribute("name", elementData.arrayNames.arrayNameEstKey + idNumber);
     }
     if (elementData.arrays.enKeyArray[i] !== undefined) {
       elementData.arrays.enKeyArray[i].setAttribute("id", elementData.arrayNames.arrayNameEnKey + idNumber);
       elementData.arrays.enKeyArray[i].setAttribute("name", elementData.arrayNames.arrayNameEnKey + idNumber);
+    }
+    if (elementData.arrays.checkboxArray[i] !== undefined) {
+      elementData.arrays.checkboxArray[i].setAttribute("id", elementData.arrayNames.arrayNameCheckbox + idNumber);
+      elementData.arrays.checkboxArray[i].setAttribute("name", elementData.arrayNames.arrayNameCheckbox + idNumber);
     }
     if (elementData.arrays.fileArray[i] !== undefined) {
       elementData.arrays.fileArray[i].setAttribute("id", elementData.arrayNames.arrayNameFile + idNumber);
@@ -2340,6 +2543,78 @@ function updateSundmusedSubformProperties(elementData) {
 }
 
 
+// function for updating the properties of the DOM elements inside the altered "pood" subforms
+
+
+function updatePoodSubformProperties(elementData) {
+
+  for (var i = 0; i < elementData.subforms.subformArray.length; i++) {
+
+    // because normal people start counting from 1 not 0, add 1 to the index to create element id-s and form headings
+
+    var idNumber = i + 1;
+
+    // update the attributes of all the "pood" subform elements affected by the deletion of one of them
+
+    elementData.subforms.subformArray[i].setAttribute("id", "pood" + idNumber + "Subform");
+    elementData.subforms.subformArray[i].setAttribute("name", "pood" + idNumber + "Subform");
+    elementData.subforms.subformToodeEstArray[i].setAttribute("id", "pood" + idNumber + "ToodeEst");
+    elementData.subforms.subformToodeEstArray[i].setAttribute("name", "pood" + idNumber + "ToodeEst");
+    elementData.subforms.subformToodeEnArray[i].setAttribute("id", "pood" + idNumber + "ToodeEn");
+    elementData.subforms.subformToodeEnArray[i].setAttribute("name", "pood" + idNumber + "ToodeEn");
+    elementData.subforms.subformToodeNumberArray[i].setAttribute("id", "pood" + idNumber + "ToodeNumber");
+    elementData.subforms.subformToodeNumberArray[i].setAttribute("name", "pood" + idNumber + "ToodeNumber");
+    elementData.subforms.subformPiltArray[i].setAttribute("id", "pood" + idNumber + "Pilt");
+    elementData.subforms.subformPiltArray[i].setAttribute("name", "pood" + idNumber + "Pilt");
+    elementData.subforms.subformPiltLabelArray[i].setAttribute("id", "pood" + idNumber + "PiltLabel");
+    elementData.subforms.subformPiltLabelArray[i].setAttribute("name", "pood" + idNumber + "PiltLabel");
+    elementData.subforms.subformPiltLabelArray[i].setAttribute("for", "pood" + idNumber + "Pilt");
+    elementData.subforms.subformPiltPlaceholderArray[i].setAttribute("id", "pood" + idNumber + "PiltPlaceholder");
+    elementData.subforms.subformPiltPlaceholderArray[i].setAttribute("name", "pood" + idNumber + "PiltPlaceholder");
+    elementData.subforms.subformPiltImgArray[i].setAttribute("id", "pood" + idNumber + "PiltImg");
+    elementData.subforms.subformPiltImgArray[i].setAttribute("name", "pood" + idNumber + "PiltImg");
+    elementData.subforms.subformPiltImgArray[i].setAttribute("alt", "Pilt " + idNumber);
+    elementData.subforms.subformHeadingArray[i].setAttribute("id", "pood" + idNumber + "Heading");
+    elementData.subforms.subformHeadingArray[i].setAttribute("name", "pood" + idNumber + "Heading");
+    elementData.subforms.subformHeadingArray[i].innerHTML = "Toode " + idNumber;
+    elementData.subforms.subformLoikFormArray[i].setAttribute("id", "pood" + idNumber + "LoikForm");
+    elementData.subforms.subformLoikFormArray[i].setAttribute("name", "pood" + idNumber + "LoikForm");
+    elementData.subforms.subformLoikAddBtnArray[i].setAttribute("id", "pood" + idNumber + "LoikAddBtn");
+    elementData.subforms.subformLoikAddBtnArray[i].setAttribute("name", "pood" + idNumber + "LoikAddBtn");
+    elementData.subforms.subformDeleteBtnArray[i].setAttribute("id", "pood" + idNumber + "DeleteBtn");
+    elementData.subforms.subformDeleteBtnArray[i].setAttribute("name", "pood" + idNumber + "DeleteBtn");
+
+    // loop through all the "loik" components on every "pood" subform and update their attributes
+
+    for (var a = 0; a < elementData.subforms.subformLoikArrays[i].length; a++) {
+
+      // the indexNumber in the end of the "loik" elements' attributes is their position in the array + 1 (since humans count from 1 not 0)
+
+      var indexNumber = a + 1;
+
+      // update all the attributes
+
+      elementData.subforms.subformLoikArrays[i][a].setAttribute("id", "pood" + idNumber + "Loik" + indexNumber);
+      elementData.subforms.subformLoikArrays[i][a].setAttribute("name", "pood" + idNumber + "Loik" + indexNumber);
+      elementData.subforms.subformLoikArrays[i][a].classList.replace(getLastElement(elementData.subforms.subformLoikArrays[i][a].classList), "pood" + idNumber + "Loik" + indexNumber);
+      elementData.subforms.subformLoikEstArrays[i][a].setAttribute("id", "pood" + idNumber + "LoikEst" + indexNumber);
+      elementData.subforms.subformLoikEstArrays[i][a].setAttribute("name", "pood" + idNumber + "LoikEst" + indexNumber);
+      elementData.subforms.subformLoikEstArrays[i][a].classList.replace(getLastElement(elementData.subforms.subformLoikEstArrays[i][a].classList), "pood" + idNumber + "LoikEst" + indexNumber);
+      elementData.subforms.subformLoikEnArrays[i][a].setAttribute("id", "pood" + idNumber + "LoikEn" + indexNumber);
+      elementData.subforms.subformLoikEnArrays[i][a].setAttribute("name", "pood" + idNumber + "LoikEn" + indexNumber);
+      elementData.subforms.subformLoikEnArrays[i][a].classList.replace(getLastElement(elementData.subforms.subformLoikEnArrays[i][a].classList), "pood" + idNumber + "LoikEn" + indexNumber);
+      elementData.subforms.subformLoikHeadingArrays[i][a].setAttribute("id", "pood" + idNumber + "LoikHeading" + indexNumber);
+      elementData.subforms.subformLoikHeadingArrays[i][a].setAttribute("name", "pood" + idNumber + "LoikHeading" + indexNumber);
+      elementData.subforms.subformLoikHeadingArrays[i][a].classList.replace(getLastElement(elementData.subforms.subformLoikHeadingArrays[i][a].classList), "pood" + idNumber + "LoikHeading" + indexNumber);
+      elementData.subforms.subformLoikHeadingArrays[i][a].innerHTML = "Lõik " + indexNumber;
+      elementData.subforms.subformLoikDeleteBtnArrays[i][a].setAttribute("id", "pood" + idNumber + "LoikDeleteBtn" + indexNumber);
+      elementData.subforms.subformLoikDeleteBtnArrays[i][a].setAttribute("name", "pood" + idNumber + "LoikDeleteBtn" + indexNumber);
+      elementData.subforms.subformLoikDeleteBtnArrays[i][a].classList.replace(getLastElement(elementData.subforms.subformLoikDeleteBtnArrays[i][a].classList), "pood" + idNumber + "LoikDeleteBtn" + indexNumber);
+    }
+  }
+}
+
+
 // function for updating the properties of the DOM elements inside the altered "moodunud" subforms
 
 
@@ -2528,6 +2803,24 @@ function getSundmusedSubformData(element) {
 }
 
 
+// function for retrieving all the node lists that are affected by a "pood" subform deletion
+
+
+function getPoodSubformData(element) {
+
+  // create an object from the relevant "pood" subform data
+
+  var poodSubformData = {
+    subforms: getPoodSubforms(),
+    subformIndex: getPoodSubformIndex(element)
+  };
+
+  // return the object
+
+  return poodSubformData;
+}
+
+
 // function for retrieving all the node lists that are affected by a "moodunud" subform deletion
 
 
@@ -2620,7 +2913,7 @@ function addElement(event, doc, destination, subform) {
 
     var docSundmusedSubform = getDocSundmusedSubforms(doc);
 
-    // get the last elements of each of the arrays in the docAjaluguSubform object
+    // get the last elements of each of the arrays in the docSundmusedSubform object
 
     var docSundmusedSubformElements = getDocSundmusedSubformElements(doc);
 
@@ -2635,6 +2928,34 @@ function addElement(event, doc, destination, subform) {
     // call the appendSubform function
 
     appendSubform(sundmusedForm, docSundmusedSubformElements);
+
+    // check if the subform is specified as "pood"
+
+  } else if (subform === "pood") {
+
+    // get the relevant subform arrays
+
+    var poodSubforms = getPoodSubforms();
+
+    // get the relevant subform arrays from the not yet visible updated version of the page
+
+    var docPoodSubform = getDocPoodSubforms(doc);
+
+    // get the last elements of each of the arrays in the docPoodSubform object
+
+    var docPoodSubformElements = getDocPoodSubformElements(doc);
+
+    // push those elements into the existing subform arrays, so that those elements will become visible
+
+    var newPoodSubforms = pushPoodSubform(poodSubforms, docPoodSubformElements);
+
+    // get the relevant form
+
+    var poodForm = document.getElementById("poodForm");
+
+    // call the appendSubform function
+
+    appendSubform(poodForm, docPoodSubformElements);
 
   } else {
 
@@ -2695,6 +3016,7 @@ function pushArrays(arrays, elements) {
   arrays.enEdArray.push(elements.docEnEdElement);
   arrays.estKeyArray.push(elements.docEstKeyElement);
   arrays.enKeyArray.push(elements.docEnKeyElement);
+  arrays.checkboxArray.push(elements.docCheckboxElement);
   arrays.fileArray.push(elements.docFileElement);
   arrays.labelArray.push(elements.docLabelElement);
   arrays.placeholderArray.push(elements.docPlaceholderElement);
@@ -2777,6 +3099,33 @@ function pushSundmusedSubform(arrays, elements) {
   return arrays;
 }
 
+
+// function for pushing the asynchronously added arrays on the "pood" subform to the arrays on the actual page
+
+
+function pushPoodSubform(arrays, elements) {
+
+  arrays.subformArray.push(elements.docSubformElement);
+  arrays.subformToodeEstArray.push(elements.docSubformToodeEstElement);
+  arrays.subformToodeEnArray.push(elements.docSubformToodeEnElement);
+  arrays.subformToodeNumberArray.push(elements.docSubformToodeNumberElement);
+  arrays.subformPiltArray.push(elements.docSubformPiltElement);
+  arrays.subformPiltLabelArray.push(elements.docSubformPiltLabelElement);
+  arrays.subformPiltPlaceholderArray.push(elements.docSubformPiltPlaceholderElement);
+  arrays.subformPiltImgArray.push(elements.docSubformPiltImgElement);
+  arrays.subformHeadingArray.push(elements.docSubformHeadingElement);
+  arrays.subformLoikFormArray.push(elements.docSubformLoikFormElement);
+  arrays.subformLoikAddBtnArray.push(elements.docSubformLoikAddBtnElement);
+  arrays.subformDeleteBtnArray.push(elements.docSubformDeleteBtnElement);
+
+  // call the changePreview function once again so that it also applies to newly added image elements
+
+  for (var i = 0; i < arrays.subformPiltArray.length; i++) {
+    changePreview(arrays.subformPiltArray[i]);
+  }
+
+  return arrays;
+}
 
 
 // function for appending the added "loik" element to the actual page
@@ -2882,12 +3231,21 @@ if (kontakt !== null) {
   });
 }
 
-// check if the current page is "admin/vastuvott" by checking if the vastuvott form element exists
+// check if the current page is "admin/kontakt" by checking if the vastuvott form element exists
 
 if (vastuvott !== null) {
 
   vastuvott.addEventListener("submit", function(event) {
     ajaxBodyParser(event, new BodyParserParam(createVastuvottData, "vastuvott", "update"));
+  });
+}
+
+// check if the current page is "admin/pood" by checking if the telli form element exists
+
+if (telli !== null) {
+
+  telli.addEventListener("submit", function(event) {
+    ajaxBodyParser(event, new BodyParserParam(createTelliData, "telli", "update"));
   });
 }
 
@@ -2897,6 +3255,15 @@ if (sundmused !== null) {
 
   sundmused.addEventListener("submit", function(event) {
     ajaxMulter(event, new MulterParam(sundmused, "sundmused"));
+  });
+}
+
+// check if the current page is "admin/pood" by checking if the pood form element exists
+
+if (pood !== null) {
+
+  pood.addEventListener("submit", function(event) {
+    ajaxMulter(event, new MulterParam(pood, "pood"));
   });
 }
 
@@ -2934,6 +3301,8 @@ document.addEventListener("click", function(event) {
     ajaxBodyParser(event, new BodyParserParam(createNonData, "ajalugu/sissekanne/new", "create", "koorist"));
   } else if (event.target === ajaluguSissejuhatusLoikAddBtn) {
     ajaxBodyParser(event, new BodyParserParam(createNonData, "ajalugu/sissejuhatus/new", "create", "koorist"));
+  } else if (event.target === poodSissejuhatusLoikAddBtn) {
+    ajaxBodyParser(event, new BodyParserParam(createNonData, "pood/sissejuhatus/new", "create", "pood"));
   } else if (event.target === meediaLoikAddBtn) {
     ajaxBodyParser(event, new BodyParserParam(createNonData, "meedia/new", "create", "koorist"));
   } else if (event.target === meediaVideoLoikAddBtn) {
@@ -2958,8 +3327,14 @@ document.addEventListener("click", function(event) {
     ajaxBodyParser(event, new BodyParserParam(createNonData, "vastuvott/new", "create", "kontakt"));
   } else if (event.target === ankeetLoikAddBtn) {
     ajaxBodyParser(event, new BodyParserParam(createNonData, "vastuvott/ankeet/new", "create", "kontakt"));
+  } else if (event.target === telliLoikAddBtn) {
+    ajaxBodyParser(event, new BodyParserParam(createNonData, "telli/new", "create", "pood"));
+  } else if (event.target === kontaktandmedLoikAddBtn) {
+    ajaxBodyParser(event, new BodyParserParam(createNonData, "telli/kontaktandmed/new", "create", "pood"));
   } else if (event.target === sundmusedSissejuhatusLoikAddBtn) {
     ajaxBodyParser(event, new BodyParserParam(createNonData, "sundmused/sissejuhatus/new", "create", "sundmused"));
+  } else if (event.target === poodSissejuhatusLoikAddBtn) {
+      ajaxBodyParser(event, new BodyParserParam(createNonData, "pood/sissejuhatus/new", "create", "p"));
 
     // check if the clicked element is a dynamically created add new "loik" button on a "dirigendid" subform
 
@@ -3013,6 +3388,19 @@ document.addEventListener("click", function(event) {
 
     ajaxBodyParser(event, new BodyParserParam(createNonData, "sundmused/koht" + addSundmusedLoikKohtIdNumber + "/new", "create", "sundmused"));
 
+    // check if the clicked element is a dynamically created add new "loik" button on a "pood" subform
+
+  } else if (event.target.classList.contains("poodLoikAddBtn")) {
+
+    // get the post destination route-
+    // first obtain an id number from the id of the clicked element
+
+    var addPoodLoikIdNumber = event.target.id.slice(4, -10);
+
+    // call the ajax function, with the destination route being "pood" + the id number
+
+    ajaxBodyParser(event, new BodyParserParam(createNonData, "pood" + addPoodLoikIdNumber + "/new", "create", "pood"));
+
     // check if the clicked element is a dynamically created add new "loik" button on a "moodunud" subform
 
   } else if (event.target.classList.contains("moodunudLoikAddBtn")) {
@@ -3054,6 +3442,11 @@ document.addEventListener("click", function(event) {
   } else if (event.target === sundmusedAddBtn) {
     ajaxBodyParser(event, new BodyParserParam(createNonData, "sundmused/new", "create", "sundmused", "sundmused"));
 
+    // check if the clicked element is a previously defined add new "pood" subform button
+
+  } else if (event.target === poodAddBtn) {
+    ajaxBodyParser(event, new BodyParserParam(createNonData, "pood/new", "create", "pood", "pood"));
+
     // check if the clicked element is a specific delete "loik" button
 
   } else if (event.target.classList.contains("sissejuhatusLoikDeleteBtn")) {
@@ -3062,6 +3455,8 @@ document.addEventListener("click", function(event) {
     createDeleteMessage(event, "liikmed");
   } else if (event.target.classList.contains("ajaluguSissejuhatusLoikDeleteBtn")) {
     createDeleteMessage(event, "ajalugu/sissejuhatus");
+  } else if (event.target.classList.contains("poodSissejuhatusLoikDeleteBtn")) {
+    createDeleteMessage(event, "pood/sissejuhatus");
   } else if (event.target.classList.contains("ajaluguSissekanneLoikDeleteBtn")) {
     createDeleteMessage(event, "ajalugu/sissekanne");
   } else if (event.target.classList.contains("meediaLoikDeleteBtn")) {
@@ -3088,8 +3483,14 @@ document.addEventListener("click", function(event) {
     createDeleteMessage(event, "vastuvott");
   } else if (event.target.classList.contains("ankeetLoikDeleteBtn")) {
     createDeleteMessage(event, "vastuvott/ankeet");
+  } else if (event.target.classList.contains("telliLoikDeleteBtn")) {
+    createDeleteMessage(event, "telli");
+  } else if (event.target.classList.contains("kontaktandmedLoikDeleteBtn")) {
+    createDeleteMessage(event, "telli/kontaktandmed");
   } else if (event.target.classList.contains("sundmusedSissejuhatusLoikDeleteBtn")) {
     createDeleteMessage(event, "sundmused/sissejuhatus");
+  } else if (event.target.classList.contains("poodSissejuhatusLoikDeleteBtn")) {
+    createDeleteMessage(event, "pood/sissejuhatus");
   } else if (event.target.classList.contains("andmebaasLoikDeleteBtn")) {
     createDeleteMessage(event, "ankeet");
 
@@ -3137,6 +3538,17 @@ document.addEventListener("click", function(event) {
     var deleteSundmusedLoikKohtIdNumber = event.target.id.slice(9, endOfSundmusedNumberKoht);
     createDeleteMessage(event, "sundmused/koht" + deleteSundmusedLoikKohtIdNumber);
 
+// check if the clicked element is a delete "loik" button on a dynamically created "pood" subform
+
+} else if (event.target.classList.contains("poodLoikDeleteBtn")) {
+
+    // the event target should have an id, which contains a number between "pood" and "LoikDeleteBtn" - this number will be the idNumber variable
+    // this number starts at index 4 and ends where "LoikDeleteBtn" starts
+
+    var endOfPoodNumber = event.target.id.indexOf("LoikDeleteBtn");
+    var deletePoodLoikIdNumber = event.target.id.slice(4, endOfPoodNumber);
+    createDeleteMessage(event, "pood" + deletePoodLoikIdNumber);
+
     // check if the clicked element is a delete "loik" button on a dynamically created "moodunud" subform
 
   } else if (event.target.classList.contains("moodunudLoikDeleteBtn")) {
@@ -3173,6 +3585,11 @@ document.addEventListener("click", function(event) {
 
   } else if (event.target.classList.contains("sundmusedDeleteBtn")) {
     createDeleteMessage(event, "sundmused", "sundmused");
+
+// check if the clicked element is a delete "pood" subform button
+
+} else if (event.target.classList.contains("poodDeleteBtn")) {
+    createDeleteMessage(event, "pood", "pood");
 
 // check if the clicked element is a delete "moodunud" subform button
 

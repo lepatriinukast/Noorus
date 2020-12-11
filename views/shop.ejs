@@ -1,207 +1,27 @@
-<%- include partials/head {pageTitle: pageTitle} -%>
-<%- include partials/navigation {currentPage: currentPage} -%>
+<%- include partials/head-en {pageTitle: pageTitle} -%>
+<%- include partials/navigation-en {currentPage: currentPage} -%>
 <div class="page-pood__container">
   <h2 class="heading--secondary heading--purple u-margin-bottom-big">Shop</h2>
-  <div class="page-pood__content-box" id="contentBox1">
-    <div class="page-pood__img" style="background-image: url('../img/esikaas.jpg');">
+<% for (var a = 0; a < poodData.length; a++) { %>
+  <div class="page-pood__content-box" id="contentBox<%= a + 1 %>">
+    <div class="page-pood__img" style="background-image: url('<%= pildid[a].url %>');">
     </div>
     <div class="page-pood__text-wrapper">
-      <div class="page-pood__text-box low-fixed-height" id="textBox1">
-        <h3 class="heading--tertiary heading--purple u-margin-bottom-big">Book “60 aastat Nooruse kõla”</h3>
-        <p class="paragraph--small paragraph--purple u-margin-bottom-big">
-          For the first time ever, the eventful history of our choir has been recorded in a book! In this jubilee edition titled “60 aastat Nooruse kõla” you will find interviews, detailed chronology, reminiscences of current and past singers, loads of pictures and plenty of other interesting content.</p>
-        <p class="paragraph--small paragraph--purple u-margin-bottom-big">This book has been sponsored by the Cultural Endowment of Estonia and the numerous donators at the "Hooandja" fundraising platform.</p>
-      </div>
-      <div class="page-pood__btn-box">
-        <p class="page-pood__price heading--tertiary heading--purple"><strong>15 €</strong></p>
-        <a href="" class="btn btn--main btn--dark orderBtn" data-language="en" id="orderBtn1">Order here</a>
-      </div>
-    </div>
-  </div>
-  <div class="page-pood__content-box" id="contentBox2">
-    <div class="page-pood__img" style="background-image: url('../img/Lendutõus.jpg');"></div>
-    <div class="page-pood__text-wrapper">
-      <div class="page-pood__text-box low-fixed-height" id="textBox2">
-        <h3 class="heading--tertiary heading--purple u-margin-bottom-big">CD “Lendutõus”</h3>
-        <p class="paragraph--small paragraph--purple u-margin-bottom-big">Mixed choir Noorus, string quartet Prezioso, Ingely Laiv-Järvi (oboe), conductors Maarja Helstein, Taavi Hark, Markus Leppoja.</p>
-          <p class="paragraph--small paragraph--purple u-margin-bottom-big">Tallinn: Mixed choir Noorus, 2020</p>
-        <p class="paragraph--small paragraph--purple u-margin-bottom-big">Our latest album “Lendutõus” came out for the choir's 60th birthday and is in essence a summary of all the different activities that the choir has been involved in throughout the last decade. The album features beautiful Estonian poetry set into choral music by young Estonian composers.
-           Most of these works have either been written specifically for Noorus or have never been recorded on a CD before.</p>
-        <p class="paragraph--small paragraph--purple u-margin-bottom-big">Lendutõus = M. Valkonen ; lyr.: Mathura, A. Alliksaar, M. Under, K. Jassa, P. Ilmet :</p>
-        <p class="paragraph--small paragraph--purple">1. Avaneb taevas</p>
-        <p class="paragraph--small paragraph--purple">2. Tundmatu lind</p>
-        <p class="paragraph--small paragraph--purple">3. Vaid linnud</p>
-        <p class="paragraph--small paragraph--purple">4. Luba, ma lendan</p>
-        <p class="paragraph--small paragraph--purple">5. Edasi!</p>
-        <p class="paragraph--small paragraph--purple">6. Valguse kiirg</p>
-        <p class="paragraph--small paragraph--purple u-margin-bottom-big">7. Imeviiv</p>
-        <p class="paragraph--small paragraph--purple">8. Päikesele / M. J. Sildos ; lyr.: E. Enno</p>
-        <p class="paragraph--small paragraph--purple">9. Silmad / M. Leppoja ; lyr.: E. Enno</p>
-        <p class="paragraph--small paragraph--purple">10. Sirelite aegu / S. Sokk ; lyr.: M. Under</p>
-        <p class="paragraph--small paragraph--purple">11. Meri on tõusnud / K. Petti ; lyr.: M. Under</p>
-        <p class="paragraph--small paragraph--purple u-margin-bottom-big">12. All õhtutaeva / M. Kõrvits ; lyr.: M. Under</p>
+      <div class="page-pood__text-box low-fixed-height" id="textBox<%= a + 1 %>">
+        <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= poodData[a].toode.en %></h3>
+        <% for (var i = 0; i < poodData[a].loigud.length; i++) { %>
+        <p class="paragraph--small paragraph--purple u-margin-bottom-big"><%= poodData[a].loigud[i].en %></p>
+          <% } %>
       </div>
       <div class="page-pood__link-box">
-        <a class="paragraph--large link link--purple linkBtn" href="#contentBox2" id="linkBtn2">Read more...</a>
+        <a class="paragraph--large link link--purple hide linkBtn" href="#contentBox<%= a + 1 %>" id="linkBtn<%= a + 1 %>">Read more...</a>
       </div>
       <div class="page-pood__btn-box">
-        <p class="page-pood__price heading--tertiary heading--purple"><strong>15 €</strong></p>
-        <a href="" class="btn btn--main btn--dark orderBtn" data-language="en" id="orderBtn2">Order here</a>
+        <p class="page-pood__price heading--tertiary heading--purple"><strong><%= poodData[a].toode.price %> €</strong></p>
+        <a href="" class="btn btn--main btn--dark orderBtn" id="orderBtn<%= a + 1 %>" data-language="en">Order here</a>
       </div>
     </div>
   </div>
-  <div class="page-pood__content-box" id="contentBox3">
-    <div class="page-pood__img" style="background-image: url('../img/Läbilõige.jpg');"></div>
-    <div class="page-pood__text-wrapper">
-      <div class="page-pood__text-box low-fixed-height" id="textBox3">
-        <h3 class="heading--tertiary heading--purple u-margin-bottom-big">CD “Läbilõige: Noorus 50”</h3>
-        <p class="paragraph--small paragraph--purple u-margin-bottom-big">Mixed choir Noorus, conductors August Lüüs, Maie Kivita, Ene Üleoja, Merike Toro, Raul Talmar.</p>
-          <p class="paragraph--small paragraph--purple u-margin-bottom-big">Tallinn: Mixed choir Noorus, 2009</p>
-        <p class="paragraph--small paragraph--purple u-margin-bottom-big">The CD "Läbilõige" was released to celebrate the 50th birthday of the choir and is comprised of some of the most important recordings of the choir's 50 years of existence. The conductors featuring on this CD include August Lüüs, Maie Kivita, Ene Üleoja, Merike
-          Toro and Raul Talmar.</p>
-        <p class="paragraph--small paragraph--purple">1. Nooruse laul / H. Hindpere ; lyr.: H. Müller ; also feat. H. Hindpere, piano</p>
-        <p class="paragraph--small paragraph--purple">2. Sügisene kuldnokk / L. Veevo ; lyr.: M. Veetamm</p>
-        <p class="paragraph--small paragraph--purple">3. Emale / G. Ernesaks ; lyr.: E. Visnapuu</p>
-        <p class="paragraph--small paragraph--purple">4. Üks väikene laul / E. Tamberg ; lyr.: E. Niit</p>
-        <p class="paragraph--small paragraph--purple">5. Meie elu / A. Männik ; lyr.: folklore</p>
-        <p class="paragraph--small paragraph--purple">6. Dialektilised aforismid / V. Tormis ; lyr.: J. Liiv: Kahekõne ; Kuub ; Koer ; Üksik kaasik ; Kirves ja mets ; Idüll ; Mees pole pikem kübarast ; Kahekõne</p>
-        <p class="paragraph--small paragraph--purple">7. Naera / L. Veevo ; lyr.: V. Luik</p>
-        <p class="paragraph--small paragraph--purple">8. Luule, see ei tule tuulest / M. Saar ; lyr.: A. Haava</p>
-        <p class="paragraph--small paragraph--purple">9. Tass teed / music and lyrics: A. Marguste</p>
-        <p class="paragraph--small paragraph--purple">10. Noorpaari õpetamine : from the cycle "Vadja pulmalaulud" / V. Tormis ; lyr.: folklore</p>
-        <p class="paragraph--small paragraph--purple">11. Noorusele / music and lyrics: A. Ratassepp</p>
-        <p class="paragraph--small paragraph--purple">12. Kannel / C. Kreek ; lyr.: folklore</p>
-        <p class="paragraph--small paragraph--purple">13. Kyrie eleison / K. Sink</p>
-        <p class="paragraph--small paragraph--purple">14. Dona nobis pacem / U. Sisask</p>
-        <p class="paragraph--small paragraph--purple">15. Homme / M. Siimer ; lyr.: A. Alliksaar</p>
-        <p class="paragraph--small paragraph--purple">16. Mina tahan / R. Kangro ; lyr.: H. Runnel</p>
-        <p class="paragraph--small paragraph--purple">17. Puhkus Viljandis / L. Normet ; lyr.: D. Normet</p>
-        <p class="paragraph--small paragraph--purple">18. Kuhu lähed? / music and lyrics: M. Kõlar</p>
-        <p class="paragraph--small paragraph--purple">19. Külm / G. Ernesaks ; lyr.: J. Liiv</p>
-        <p class="paragraph--small paragraph--purple">20. Vägisi mehele : from the cycle "Vepsa rajad" / V. Tormis ; lyr.: folklore</p>
-        <p class="paragraph--small paragraph--purple">21. Ma lillesideme võtaks / P. Sarapik ; lyr.: J. Liiv</p>
-        <p class="paragraph--small paragraph--purple">22. Varas / R. Tobias ; lyr.: K. E. Sööt</p>
-      </div>
-      <div class="page-pood__link-box">
-        <a class="paragraph--large link link--purple linkBtn" href="#contentBox3" id="linkBtn3">Read more...</a>
-      </div>
-      <div class="page-pood__btn-box">
-        <p class="page-pood__price heading--tertiary heading--purple"><strong>7 €</strong></p>
-        <a href="" class="btn btn--main btn--dark orderBtn" data-language="en" id="orderBtn3">Order here</a>
-      </div>
-    </div>
-  </div>
-  <div class="page-pood__content-box" id="contentBox4">
-    <div class="page-pood__img" style="background-image: url('../img/Salanaine.jpg');"></div>
-    <div class="page-pood__text-wrapper">
-      <div class="page-pood__text-box low-fixed-height" id="textBox4">
-        <h3 class="heading--tertiary heading--purple u-margin-bottom-big">CD “Salanaine”</h3>
-        <p class="paragraph--small paragraph--purple u-margin-bottom-big">Mixed choir Noorus, conductor Raul Talmar. The text content is being recited by Katariina Lauk.</p>
-          <p class="paragraph--small paragraph--purple u-margin-bottom-big">Tallinn: Mixed choir Noorus, 2005</p>
-        <p class="paragraph--small paragraph--purple u-margin-bottom-big">"Salanaine" consists of about twenty choral pieces by the composers Urmas Sisask and Veljo Tormis written on the socially critical texts by Hando Runnel.
-          Amongst music pieces, texts from the author Sven Kivisildnik can be heard, small criticisms that the author claims "speak of things as they are". These text fragments are being recited by actress Katariina Lauk.</p>
-        <p class="paragraph--small paragraph--purple u-margin-bottom-big">1. Salanaine / U. Sisask ; lyr.: J. Liiv</p>
-        <p class="paragraph--small paragraph--purple u-margin-bottom-big">2. Text I / Kivisildnik</p>
-        <p class="paragraph--small paragraph--purple u-margin-bottom-big">3. Jää kestma / U. Sisask ; lyr.: J. Liiv, J. Semper</p>
-        <p class="paragraph--small paragraph--purple u-margin-bottom-big">4. Text II / Kivisildnik.</p>
-        <p class="paragraph--small paragraph--purple u-margin-bottom-big">Mõtisklusi Hando Runneliga / V. Tormis ; lyr.: H. Runnel:</p>
-        <p class="paragraph--small paragraph--purple">5. Üks väga vana rahvas</p>
-        <p class="paragraph--small paragraph--purple">6. Kas leiduks lohtu</p>
-        <p class="paragraph--small paragraph--purple">7. Ei ole mekat meil</p>
-        <p class="paragraph--small paragraph--purple u-margin-bottom-big">8. Veel seitsesada aastat</p>
-        <p class="paragraph--small paragraph--purple u-margin-bottom-big">9. Text III / Kivisildnik</p>
-        <p class="paragraph--small paragraph--purple u-margin-bottom-big">Eestlaste laulukesed / V. Tormis ; lyr.: H. Runnel:</p>
-        <p class="paragraph--small paragraph--purple">10. Eestlase elu</p>
-        <p class="paragraph--small paragraph--purple">11. Eestlase mure</p>
-        <p class="paragraph--small paragraph--purple">12. Eestlase kasu</p>
-        <p class="paragraph--small paragraph--purple u-margin-bottom-big">13. Eestlase meel</p>
-        <p class="paragraph--small paragraph--purple u-margin-bottom-big">14. Text IV / Kivisildnik</p>
-        <p class="paragraph--small paragraph--purple u-margin-bottom-big">U. Sisask ; lyr.: H. Runnel:</p>
-        <p class="paragraph--small paragraph--purple">15. Tahaks laulda</p>
-        <p class="paragraph--small paragraph--purple">16. Pühapäev on püünises</p>
-        <p class="paragraph--small paragraph--purple u-margin-bottom-big">17. Kandle tegemine</p>
-        <p class="paragraph--small paragraph--purple u-margin-bottom-big">18. Text V / Kivisildnik</p>
-        <p class="paragraph--small paragraph--purple u-margin-bottom-big">U. Sisask ; lyr.: H. Runnel:</p>
-        <p class="paragraph--small paragraph--purple">19. Ah mis siis</p>
-        <p class="paragraph--small paragraph--purple">20. Tu-li-lu-lu</p>
-        <p class="paragraph--small paragraph--purple">21. Kodumaal rännates</p>
-        <p class="paragraph--small paragraph--purple u-margin-bottom-big">22. Rahval on vaja</p>
-        <p class="paragraph--small paragraph--purple u-margin-bottom-big">23. Text VI / Kivisildnik</p>
-        <p class="paragraph--small paragraph--purple u-margin-bottom-big">Lojaalsed laulukesed / V. Tormis ; lyr.: H. Runnel:</p>
-        <p class="paragraph--small paragraph--purple">24. Meie õnn on kindel</p>
-        <p class="paragraph--small paragraph--purple">25. Ei saa me läbi Lätita</p>
-        <p class="paragraph--small paragraph--purple u-margin-bottom-big">26. Lojaalne lauluke</p>
-        <p class="paragraph--small paragraph--purple u-margin-bottom-big">27. Text VII / Kivisildnik</p>
-        <p class="paragraph--small paragraph--purple">28. Siin mu rõõmumaa / E. Mägi ; lyr.: H. Runnel</p>
-      </div>
-      <div class="page-pood__link-box">
-        <a class="paragraph--large link link--purple linkBtn" href="#contentBox4" id="linkBtn4">Read more...</a>
-      </div>
-      <div class="page-pood__btn-box">
-        <p class="page-pood__price heading--tertiary heading--purple"><strong>7 €</strong></p>
-        <a href="" class="btn btn--main btn--dark orderBtn" data-language="en" id="orderBtn4">Order here</a>
-      </div>
-    </div>
-  </div>
-  <div class="page-pood__content-box" id="contentBox5">
-    <div class="page-pood__img" style="background-image: url('../img/Lapsemeelsed jõulud.jpg');"></div>
-    <div class="page-pood__text-wrapper">
-      <div class="page-pood__text-box low-fixed-height" id="textBox5">
-        <h3 class="heading--tertiary heading--purple u-margin-bottom-big">CD “Lapsemeelsed jõulud”</h3>
-        <p class="paragraph--small paragraph--purple u-margin-bottom-big">Mixed choir Noorus, conductor Raul Talmar</p>
-          <p class="paragraph--small paragraph--purple u-margin-bottom-big">Tallinn: Elwood, 2006</p>
-        <p class="paragraph--small paragraph--purple u-margin-bottom-big">A variety of jolly christmas songs, both old and new, are being performed by youth. In addition to Noorus, the CD also features the offspring of some of the choir's members as soloists.</p>
-        <p class="paragraph--small paragraph--purple">1. Jõulu ootel / P. Pajusaar ; lyr.: F. Virkhaus.</p>
-        <p class="paragraph--small paragraph--purple">2. Nääriteel / lyr.: O. Saar</p>
-        <p class="paragraph--small paragraph--purple">3. Kelle jäljed / lyr.: V. Sõelsepp ; soloists S. Peinar, A. Peinar</p>
-        <p class="paragraph--small paragraph--purple">4. Esimesed lumehelbed / lyr.: J. Oro ; soloist S. Peinar</p>
-        <p class="paragraph--small paragraph--purple">5. Enne pühi / lyr.: J. Oro ; soloist J. Aav</p>
-        <p class="paragraph--small paragraph--purple">6. Kolm päkapikku / lyr.: M. Linnamägi</p>
-        <p class="paragraph--small paragraph--purple">7. Väike kuusk / lyr.: V. Luik</p>
-        <p class="paragraph--small paragraph--purple">8. Pühad / G. Grigorjeva ; lyr.: H. Runnel</p>
-        <p class="paragraph--small paragraph--purple">9. Talve mure / lyr.: H. Käo ; soloist S. Peinar</p>
-        <p class="paragraph--small paragraph--purple">10. Jõululaul / P. Pajusaar ; lyr.: H. Mänd ; soloist S. Peinar</p>
-        <p class="paragraph--small paragraph--purple">11. Kuuse tegemise laul / lyr.: I. Trull</p>
-        <p class="paragraph--small paragraph--purple">12. Päkapiku jõululaul / O. Ehala ; lyr.: K. Ehala</p>
-        <p class="paragraph--small paragraph--purple">13. The little drummer boy / music and lyrics: H. Simeone, H. Onorati, C. K. Davis</p>
-        <p class="paragraph--small paragraph--purple">14. Läbi öö / P. Pajusaar ; lyr.: H. Käo ; soloist S. Peinar</p>
-        <p class="paragraph--small paragraph--purple">15. Jõuluöine / P. Pormeister-Rips ; lyr.: A. Ruutsoo</p>
-      </div>
-      <div class="page-pood__link-box">
-        <a class="paragraph--large link link--purple linkBtn" href="#contentBox5" id="linkBtn5">Read more...</a>
-      </div>
-      <div class="page-pood__btn-box">
-        <p class="page-pood__price heading--tertiary heading--purple"><strong>7 €</strong></p>
-        <a href="" class="btn btn--main btn--dark orderBtn" data-language="en" id="orderBtn5">Order here</a>
-      </div>
-    </div>
-  </div>
-  <div class="page-pood__content-box" id="contentBox6">
-    <div class="page-pood__img" style="background-image: url('../img/logoga-pilt.jpg');"></div>
-    <div class="page-pood__text-wrapper">
-      <div class="page-pood__text-box low-fixed-height" id="textBox6">
-        <h3 class="heading--tertiary heading--purple u-margin-bottom-big">BIRTHDAY COMBO</h3>
-        <p class="paragraph--small paragraph--purple u-margin-bottom-big">Includes the book “60 aastat Nooruse kõla” and the CD “Lendutõus”, both of which have been published to celebrate the 60th birthday of Mixed choir Noorus.</p>
-      </div>
-      <div class="page-pood__btn-box">
-        <p class="page-pood__price heading--tertiary heading--purple"><strong>25 €</strong></p>
-        <a href="" class="btn btn--main btn--dark orderBtn" data-language="en" id="orderBtn6">Order here</a>
-      </div>
-    </div>
-  </div>
-  <div class="page-pood__content-box" id="contentBox7">
-    <div class="page-pood__img" style="background-image: url('../img/logoga-pilt.jpg');"></div>
-    <div class="page-pood__text-wrapper">
-      <div class="page-pood__text-box low-fixed-height" id="textBox7">
-        <h3 class="heading--tertiary heading--purple u-margin-bottom-big">CHRISTMAS COMBO</h3>
-        <p class="paragraph--small paragraph--purple u-margin-bottom-big">
-          Mixed choir Noorus sends its warmest Christmas wishes along with the CD “Lendutõus” and the Christmas album “Lapsemeelsed jõulud”.</p>
-      </div>
-      <div class="page-pood__btn-box">
-        <p class="page-pood__price heading--tertiary heading--purple"><strong>18 €</strong></p>
-        <a href="" class="btn btn--main btn--dark orderBtn" data-language="en" id="orderBtn7">Order here</a>
-      </div>
-    </div>
-  </div>
+<% } %>
 </div>
 <%- include partials/footer -%>

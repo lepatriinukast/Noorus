@@ -21,6 +21,8 @@ var kooristToetajad = document.getElementById("kooristToetajad");
 var kontakt = document.getElementById("kontakt");
 var vastuvott = document.getElementById("vastuvott");
 var sundmused = document.getElementById("sundmused");
+var pood = document.getElementById("pood");
+var telli = document.getElementById("telli");
 var moodunud = document.getElementById("moodunud");
 var ankeet = document.getElementById("ankeet");
 
@@ -30,6 +32,7 @@ var dirigendidSubformArray = Array.from(document.querySelectorAll(".dirigendidSu
 var ajaluguSubformArray = Array.from(document.querySelectorAll(".ajaluguSubform"));
 var sundmusedSubformArray = Array.from(document.querySelectorAll(".sundmusedSubform"));
 var moodunudSubformArray = Array.from(document.querySelectorAll(".moodunudSubform"));
+var poodSubformArray = Array.from(document.querySelectorAll(".poodSubform"));
 
 // image upload inputs
 
@@ -48,6 +51,7 @@ var dirigendidPortreeArray = Array.from(document.querySelectorAll(".dirigendidPo
 var toetajadLoikFileArray = Array.from(document.querySelectorAll(".toetajadLoikFile"));
 var sundmusedPlakatArray = Array.from(document.querySelectorAll(".sundmusedPlakat"));
 var moodunudPlakatArray = Array.from(document.querySelectorAll(".moodunudPlakat"));
+var poodPiltArray = Array.from(document.querySelectorAll(".poodPilt"));
 
 // message popups on the admin pages
 
@@ -84,7 +88,10 @@ var mtuLoikAddBtn = document.getElementById("mtuLoikAddBtn");
 var ikoonidLoikAddBtn = document.getElementById("ikoonidLoikAddBtn");
 var vastuvottLoikAddBtn = document.getElementById("vastuvottLoikAddBtn");
 var ankeetLoikAddBtn = document.getElementById("ankeetLoikAddBtn");
+var telliLoikAddBtn = document.getElementById("telliLoikAddBtn");
+var kontaktandmedLoikAddBtn = document.getElementById("kontaktandmedLoikAddBtn");
 var sundmusedSissejuhatusLoikAddBtn = document.getElementById("sundmusedSissejuhatusLoikAddBtn");
+var poodSissejuhatusLoikAddBtn = document.getElementById("poodSissejuhatusLoikAddBtn");
 
 // arrays of add buttons
 
@@ -94,12 +101,14 @@ var sundmusedLoikAddBtnArray = Array.from(document.querySelectorAll(".sundmusedL
 var sundmusedLoikKohtAddBtnArray = Array.from(document.querySelectorAll(".sundmusedLoikKohtAddBtn"));
 var moodunudLoikAddBtnArray = Array.from(document.querySelectorAll(".moodunudLoikAddBtn"));
 var moodunudLoikKohtAddBtnArray = Array.from(document.querySelectorAll(".moodunudLoikKohtAddBtn"));
+var poodLoikAddBtnArray = Array.from(document.querySelectorAll(".poodLoikAddBtn"));
 
 // add subform buttons
 
 var dirigendidAddBtn = document.getElementById("dirigendidAddBtn");
 var ajaluguAddBtn = document.getElementById("ajaluguAddBtn");
 var sundmusedAddBtn = document.getElementById("sundmusedAddBtn");
+var poodAddBtn = document.getElementById("poodAddBtn");
 
 // get delete "loik" buttons as an array
 
@@ -119,8 +128,11 @@ var mtuLoikDeleteBtnArray = Array.from(document.querySelectorAll(".mtuLoikDelete
 var ikoonidLoikDeleteBtnArray = Array.from(document.querySelectorAll(".ikoonidLoikDeleteBtn"));
 var vastuvottLoikDeleteBtnArray = Array.from(document.querySelectorAll(".vastuvottLoikDeleteBtn"));
 var ankeetLoikDeleteBtnArray = Array.from(document.querySelectorAll(".ankeetLoikDeleteBtn"));
+var telliLoikDeleteBtnArray = Array.from(document.querySelectorAll(".telliLoikDeleteBtn"));
+var kontaktandmedLoikDeleteBtnArray = Array.from(document.querySelectorAll(".kontaktandmedLoikDeleteBtn"));
 var sundmusedSissejuhatusLoikDeleteBtnArray = Array.from(document.querySelectorAll(".sundmusedSissejuhatusLoikDeleteBtn"));
 var andmebaasLoikDeleteBtnArray = Array.from(document.querySelectorAll(".andmebaasLoikDeleteBtn"));
+var poodSissejuhatusLoikDeleteBtnArray = Array.from(document.querySelectorAll(".poodSissejuhatusLoikDeleteBtn"));
 
 // get delete "loik" button arrays as an array (on dynamic subforms)
 
@@ -172,12 +184,21 @@ for (var i = 0; i < moodunudSubformArray.length; i++) {
   moodunudLoikKohtDeleteBtnArrays.push(moodunudLoikKohtDeleteBtnArray);
 }
 
+var poodLoikDeleteBtnArrays = [];
+
+for (var i = 0; i < poodSubformArray.length; i++) {
+  var indexNumber = i + 1;
+  var poodLoikDeleteBtnArray = Array.from(document.querySelectorAll(".pood" + indexNumber + "LoikDeleteBtn"));
+  poodLoikDeleteBtnArrays.push(poodLoikDeleteBtnArray);
+}
+
 // get delete subform buttons as an array
 
 var dirigendidDeleteBtnArray = Array.from(document.querySelectorAll(".dirigendidDeleteBtn"));
 var ajaluguDeleteBtnArray = Array.from(document.querySelectorAll(".ajaluguDeleteBtn"));
 var sundmusedDeleteBtnArray = Array.from(document.querySelectorAll(".sundmusedDeleteBtn"));
 var moodunudDeleteBtnArray = Array.from(document.querySelectorAll(".moodunudDeleteBtn"));
+var poodDeleteBtnArray = Array.from(document.querySelectorAll(".poodDeleteBtn"));
 
 // get all the "fake" inputs on a page as an array
 

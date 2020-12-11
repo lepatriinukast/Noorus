@@ -35,7 +35,7 @@
 // a class that gives the text boxes on the "pood" page a max-height of 19 rem
 
 .low-fixed-height {
-  max-height: 19rem;
+  max-height: 17rem;
   transition-property: max-height;
   transition-duration: 0.5s;
   @media screen and (max-width: 62.5em) {
@@ -75,4 +75,8 @@
   transition-property: visibility;
   transition-duration: 0s;
   transition-delay: .5s;
+}
+
+.delete {
+  display: none;
 }
