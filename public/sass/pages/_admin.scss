@@ -193,6 +193,7 @@
   &__checkbox {
     width: 1.8rem;
     height: 1.8rem;
+    margin-bottom: 0.7rem;
     @include boxShadow;
   }
 
@@ -216,6 +217,7 @@
     padding-top: 0.3rem;
     transition-property: height;
     transition-duration: 0.5s;
+    white-space: normal !important;
     overflow: hidden;
 
     &:focus {

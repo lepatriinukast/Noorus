@@ -182,6 +182,8 @@
       <input class="page-admin__input input ankeetLoikEn" type="text" id="ankeetLoikEn<%= i + 1 %>" name="ankeetLoikEn<%= i + 1 %>" value="<%= vastuvottAnkeetData.valjad[i].en %>">
       <p class="page-admin__text">KOHUSTUSLIK</p>
       <input class="page-admin__checkbox input ankeetLoikCheckbox" type="checkbox" id="ankeetLoikCheckbox<%= i + 1 %>" name="ankeetLoikCheckbox<%= i + 1 %>" <% if (vastuvottAnkeetData.valjad[i].checked === "*") { %> checked <% } %> >
+      <p class="page-admin__text">SUURENEV</p>
+      <input class="page-admin__checkbox input ankeetLoikTextArea" type="checkbox" id="ankeetLoikTextArea<%= i + 1 %>" name="ankeetLoikTextArea<%= i + 1 %>" <% if (vastuvottAnkeetData.valjad[i].textArea === "*") { %> checked <% } %> >
       <button class="page-admin__small-btn deleteBtn ankeetLoikDeleteBtn" type="button" id="ankeetLoikDeleteBtn<%= i + 1 %>" name="ankeetLoikDeleteBtn<%= i + 1 %>">Kustuta</button>
     </div>
     <% } %>

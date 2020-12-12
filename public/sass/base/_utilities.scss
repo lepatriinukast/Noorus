@@ -39,10 +39,10 @@
   transition-property: max-height;
   transition-duration: 0.5s;
   @media screen and (max-width: 62.5em) {
-    max-height: 40rem;
+    max-height: 20rem;
   }
   @media screen and (max-width: 19.375em) {
-    max-height: 50rem;
+    max-height: 30rem;
   }
 }
 

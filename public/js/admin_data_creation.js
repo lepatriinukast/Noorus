@@ -348,7 +348,8 @@ function createVastuvottData() {
     var vali = {
       est: encodeURIComponent(document.querySelectorAll(".ankeetLoikEst")[a].value),
       en: encodeURIComponent(document.querySelectorAll(".ankeetLoikEn")[a].value),
-      checked: convertCheckedValue(document.querySelectorAll(".ankeetLoikCheckbox")[a].checked)
+      checked: convertCheckedValue(document.querySelectorAll(".ankeetLoikCheckbox")[a].checked),
+      textArea: convertCheckedValue(document.querySelectorAll(".ankeetLoikTextArea")[a].checked)
     };
     vastuvottData.ankeet.valjad.push(vali);
   }
@@ -383,27 +384,17 @@ function createTelliData() {
     var vali = {
       est: encodeURIComponent(document.querySelectorAll(".kontaktandmedLoikEst")[a].value),
       en: encodeURIComponent(document.querySelectorAll(".kontaktandmedLoikEn")[a].value),
-      checked: convertCheckedValue(document.querySelectorAll(".kontaktandmedLoikCheckbox")[a].checked)
+      checked: convertCheckedValue(document.querySelectorAll(".kontaktandmedLoikCheckbox")[a].checked),
+      textArea: convertCheckedValue(document.querySelectorAll(".kontaktandmedLoikTextArea")[a].checked)
     };
     telliData.ankeet.valjad.push(vali);
   }
+
   console.log(telliData);
+
   return telliData;
 }
 
-
-function createAnkeetData() {
-
-  var ankeetData = [];
-
-  for (var i = 0; i < document.querySelectorAll(".ankeetField").length; i++) {
-    var vali = "'" + encodeURIComponent(document.querySelectorAll(".ankeetField")[i].value + "'");
-
-    ankeetData.push(vali);
-  }
-
-  return ankeetData;
-}
 
 // function that creates nothing relevant (used for ajax post requests that have no data to send)
 

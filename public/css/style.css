@@ -167,10 +167,10 @@ body {
   transition-duration: 0.5s; }
   @media screen and (max-width: 62.5em) {
     .low-fixed-height {
-      max-height: 40rem; } }
+      max-height: 20rem; } }
   @media screen and (max-width: 19.375em) {
     .low-fixed-height {
-      max-height: 50rem; } }
+      max-height: 30rem; } }
 
 .high-fixed-height {
   max-height: 200rem;
@@ -868,6 +868,7 @@ body {
   .page-admin__checkbox {
     width: 1.8rem;
     height: 1.8rem;
+    margin-bottom: 0.7rem;
     box-shadow: 0 2px 5px rgba(26, 26, 26, 0.5); }
   .page-admin__hidden-input {
     position: relative;
@@ -883,6 +884,7 @@ body {
     padding-top: 0.3rem;
     transition-property: height;
     transition-duration: 0.5s;
+    white-space: normal !important;
     overflow: hidden; }
     .page-admin__text-area:focus {
       height: 9rem;
@@ -1013,15 +1015,6 @@ body {
     @media screen and (max-width: 62.5em) {
       .section-history__container {
         width: 100%; } }
-
-.page-edastatud__container {
-  height: 100%;
-  padding: 3rem;
-  text-align: center; }
-
-.page-edastatud__content-box {
-  width: 50%;
-  margin: 3rem auto; }
 
 .page-kontakt {
   position: relative; }
@@ -1182,12 +1175,12 @@ body {
   .section-toetajad__logo {
     height: 6rem; }
 
-.page-nurjunud__container {
+.message-page__container {
   height: 100%;
   padding: 3rem;
   text-align: center; }
 
-.page-nurjunud__content-box {
+.message-page__content-box {
   width: 50%;
   margin: 3rem auto; }
 
@@ -1200,18 +1193,18 @@ body {
   display: flex;
   align-items: flex-start;
   justify-content: center;
+  flex-wrap: wrap;
   padding: 3rem;
   max-width: 100rem;
   margin: 3rem auto; }
-  @media screen and (max-width: 62.5em) {
-    .page-pood__content-box {
-      flex-wrap: wrap; } }
 
 .page-pood__text-wrapper {
+  flex: 1 0 50%;
   text-align: left; }
   @media screen and (max-width: 62.5em) {
     .page-pood__text-wrapper {
-      text-align: center; } }
+      text-align: center;
+      flex: 0 0 80%; } }
 
 .page-pood__text-box {
   display: block;

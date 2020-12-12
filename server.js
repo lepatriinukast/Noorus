@@ -1194,7 +1194,8 @@ app.get("/kontakt", function(req, res) {
                     var vali = {
                       est: result[i].est,
                       en: result[i].en,
-                      checked: result[i].checked
+                      checked: result[i].checked,
+                      textArea: result[i].textarea
                     };
                     vastuvottAnkeetData.valjad.push(vali);
                   }
@@ -1271,7 +1272,8 @@ app.get("/telli" + ":number", function(req, res) {
           var vali = {
             est: result[i].est,
             en: result[i].en,
-            checked: result[i].checked
+            checked: result[i].checked,
+            textArea: result[i].textarea,
           };
           telliAnkeetData.valjad.push(vali);
         }
@@ -1381,9 +1383,9 @@ app.get("/telli" + ":number", function(req, res) {
   });
 });
 
-app.get("/edastatud", function(req, res) {
-  var pageTitle = "Tellimus Edastatud";
-  var currentPage = "en/confirmed";
+app.get("/telli/onnestumine", function(req, res) {
+  var pageTitle = "Tellimus edastatud";
+  var currentPage = "en/order/success";
   con.query("SELECT * FROM avalehtpildid ORDER BY id", function(err, result) {
     if (err) throw err;
     var paiseikoon = {
@@ -1400,7 +1402,7 @@ app.get("/edastatud", function(req, res) {
         };
         pealkirjadData.push(pealkiri);
       }
-      res.render("edastatud", {
+      res.render("onnestumine_telli", {
         pageTitle: pageTitle,
         currentPage: currentPage,
         paiseikoon: paiseikoon,
@@ -1411,9 +1413,9 @@ app.get("/edastatud", function(req, res) {
 });
 
 
-app.get("/nurjunud", function(req, res) {
-  var pageTitle = "Tellimus ebaõnnestus";
-  var currentPage = "en/failed";
+app.get("/kontakt/onnestumine", function(req, res) {
+  var pageTitle = "Andmed edastatud";
+  var currentPage = "en/contact/success";
   con.query("SELECT * FROM avalehtpildid ORDER BY id", function(err, result) {
     if (err) throw err;
     var paiseikoon = {
@@ -1430,7 +1432,66 @@ app.get("/nurjunud", function(req, res) {
         };
         pealkirjadData.push(pealkiri);
       }
-      res.render("nurjunud", {
+      res.render("onnestumine_kontakt", {
+        pageTitle: pageTitle,
+        currentPage: currentPage,
+        paiseikoon: paiseikoon,
+        pealkirjadData: pealkirjadData
+      });
+    });
+  });
+});
+
+
+app.get("/telli/nurjunud", function(req, res) {
+  var pageTitle = "Tellimus ebaõnnestus";
+  var currentPage = "en/order/failure";
+  con.query("SELECT * FROM avalehtpildid ORDER BY id", function(err, result) {
+    if (err) throw err;
+    var paiseikoon = {
+      url: result[0].url,
+      filename: result[0].url.slice(5)
+    };
+    con.query("SELECT * FROM pealkirjad ORDER BY id", function(err, result) {
+      if (err) throw err;
+      var pealkirjadData = [];
+      for (var i = 0; i < result.length; i++) {
+        var pealkiri = {
+          est: result[i].est,
+          en: result[i].en
+        };
+        pealkirjadData.push(pealkiri);
+      }
+      res.render("nurjunud_telli", {
+        pageTitle: pageTitle,
+        currentPage: currentPage,
+        paiseikoon: paiseikoon,
+        pealkirjadData: pealkirjadData
+      });
+    });
+  });
+});
+
+app.get("/kontakt/nurjunud", function(req, res) {
+  var pageTitle = "Registreerimine ebaõnnestus";
+  var currentPage = "en/contact/failure";
+  con.query("SELECT * FROM avalehtpildid ORDER BY id", function(err, result) {
+    if (err) throw err;
+    var paiseikoon = {
+      url: result[0].url,
+      filename: result[0].url.slice(5)
+    };
+    con.query("SELECT * FROM pealkirjad ORDER BY id", function(err, result) {
+      if (err) throw err;
+      var pealkirjadData = [];
+      for (var i = 0; i < result.length; i++) {
+        var pealkiri = {
+          est: result[i].est,
+          en: result[i].en
+        };
+        pealkirjadData.push(pealkiri);
+      }
+      res.render("nurjunud_kontakt", {
         pageTitle: pageTitle,
         currentPage: currentPage,
         paiseikoon: paiseikoon,
@@ -2570,7 +2631,8 @@ app.get("/en/contact", function(req, res) {
                     var vali = {
                       est: result[i].est,
                       en: result[i].en,
-                      checked: result[i].checked
+                      checked: result[i].checked,
+                      textArea: result[i].textarea
                     };
                     vastuvottAnkeetData.valjad.push(vali);
                   }
@@ -2648,7 +2710,8 @@ app.get("/en/order" + ":number", function(req, res) {
           var vali = {
             est: result[i].est,
             en: result[i].en,
-            checked: result[i].checked
+            checked: result[i].checked,
+            textArea: result[i].textarea
           };
           telliAnkeetData.valjad.push(vali);
         }
@@ -2758,9 +2821,9 @@ app.get("/en/order" + ":number", function(req, res) {
   });
 });
 
-app.get("/en/confirmed", function(req, res) {
-  var pageTitle = "Order confirmed";
-  var currentPage = "edastatud";
+app.get("/en/order/success", function(req, res) {
+  var pageTitle = "Order submitted";
+  var currentPage = "telli/onnestumine";
   con.query("SELECT * FROM avalehtpildid ORDER BY id", function(err, result) {
     if (err) throw err;
     var paiseikoon = {
@@ -2777,7 +2840,7 @@ app.get("/en/confirmed", function(req, res) {
         };
         pealkirjadData.push(pealkiri);
       }
-      res.render("confirmed", {
+      res.render("success_order", {
         pageTitle: pageTitle,
         currentPage: currentPage,
         paiseikoon: paiseikoon,
@@ -2787,9 +2850,9 @@ app.get("/en/confirmed", function(req, res) {
   });
 });
 
-app.get("/en/failed", function(req, res) {
-  var pageTitle = "Tellimus ebaõnnestus";
-  var currentPage = "nurjunud";
+app.get("/en/contact/success", function(req, res) {
+  var pageTitle = "Registration complete";
+  var currentPage = "kontakt/onnestumine";
   con.query("SELECT * FROM avalehtpildid ORDER BY id", function(err, result) {
     if (err) throw err;
     var paiseikoon = {
@@ -2806,7 +2869,65 @@ app.get("/en/failed", function(req, res) {
         };
         pealkirjadData.push(pealkiri);
       }
-      res.render("failed", {
+      res.render("success_contact", {
+        pageTitle: pageTitle,
+        currentPage: currentPage,
+        paiseikoon: paiseikoon,
+        pealkirjadData: pealkirjadData
+      });
+    });
+  });
+});
+
+app.get("/en/order/failure", function(req, res) {
+  var pageTitle = "Order unsuccessful";
+  var currentPage = "telli/nurjunud";
+  con.query("SELECT * FROM avalehtpildid ORDER BY id", function(err, result) {
+    if (err) throw err;
+    var paiseikoon = {
+      url: result[0].url,
+      filename: result[0].url.slice(5)
+    };
+    con.query("SELECT * FROM pealkirjad ORDER BY id", function(err, result) {
+      if (err) throw err;
+      var pealkirjadData = [];
+      for (var i = 0; i < result.length; i++) {
+        var pealkiri = {
+          est: result[i].est,
+          en: result[i].en
+        };
+        pealkirjadData.push(pealkiri);
+      }
+      res.render("failure_order", {
+        pageTitle: pageTitle,
+        currentPage: currentPage,
+        paiseikoon: paiseikoon,
+        pealkirjadData: pealkirjadData
+      });
+    });
+  });
+});
+
+app.get("/en/contact/failure", function(req, res) {
+  var pageTitle = "Registration unsuccessful";
+  var currentPage = "telli/nurjunud";
+  con.query("SELECT * FROM avalehtpildid ORDER BY id", function(err, result) {
+    if (err) throw err;
+    var paiseikoon = {
+      url: result[0].url,
+      filename: result[0].url.slice(5)
+    };
+    con.query("SELECT * FROM pealkirjad ORDER BY id", function(err, result) {
+      if (err) throw err;
+      var pealkirjadData = [];
+      for (var i = 0; i < result.length; i++) {
+        var pealkiri = {
+          est: result[i].est,
+          en: result[i].en
+        };
+        pealkirjadData.push(pealkiri);
+      }
+      res.render("failure_contact", {
         pageTitle: pageTitle,
         currentPage: currentPage,
         paiseikoon: paiseikoon,
@@ -3542,7 +3663,8 @@ app.get("/admin/kontakt", function(req, res) {
                     var vali = {
                       est: result[i].est,
                       en: result[i].en,
-                      checked: result[i].checked
+                      checked: result[i].checked,
+                      textArea: result[i].textarea
                     };
                     vastuvottAnkeetData.valjad.push(vali);
                   }
@@ -3721,7 +3843,8 @@ app.get("/admin/pood", function(req, res) {
                 var vali = {
                   est: result[i].est,
                   en: result[i].en,
-                  checked: result[i].checked
+                  checked: result[i].checked,
+                  textArea: result[i].textarea
                 };
                 telliAnkeetData.valjad.push(vali);
               }
@@ -3788,7 +3911,8 @@ app.get("/admin/andmebaas", function(req, res) {
           var vali = {
             est: result[i].est,
             en: result[i].en,
-            checked: result[i].checked
+            checked: result[i].checked,
+            textArea: result[i].textarea
           };
           vastuvottAnkeetData.valjad.push(vali);
         }
@@ -7152,14 +7276,15 @@ app.post("/upload/vastuvott", async function(req, res) {
       var estProperty = vastuvottData.ankeet.valjad[i - 1].est;
       var enProperty = vastuvottData.ankeet.valjad[i - 1].en;
       var checkedProperty = vastuvottData.ankeet.valjad[i - 1].checked;
+      var textAreaProperty = vastuvottData.ankeet.valjad[i - 1].textArea;
 
       // create a values object using those variables
 
-      var values = [estProperty, enProperty, checkedProperty, nameProperty];
+      var values = [estProperty, enProperty, checkedProperty, textAreaProperty, nameProperty];
 
       // create the sql text for updating the database
 
-      var sql = "UPDATE vastuvottankeet SET est = ?, en = ?, checked = ? WHERE name = ?";
+      var sql = "UPDATE vastuvottankeet SET est = ?, en = ?, checked = ?, textarea = ? WHERE name = ?";
 
       // update the database
 
@@ -7242,17 +7367,18 @@ app.post("/upload/vastuvott/delete", function(req, res) {
 
 app.post("/upload/vastuvott/ankeet/new", function(req, res) {
 
-  // create variables for new database entries- est, en and checked properties will be empty strings,
+  // create variables for new database entries- est, en, checked and textarea properties will be empty strings,
   // while the name property will be "vali" + current timestamp
 
   var nameProperty = "vali" + Date.now();
   var estProperty = "";
   var enProperty = "";
   var checkedProperty = "";
+  var textAreaProperty = "";
 
   // create the sql text with the variables created above
 
-  var sql = "INSERT INTO vastuvottankeet (name, est, en, checked) VALUES ('" + nameProperty + "', '" + estProperty + "', '" + enProperty + "', '" + checkedProperty + "')";
+  var sql = "INSERT INTO vastuvottankeet (name, est, en, checked, textarea) VALUES ('" + nameProperty + "', '" + estProperty + "', '" + enProperty + "', '" + checkedProperty + "', '" + textAreaProperty + "')";
 
   // insert the new entry into the database
 
@@ -9698,14 +9824,15 @@ app.post("/upload/telli", function(req, res) {
       var estProperty = telliData.ankeet.valjad[i - 2].est;
       var enProperty = telliData.ankeet.valjad[i - 2].en;
       var checkedProperty = telliData.ankeet.valjad[i - 2].checked;
+      var textAreaProperty = telliData.ankeet.valjad[i - 2].textArea;
 
       // create a values object using those variables
 
-      var values = [estProperty, enProperty, checkedProperty, nameProperty];
+      var values = [estProperty, enProperty, checkedProperty, textAreaProperty, nameProperty];
 
       // create the sql text for updating the database
 
-      var sql = "UPDATE telliankeet SET est = ?, en = ?, checked = ? WHERE name = ?";
+      var sql = "UPDATE telliankeet SET est = ?, en = ?, checked = ?, textarea = ? WHERE name = ?";
 
       // update the database
 
@@ -9788,17 +9915,18 @@ app.post("/upload/telli/delete", function(req, res) {
 
 app.post("/upload/telli/kontaktandmed/new", function(req, res) {
 
-  // create variables for new database entries- est, en and checked properties will be empty strings,
+  // create variables for new database entries- est, en, checked and textarea properties will be empty strings,
   // while the name property will be "vali" + current timestamp
 
   var nameProperty = "vali" + Date.now();
   var estProperty = "";
   var enProperty = "";
   var checkedProperty = "";
+  var textAreaProperty = "";
 
   // create the sql text with the variables created above
 
-  var sql = "INSERT INTO telliankeet (name, est, en, checked) VALUES ('" + nameProperty + "', '" + estProperty + "', '" + enProperty + "', '" + checkedProperty + "')";
+  var sql = "INSERT INTO telliankeet (name, est, en, checked, textarea) VALUES ('" + nameProperty + "', '" + estProperty + "', '" + enProperty + "', '" + checkedProperty + "', '" + textAreaProperty + "')";
 
   // insert the new entry into the database
 

@@ -38,18 +38,24 @@
     </div>
   </div>
   <div class="page-kontakt__text-box">
-    <div class="form__column">
-      <form action="/upload/kontakt/email" method="post" class="form" name="contactForm" id="contactForm">
-        <h3 class="heading--tertiary heading--purple u-margin-bottom-small"><%= vastuvottAnkeetData.pealkiri.est %></h3>
+    <form action="/upload/kontakt/email" method="post" class="form" name="contactForm" id="contactForm">
+      <h3 class="heading--tertiary heading--purple u-margin-bottom-small"><%= vastuvottAnkeetData.pealkiri.est %></h3>
+      <div class="form__column">
         <% for (var i = 0; i < vastuvottAnkeetData.valjad.length; i++) { %>
         <div class="form__field">
           <p class="paragraph--small paragraph--purple paragraph--inline u-margin-right-small"><%= vastuvottAnkeetData.valjad[i].checked %></p>
-          <input type="text" class="form__input vastuvottField" id="vastuvottField<%= i + 1 %>" name="vastuvottField<%= i + 1 %>" placeholder="<%= vastuvottAnkeetData.valjad[i].est %>" <% if (vastuvottAnkeetData.valjad[i].checked === "*") { %> required <% } %> aria-label="<%= vastuvottAnkeetData.valjad[i].est %>">
+          <% if (vastuvottAnkeetData.valjad[i].textArea === "*") { %>
+           <textarea class="form__input form__text-area vastuvottField" id="vastuvottField<%= i + 1 %>" name="vastuvottField<%= i + 1 %>" rows="1" placeholder="<%= vastuvottAnkeetData.valjad[i].est %>" <% if (vastuvottAnkeetData.valjad[i].checked === "*") { %>
+             required <% } %> aria-label="<%= vastuvottAnkeetData.valjad[i].est %>"></textarea>
+            <% }  else { %>
+          <input type="text" class="form__input vastuvottField" id="vastuvottField<%= i + 1 %>" name="vastuvottField<%= i + 1 %>" placeholder="<%= vastuvottAnkeetData.valjad[i].est %>" <% if (vastuvottAnkeetData.valjad[i].checked === "*") { %>
+            required <% } %> aria-label="<%= vastuvottAnkeetData.valjad[i].est %>">
+            <% } %>
         </div>
         <% } %>
-        <button class="btn btn--main btn--dark u-margin-top-small" type="submit" name="submitContactBtn">Saada</button>
-      </form>
-    </div>
+      </div>
+      <button class="btn btn--main btn--dark u-margin-top-small" type="submit" name="submitContactBtn">Saada</button>
+    </form>
   </div>
 </div>
 <%- include partials/footer -%>

@@ -5,7 +5,7 @@
   <% for (var i = 0; i < telliData.loigud.length; i++) { %>
   <p class="paragraph--large paragraph--purple u-margin-bottom-small"><%= telliData.loigud[i].en %></p>
   <% } %>
-  <form action="/upload/telli/email" method="post" name="orderForm" id="orderForm">
+  <form action="/upload/telli/email" method="post" name="orderFormEn" id="orderFormEn">
     <div class="form">
       <div class="page-telli__order-form">
         <div class="page-telli__column">
@@ -39,11 +39,16 @@
       <h3 class="heading--tertiary heading--purple"><%= telliAnkeetData.pealkiri.en %></h3>
       <div class="form__column">
         <% for (var i = 0; i < telliAnkeetData.valjad.length; i++) { %>
-        <div class="form__field">
-          <p class="paragraph--small paragraph--purple paragraph--inline u-margin-right-small"><%= telliAnkeetData.valjad[i].checked %></p>
-          <input type="text" class="form__input" name="telliField<%= i + 1 %>" id="telliField<%= i + 1 %>" placeholder="<%= telliAnkeetData.valjad[i].en %>" <% if (telliAnkeetData.valjad[i].checked === "*") { %> required <% } %>
-            aria-label="<%= telliAnkeetData.valjad[i].en %>">
-        </div>
+          <div class="form__field">
+            <p class="paragraph--small paragraph--purple paragraph--inline u-margin-right-small"><%= telliAnkeetData.valjad[i].checked %></p>
+            <% if (telliAnkeetData.valjad[i].textArea === "*") { %>
+             <textarea class="form__input form__text-area telliField" id="telliField<%= i + 1 %>" name="telliField<%= i + 1 %>" rows="1" placeholder="<%= telliAnkeetData.valjad[i].en %>" <% if (telliAnkeetData.valjad[i].checked === "*") { %>
+               required <% } %> aria-label="<%= telliAnkeetData.valjad[i].en %>"></textarea>
+              <% } else { %>
+            <input type="text" class="form__input telliField" id="telliField<%= i + 1 %>" name="telliField<%= i + 1 %>" placeholder="<%= telliAnkeetData.valjad[i].en %>" <% if (telliAnkeetData.valjad[i].checked === "*") { %>
+              required <% } %> aria-label="<%= telliAnkeetData.valjad[i].en %>">
+              <% } %>
+          </div>
         <% } %>
       </div>
       <button class="btn btn--main btn--dark" type="submit" name="submitBtn">Telli</button>

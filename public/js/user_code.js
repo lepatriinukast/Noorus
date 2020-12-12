@@ -50,6 +50,8 @@ var sum = document.getElementById("sum");
 
 var orderForm = document.getElementById("orderForm");
 var contactForm = document.getElementById("contactForm");
+var orderFormEn = document.getElementById("orderFormEn");
+var contactFormEn = document.getElementById("contactFormEn");
 
 
 
@@ -433,19 +435,31 @@ for (let i = 0; i < itemCountArray.length; i++) {
 
 if (orderForm !== null) {
   orderForm.addEventListener("submit", function(event) {
-    ajaxPostForm(event, "telli/email", createOrderData());
+    ajaxPostForm(event, "telli/email", createOrderData(), "telli/onnestumine", "telli/nurjunud");
+  });
+}
+
+if (orderFormEn !== null) {
+  orderFormEn.addEventListener("submit", function(event) {
+    ajaxPostForm(event, "telli/email", createOrderData(), "en/order/success", "en/order/failure");
   });
 }
 
 if (contactForm !== null) {
   contactForm.addEventListener("submit", function(event) {
-    alert("A");
-    ajaxPostForm(event, "kontakt/email", createContactData());
+    ajaxPostForm(event, "kontakt/email", createContactData(), "kontakt/onnestumine", "kontakt/nurjunud");
+  });
+}
+
+if (contactFormEn !== null) {
+  contactFormEn.addEventListener("submit", function(event) {
+    ajaxPostForm(event, "kontakt/email", createContactData(), "en/contact/success", "en/contact/failure");
   });
 }
 
 
 // when the "pood" page loads, check if any textbox elements are overflown
+
 
 if (textBoxArray.length !== 0) {
   for (var i = 0; i < textBoxArray.length; i++) {
@@ -454,7 +468,20 @@ if (textBoxArray.length !== 0) {
 }
 
 
+// check the same thing whenever the browser viewport size changes
+
+
+if (textBoxArray.length !== 0) {
+  window.addEventListener("resize", function(event) {
+    for (var i = 0; i < textBoxArray.length; i++) {
+      checkIfOverflown(textBoxArray[i]);
+    }
+  });
+}
+
+
 // function that checks whether the element is vertically overflown
+
 
 function checkIfOverflown(element) {
 
@@ -480,6 +507,7 @@ function checkIfOverflown(element) {
   }
 
 }
+
 
 // function for showing the overflown contents of an item on the "pood" page
 
@@ -971,7 +999,6 @@ function createContactData() {
 
   var eMailText = '<p>Registreerunu andmed: <br> <br>' + contactJoined + '</p>';
 
-console.log(eMailText);
   return eMailText;
 }
 
@@ -980,7 +1007,7 @@ console.log(eMailText);
 // function for posting data from the "telli" page to the server
 
 
-function ajaxPostForm(event, destination, dataFunction) {
+function ajaxPostForm(event, destination, dataFunction, successRoute, failureRoute) {
 
   // prevent the form from submitting
 
@@ -1006,8 +1033,6 @@ function ajaxPostForm(event, destination, dataFunction) {
 
   var jsonData = JSON.stringify(data);
 
-  console.log(jsonData);
-
   // check if the request is ready
 
   xhr.onreadystatechange = function() {
@@ -1016,12 +1041,12 @@ function ajaxPostForm(event, destination, dataFunction) {
 
     if (this.readyState == 4 && this.status == 200) {
 
-      window.location.href = "/edastatud";
+      window.location.href = "/" + successRoute;
 
       // if there is a problem, create a failure message
 
     } else if (this.status !== 200) {
-      window.location.href = "/nurjunud";
+      window.location.href = "/" + failureRoute;
     }
   };
 

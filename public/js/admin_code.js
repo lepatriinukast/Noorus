@@ -1059,6 +1059,7 @@ function getArrays(elementName) {
     estKeyArray: Array.from(document.querySelectorAll("." + elementName + "EstKey")),
     enKeyArray: Array.from(document.querySelectorAll("." + elementName + "EnKey")),
     checkboxArray: Array.from(document.querySelectorAll("." + elementName + "Checkbox")),
+    textAreaArray: Array.from(document.querySelectorAll("." + elementName + "TextArea")),
     fileArray: Array.from(document.querySelectorAll("." + elementName + "File")),
     labelArray: Array.from(document.querySelectorAll("." + elementName + "Label")),
     placeholderArray: Array.from(document.querySelectorAll("." + elementName + "Placeholder")),
@@ -1387,6 +1388,7 @@ function getArrayNames(elementName) {
     arrayNameEstKey: elementName + "EstKey",
     arrayNameEnKey: elementName + "EnKey",
     arrayNameCheckbox: elementName + "Checkbox",
+    arrayNameTextArea: elementName + "TextArea",
     arrayNameFile: elementName + "File",
     arrayNameLabel: elementName + "Label",
     arrayNamePlaceholder: elementName + "Placeholder",
@@ -1542,6 +1544,7 @@ function getDocArrays(doc, selectorName) {
     docEstKeyArray: doc.querySelectorAll("." + selectorName + "EstKey"),
     docEnKeyArray: doc.querySelectorAll("." + selectorName + "EnKey"),
     docCheckboxArray: doc.querySelectorAll("." + selectorName + "Checkbox"),
+    docTextAreaArray: doc.querySelectorAll("." + selectorName + "TextArea"),
     docFileArray: doc.querySelectorAll("." + selectorName + "File"),
     docLabelArray: doc.querySelectorAll("." + selectorName + "Label"),
     docPlaceholderArray: doc.querySelectorAll("." + selectorName + "Placeholder"),
@@ -1685,6 +1688,7 @@ function getDocElements(doc, selectorName) {
     docEstKeyElement: getLastElement(docArrays.docEstKeyArray),
     docEnKeyElement: getLastElement(docArrays.docEnKeyArray),
     docCheckboxElement: getLastElement(docArrays.docCheckboxArray),
+    docTextAreaElement: getLastElement(docArrays.docTextAreaArray),
     docFileElement: getLastElement(docArrays.docFileArray),
     docLabelElement: getLastElement(docArrays.docLabelArray),
     docPlaceholderElement: getLastElement(docArrays.docPlaceholderArray),
@@ -2049,6 +2053,7 @@ function updateArrays(element, elementData) {
   elementData.arrays.estKeyArray.splice(elementData.arrayIndex, 1);
   elementData.arrays.enKeyArray.splice(elementData.arrayIndex, 1);
   elementData.arrays.checkboxArray.splice(elementData.arrayIndex, 1);
+  elementData.arrays.textAreaArray.splice(elementData.arrayIndex, 1);
   elementData.arrays.fileArray.splice(elementData.arrayIndex, 1);
   elementData.arrays.labelArray.splice(elementData.arrayIndex, 1);
   elementData.arrays.placeholderArray.splice(elementData.arrayIndex, 1);
@@ -2283,6 +2288,10 @@ function updateProperties(elementData) {
     if (elementData.arrays.checkboxArray[i] !== undefined) {
       elementData.arrays.checkboxArray[i].setAttribute("id", elementData.arrayNames.arrayNameCheckbox + idNumber);
       elementData.arrays.checkboxArray[i].setAttribute("name", elementData.arrayNames.arrayNameCheckbox + idNumber);
+    }
+    if (elementData.arrays.textAreaArray[i] !== undefined) {
+      elementData.arrays.textAreaArray[i].setAttribute("id", elementData.arrayNames.arrayNameTextArea + idNumber);
+      elementData.arrays.textAreaArray[i].setAttribute("name", elementData.arrayNames.arrayNameTextArea + idNumber);
     }
     if (elementData.arrays.fileArray[i] !== undefined) {
       elementData.arrays.fileArray[i].setAttribute("id", elementData.arrayNames.arrayNameFile + idNumber);
@@ -3017,6 +3026,7 @@ function pushArrays(arrays, elements) {
   arrays.estKeyArray.push(elements.docEstKeyElement);
   arrays.enKeyArray.push(elements.docEnKeyElement);
   arrays.checkboxArray.push(elements.docCheckboxElement);
+  arrays.textAreaArray.push(elements.docTextAreaElement);
   arrays.fileArray.push(elements.docFileElement);
   arrays.labelArray.push(elements.docLabelElement);
   arrays.placeholderArray.push(elements.docPlaceholderElement);
