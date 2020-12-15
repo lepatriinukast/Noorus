@@ -7,11 +7,11 @@
     <div class="page-admin__form-field sundmusedSissejuhatusLoik" id="sundmusedSissejuhatusLoik<%= i + 1 %>" data-heading="Sissejuhatav lõik">
       <h3 class="page-admin__heading sundmusedSissejuhatusLoikHeading">Sissejuhatav lõik <%= i + 1 %></h3>
       <p class="page-admin__text">EST</p>
-      <textarea type="text" class="page-admin__input page-admin__text-area input sundmusedSissejuhatusLoikEst" id="sundmusedSissejuhatusLoikEst<%= i + 1 %>" name="sundmusedSissejuhatusLoikEst<%= i + 1 %>"
-        rows="1"><%= sundmusedSissejuhatusData[i].est %></textarea>
+      <div type="text" contenteditable="true" class="page-admin__input page-admin__text-area input editable-input sundmusedSissejuhatusLoikEstEd" id="sundmusedSissejuhatusLoikEst<%= i + 1 %>Ed" name="sundmusedSissejuhatusLoikEst<%= i + 1 %>Ed"><%-  sundmusedSissejuhatusData[i].est %></div>
+      <input type="text" class="page-admin__input page-admin__hidden-input sundmusedSissejuhatusLoikEst" id="sundmusedSissejuhatusLoikEst<%= i + 1 %>" name="sundmusedSissejuhatusLoikEst<%= i + 1 %>" value="<%- sundmusedSissejuhatusData[i].est  %>"></input>
       <p class="page-admin__text">EN</p>
-      <textarea type="text" class="page-admin__input page-admin__text-area input sundmusedSissejuhatusLoikEn" id="sundmusedSissejuhatusLoikEn<%= i + 1 %>" name="sundmusedSissejuhatusLoikEn<%= i + 1 %>"
-        rows="1"><%= sundmusedSissejuhatusData[i].en %></textarea>
+      <div type="text" contenteditable="true" class="page-admin__input page-admin__text-area input editable-input sundmusedSissejuhatusLoikEnEd" id="sundmusedSissejuhatusLoikEn<%= i + 1 %>Ed" name="sundmusedSissejuhatusLoikEn<%= i + 1 %>Ed"><%-  sundmusedSissejuhatusData[i].en %></div>
+      <input type="text" class="page-admin__input page-admin__hidden-input sundmusedSissejuhatusLoikEn" id="sundmusedSissejuhatusLoikEn<%= i + 1 %>" name="sundmusedSissejuhatusLoikEn<%= i + 1 %>" value="<%- sundmusedSissejuhatusData[i].en  %>"></input>
       <button class="page-admin__small-btn deleteBtn sundmusedSissejuhatusLoikDeleteBtn" type="button" id="sundmusedSissejuhatusLoikDeleteBtn<%= i + 1 %>" name="sundmusedSissejuhatusLoikDeleteBtn<%= i + 1 %>">Kustuta</button>
     </div>
     <% } %>
@@ -49,11 +49,11 @@
         <div class="page-admin__form-field sundmused<%= a + 1 %>LoikKoht" id="sundmused<%= a + 1 %>LoikKoht<%= i + 1 %>" data-heading="Koht ja aeg">
           <h3 class="page-admin__heading sundmused<%= a + 1 %>LoikKohtHeading">Koht ja aeg <%= i + 1 %></h3>
           <p class="page-admin__text">EST</p>
-          <textarea type="text" class="page-admin__input page-admin__text-area input sundmused<%= a + 1 %>LoikKohtEst" id="sundmused<%= a + 1 %>LoikKohtEst<%= i + 1 %>" name="sundmused<%= a + 1 %>LoikKohtEst<%= i + 1 %>"
-            rows="1"><%= sundmusedKohtData[a].kohad[i].est %></textarea>
+          <div type="text" contenteditable="true" class="page-admin__input page-admin__text-area input editable-input sundmused<%= a + 1 %>LoikKohtEstEd" id="sundmused<%= a + 1 %>LoikKohtEst<%= i + 1 %>Ed" name="sundmused<%= a + 1 %>LoikKohtEst<%= i + 1 %>Ed"><%- sundmusedKohtData[a].kohad[i].est %></div>
+          <input type="text" class="page-admin__input page-admin__hidden-input sundmused<%= a + 1 %>LoikKohtEst" id="sundmused<%= a + 1 %>LoikKohtEst<%= i + 1 %>" name="sundmused<%= a + 1 %>LoikKohtEst<%= i + 1 %>" value="<%- sundmusedKohtData[a].kohad[i].est %>"></input>
           <p class="page-admin__text">EN</p>
-          <textarea type="text" class="page-admin__input page-admin__text-area input sundmused<%= a + 1 %>LoikKohtEn" id="sundmused<%= a + 1 %>LoikKohtEn<%= i + 1 %>" name="sundmused<%= a + 1 %>LoikKohtEn<%= i + 1 %>"
-            rows="1"><%= sundmusedKohtData[a].kohad[i].en %></textarea>
+          <div type="text" contenteditable="true" class="page-admin__input page-admin__text-area input editable-input sundmused<%= a + 1 %>LoikKohtEnEd" id="sundmused<%= a + 1 %>LoikKohtEn<%= i + 1 %>Ed" name="sundmused<%= a + 1 %>LoikKohtEn<%= i + 1 %>Ed"><%- sundmusedKohtData[a].kohad[i].en %></div>
+          <input type="text" class="page-admin__input page-admin__hidden-input sundmused<%= a + 1 %>LoikKohtEn" id="sundmused<%= a + 1 %>LoikKohtEn<%= i + 1 %>" name="sundmused<%= a + 1 %>LoikKohtEn<%= i + 1 %>" value="<%- sundmusedKohtData[a].kohad[i].en %>"></input>
           <p class="page-admin__text">LINK</p>
           <input type="text" class="page-admin__input input sundmused<%= a + 1 %>LoikKohtLink" id="sundmused<%= a + 1 %>LoikKohtLink<%= i + 1 %>" name="sundmused<%= a + 1 %>LoikKohtLink<%= i + 1 %>" value="<%= sundmusedKohtData[a].kohad[i].link %>">
           <button class="page-admin__small-btn sundmusedLoikKohtDeleteBtn sundmused<%= a + 1 %>LoikKohtDeleteBtn" type="button" id="sundmused<%= a + 1 %>LoikKohtDeleteBtn<%= i + 1 %>"
@@ -69,11 +69,11 @@
         <div class="page-admin__form-field sundmused<%= a + 1 %>Loik" id="sundmused<%= a + 1 %>Loik<%= i + 1 %>" data-heading="Rida">
           <h3 class="page-admin__heading sundmused<%= a + 1 %>LoikHeading">Rida <%= i + 1 %></h3>
           <p class="page-admin__text">EST</p>
-          <textarea type="text" class="page-admin__input page-admin__text-area input sundmused<%= a + 1 %>LoikEst" id="sundmused<%= a + 1 %>LoikEst<%= i + 1 %>" name="sundmused<%= a + 1 %>LoikEst<%= i + 1 %>"
-            rows="1"><%= sundmusedData[a].loigud[i].est %></textarea>
+          <div type="text" contenteditable="true" class="page-admin__input page-admin__text-area input editable-input sundmused<%= a + 1 %>LoikEstEd" id="sundmused<%= a + 1 %>LoikEst<%= i + 1 %>Ed" name="sundmused<%= a + 1 %>LoikEst<%= i + 1 %>Ed"><%- sundmusedData[a].loigud[i].est %></div>
+          <input type="text" class="page-admin__input page-admin__hidden-input sundmused<%= a + 1 %>LoikEst" id="sundmused<%= a + 1 %>LoikEst<%= i + 1 %>" name="sundmused<%= a + 1 %>LoikEst<%= i + 1 %>" value="<%- sundmusedData[a].loigud[i].est %>"></input>
           <p class="page-admin__text">EN</p>
-          <textarea type="text" class="page-admin__input page-admin__text-area input sundmused<%= a + 1 %>LoikEn" id="sundmused<%= a + 1 %>LoikEn<%= i + 1 %>" name="sundmused<%= a + 1 %>LoikEn<%= i + 1 %>"
-            rows="1"><%= sundmusedData[a].loigud[i].en %></textarea>
+          <div type="text" contenteditable="true" class="page-admin__input page-admin__text-area input editable-input sundmused<%= a + 1 %>LoikEnEd" id="sundmused<%= a + 1 %>LoikEn<%= i + 1 %>Ed" name="sundmused<%= a + 1 %>LoikEn<%= i + 1 %>Ed"><%- sundmusedData[a].loigud[i].en %></div>
+          <input type="text" class="page-admin__input page-admin__hidden-input sundmused<%= a + 1 %>LoikEn" id="sundmused<%= a + 1 %>LoikEn<%= i + 1 %>" name="sundmused<%= a + 1 %>LoikEn<%= i + 1 %>" value="<%- sundmusedData[a].loigud[i].en %>"></input>
           <button class="page-admin__small-btn sundmusedLoikDeleteBtn sundmused<%= a + 1 %>LoikDeleteBtn" type="button" id="sundmused<%= a + 1 %>LoikDeleteBtn<%= i + 1 %>" name="sundmused<%= a + 1 %>LoikDeleteBtn<%= i + 1 %>">Kustuta</button>
         </div>
         <% } %>

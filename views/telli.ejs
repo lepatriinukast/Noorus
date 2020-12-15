@@ -8,26 +8,20 @@
   <form action="/upload/telli/email" method="post" name="orderForm" id="orderForm">
     <div class="form">
       <div class="page-telli__order-form">
-        <div class="page-telli__column">
           <% for (var a = 0; a < poodData.length; a++) { %>
-          <a class="paragraph--large link link--purple" href="/pood/#contentBox<%= a + 1 %>"><%= poodData[a].toode.est %></a>
-          <% } %>
-        </div>
-        <div class="page-telli__column">
-          <% for (var a = 0; a < poodData.length; a++) { %>
+            <div class="page-telli__link-box">
+              <a class="paragraph--large link link--purple" href="/pood/#contentBox<%= a + 1 %>"><%= poodData[a].toode.est %></a>
+            </div>
           <div class="page-telli__input-box">
             <a class="link numberBtnMinus" id="numberBtnMinus<%= a + 1 %>" href="#"><i class="fas fa-minus-circle form__number-btn"></i></a>
             <input class="form__input form__number-input itemCount" type="number" min="0" step="1" max="99" name="itemCount<%= a + 1 %>" id="itemCount<%= a + 1 %>" data-price="<%= poodData[a].toode.price %>"
               data-heading="<%= poodData[a].toode.est %>" <% if (number == (a + 1))  {%> value="1" <% } else {%> value="0" <% }%>>
             <a class="link numberBtnPlus" id="numberBtnPlus<%= a + 1 %>" href="#"><i class="fas fa-plus-circle form__number-btn"></i></a>
           </div>
+          <div class="page-telli__link-box">
+            <p class="paragraph--large paragraph--grey price" data-price="<%= poodData[a].toode.price %>" id="price<%= a + 1 %>"><%= poodData[a].toode.price %> €</p>
+          </div>
           <% } %>
-        </div>
-        <div class="page-telli__column">
-          <% for (var a = 0; a < poodData.length; a++) { %>
-          <p class="paragraph--large paragraph--grey price" data-price="<%= poodData[a].toode.price %>" id="price<%= a + 1 %>"><%= poodData[a].toode.price %> €</p>
-          <% } %>
-        </div>
       </div>
       <div class="page-telli__sum-box">
         <h2 class="heading--tertiary heading--purple" id="sum">Kokku: 0 €</h2>

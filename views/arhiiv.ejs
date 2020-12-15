@@ -12,10 +12,9 @@
       <a href="/admin" class="page-admin__btn">Adminilehele</a>
     </div>
   </div>
-<h2 class="page-admin__title">Andmebaas</h2>
-<h2 class="page-admin__subtitle u-margin-top-big">Registreerunute nimekiri</h2>
+<h2 class="page-admin__title">Arhiiv</h2>
 
-<h2 class="page-admin__subtitle">Möödunud sündmused</h2>
+<h2 class="page-admin__title">Möödunud sündmused</h2>
 <form action="/upload/moodunud" method="post" class="page-admin__form" id="moodunud">
 <div class="page-admin__form-wrapper" id="moodunudForm">
   <% for (var a = 0; a < moodunudData.length; a++) { %>
@@ -42,9 +41,11 @@
       <div class="page-admin__form-field moodunud<%= a + 1 %>LoikKoht" id="moodunud<%= a + 1 %>LoikKoht<%= i + 1 %>" data-heading="Koht ja aeg">
         <h3 class="page-admin__heading moodunud<%= a + 1 %>LoikKohtHeading">Koht ja aeg <%= i + 1 %></h3>
         <p class="page-admin__text">EST</p>
-        <textarea type="text" class="page-admin__input page-admin__text-area input moodunud<%= a + 1 %>LoikKohtEst" id="moodunud<%= a + 1 %>LoikKohtEst<%= i + 1 %>" name="moodunud<%= a + 1 %>LoikKohtEst<%= i + 1 %>" rows="1"><%= moodunudKohtData[a].kohad[i].est %></textarea>
+        <div type="text" contenteditable="true" class="page-admin__input page-admin__text-area input editable-input moodunud<%= a + 1 %>LoikKohtEstEd" id="moodunud<%= a + 1 %>LoikKohtEst<%= i + 1 %>Ed" name="moodunud<%= a + 1 %>LoikKohtEst<%= i + 1 %>Ed"><%- moodunudKohtData[a].kohad[i].est %></div>
+        <input type="text" class="page-admin__input page-admin__hidden-input moodunud<%= a + 1 %>LoikKohtEst" id="moodunud<%= a + 1 %>LoikKohtEst<%= i + 1 %>" name="moodunud<%= a + 1 %>LoikKohtEst<%= i + 1 %>" value="<%- moodunudKohtData[a].kohad[i].est %>"></input>
         <p class="page-admin__text">EN</p>
-        <textarea type="text" class="page-admin__input page-admin__text-area input moodunud<%= a + 1 %>LoikKohtEn" id="moodunud<%= a + 1 %>LoikKohtEn<%= i + 1 %>" name="moodunud<%= a + 1 %>LoikKohtEn<%= i + 1 %>" rows="1"><%= moodunudKohtData[a].kohad[i].en %></textarea>
+        <div type="text" contenteditable="true" class="page-admin__input page-admin__text-area input editable-input moodunud<%= a + 1 %>LoikKohtEnEd" id="moodunud<%= a + 1 %>LoikKohtEn<%= i + 1 %>Ed" name="moodunud<%= a + 1 %>LoikKohtEn<%= i + 1 %>Ed"><%- moodunudKohtData[a].kohad[i].en %></div>
+        <input type="text" class="page-admin__input page-admin__hidden-input moodunud<%= a + 1 %>LoikKohtEn" id="moodunud<%= a + 1 %>LoikKohtEn<%= i + 1 %>" name="moodunud<%= a + 1 %>LoikKohtEn<%= i + 1 %>" value="<%- moodunudKohtData[a].kohad[i].en %>"></input>
         <p class="page-admin__text">LINK</p>
         <input type="url" class="page-admin__input input moodunud<%= a + 1 %>LoikKohtLink" id="moodunud<%= a + 1 %>LoikKohtLink<%= i + 1 %>" name="moodunud<%= a + 1 %>LoikKohtLink<%= i + 1 %>" value="<%= moodunudKohtData[a].kohad[i].link %>">
         <button class="page-admin__small-btn moodunudLoikKohtDeleteBtn moodunud<%= a + 1 %>LoikKohtDeleteBtn" type="button" id="moodunud<%= a + 1 %>LoikKohtDeleteBtn<%= i + 1 %>" name="moodunud<%= a + 1 %>LoikKohtDeleteBtn<%= i + 1 %>">Kustuta</button>
@@ -59,9 +60,11 @@
       <div class="page-admin__form-field moodunud<%= a + 1 %>Loik" id="moodunud<%= a + 1 %>Loik<%= i + 1 %>" data-heading="Rida">
         <h3 class="page-admin__heading moodunud<%= a + 1 %>LoikHeading">Rida <%= i + 1 %></h3>
         <p class="page-admin__text">EST</p>
-        <textarea type="text" class="page-admin__input page-admin__text-area input moodunud<%= a + 1 %>LoikEst" id="moodunud<%= a + 1 %>LoikEst<%= i + 1 %>" name="moodunud<%= a + 1 %>LoikEst<%= i + 1 %>" rows="1"><%= moodunudData[a].loigud[i].est %></textarea>
+        <div type="text" contenteditable="true" class="page-admin__input page-admin__text-area input editable-input moodunud<%= a + 1 %>LoikEstEd" id="moodunud<%= a + 1 %>LoikEst<%= i + 1 %>Ed" name="moodunud<%= a + 1 %>LoikEst<%= i + 1 %>Ed"><%- moodunudData[a].loigud[i].est %></div>
+        <input type="text" class="page-admin__input page-admin__hidden-input moodunud<%= a + 1 %>LoikEst" id="moodunud<%= a + 1 %>LoikEst<%= i + 1 %>" name="moodunud<%= a + 1 %>LoikEst<%= i + 1 %>" value="<%- moodunudData[a].loigud[i].est %>"></input>
         <p class="page-admin__text">EN</p>
-        <textarea type="text" class="page-admin__input page-admin__text-area input moodunud<%= a + 1 %>LoikEn" id="moodunud<%= a + 1 %>LoikEn<%= i + 1 %>" name="moodunud<%= a + 1 %>LoikEn<%= i + 1 %>" rows="1"><%= moodunudData[a].loigud[i].en %></textarea>
+        <div type="text" contenteditable="true" class="page-admin__input page-admin__text-area input editable-input moodunud<%= a + 1 %>LoikEnEd" id="moodunud<%= a + 1 %>LoikEn<%= i + 1 %>Ed" name="moodunud<%= a + 1 %>LoikEn<%= i + 1 %>Ed"><%- moodunudData[a].loigud[i].en %></div>
+        <input type="text" class="page-admin__input page-admin__hidden-input moodunud<%= a + 1 %>LoikEn" id="moodunud<%= a + 1 %>LoikEn<%= i + 1 %>" name="moodunud<%= a + 1 %>LoikEn<%= i + 1 %>" value="<%- moodunudData[a].loigud[i].en %>"></input>
         <button class="page-admin__small-btn moodunudLoikDeleteBtn moodunud<%= a + 1 %>LoikDeleteBtn" type="button" id="moodunud<%= a + 1 %>LoikDeleteBtn<%= i + 1 %>" name="moodunud<%= a + 1 %>LoikDeleteBtn<%= i + 1 %>">Kustuta</button>
       </div>
       <% } %>

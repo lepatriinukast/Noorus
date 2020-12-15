@@ -7,11 +7,13 @@
     <div class="page-admin__form-field poodSissejuhatusLoik" id="poodSissejuhatusLoik<%= i + 1 %>" data-heading="Sissejuhatav lõik">
       <h3 class="page-admin__heading poodSissejuhatusLoikHeading">Sissejuhatav lõik <%= i + 1 %></h3>
       <p class="page-admin__text">EST</p>
-      <textarea type="text" class="page-admin__input page-admin__text-area input poodSissejuhatusLoikEst" id="poodSissejuhatusLoikEst<%= i + 1 %>" name="poodSissejuhatusLoikEst<%= i + 1 %>"
-        rows="1"><%= poodSissejuhatusData.loigud[i].est %></textarea>
+      <div type="text" contenteditable="true" class="page-admin__input page-admin__text-area input editable-input poodSissejuhatusLoikEstEd" id="poodSissejuhatusLoikEst<%= i + 1 %>Ed" name="poodSissejuhatusLoikEst<%= i + 1 %>Ed">
+        <%- poodSissejuhatusData.loigud[i].est %></div>
+      <input type="text" class="page-admin__input page-admin__hidden-input poodSissejuhatusLoikEst" id="poodSissejuhatusLoikEst<%= i + 1 %>" name="poodSissejuhatusLoikEst<%= i + 1 %>" value="<%- poodSissejuhatusData.loigud[i].est %>"></input>
       <p class="page-admin__text">EN</p>
-      <textarea type="text" class="page-admin__input page-admin__text-area input poodSissejuhatusLoikEn" id="poodSissejuhatusLoikEn<%= i + 1 %>" name="poodSissejuhatusLoikEn<%= i + 1 %>"
-        rows="1"><%= poodSissejuhatusData.loigud[i].en %></textarea>
+      <div type="text" contenteditable="true" class="page-admin__input page-admin__text-area input editable-input poodSissejuhatusLoikEnEd" id="poodSissejuhatusLoikEn<%= i + 1 %>Ed" name="poodSissejuhatusLoikEn<%= i + 1 %>Ed">
+        <%- poodSissejuhatusData.loigud[i].en %></div>
+      <input type="text" class="page-admin__input page-admin__hidden-input poodSissejuhatusLoikEn" id="poodSissejuhatusLoikEn<%= i + 1 %>" name="poodSissejuhatusLoikEn<%= i + 1 %>" value="<%- poodSissejuhatusData.loigud[i].en %>"></input>
       <button class="page-admin__small-btn deleteBtn poodSissejuhatusLoikDeleteBtn" type="button" id="poodSissejuhatusLoikDeleteBtn<%= i + 1 %>" name="poodSissejuhatusLoikDeleteBtn<%= i + 1 %>">Kustuta</button>
     </div>
     <% } %>
@@ -47,11 +49,13 @@
         <div class="page-admin__form-field pood<%= a + 1 %>Loik" id="pood<%= a + 1 %>Loik<%= i + 1 %>" data-heading="Lõik/rida">
           <h3 class="page-admin__heading pood<%= a + 1 %>LoikHeading">Lõik/rida <%= i + 1 %></h3>
           <p class="page-admin__text">EST</p>
-          <textarea type="text" class="page-admin__input page-admin__text-area input pood<%= a + 1 %>LoikEst" id="pood<%= a + 1 %>LoikEst<%= i + 1 %>" name="pood<%= a + 1 %>LoikEst<%= i + 1 %>"
-            rows="1"><%= poodData[a].loigud[i].est %></textarea>
+          <div type="text" contenteditable="true" class="page-admin__input page-admin__text-area input editable-input pood<%= a + 1 %>LoikEstEd" id="pood<%= a + 1 %>LoikEst<%= i + 1 %>Ed" name="pood<%= a + 1 %>LoikEst<%= i + 1 %>Ed">
+            <%-  poodData[a].loigud[i].est %></div>
+          <input type="text" class="page-admin__input page-admin__hidden-input pood<%= a + 1 %>LoikEst" id="pood<%= a + 1 %>LoikEst<%= i + 1 %>" name="pood<%= a + 1 %>LoikEst<%= i + 1 %>" value="<%-  poodData[a].loigud[i].est  %>"></input>
           <p class="page-admin__text">EN</p>
-          <textarea type="text" class="page-admin__input page-admin__text-area input pood<%= a + 1 %>LoikEn" id="pood<%= a + 1 %>LoikEn<%= i + 1 %>" name="pood<%= a + 1 %>LoikEn<%= i + 1 %>"
-            rows="1"><%= poodData[a].loigud[i].en %></textarea>
+          <div type="text" contenteditable="true" class="page-admin__input page-admin__text-area input editable-input pood<%= a + 1 %>LoikEnEd" id="pood<%= a + 1 %>LoikEn<%= i + 1 %>Ed" name="pood<%= a + 1 %>LoikEn<%= i + 1 %>Ed">
+            <%- poodData[a].loigud[i].en %></div>
+          <input type="text" class="page-admin__input page-admin__hidden-input pood<%= a + 1 %>LoikEn" id="pood<%= a + 1 %>LoikEn<%= i + 1 %>" name="pood<%= a + 1 %>LoikEn<%= i + 1 %>" value="<%- poodData[a].loigud[i].en  %>"></input>
           <button class="page-admin__small-btn poodLoikDeleteBtn pood<%= a + 1 %>LoikDeleteBtn" type="button" id="pood<%= a + 1 %>LoikDeleteBtn<%= i + 1 %>" name="pood<%= a + 1 %>LoikDeleteBtn<%= i + 1 %>">Kustuta</button>
         </div>
         <% } %>
@@ -77,9 +81,11 @@
     <div class="page-admin__form-field telliLoik" id="telliLoik<%= i + 1 %>" data-heading="Sissejuhatav lõik">
       <h3 class="page-admin__heading telliLoikHeading">Sissejuhatav lõik <%= i + 1 %></h3>
       <p class="page-admin__text">EST</p>
-      <textarea type="text" class="page-admin__input page-admin__text-area input telliLoikEst" id="telliLoikEst<%= i + 1 %>" name="telliLoikEst<%= i + 1 %>" rows="1"><%= telliData.loigud[i].est %></textarea>
+      <div type="text" contenteditable="true" class="page-admin__input page-admin__text-area input editable-input telliLoikEstEd" id="telliLoikEst<%= i + 1 %>Ed" name="telliLoikEst<%= i + 1 %>Ed"><%- telliData.loigud[i].est %></div>
+      <input type="text" class="page-admin__input page-admin__hidden-input telliLoikEst" id="telliLoikEst<%= i + 1 %>" name="telliLoikEst<%= i + 1 %>" value="<%- telliData.loigud[i].est; %>"></input>
       <p class="page-admin__text">EN</p>
-      <textarea type="text" class="page-admin__input page-admin__text-area input telliLoikEn" id="telliLoikEn<%= i + 1 %>" name="telliLoikEn<%= i + 1 %>" rows="1"><%= telliData.loigud[i].en %></textarea>
+      <div type="text" contenteditable="true" class="page-admin__input page-admin__text-area input editable-input telliLoikEnEd" id="telliLoikEn<%= i + 1 %>Ed" name="telliLoikEn<%= i + 1 %>Ed"><%- telliData.loigud[i].en %></div>
+      <input type="text" class="page-admin__input page-admin__hidden-input telliLoikEn" id="telliLoikEn<%= i + 1 %>" name="telliLoikEn<%= i + 1 %>" value="<%- telliData.loigud[i].en %>"></input>
       <button class="page-admin__small-btn deleteBtn telliLoikDeleteBtn" type="button" id="telliLoikDeleteBtn<%= i + 1 %>" name="telliLoikDeleteBtn<%= i + 1 %>">Kustuta</button>
     </div>
     <% } %>
@@ -107,9 +113,9 @@
       <p class="page-admin__text">EN</p>
       <input class="page-admin__input input kontaktandmedLoikEn" type="text" id="kontaktandmedLoikEn<%= i + 1 %>" name="kontaktandmedLoikEn<%= i + 1 %>" value="<%= telliAnkeetData.valjad[i].en %>">
       <p class="page-admin__text">KOHUSTUSLIK</p>
-      <input class="page-admin__checkbox input kontaktandmedLoikCheckbox" type="checkbox" id="kontaktandmedLoikCheckbox<%= i + 1 %>" name="kontaktandmedLoikCheckbox<%= i + 1 %>" <% if (telliAnkeetData.valjad[i].checked === "*") { %> checked <% } %> >
+      <input class="page-admin__checkbox input kontaktandmedLoikCheckbox" type="checkbox" id="kontaktandmedLoikCheckbox<%= i + 1 %>" name="kontaktandmedLoikCheckbox<%= i + 1 %>" <% if (telliAnkeetData.valjad[i].checked === "*") { %> checked <% } %>>
       <p class="page-admin__text">SUURENEV</p>
-      <input class="page-admin__checkbox input kontaktandmedLoikTextArea" type="checkbox" id="kontaktandmedLoikTextArea<%= i + 1 %>" name="kontaktandmedLoikTextArea<%= i + 1 %>" <% if (telliAnkeetData.valjad[i].textArea === "*") { %> checked <% } %> >
+      <input class="page-admin__checkbox input kontaktandmedLoikTextArea" type="checkbox" id="kontaktandmedLoikTextArea<%= i + 1 %>" name="kontaktandmedLoikTextArea<%= i + 1 %>" <% if (telliAnkeetData.valjad[i].textArea === "*") { %> checked <% } %>>
       <button class="page-admin__small-btn deleteBtn kontaktandmedLoikDeleteBtn" type="button" id="kontaktandmedLoikDeleteBtn<%= i + 1 %>" name="kontaktandmedLoikDeleteBtn<%= i + 1 %>">Kustuta</button>
     </div>
     <% } %>
@@ -121,9 +127,11 @@
     <div class="page-admin__form-field">
       <h3 class="page-admin__heading">Järellõik</h3>
       <p class="page-admin__text">EST</p>
-      <textarea type="text" class="page-admin__input page-admin__text-area input" name="kontaktandmedJarelloikEst" id="kontaktandmedJarelloikEst" rows="1" cols="1"><%= telliAnkeetData.jarelloik.est %></textarea>
-      <p class="page-admin__text">EN </p>
-      <textarea type="text" class="page-admin__input page-admin__text-area input" name="kontaktandmedJarelloikEn" id="kontaktandmedJarelloikEn" rows="1"><%= telliAnkeetData.jarelloik.en %></textarea>
+      <div type="text" contenteditable="true" class="page-admin__input page-admin__text-area input editable-input" id="kontaktandmedJarelloikEstEd" name="kontaktandmedJarelloikEstEd"><%- telliAnkeetData.jarelloik.est %></div>
+      <input type="text" class="page-admin__input page-admin__hidden-input" id="kontaktandmedJarelloikEst" name="kontaktandmedJarelloikEst" value="<%- telliAnkeetData.jarelloik.est  %>"></input>
+      <p class="page-admin__text">EN</p>
+      <div type="text" contenteditable="true" class="page-admin__input page-admin__text-area input editable-input" id="kontaktandmedJarelloikEnEd" name="kontaktandmedJarelloikEnEd"><%- telliAnkeetData.jarelloik.en %></div>
+      <input type="text" class="page-admin__input page-admin__hidden-input" id="kontaktandmedJarelloikEn" name="kontaktandmedJarelloikEn" value="<%- telliAnkeetData.jarelloik.en  %>"></input>
     </div>
   </div>
   <button class="page-admin__btn" type="submit" name="button">Salvesta</button>

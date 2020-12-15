@@ -1,5 +1,4 @@
 .page-telli {
-
   &__container {
     height: 100%;
     padding: 3rem;
@@ -7,21 +6,16 @@
   }
 
   &__order-form {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    white-space: nowrap;
-    @media screen and (max-width: 19.375em) {
-    white-space: normal;
-    }
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    max-width: 50rem;
   }
 
-  &__column {
+  &__link-box {
     display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    justify-content: space-around;
-    padding: 0 1rem;
+    align-items: center;
+    justify-content: center;
+    margin: 2rem;
   }
 
   &__text-box {
@@ -31,6 +25,7 @@
   &__input-box {
     display: flex;
     align-items: center;
+    justify-content: center;
     flex-wrap: nowrap;
   }
 

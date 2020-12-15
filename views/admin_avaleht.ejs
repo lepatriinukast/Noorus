@@ -41,9 +41,11 @@
     <div class="page-admin__form-field">
       <h3 class="page-admin__heading">Jätkupealkiri</h3>
       <p class="page-admin__text">EST</p>
-      <textarea class="page-admin__input page-admin__text-area input" name="jatkuPealkiriEst" id="jatkuPealkiriEst" rows="1"><%= avalehtTekstidData.jatkuPealkiri.est %></textarea>
+      <div type="text" contenteditable="true" class="page-admin__input page-admin__text-area input editable-input" id="jatkuPealkiriEstEd" name="jatkuPealkiriEstEd"><%-  avalehtTekstidData.jatkuPealkiri.est %></div>
+      <input type="text" class="page-admin__input page-admin__hidden-input" id="jatkuPealkiriEst" name="jatkuPealkiriEst" value="<%- avalehtTekstidData.jatkuPealkiri.est  %>"></input>
       <p class="page-admin__text">EN</p>
-      <textarea class="page-admin__input page-admin__text-area input" name="jatkuPealkiriEn" id="jatkuPealkiriEn" rows="1"><%= avalehtTekstidData.jatkuPealkiri.en %></textarea>
+      <div type="text" contenteditable="true" class="page-admin__input page-admin__text-area input editable-input" id="jatkuPealkiriEnEd" name="jatkuPealkiriEnEd"><%-  avalehtTekstidData.jatkuPealkiri.en %></div>
+      <input type="text" class="page-admin__input page-admin__hidden-input" id="jatkuPealkiriEn" name="jatkuPealkiriEn" value="<%- avalehtTekstidData.jatkuPealkiri.en  %>"></input>
     </div>
     <div class="page-admin__form-field">
       <h3 class="page-admin__heading">Sektsiooni pealkiri 1</h3>
@@ -55,9 +57,11 @@
     <div class="page-admin__form-field">
       <h3 class="page-admin__heading">Sektsiooni tekst 1</h3>
       <p class="page-admin__text">EST</p>
-      <textarea class="page-admin__input page-admin__text-area input" name="sektsiooniTekstEst1" id="sektsiooniTekstEst1" rows="1"><%= avalehtTekstidData.sektsiooniTekst1.est %></textarea>
+      <div type="text" contenteditable="true" class="page-admin__input page-admin__text-area input editable-input" id="sektsiooniTekstEst1Ed" name="sektsiooniTekstEst1Ed"><%-  avalehtTekstidData.sektsiooniTekst1.est %></div>
+      <input type="text" class="page-admin__input page-admin__hidden-input" id="sektsiooniTekstEst1" name="sektsiooniTekstEst1" value="<%- avalehtTekstidData.sektsiooniTekst1.est  %>"></input>
       <p class="page-admin__text">EN</p>
-      <textarea class="page-admin__input page-admin__text-area input" name="sektsiooniTekstEn1" id="sektsiooniTekstEn1" rows="1"><%= avalehtTekstidData.sektsiooniTekst1.en %></textarea>
+      <div type="text" contenteditable="true" class="page-admin__input page-admin__text-area input editable-input" id="sektsiooniTekstEn1Ed" name="sektsiooniTekstEn1Ed"><%-  avalehtTekstidData.sektsiooniTekst1.en %></div>
+      <input type="text" class="page-admin__input page-admin__hidden-input" id="sektsiooniTekstEn1" name="sektsiooniTekstEn1" value="<%- avalehtTekstidData.sektsiooniTekst1.en  %>"></input>
     </div>
     <div class="page-admin__form-field">
       <h3 class="page-admin__heading">Sektsiooni pealkiri 2</h3>
@@ -69,9 +73,11 @@
     <div class="page-admin__form-field">
       <h3 class="page-admin__heading">Sektsiooni tekst 2</h3>
       <p class="page-admin__text">EST</p>
-      <textarea class="page-admin__input page-admin__text-area input" name="sektsiooniTekstEst2" id="sektsiooniTekstEst2" rows="1"><%= avalehtTekstidData.sektsiooniTekst2.est %></textarea>
+      <div type="text" contenteditable="true" class="page-admin__input page-admin__text-area input editable-input" id="sektsiooniTekstEst2Ed" name="sektsiooniTekstEst2Ed"><%-  avalehtTekstidData.sektsiooniTekst2.est %></div>
+      <input type="text" class="page-admin__input page-admin__hidden-input" id="sektsiooniTekstEst2" name="sektsiooniTekstEst2" value="<%- avalehtTekstidData.sektsiooniTekst2.est  %>"></input>
       <p class="page-admin__text">EN</p>
-      <textarea class="page-admin__input page-admin__text-area input" name="sektsiooniTekstEn2" id="sektsiooniTekstEn2" rows="1"><%= avalehtTekstidData.sektsiooniTekst2.en %></textarea>
+      <div type="text" contenteditable="true" class="page-admin__input page-admin__text-area input editable-input" id="sektsiooniTekstEn2Ed" name="sektsiooniTekstEn2Ed"><%-  avalehtTekstidData.sektsiooniTekst2.en %></div>
+      <input type="text" class="page-admin__input page-admin__hidden-input" id="sektsiooniTekstEn2" name="sektsiooniTekstEn2" value="<%- avalehtTekstidData.sektsiooniTekst2.en  %>"></input>
     </div>
   </div>
   <button class="page-admin__btn" type="submit" name="button" id="avalehtTekstidBtn">Salvesta</button>

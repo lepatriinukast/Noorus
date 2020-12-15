@@ -68,7 +68,7 @@
     color: $color-primary-light;
     transition-property: transform, color;
     transition-duration: 0.5s;
-    @media screen and (max-width: 62.5em) {
+    @media screen and (max-width: 53.125em) {
       display: none !important;
     }
 

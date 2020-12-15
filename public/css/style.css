@@ -414,7 +414,7 @@ body {
     color: #5F045F;
     transition-property: transform, color;
     transition-duration: 0.5s; }
-    @media screen and (max-width: 62.5em) {
+    @media screen and (max-width: 53.125em) {
       .form__number-btn {
         display: none !important; } }
     .form__number-btn:hover {
@@ -1290,20 +1290,15 @@ body {
   text-align: center; }
 
 .page-telli__order-form {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  white-space: nowrap; }
-  @media screen and (max-width: 19.375em) {
-    .page-telli__order-form {
-      white-space: normal; } }
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  max-width: 50rem; }
 
-.page-telli__column {
+.page-telli__link-box {
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  justify-content: space-around;
-  padding: 0 1rem; }
+  align-items: center;
+  justify-content: center;
+  margin: 2rem; }
 
 .page-telli__text-box {
   padding: 0; }
@@ -1311,6 +1306,7 @@ body {
 .page-telli__input-box {
   display: flex;
   align-items: center;
+  justify-content: center;
   flex-wrap: nowrap; }
 
 .page-telli__sum-box {

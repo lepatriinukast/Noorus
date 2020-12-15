@@ -3389,152 +3389,260 @@ app.get("/admin/sundmused", function(req, res) {
         };
         plakatid.push(plakat);
       }
-      con.query("SELECT * FROM sundmusedsissejuhatus ORDER BY id", function(err, result) {
+      con.query("SELECT * FROM moodunudPildid ORDER BY id", function(err, result) {
         if (err) throw err;
-        var sundmusedSissejuhatusData = [];
+        var moodunudPlakatid = [];
         for (var i = 0; i < result.length; i++) {
-          var loik = {
-            est: result[i].est,
-            en: result[i].en
+          var moodunudPlakat = {
+            url: result[i].url,
+            filename: result[i].url.slice(5)
           };
-          sundmusedSissejuhatusData.push(loik);
+          moodunudPlakatid.push(moodunudPlakat);
         }
-
-        // find the dynamic tables from the database ("sundmused", "sundmusedkoht") and sort them into groups accordingly
-
-        var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'segakoorNoorus' ORDER by table_name";
-
-        con.query(sql, async function(err, result) {
+        con.query("SELECT * FROM sundmusedsissejuhatus ORDER BY id", function(err, result) {
           if (err) throw err;
-
-          var tableNames = [];
-          var tableNamesKoht = [];
-
+          var sundmusedSissejuhatusData = [];
           for (var i = 0; i < result.length; i++) {
-
-            var tableName = (result[i].table_name);
-
-            if (tableName.indexOf("sundmused") !== -1 &&
-              tableName.indexOf("pildid") === -1 &&
-              tableName.indexOf("sissejuhatus") === -1 &&
-              tableName.indexOf("koht") === -1) {
-
-              tableNames.push(tableName);
-
-            } else if (tableName.indexOf("sundmusedkoht") !== -1) {
-
-              tableNamesKoht.push(tableName);
-
-            }
+            var loik = {
+              est: result[i].est,
+              en: result[i].en
+            };
+            sundmusedSissejuhatusData.push(loik);
           }
 
-          var sortedTableNames = tableNames.sort(function(a, b) {
-            return a - b;
-          });
 
-          var sortedTableNamesKoht = tableNamesKoht.sort(function(a, b) {
-            return a - b;
-          });
+          // find the dynamic tables from the database ("sundmused", "sundmusedkoht", "moodunud", "moodunudkoht") and sort them into groups accordingly
 
-          // to get the necessary data for dynamic subforms, we need to use async functions with promises,
-          // this is necessary, because we often need to wait for database queries,
-          // but because we need to have loops in our code, we cannot use callbacks like we normally do
-          // (for this advanced js code, we also use new arrow functions)
+          var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'segakoorNoorus' ORDER by table_name";
 
+          con.query(sql, async function(err, result) {
+            if (err) throw err;
 
-          // two functions (for the two database tables associated with one dynamic "sundmused" subform),
-          // which will each return a promise that will be resolved to an array once the database query has completed,
-          // these functions take an argument, which is the relevant database table name
+            var tableNamesSundmused = [];
+            var tableNamesSundmusedKoht = [];
+            var tableNamesMoodunud = [];
+            var tableNamesMoodunudKoht = [];
 
-          const constructSundmusedPromise = tableName => {
+            for (var i = 0; i < result.length; i++) {
 
-            return new Promise((resolve, reject) => {
+              var tableName = (result[i].table_name);
 
-              con.query("SELECT * FROM " + tableName + " ORDER by id", function(err, result) {
-                if (err) throw err;
+              if (tableName.indexOf("sundmused") !== -1 &&
+                tableName.indexOf("pildid") === -1 &&
+                tableName.indexOf("sissejuhatus") === -1 &&
+                tableName.indexOf("koht") === -1) {
 
-                var sundmus = {
-                  pealkiri: {
-                    est: result[0].est,
-                    en: result[0].en
-                  },
-                  loigud: []
-                };
-                for (let b = 1; b < result.length; b++) {
-                  var loik = {
-                    est: result[b].est,
-                    en: result[b].en
-                  };
-                  sundmus.loigud.push(loik);
-                }
-                if (err) {
-                  reject(err);
-                } else {
-                  resolve(sundmus);
-                }
-              });
+                tableNamesSundmused.push(tableName);
+
+              } else if (tableName.indexOf("sundmusedkoht") !== -1) {
+                tableNamesSundmusedKoht.push(tableName);
+
+              } else if (tableName.indexOf("moodunud") !== -1 &&
+                tableName.indexOf("pildid") === -1 &&
+                tableName.indexOf("koht") === -1) {
+
+                tableNamesMoodunud.push(tableName);
+
+              } else if (tableName.indexOf("moodunudkoht") !== -1) {
+                tableNamesMoodunudKoht.push(tableName);
+              }
+            }
+
+            var sortedTableNamesSundmused = tableNamesSundmused.sort(function(a, b) {
+              return a - b;
             });
-          };
 
-          const constructSundmusedKohtPromise = tableName => {
-
-            return new Promise((resolve, reject) => {
-
-              con.query("SELECT * FROM " + tableName + " ORDER by id", function(err, result) {
-                if (err) throw err;
-
-                var sundmusKoht = {
-                  kohad: []
-                };
-                for (let b = 0; b < result.length; b++) {
-                  var koht = {
-                    est: result[b].est,
-                    en: result[b].en,
-                    link: result[b].link
-                  };
-                  sundmusKoht.kohad.push(koht);
-                }
-                if (err) {
-                  reject(err);
-                } else {
-                  resolve(sundmusKoht);
-                }
-              });
+            var sortedTableNamesSundmusedKoht = tableNamesSundmusedKoht.sort(function(a, b) {
+              return a - b;
             });
-          };
+
+            var sortedTableNamesMoodunud = tableNamesMoodunud.sort(function(a, b) {
+              return a - b;
+            });
+
+            var sortedTableNamesMoodunudKoht = tableNamesMoodunudKoht.sort(function(a, b) {
+              return a - b;
+            });
+
+            // to get the necessary data for dynamic subforms, we need to use async functions with promises,
+            // this is necessary, because we often need to wait for database queries,
+            // but because we need to have loops in our code, we cannot use callbacks like we normally do
+            // (for this advanced js code, we also use new arrow functions)
 
 
-          // create two arrays of the promises constructed above, using the map method
+            // functions (one for each database table associated with a dynamic "sundmused", "sundmusedkoht", "moodunud" or "moodunudkoht" subform),
+            // which will each return a promise that will be resolved to an array once the database query has completed,
+            // these functions take an argument, which is the relevant database table name
 
-          const sundmusedDataPromise = sortedTableNames.map(async tableName => {
+            const constructSundmusedPromise = tableName => {
 
-            const sundmused = await constructSundmusedPromise(tableName);
+              return new Promise((resolve, reject) => {
 
-            return sundmused;
-          });
+                con.query("SELECT * FROM " + tableName + " ORDER by id DESC", function(err, result) {
+                  if (err) throw err;
+
+                  var sundmus = {
+                    pealkiri: {
+                      est: result[0].est,
+                      en: result[0].en
+                    },
+                    loigud: []
+                  };
+                  for (let b = 1; b < result.length; b++) {
+                    var loik = {
+                      est: result[b].est,
+                      en: result[b].en
+                    };
+                    sundmus.loigud.push(loik);
+                  }
+                  if (err) {
+                    reject(err);
+                  } else {
+                    resolve(sundmus);
+                  }
+                });
+              });
+            };
+
+            const constructSundmusedKohtPromise = tableName => {
+
+              return new Promise((resolve, reject) => {
+
+                con.query("SELECT * FROM " + tableName + " ORDER by id DESC", function(err, result) {
+                  if (err) throw err;
+
+                  var sundmusKoht = {
+                    kohad: []
+                  };
+                  for (let b = 0; b < result.length; b++) {
+                    var koht = {
+                      est: result[b].est,
+                      en: result[b].en,
+                      link: result[b].link
+                    };
+                    sundmusKoht.kohad.push(koht);
+                  }
+                  if (err) {
+                    reject(err);
+                  } else {
+                    resolve(sundmusKoht);
+                  }
+                });
+              });
+            };
+
+            const constructMoodunudPromise = tableName => {
+
+              return new Promise((resolve, reject) => {
+
+                con.query("SELECT * FROM " + tableName + " ORDER by id DESC", function(err, result) {
+                  if (err) throw err;
+
+                  var sundmus = {
+                    pealkiri: {
+                      est: result[0].est,
+                      en: result[0].en
+                    },
+                    loigud: []
+                  };
+                  for (let b = 1; b < result.length; b++) {
+                    var loik = {
+                      est: result[b].est,
+                      en: result[b].en
+                    };
+                    sundmus.loigud.push(loik);
+                  }
+                  if (err) {
+                    reject(err);
+                  } else {
+                    resolve(sundmus);
+                  }
+                });
+              });
+            };
+
+            const constructMoodunudKohtPromise = tableName => {
+
+              return new Promise((resolve, reject) => {
+
+                con.query("SELECT * FROM " + tableName + " ORDER by id DESC", function(err, result) {
+                  if (err) throw err;
+
+                  var sundmusKoht = {
+                    kohad: []
+                  };
+                  for (let b = 0; b < result.length; b++) {
+                    var koht = {
+                      est: result[b].est,
+                      en: result[b].en,
+                      link: result[b].link
+                    };
+                    sundmusKoht.kohad.push(koht);
+                  }
+                  if (err) {
+                    reject(err);
+                  } else {
+                    resolve(sundmusKoht);
+                  }
+                });
+              });
+            };
 
 
-          const sundmusedKohtDataPromise = sortedTableNamesKoht.map(async tableNameKoht => {
 
-            const sundmusedKoht = await constructSundmusedKohtPromise(tableNameKoht);
+            // create arrays of the promises constructed above, using the map method
 
-            return sundmusedKoht;
-          });
+            const sundmusedDataPromise = sortedTableNamesSundmused.map(async tableNameSundmused => {
+
+              const sundmused = await constructSundmusedPromise(tableNameSundmused);
+
+              return sundmused;
+            });
 
 
-          // wait for all the promises to be resolved into two arrays
+            const sundmusedKohtDataPromise = sortedTableNamesSundmusedKoht.map(async tableNameSundmusedKoht => {
 
-          var sundmusedData = await Promise.all(sundmusedDataPromise);
-          var sundmusedKohtData = await Promise.all(sundmusedKohtDataPromise);
+              const sundmusedKoht = await constructSundmusedKohtPromise(tableNameSundmusedKoht);
 
-          res.render("admin_sundmused", {
-            pageTitle: pageTitle,
-            routeName: routeName,
-            paiseikoon: paiseikoon,
-            plakatid: plakatid,
-            sundmusedSissejuhatusData: sundmusedSissejuhatusData,
-            sundmusedData: sundmusedData,
-            sundmusedKohtData: sundmusedKohtData,
+              return sundmusedKoht;
+            });
+
+            const moodunudDataPromise = sortedTableNamesMoodunud.map(async tableNameMoodunud => {
+
+              const moodunud = await constructMoodunudPromise(tableNameMoodunud);
+
+              return moodunud;
+            });
+
+
+            const moodunudKohtDataPromise = sortedTableNamesMoodunudKoht.map(async tableNameMoodunudKoht => {
+
+              const moodunudKoht = await constructMoodunudKohtPromise(tableNameMoodunudKoht);
+
+              return moodunudKoht;
+            });
+
+
+            // wait for all the promises to be resolved into two arrays
+
+            var sundmusedData = await Promise.all(sundmusedDataPromise);
+            var sundmusedKohtData = await Promise.all(sundmusedKohtDataPromise);
+            var moodunudData = await Promise.all(moodunudDataPromise);
+            var moodunudKohtData = await Promise.all(moodunudKohtDataPromise);
+
+
+            res.render("admin_sundmused", {
+              pageTitle: pageTitle,
+              routeName: routeName,
+              paiseikoon: paiseikoon,
+              plakatid: plakatid,
+              moodunudPlakatid: moodunudPlakatid,
+              sundmusedSissejuhatusData: sundmusedSissejuhatusData,
+              sundmusedData: sundmusedData,
+              sundmusedKohtData: sundmusedKohtData,
+              moodunudData: moodunudData,
+              moodunudKohtData: moodunudKohtData
+            });
           });
         });
       });
@@ -3879,9 +3987,9 @@ app.get("/admin/pood", function(req, res) {
 });
 
 
-app.get("/admin/andmebaas", function(req, res) {
+app.get("/admin/arhiiv", function(req, res) {
 
-  var pageTitle = "andmebaas";
+  var pageTitle = "Arhiiv";
   con.query("SELECT * FROM avalehtpildid ORDER BY id", function(err, result) {
     if (err) throw err;
     var paiseikoon = {
@@ -4055,7 +4163,7 @@ app.get("/admin/andmebaas", function(req, res) {
             var moodunudData = await Promise.all(moodunudDataPromise);
             var moodunudKohtData = await Promise.all(moodunudKohtDataPromise);
 
-            res.render("andmebaas", {
+            res.render("arhiiv", {
               pageTitle: pageTitle,
               paiseikoon: paiseikoon,
               plakatid: plakatid,
@@ -6621,12 +6729,17 @@ app.post("/upload/kontakt", async function(req, res) {
     est: kontaktData.mtu.pealkiri.est,
     en: kontaktData.mtu.pealkiri.en,
   };
+  var pealkiriUldine = {
+    est: kontaktData.uldine.pealkiri.est,
+    en: kontaktData.uldine.pealkiri.en,
+  };
 
   // populate the pealkirjad array with these objects
 
   pealkirjad.push(pealkiriAndmed);
   pealkirjad.push(pealkiriNumbrid);
   pealkirjad.push(pealkiriMtu);
+  pealkirjad.push(pealkiriUldine);
 
   // create an array of all the four database table names that have "pealkiri" entries on the "kontakt" page
 
@@ -8283,6 +8396,8 @@ app.post("/upload/sundmused/delete", function(req, res) {
   // retrieve and parse the data sent by the browser via an ajax call- this will contain the id number of the deleted subform
 
   var deleteSubformData = JSON.parse(req.body.data);
+
+  console.log(deleteSubformData);
 
   // to find the right result, we need to know the subform's index number-
   // this will be the id number of the deleted subform minus 1 (since js starts to count from 0 not 1)
@@ -9983,7 +10098,7 @@ app.post("/upload/telli/kontaktandmed/delete", function(req, res) {
 });
 
 
-// update a "moodunud" subform on the "andmebaas" page
+// update a "moodunud" subform on the "arhiiv" page
 
 app.post("/upload/moodunud", function(req, res) {
 
@@ -10129,7 +10244,7 @@ app.post("/upload/moodunud", function(req, res) {
           return a - b;
         });
 
-        // obtain all the name properties of the text inputs on the "andmebaas" page
+        // obtain all the name properties of the text inputs on the "arhiiv" page
 
         var keysTekstid = Object.keys(req.body);
 
@@ -10709,7 +10824,7 @@ app.post("/upload/moodunud", function(req, res) {
 
 
 
-// delete a subform from the "möödunud sündmused" section on the "andmebaas" page
+// delete a subform from the "möödunud sündmused" section on the "arhiiv" page
 
 app.post("/upload/moodunud/delete", function(req, res) {
 
@@ -10825,7 +10940,7 @@ app.post("/upload/moodunud/delete", function(req, res) {
 });
 
 
-// delete a subform from the "möödunud sündmused" section on the "andmebaas" page and restore it to the "andmebaas" page
+// delete a subform from the "möödunud sündmused" section on the "arhiiv" page and restore it to the "sundmused" page
 
 app.post("/upload/moodunud/restore/delete", function(req, res) {
 
@@ -10961,7 +11076,7 @@ app.post("/upload/moodunud/restore/delete", function(req, res) {
   });
 });
 
-// add a new "rida" element to the "moodunud" subform on the "andmebaas" page-
+// add a new "rida" element to the "moodunud" subform on the "arhiiv" page-
 // because this is a dynamic route, handling several user-created databases, it also uses a custom parameter, which is the ":number" part
 
 
@@ -11037,7 +11152,7 @@ app.post("/upload/moodunud" + ":number/new", function(req, res) {
 });
 
 
-// delete a "rida" element from the "moodunud" subform on the "andmebaas" page-
+// delete a "rida" element from the "moodunud" subform on the "arhiiv" page-
 // because this is a dynamic route handling several user-created databases, it also uses a custom parameter, which is the ":number" part
 
 app.post("/upload/moodunud" + ":number/delete", function(req, res) {
@@ -11131,7 +11246,7 @@ app.post("/upload/moodunud" + ":number/delete", function(req, res) {
 });
 
 
-// add a new "koht" element to the "moodunud" subform on the "andmebaas" page-
+// add a new "koht" element to the "moodunud" subform on the "arhiiv" page-
 // because this is a dynamic route, handling several user-created databases, it also uses a custom parameter, which is the ":number" part
 
 
@@ -11206,7 +11321,7 @@ app.post("/upload/moodunud/koht" + ":number/new", function(req, res) {
 });
 
 
-// delete a "koht" element from the "moodunud" subform on the "andmebaas" page-
+// delete a "koht" element from the "moodunud" subform on the "arhiiv" page-
 // because this is a dynamic route handling several user-created databases, it also uses a custom parameter, which is the ":number" part
 
 app.post("/upload/moodunud/koht" + ":number/delete", function(req, res) {
