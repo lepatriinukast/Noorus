@@ -25,13 +25,7 @@ app.use(express.static("public"));
 
 // connect to mySQL database
 
-var con = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "",
-  database: "segakoorNoorus",
-  charset: "utf8mb4"
-});
+var con = mysql.createConnection("mysql://bdb499b9eab505:6dd427d2@eu-cdbr-west-03.cleardb.net/heroku_8077042b55aa915?reconnect=true");
 
 con.connect(function(err) {
   if (err) throw err;
@@ -11456,6 +11450,8 @@ app.post("/upload/kontakt/email", function(req, res, next) {
 
 // start server
 
-app.listen(process.env.PORT || 3000, function() {
+app.listen(process.env.PORT ||
+
+   3000, function() {
   console.log("Server is now running on port 3000");
 });
