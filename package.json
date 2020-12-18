@@ -4,6 +4,7 @@
   "description": "website for mixed choir Noorus",
   "main": "server.js",
   "scripts": {
+   "start": "node server.js",
     "watch:sass": "node-sass public/sass/main.scss public/css/style.css -w",
     "compile:sass": "node-sass public/sass/main.scss public/css/style.comp.css",
     "concat:css": "concat -o public/css/style.conc.css public/css/style.comp.css public/css/all.css",
