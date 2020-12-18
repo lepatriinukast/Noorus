@@ -272,6 +272,18 @@ if (inputArray !== null) {
   }
 }
 
+// listen to "paste" events on the editable inputs and make sure only plain text is used (on editable divs this is not default)
+
+if (editableInputArray.length !== 0) {
+
+  for (var i = 0; i < editableInputArray.length; i++) {
+    editableInputArray[i].addEventListener('paste', function (event) {
+      event.preventDefault();
+      document.execCommand('inserttext', false, event.clipboardData.getData('text/plain'));
+    });
+  }
+}
+
 
 // function for manually updating the value property of the fake text inputs that have been changed by the admin
 // and also for carrying it over to the corresponding hidden input

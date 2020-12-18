@@ -8,7 +8,7 @@
     <% for (var i = 0; i < kontaktSissejuhatusData.loigud.length; i++) { %>
     <div class="page-admin__form-field kontaktSissejuhatusLoik" id="kontaktSissejuhatusLoik<%= i + 1 %>" data-heading="Sissejuhatav lõik">
       <h3 class="page-admin__heading kontaktSissejuhatusLoikHeading">Sissejuhatav lõik <%= i + 1 %></h3>
-      <p class="page-admin__text">EST</p>
+      <p class="page-admin__text">EST</p>    
       <div type="text" contenteditable="true" class="page-admin__input page-admin__text-area input editable-input kontaktSissejuhatusLoikEstEd" id="kontaktSissejuhatusLoikEst<%= i + 1 %>Ed" name="kontaktSissejuhatusLoikEst<%= i + 1 %>Ed"><%-  kontaktSissejuhatusData.loigud[i].est %></div>
       <input type="text" class="page-admin__input page-admin__hidden-input kontaktSissejuhatusLoikEst" id="kontaktSissejuhatusLoikEst<%= i + 1 %>" name="kontaktSissejuhatusLoikEst<%= i + 1 %>" value="<%-  kontaktSissejuhatusData.loigud[i].est  %>"></input>
       <p class="page-admin__text">EN</p>
