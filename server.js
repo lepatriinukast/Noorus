@@ -126,7 +126,7 @@ app.get("/", function(req, res) {
 
           // find the dynamic tables from the database ("sundmused", "sundmusedkoht") and sort them into groups accordingly
 
-          var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'segakoorNoorus' ORDER by table_name";
+          var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'heroku_8077042b55aa915' ORDER by table_name";
 
           con.query(sql, async function(err, result) {
             if (err) throw err;
@@ -379,7 +379,7 @@ app.get("/koorist", function(req, res) {
 
             // find the dynamic tables from the database ("dirigendid" and "ajalugu") and sort them into groups accordingly
 
-            var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'segakoorNoorus' ORDER by table_name";
+            var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'heroku_8077042b55aa915' ORDER by table_name";
 
             con.query(sql, async function(err, result) {
               if (err) throw err;
@@ -666,7 +666,7 @@ app.get("/pood", function(req, res) {
       }
       // find the dynamic "pood" tables from the database and sort them into an array
 
-      var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'segakoorNoorus' ORDER by table_name";
+      var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'heroku_8077042b55aa915' ORDER by table_name";
 
       con.query(sql, async function(err, result) {
         if (err) throw err;
@@ -822,7 +822,7 @@ app.get("/sundmused", function(req, res) {
 
           // find the dynamic tables from the database ("sundmused", "sundmusedkoht", "moodunud", "moodunudkoht") and sort them into groups accordingly
 
-          var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'segakoorNoorus' ORDER by table_name";
+          var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'heroku_8077042b55aa915' ORDER by table_name";
 
           con.query(sql, async function(err, result) {
             if (err) throw err;
@@ -1273,7 +1273,7 @@ app.get("/telli" + ":number", function(req, res) {
         }
         // find the dynamic "pood" tables from the database and sort them into an array
 
-        var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'segakoorNoorus' ORDER by table_name";
+        var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'heroku_8077042b55aa915' ORDER by table_name";
 
         con.query(sql, async function(err, result) {
           if (err) throw err;
@@ -1561,7 +1561,7 @@ app.get("/en", function(req, res) {
 
           // find the dynamic tables from the database ("sundmused", "sundmusedkoht") and sort them into groups accordingly
 
-          var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'segakoorNoorus' ORDER by table_name";
+          var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'heroku_8077042b55aa915' ORDER by table_name";
 
           con.query(sql, async function(err, result) {
             if (err) throw err;
@@ -1816,7 +1816,7 @@ app.get("/en/about-us", function(req, res) {
 
             // find the dynamic tables from the database ("dirigendid" and "ajalugu") and sort them into groups accordingly
 
-            var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'segakoorNoorus' ORDER by table_name";
+            var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'heroku_8077042b55aa915' ORDER by table_name";
 
             con.query(sql, async function(err, result) {
               if (err) throw err;
@@ -2102,7 +2102,7 @@ app.get("/en/shop", function(req, res) {
       }
       // find the dynamic "pood" tables from the database and sort them into an array
 
-      var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'segakoorNoorus' ORDER by table_name";
+      var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'heroku_8077042b55aa915' ORDER by table_name";
 
       con.query(sql, async function(err, result) {
         if (err) throw err;
@@ -2259,7 +2259,7 @@ app.get("/en/events", function(req, res) {
 
           // find the dynamic tables from the database ("sundmused", "sundmusedkoht", "moodunud", "moodunudkoht") and sort them into groups accordingly
 
-          var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'segakoorNoorus' ORDER by table_name";
+          var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'heroku_8077042b55aa915' ORDER by table_name";
 
           con.query(sql, async function(err, result) {
             if (err) throw err;
@@ -2711,7 +2711,7 @@ app.get("/en/order" + ":number", function(req, res) {
         }
         // find the dynamic "pood" tables from the database and sort them into an array
 
-        var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'segakoorNoorus' ORDER by table_name";
+        var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'heroku_8077042b55aa915' ORDER by table_name";
 
         con.query(sql, async function(err, result) {
           if (err) throw err;
@@ -3101,7 +3101,7 @@ app.get("/admin/koorist", function(req, res) {
 
             // find the dynamic tables from the database ("dirigendid" and "ajalugu") and sort them into groups accordingly
 
-            var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'segakoorNoorus' ORDER by table_name";
+            var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'heroku_8077042b55aa915' ORDER by table_name";
 
             con.query(sql, async function(err, result) {
               if (err) throw err;
@@ -3407,7 +3407,7 @@ app.get("/admin/sundmused", function(req, res) {
 
           // find the dynamic tables from the database ("sundmused", "sundmusedkoht", "moodunud", "moodunudkoht") and sort them into groups accordingly
 
-          var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'segakoorNoorus' ORDER by table_name";
+          var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'heroku_8077042b55aa915' ORDER by table_name";
 
           con.query(sql, async function(err, result) {
             if (err) throw err;
@@ -3828,7 +3828,7 @@ app.get("/admin/pood", function(req, res) {
       }
       // find the dynamic "pood" tables from the database and sort them into an array
 
-      var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'segakoorNoorus' ORDER by table_name";
+      var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'heroku_8077042b55aa915' ORDER by table_name";
 
       con.query(sql, async function(err, result) {
         if (err) throw err;
@@ -4033,7 +4033,7 @@ app.get("/admin/arhiiv", function(req, res) {
 
           // find the dynamic tables from the database ("moodunud", "moodunudkoht") and sort them into groups accordingly
 
-          var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'segakoorNoorus' ORDER by table_name";
+          var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'heroku_8077042b55aa915' ORDER by table_name";
 
           con.query(sql, async function(err, result) {
             if (err) throw err;
@@ -4860,7 +4860,7 @@ app.post("/upload/dirigendid", function(req, res) {
 
       // create the sql text to query the database for table names (we eventually need the ones named "dirigendid" + timestamp)
 
-      var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'segakoorNoorus'";
+      var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'heroku_8077042b55aa915'";
 
       // make the database query
 
@@ -5242,7 +5242,7 @@ app.post("/upload/dirigendid/delete", function(req, res) {
 
   // create the sql text for querying the database for the tables related to the "dirigendid" subforms
 
-  var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'segakoorNoorus'";
+  var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'heroku_8077042b55aa915'";
 
   // make the database query
 
@@ -5328,7 +5328,7 @@ app.post("/upload/dirigendid" + ":number/new", function(req, res) {
 
   // create the sql text that selects all the tables in the database
 
-  var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'segakoorNoorus'";
+  var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'heroku_8077042b55aa915'";
 
   // make the database query
 
@@ -5406,7 +5406,7 @@ app.post("/upload/dirigendid" + ":number/delete", function(req, res) {
 
   // create the sql text to query the database for table names (we eventually need the ones named "dirigendid" + timestamp)
 
-  var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'segakoorNoorus'";
+  var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'heroku_8077042b55aa915'";
 
   // make the database query
 
@@ -5593,7 +5593,7 @@ app.post("/upload/ajalugu", function(req, res) {
 
   // create the sql text for querying the database for the tables related to the "ajalugu" subforms
 
-  var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'segakoorNoorus'";
+  var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'heroku_8077042b55aa915'";
 
   // make the database query
 
@@ -5901,7 +5901,7 @@ app.post("/upload/ajalugu/delete", function(req, res) {
 
   // create the sql text for querying the database for the tables related to the "ajalugu" subforms
 
-  var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'segakoorNoorus'";
+  var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'heroku_8077042b55aa915'";
 
   // make the database query
 
@@ -5967,7 +5967,7 @@ app.post("/upload/ajalugu" + ":number/new", function(req, res) {
 
   // create the sql text that selects all the tables in the database
 
-  var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'segakoorNoorus'";
+  var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'heroku_8077042b55aa915'";
 
   // make the database query
 
@@ -6045,7 +6045,7 @@ app.post("/upload/ajalugu" + ":number/delete", function(req, res) {
 
   // create the sql text to query the database for table names (we eventually need the ones named "ajalugu" + timestamp)
 
-  var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'segakoorNoorus'";
+  var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'heroku_8077042b55aa915'";
 
   // make the database query
 
@@ -7680,7 +7680,7 @@ app.post("/upload/sundmused", function(req, res) {
 
         // create the sql text to query the database for table names (we eventually need the ones named "sundmused" + timestamp and "sundmusedkoht" + timestamp)
 
-        var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'segakoorNoorus'";
+        var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'heroku_8077042b55aa915'";
 
         // make the database query
 
@@ -8400,7 +8400,7 @@ app.post("/upload/sundmused/delete", function(req, res) {
 
   // create the sql text for querying the database for the tables related to the "sundmused" subforms
 
-  var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'segakoorNoorus'";
+  var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'heroku_8077042b55aa915'";
 
   // make the database query
 
@@ -8639,7 +8639,7 @@ app.post("/upload/sundmused" + ":number/new", function(req, res) {
 
   // create the sql text that selects all the tables in the database
 
-  var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'segakoorNoorus'";
+  var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'heroku_8077042b55aa915'";
 
   // make the database query
 
@@ -8719,7 +8719,7 @@ app.post("/upload/sundmused" + ":number/delete", function(req, res) {
 
   // create the sql text to query the database for table names (we eventually need the ones named "sundmused" + timestamp)
 
-  var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'segakoorNoorus'";
+  var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'heroku_8077042b55aa915'";
 
   // make the database query
 
@@ -8811,7 +8811,7 @@ app.post("/upload/sundmused/koht" + ":number/new", function(req, res) {
 
   // create the sql text that selects all the tables in the database
 
-  var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'segakoorNoorus'";
+  var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'heroku_8077042b55aa915'";
 
   // make the database query
 
@@ -8889,7 +8889,7 @@ app.post("/upload/sundmused/koht" + ":number/delete", function(req, res) {
 
   // create the sql text to query the database for table names (we eventually need the ones named "sundmusedkoht" + timestamp)
 
-  var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'segakoorNoorus'";
+  var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'heroku_8077042b55aa915'";
 
   // make the database query
 
@@ -9104,7 +9104,7 @@ app.post("/upload/pood", function(req, res) {
 
         // create the sql text to query the database for table names (we eventually need the ones named "pood" + timestamp)
 
-        var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'segakoorNoorus'";
+        var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'heroku_8077042b55aa915'";
 
         // make the database query
 
@@ -9520,7 +9520,7 @@ app.post("/upload/pood/delete", function(req, res) {
 
   // create the sql text for querying the database for the tables related to the "pood" subforms
 
-  var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'segakoorNoorus'";
+  var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'heroku_8077042b55aa915'";
 
   // make the database query
 
@@ -9677,7 +9677,7 @@ app.post("/upload/pood" + ":number/new", function(req, res) {
 
   // create the sql text that selects all the tables in the database
 
-  var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'segakoorNoorus'";
+  var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'heroku_8077042b55aa915'";
 
   // make the database query
 
@@ -9757,7 +9757,7 @@ app.post("/upload/pood" + ":number/delete", function(req, res) {
 
   // create the sql text to query the database for table names (we eventually need the ones named "pood" + timestamp)
 
-  var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'segakoorNoorus'";
+  var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'heroku_8077042b55aa915'";
 
   // make the database query
 
@@ -10188,7 +10188,7 @@ app.post("/upload/moodunud", function(req, res) {
 
       // create the sql text to query the database for table names (we eventually need the ones named "moodunud" + timestamp and "moodunudkoht" + timestamp)
 
-      var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'segakoorNoorus'";
+      var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'heroku_8077042b55aa915'";
 
       // make the database query
 
@@ -10833,7 +10833,7 @@ app.post("/upload/moodunud/delete", function(req, res) {
 
   // create the sql text for querying the database for the tables related to the "moodunud" subforms
 
-  var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'segakoorNoorus'";
+  var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'heroku_8077042b55aa915'";
 
   // make the database query
 
@@ -10949,7 +10949,7 @@ app.post("/upload/moodunud/restore/delete", function(req, res) {
 
   // create the sql text for querying the database for the tables related to the "moodunud" subforms
 
-  var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'segakoorNoorus'";
+  var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'heroku_8077042b55aa915'";
 
   // make the database query
 
@@ -11078,7 +11078,7 @@ app.post("/upload/moodunud" + ":number/new", function(req, res) {
 
   // create the sql text that selects all the tables in the database
 
-  var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'segakoorNoorus'";
+  var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'heroku_8077042b55aa915'";
 
   // make the database query
 
@@ -11157,7 +11157,7 @@ app.post("/upload/moodunud" + ":number/delete", function(req, res) {
 
   // create the sql text to query the database for table names (we eventually need the ones named "moodunud" + timestamp)
 
-  var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'segakoorNoorus'";
+  var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'heroku_8077042b55aa915'";
 
   // make the database query
 
@@ -11248,7 +11248,7 @@ app.post("/upload/moodunud/koht" + ":number/new", function(req, res) {
 
   // create the sql text that selects all the tables in the database
 
-  var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'segakoorNoorus'";
+  var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'heroku_8077042b55aa915'";
 
   // make the database query
 
@@ -11326,7 +11326,7 @@ app.post("/upload/moodunud/koht" + ":number/delete", function(req, res) {
 
   // create the sql text to query the database for table names (we eventually need the ones named "moodunudkoht" + timestamp)
 
-  var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'segakoorNoorus'";
+  var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'heroku_8077042b55aa915'";
 
   // make the database query
 
