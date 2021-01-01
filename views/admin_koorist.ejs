@@ -390,6 +390,10 @@
       <input type="text" class="page-admin__input page-admin__input--bold input" id="meediaVideoPealkiriEn" name="meediaVideoPealkiriEn" value="<%= meediaVideodData.pealkiri.en %>">
     </div>
   </div>
+  <div class="page-admin__instruction-box u-margin-top-big">
+    <p class="page-admin__heading"><strong>NB!</strong></p>
+    <p class="page-admin__small-text"><strong>Palun veendu, et lingi ette jäi ka veebiprotokoll! <br> (harilikult https:// või http://)</strong></p>
+  </div>
   <div class="page-admin__form-box" id="meediaVideoLoikForm">
     <% for (var i = 0; i < meediaVideodData.manustamislingid.length; i++) { %>
     <div class="page-admin__form-field meediaVideoLoik" id="meediaVideoLoik<%= i + 1 %>" data-heading="Manustamislink">
@@ -414,6 +418,10 @@
       <input type="text" class="page-admin__input page-admin__input--bold input" id="meediaLinkPealkiriEn" name="meediaLinkPealkiriEn" value="<%= meediaLingidData.pealkiri.en %>">
     </div>
   </div>
+  <div class="page-admin__instruction-box u-margin-top-big">
+    <p class="page-admin__heading"><strong>NB!</strong></p>
+    <p class="page-admin__small-text"><strong>Palun veendu, et lingi ette jäi ka veebiprotokoll! <br> (harilikult https:// või http://)</strong></p>
+  </div>
   <div class="page-admin__form-box" id="meediaLinkLoikForm">
     <% for (var i = 0; i < meediaLingidData.lingid.length; i++) { %>
     <div class="page-admin__form-field meediaLinkLoik" id="meediaLinkLoik<%= i + 1 %>" data-heading="Link">
@@ -435,6 +443,10 @@
 </form>
 <form action="/upload/toetajad" method="post" enctype="multipart/form-data" class="page-admin__form" id="kooristToetajad">
   <h3 class="page-admin__title">Toetajad</h3>
+  <div class="page-admin__instruction-box u-margin-top-big">
+    <p class="page-admin__heading"><strong>NB!</strong></p>
+    <p class="page-admin__small-text"><strong>Palun veendu, et lingi ette jäi ka veebiprotokoll! <br> (harilikult https:// või http://)</strong></p>
+  </div>
   <div class="page-admin__form-box" id="toetajadLoikForm">
     <% for (var i = 0; i < toetajadData.length; i++) { %>
     <div class="page-admin__form-field toetajadLoik" id="toetajadLoik<%= i + 1 %>" data-heading="Logo">

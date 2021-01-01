@@ -1554,6 +1554,7 @@ function getMoodunudSubforms() {
     subformPlakatPlaceholderArray: Array.from(document.querySelectorAll(".moodunudPlakatPlaceholder")),
     subformPlakatImgArray: Array.from(document.querySelectorAll(".moodunudPlakatImg")),
     subformHeadingArray: Array.from(document.querySelectorAll(".moodunudHeading")),
+    subformSubmitBtnArray: Array.from(document.querySelectorAll(".moodunudSubmitBtn")),
     subformLoikFormArray: Array.from(document.querySelectorAll(".moodunudLoikForm")),
     subformLoikKohtFormArray: Array.from(document.querySelectorAll(".moodunudLoikKohtForm")),
     subformLoikAddBtnArray: Array.from(document.querySelectorAll(".moodunudLoikAddBtn")),

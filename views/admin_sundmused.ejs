@@ -20,6 +20,10 @@
     <button class="page-admin__small-btn" type="button" id="sundmusedSissejuhatusLoikAddBtn">+ Lisa sissejuhatav lõik +</button>
   </div>
   <button class="page-admin__btn" type="submit" id="sundmusedSissejuhatusBtn" name="button">Salvesta</button>
+  <div class="page-admin__instruction-box u-margin-top-big">
+    <p class="page-admin__heading"><strong>NB!</strong></p>
+    <p class="page-admin__small-text"><strong>Kustutatud sündmus, millele on vähegi mingit sisu lisatud, suundub arhiivi ning kuvatakse kodulehel möödunud sündmuste all. <br> Taastada ning permanentselt kustutada saab sündmuseid arhiivilehelt.</strong></p>
+  </div>
   <div class="page-admin__form-wrapper" id="sundmusedForm">
     <% for (var a = 0; a < sundmusedData.length; a++) { %>
     <div class="page-admin__subform sundmusedSubform" name="sundmused<%= a + 1 %>Subform" id="sundmused<%= a + 1 %>Subform">
@@ -40,7 +44,7 @@
           <input type="text" class="page-admin__input page-admin__input--bold input sundmusedPealkiriEn" id="sundmused<%= a + 1 %>PealkiriEn" name="sundmused<%= a + 1 %>PealkiriEn" value="<%= sundmusedData[a].pealkiri.en %>">
         </div>
       </div>
-      <div class="page-admin__instruction-box">
+      <div class="page-admin__instruction-box u-margin-top-big">
         <p class="page-admin__heading"><strong>NB!</strong></p>
         <p class="page-admin__small-text"><strong>Palun veendu, et lingi ette jäi ka veebiprotokoll! <br> (harilikult https:// või http://)</strong></p>
       </div>
