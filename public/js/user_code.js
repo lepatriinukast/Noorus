@@ -514,6 +514,13 @@ function checkIfOverflown(element) {
 
 function showContents(event) {
 
+  // later we need to change the button texts, for which we need to know
+  // if we are on the estonian or english version of the "pood" page
+
+  //for this, get the current url
+
+  var currentUrl = window.location.href;
+
   // get the id of the element that triggered the event
 
   var id = event.target.id;
@@ -538,9 +545,22 @@ function showContents(event) {
 
     textBox.classList.add("high-fixed-height");
 
-    // change the innerHTML of the button that triggered the event (so that it says "show less")
+    // check if the url has the string "pood" in it (which means that we are on the estonian version of the page)
 
-    event.target.innerHTML = "Näita vähem...";
+    if (currentUrl.indexOf("pood") !== -1) {
+
+      // change the innerHTML of the button that triggered the event (so that it says "Näita vähem")
+
+      event.target.innerHTML = "Näita vähem...";
+
+      // else check if the url contains the string "shop" (which corresponds to the english version of the page)
+
+    } else if (currentUrl.indexOf("shop") !== -1) {
+
+      // change the innerHTML of the button that triggered the event (so that it says "Show less")
+
+      event.target.innerHTML = "Show less...";
+    }
 
     // else check if the text-box element has a class of "high-fixed-height"
 
@@ -552,11 +572,25 @@ function showContents(event) {
 
     // add the class "low-fixed-height"
 
-
     textBox.classList.add("low-fixed-height");
-    // change the innerHTML of the button that triggered the event back to what it originally was
 
-    event.target.innerHTML = "Loe edasi...";
+    // again check if we are on the estonian version of the page
+
+    if (currentUrl.indexOf("pood") !== -1) {
+
+      // change the innerHTML of the button that triggered the event back to what it originally was
+
+      event.target.innerHTML = "Loe edasi...";
+
+      // else check again if we are on the english version of the page
+
+    } else if (currentUrl.indexOf("shop") !== -1) {
+
+      // change the innerHTML of the button that triggered the event back to what it originally was
+
+      event.target.innerHTML = "Read more...";
+    }
+
   }
 }
 

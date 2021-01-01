@@ -2,7 +2,10 @@
 <%- include partials/navigation {currentPage: currentPage} -%>
 <div class="page-pood__container">
   <h2 class="heading--secondary heading--purple u-margin-bottom-big">Pood</h2>
-<% for (var a = 0; a < poodData.length; a++) { %>
+  <% for (var i = 0; i < poodSissejuhatusData.loigud.length; i++) { %>
+  <p class="paragraph--small paragraph--purple u-margin-bottom-small"><%- poodSissejuhatusData.loigud[i].est %></p>
+  <% } %>
+  <% for (var a = 0; a < poodData.length; a++) { %>
   <div class="page-pood__content-box" id="contentBox<%= a + 1 %>">
     <div class="page-pood__img" style="background-image: url('<%= pildid[a].url %>');">
     </div>
@@ -10,8 +13,15 @@
       <div class="page-pood__text-box low-fixed-height textBox" id="textBox<%= a + 1 %>">
         <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= poodData[a].toode.est %></h3>
         <% for (var i = 0; i < poodData[a].loigud.length; i++) { %>
-        <p class="paragraph--small paragraph--purple u-margin-bottom-big"><%= poodData[a].loigud[i].est %></p>
+        <p class="paragraph--small paragraph--purple u-margin-bottom-big"><%- poodData[a].loigud[i].est %></p>
+        <% } %>
+        <% if (nimistuData[a].read.length !== 0) { %>
+        <ul class="list">
+          <% for (var i = 0; i < nimistuData[a].read.length; i++) { %>
+          <li class="list__item list__item--track"><%- nimistuData[a].read[i].est %></li>
           <% } %>
+        </ul>
+        <% } %>
       </div>
       <div class="page-pood__link-box">
         <a class="paragraph--large link link--purple delete linkBtn" href="#contentBox<%= a + 1 %>" id="linkBtn<%= a + 1 %>">Loe edasi...</a>
@@ -22,6 +32,6 @@
       </div>
     </div>
   </div>
-<% } %>
+  <% } %>
 </div>
 <%- include partials/footer -%>

@@ -2,6 +2,15 @@
   background-color: $color-grey-light;
   text-align: center;
 
+  &__login-box {
+    @include absCenter;
+  }
+
+  &__logo {
+    width: 10rem;
+    margin-bottom: 1rem;
+  }
+
   &__title {
     font-size: 2.5rem;
     font-weight: 700;
@@ -118,7 +127,6 @@
   &__instruction-box {
     display: block;
     position: relative;
-    width: 40rem;
     margin: auto;
     text-align: center;
   }
@@ -133,11 +141,15 @@
     width: 100%;
     font-family: inherit;
     padding-bottom: 3rem;
+    @media screen and (max-width: 62.5em) {
+      margin: auto;
+      width: 60%;
+    }
   }
 
   &__form-box {
-    flex: 0 0 100%;
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
     align-items: flex-start;
     flex-wrap: wrap;
@@ -153,11 +165,11 @@
 
   &__form-field {
     display: flex;
-    flex: 0 0 20%;
+    flex: 0 0 35rem;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    margin: 1.2rem;
+    margin: 3rem;
   }
 
   &__input {
@@ -188,6 +200,10 @@
       outline: none;
       border: 2px #E91E63 solid;
     }
+
+    &--bold {
+      font-weight: bold;
+    }
   }
 
   &__checkbox {
@@ -196,6 +212,7 @@
     margin-bottom: 0.7rem;
     @include boxShadow;
   }
+
 
   &__hidden-input {
     position: relative;
@@ -232,7 +249,7 @@
     &:visited {
       display: inline-block;
       padding: 1rem 3rem;
-      margin: 3rem;
+      margin: 1rem 2rem;
       font-size: 1.4rem;
       background-color: $color-grey-dark;
       color: $color-white;
@@ -244,6 +261,13 @@
       transition-property: background-color;
       transition-duration: 0.2s;
       @include boxShadow;
+      @media screen and (max-width: 62.5em) {
+      margin: 0.5rem 1rem;
+      }
+      @media screen and (max-width: 18.75em) {
+      padding: 0.5rem 1.5rem;
+      font-size: 1rem;
+      }
 
       &:active,
       &:hover {
@@ -299,21 +323,5 @@
       outline-offset: 1px;
       z-index: 3;
     }
-  }
-
-  &__table {
-    table-layout: fixed;
-    width: 90%;
-    margin: 5rem auto;
-  }
-
-  &__table-header {
-    font-size: 1.2rem;
-  }
-
-  &__table-cell {
-    border: 0.2rem solid;
-    padding: 1rem;
-    word-wrap: normal;
   }
 }

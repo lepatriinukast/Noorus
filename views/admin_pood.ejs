@@ -7,13 +7,11 @@
     <div class="page-admin__form-field poodSissejuhatusLoik" id="poodSissejuhatusLoik<%= i + 1 %>" data-heading="Sissejuhatav lõik">
       <h3 class="page-admin__heading poodSissejuhatusLoikHeading">Sissejuhatav lõik <%= i + 1 %></h3>
       <p class="page-admin__text">EST</p>
-      <div type="text" contenteditable="true" class="page-admin__input page-admin__text-area input editable-input poodSissejuhatusLoikEstEd" id="poodSissejuhatusLoikEst<%= i + 1 %>Ed" name="poodSissejuhatusLoikEst<%= i + 1 %>Ed">
-        <%- poodSissejuhatusData.loigud[i].est %></div>
-      <input type="text" class="page-admin__input page-admin__hidden-input poodSissejuhatusLoikEst" id="poodSissejuhatusLoikEst<%= i + 1 %>" name="poodSissejuhatusLoikEst<%= i + 1 %>" value="<%- poodSissejuhatusData.loigud[i].est %>"></input>
+      <div type="text" contenteditable="true" class="page-admin__input page-admin__text-area input editable-input poodSissejuhatusLoikEstEd" id="poodSissejuhatusLoikEst<%= i + 1 %>Ed" name="poodSissejuhatusLoikEst<%= i + 1 %>Ed"><%- poodSissejuhatusData.loigud[i].est %></div>
+      <input type="text" class="page-admin__hidden-input poodSissejuhatusLoikEst" id="poodSissejuhatusLoikEst<%= i + 1 %>" name="poodSissejuhatusLoikEst<%= i + 1 %>" value="<%- poodSissejuhatusData.loigud[i].est %>"></input>
       <p class="page-admin__text">EN</p>
-      <div type="text" contenteditable="true" class="page-admin__input page-admin__text-area input editable-input poodSissejuhatusLoikEnEd" id="poodSissejuhatusLoikEn<%= i + 1 %>Ed" name="poodSissejuhatusLoikEn<%= i + 1 %>Ed">
-        <%- poodSissejuhatusData.loigud[i].en %></div>
-      <input type="text" class="page-admin__input page-admin__hidden-input poodSissejuhatusLoikEn" id="poodSissejuhatusLoikEn<%= i + 1 %>" name="poodSissejuhatusLoikEn<%= i + 1 %>" value="<%- poodSissejuhatusData.loigud[i].en %>"></input>
+      <div type="text" contenteditable="true" class="page-admin__input page-admin__text-area input editable-input poodSissejuhatusLoikEnEd" id="poodSissejuhatusLoikEn<%= i + 1 %>Ed" name="poodSissejuhatusLoikEn<%= i + 1 %>Ed"><%- poodSissejuhatusData.loigud[i].en %></div>
+      <input type="text" class="page-admin__hidden-input poodSissejuhatusLoikEn" id="poodSissejuhatusLoikEn<%= i + 1 %>" name="poodSissejuhatusLoikEn<%= i + 1 %>" value="<%- poodSissejuhatusData.loigud[i].en %>"></input>
       <button class="page-admin__small-btn deleteBtn poodSissejuhatusLoikDeleteBtn" type="button" id="poodSissejuhatusLoikDeleteBtn<%= i + 1 %>" name="poodSissejuhatusLoikDeleteBtn<%= i + 1 %>">Kustuta</button>
     </div>
     <% } %>
@@ -37,31 +35,50 @@
         <div class="page-admin__form-field">
           <h3 class="page-admin__heading">Nimetus ja hind</h3>
           <p class="page-admin__text">EST</p>
-          <input type="text" class="page-admin__input input poodToodeEst" id="pood<%= a + 1 %>ToodeEst" name="pood<%= a + 1 %>ToodeEst" value="<%= poodData[a].toode.est %>">
+          <input type="text" class="page-admin__input page-admin__input--bold input poodToodeEst" id="pood<%= a + 1 %>ToodeEst" name="pood<%= a + 1 %>ToodeEst" value="<%= poodData[a].toode.est %>">
           <p class="page-admin__text">EN</p>
-          <input type="text" class="page-admin__input input poodToodeEn" id="pood<%= a + 1 %>ToodeEn" name="pood<%= a + 1 %>ToodeEn" value="<%= poodData[a].toode.en %>">
+          <input type="text" class="page-admin__input page-admin__input--bold input poodToodeEn" id="pood<%= a + 1 %>ToodeEn" name="pood<%= a + 1 %>ToodeEn" value="<%= poodData[a].toode.en %>">
           <p class="page-admin__text">HIND (€)</p>
-          <input type="number" class="page-admin__input input poodToodeNumber" id="pood<%= a + 1 %>ToodeNumber" name="pood<%= a + 1 %>ToodeNumber" value="<%= poodData[a].toode.price %>">
+          <input type="number" class="page-admin__input page-admin__input--bold input poodToodeNumber" id="pood<%= a + 1 %>ToodeNumber" name="pood<%= a + 1 %>ToodeNumber" value="<%= poodData[a].toode.price %>">
         </div>
       </div>
       <div class="page-admin__form-box poodLoikForm" id="pood<%= a + 1 %>LoikForm" name="pood<%= a + 1 %>LoikForm">
         <% for (var i = 0; i < poodData[a].loigud.length; i++) { %>
-        <div class="page-admin__form-field pood<%= a + 1 %>Loik" id="pood<%= a + 1 %>Loik<%= i + 1 %>" data-heading="Lõik/rida">
-          <h3 class="page-admin__heading pood<%= a + 1 %>LoikHeading">Lõik/rida <%= i + 1 %></h3>
+        <div class="page-admin__form-field pood<%= a + 1 %>Loik" id="pood<%= a + 1 %>Loik<%= i + 1 %>" data-heading="Lõik">
+          <h3 class="page-admin__heading pood<%= a + 1 %>LoikHeading">Lõik <%= i + 1 %></h3>
           <p class="page-admin__text">EST</p>
           <div type="text" contenteditable="true" class="page-admin__input page-admin__text-area input editable-input pood<%= a + 1 %>LoikEstEd" id="pood<%= a + 1 %>LoikEst<%= i + 1 %>Ed" name="pood<%= a + 1 %>LoikEst<%= i + 1 %>Ed">
             <%-  poodData[a].loigud[i].est %></div>
-          <input type="text" class="page-admin__input page-admin__hidden-input pood<%= a + 1 %>LoikEst" id="pood<%= a + 1 %>LoikEst<%= i + 1 %>" name="pood<%= a + 1 %>LoikEst<%= i + 1 %>" value="<%-  poodData[a].loigud[i].est  %>"></input>
+          <input type="text" class="page-admin__hidden-input pood<%= a + 1 %>LoikEst" id="pood<%= a + 1 %>LoikEst<%= i + 1 %>" name="pood<%= a + 1 %>LoikEst<%= i + 1 %>" value="<%-  poodData[a].loigud[i].est  %>"></input>
           <p class="page-admin__text">EN</p>
           <div type="text" contenteditable="true" class="page-admin__input page-admin__text-area input editable-input pood<%= a + 1 %>LoikEnEd" id="pood<%= a + 1 %>LoikEn<%= i + 1 %>Ed" name="pood<%= a + 1 %>LoikEn<%= i + 1 %>Ed">
             <%- poodData[a].loigud[i].en %></div>
-          <input type="text" class="page-admin__input page-admin__hidden-input pood<%= a + 1 %>LoikEn" id="pood<%= a + 1 %>LoikEn<%= i + 1 %>" name="pood<%= a + 1 %>LoikEn<%= i + 1 %>" value="<%- poodData[a].loigud[i].en  %>"></input>
+          <input type="text" class="page-admin__hidden-input pood<%= a + 1 %>LoikEn" id="pood<%= a + 1 %>LoikEn<%= i + 1 %>" name="pood<%= a + 1 %>LoikEn<%= i + 1 %>" value="<%- poodData[a].loigud[i].en  %>"></input>
           <button class="page-admin__small-btn poodLoikDeleteBtn pood<%= a + 1 %>LoikDeleteBtn" type="button" id="pood<%= a + 1 %>LoikDeleteBtn<%= i + 1 %>" name="pood<%= a + 1 %>LoikDeleteBtn<%= i + 1 %>">Kustuta</button>
         </div>
         <% } %>
       </div>
       <div class="page-admin__form-box">
-        <button class="page-admin__small-btn poodLoikAddBtn" type="button" id="pood<%= a + 1 %>LoikAddBtn">+ Lisa lõik/rida +</button>
+        <button class="page-admin__small-btn poodLoikAddBtn" type="button" id="pood<%= a + 1 %>LoikAddBtn">+ Lisa lõik +</button>
+      </div>
+      <div class="page-admin__form-box poodLoikNimistuForm" id="pood<%= a + 1 %>LoikNimistuForm" name="pood<%= a + 1 %>LoikNimistuForm">
+        <% for (var i = 0; i < nimistuData[a].read.length; i++) { %>
+        <div class="page-admin__form-field pood<%= a + 1 %>LoikNimistu" id="pood<%= a + 1 %>LoikNimistu<%= i + 1 %>" data-heading="Träkk">
+          <h3 class="page-admin__heading pood<%= a + 1 %>LoikNimistuHeading">Träkk <%= i + 1 %></h3>
+          <p class="page-admin__text">EST</p>
+          <div type="text" contenteditable="true" class="page-admin__input page-admin__text-area input editable-input pood<%= a + 1 %>LoikNimistuEstEd" id="pood<%= a + 1 %>LoikNimistuEst<%= i + 1 %>Ed" name="pood<%= a + 1 %>LoikNimistuEst<%= i + 1 %>Ed">
+            <%- nimistuData[a].read[i].est %></div>
+          <input type="text" class="page-admin__hidden-input pood<%= a + 1 %>LoikNimistuEst" id="pood<%= a + 1 %>LoikNimistuEst<%= i + 1 %>" name="pood<%= a + 1 %>LoikNimistuEst<%= i + 1 %>" value="<%- nimistuData[a].read[i].est %>"></input>
+          <p class="page-admin__text">EN</p>
+          <div type="text" contenteditable="true" class="page-admin__input page-admin__text-area input editable-input pood<%= a + 1 %>LoikNimistuEnEd" id="pood<%= a + 1 %>LoikNimistuEn<%= i + 1 %>Ed" name="pood<%= a + 1 %>LoikNimistuEn<%= i + 1 %>Ed">
+            <%- nimistuData[a].read[i].en %></div>
+          <input type="text" class="page-admin__hidden-input pood<%= a + 1 %>LoikNimistuEn" id="pood<%= a + 1 %>LoikNimistuEn<%= i + 1 %>" name="pood<%= a + 1 %>LoikNimistuEn<%= i + 1 %>" value="<%- nimistuData[a].read[i].en %>"></input>
+          <button class="page-admin__small-btn poodLoikNimistuDeleteBtn pood<%= a + 1 %>LoikNimistuDeleteBtn" type="button" id="pood<%= a + 1 %>LoikNimistuDeleteBtn<%= i + 1 %>" name="pood<%= a + 1 %>LoikNimistuDeleteBtn<%= i + 1 %>">Kustuta</button>
+        </div>
+        <% } %>
+      </div>
+      <div class="page-admin__form-box">
+        <button class="page-admin__small-btn poodLoikNimistuAddBtn" type="button" id="pood<%= a + 1 %>LoikNimistuAddBtn">+ Lisa träkk +</button>
         <button class="page-admin__small-btn poodDeleteBtn" type="button" id="pood<%= a + 1 %>DeleteBtn">Kustuta toode</button>
       </div>
       <div class="page-admin__form-box">
@@ -82,10 +99,10 @@
       <h3 class="page-admin__heading telliLoikHeading">Sissejuhatav lõik <%= i + 1 %></h3>
       <p class="page-admin__text">EST</p>
       <div type="text" contenteditable="true" class="page-admin__input page-admin__text-area input editable-input telliLoikEstEd" id="telliLoikEst<%= i + 1 %>Ed" name="telliLoikEst<%= i + 1 %>Ed"><%- telliData.loigud[i].est %></div>
-      <input type="text" class="page-admin__input page-admin__hidden-input telliLoikEst" id="telliLoikEst<%= i + 1 %>" name="telliLoikEst<%= i + 1 %>" value="<%- telliData.loigud[i].est; %>"></input>
+      <input type="text" class="page-admin__hidden-input telliLoikEst" id="telliLoikEst<%= i + 1 %>" name="telliLoikEst<%= i + 1 %>" value="<%- telliData.loigud[i].est; %>"></input>
       <p class="page-admin__text">EN</p>
       <div type="text" contenteditable="true" class="page-admin__input page-admin__text-area input editable-input telliLoikEnEd" id="telliLoikEn<%= i + 1 %>Ed" name="telliLoikEn<%= i + 1 %>Ed"><%- telliData.loigud[i].en %></div>
-      <input type="text" class="page-admin__input page-admin__hidden-input telliLoikEn" id="telliLoikEn<%= i + 1 %>" name="telliLoikEn<%= i + 1 %>" value="<%- telliData.loigud[i].en %>"></input>
+      <input type="text" class="page-admin__hidden-input telliLoikEn" id="telliLoikEn<%= i + 1 %>" name="telliLoikEn<%= i + 1 %>" value="<%- telliData.loigud[i].en %>"></input>
       <button class="page-admin__small-btn deleteBtn telliLoikDeleteBtn" type="button" id="telliLoikDeleteBtn<%= i + 1 %>" name="telliLoikDeleteBtn<%= i + 1 %>">Kustuta</button>
     </div>
     <% } %>
@@ -99,9 +116,9 @@
     <div class="page-admin__form-field">
       <h3 class="page-admin__heading">Pealkiri</h3>
       <p class="page-admin__text">EST</p>
-      <input type="text" class="page-admin__input input" name="kontaktandmedPealkiriEst" id="kontaktandmedPealkiriEst" value="<%= telliAnkeetData.pealkiri.est  %>">
+      <input type="text" class="page-admin__input page-admin__input--bold input" name="kontaktandmedPealkiriEst" id="kontaktandmedPealkiriEst" value="<%= telliAnkeetData.pealkiri.est  %>">
       <p class="page-admin__text">EN </p>
-      <input type="text" class="page-admin__input input" name="kontaktandmedPealkiriEn" id="kontaktandmedPealkiriEn" value="<%= telliAnkeetData.pealkiri.en %>">
+      <input type="text" class="page-admin__input page-admin__input--bold input" name="kontaktandmedPealkiriEn" id="kontaktandmedPealkiriEn" value="<%= telliAnkeetData.pealkiri.en %>">
     </div>
   </div>
   <div class="page-admin__form-box" id="kontaktandmedLoikForm">
@@ -123,15 +140,16 @@
   <div class="page-admin__form-box">
     <button class="page-admin__small-btn" type="button" id="kontaktandmedLoikAddBtn">+ Lisa väli +</button>
   </div>
+  <button class="page-admin__btn poodSubmitBtn" id="pood<%= a + 1 %>SubmitBtn" name="pood<%= a + 1 %>SubmitBtn" type="submit">Salvesta</button>
   <div class="page-admin__form-box">
     <div class="page-admin__form-field">
       <h3 class="page-admin__heading">Järellõik</h3>
       <p class="page-admin__text">EST</p>
       <div type="text" contenteditable="true" class="page-admin__input page-admin__text-area input editable-input" id="kontaktandmedJarelloikEstEd" name="kontaktandmedJarelloikEstEd"><%- telliAnkeetData.jarelloik.est %></div>
-      <input type="text" class="page-admin__input page-admin__hidden-input" id="kontaktandmedJarelloikEst" name="kontaktandmedJarelloikEst" value="<%- telliAnkeetData.jarelloik.est  %>"></input>
+      <input type="text" class="page-admin__hidden-input" id="kontaktandmedJarelloikEst" name="kontaktandmedJarelloikEst" value="<%- telliAnkeetData.jarelloik.est  %>"></input>
       <p class="page-admin__text">EN</p>
       <div type="text" contenteditable="true" class="page-admin__input page-admin__text-area input editable-input" id="kontaktandmedJarelloikEnEd" name="kontaktandmedJarelloikEnEd"><%- telliAnkeetData.jarelloik.en %></div>
-      <input type="text" class="page-admin__input page-admin__hidden-input" id="kontaktandmedJarelloikEn" name="kontaktandmedJarelloikEn" value="<%- telliAnkeetData.jarelloik.en  %>"></input>
+      <input type="text" class="page-admin__hidden-input" id="kontaktandmedJarelloikEn" name="kontaktandmedJarelloikEn" value="<%- telliAnkeetData.jarelloik.en  %>"></input>
     </div>
   </div>
   <button class="page-admin__btn" type="submit" name="button">Salvesta</button>

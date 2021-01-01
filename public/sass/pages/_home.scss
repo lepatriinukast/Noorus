@@ -1,7 +1,7 @@
 // Styles for the home page
 
 .homepage__container {
-  padding: 0 3rem;
+  padding: 0 2rem;
   @media screen and (max-width: 17.5em) {
     padding: 0 1rem;
   }
@@ -64,7 +64,7 @@
 
 .section-events {
   position: relative;
-  padding-top: 5rem;
+  padding-top: 3rem;
 
   &__heading-box {
     margin: auto;
@@ -85,7 +85,7 @@
 }
 
 .section-history {
-  padding-top: 5rem;
+  padding-top: 3rem;
 
   &__container {
     margin: auto;

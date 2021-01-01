@@ -8,9 +8,9 @@
     <div class="page-admin__form-field pealkiri" id="pealkiri<%= i + 1 %>" data-heading="Pealkiri">
       <h3 class="page-admin__heading pealkiriHeading">Pealkiri <%= i + 1 %></h3>
       <p class="page-admin__text">EST</p>
-      <input type="text" class="page-admin__input input" id="pealkiriEst<%= i + 1 %>" name="pealkiriEst<%= i + 1 %>" value="<%= pealkirjadData[i].est %>">
+      <input type="text" class="page-admin__input page-admin__input--bold input" id="pealkiriEst<%= i + 1 %>" name="pealkiriEst<%= i + 1 %>" value="<%= pealkirjadData[i].est %>">
       <p class="page-admin__text">EN</p>
-      <input type="text" class="page-admin__input input" id="pealkiriEn<%= i + 1 %>" name="pealkiriEn<%= i + 1 %>" value="<%= pealkirjadData[i].en %>">
+      <input type="text" class="page-admin__input page-admin__input--bold input" id="pealkiriEn<%= i + 1 %>" name="pealkiriEn<%= i + 1 %>" value="<%= pealkirjadData[i].en %>">
     </div>
     <% } %>
   </div>
@@ -29,9 +29,9 @@
     <div class="page-admin__form-field">
       <h3 class="page-admin__heading">Pealkiri</h3>
       <p class="page-admin__text">EST</p>
-      <input type="text" class="page-admin__input input" id="sissejuhatusPealkiriEst" name="sissejuhatusPealkiriEst" value="<%= sissejuhatusData.pealkiri.est %>">
+      <input type="text" class="page-admin__input page-admin__input--bold input" id="sissejuhatusPealkiriEst" name="sissejuhatusPealkiriEst" value="<%= sissejuhatusData.pealkiri.est %>">
       <p class="page-admin__text">EN</p>
-      <input type="text" class="page-admin__input input" id="sissejuhatusPealkiriEn" name="sissejuhatusPealkiriEn" value="<%= sissejuhatusData.pealkiri.en %>">
+      <input type="text" class="page-admin__input page-admin__input--bold input" id="sissejuhatusPealkiriEn" name="sissejuhatusPealkiriEn" value="<%= sissejuhatusData.pealkiri.en %>">
     </div>
   </div>
   <div class="page-admin__form-box" id="sissejuhatusLoikForm">
@@ -39,11 +39,13 @@
     <div class="page-admin__form-field sissejuhatusLoik" id="sissejuhatusLoik<%= i + 1 %>" data-heading="Lõik">
       <h3 class="page-admin__heading sissejuhatusLoikHeading">Lõik <%= i + 1 %></h3>
       <p class="page-admin__text">EST</p>
-      <div type="text" contenteditable="true" class="page-admin__input page-admin__text-area input editable-input sissejuhatusLoikEstEd" id="sissejuhatusLoikEst<%= i + 1 %>Ed" name="sissejuhatusLoikEst<%= i + 1 %>Ed"><%- sissejuhatusData.loigud[i].est %></div>
-      <input type="text" class="page-admin__input page-admin__hidden-input sissejuhatusLoikEst" id="sissejuhatusLoikEst<%= i + 1 %>" name="sissejuhatusLoikEst<%= i + 1 %>" value="<%- sissejuhatusData.loigud[i].est %>"></input>
+      <div type="text" contenteditable="true" class="page-admin__input page-admin__text-area input editable-input sissejuhatusLoikEstEd" id="sissejuhatusLoikEst<%= i + 1 %>Ed" name="sissejuhatusLoikEst<%= i + 1 %>Ed">
+        <%- sissejuhatusData.loigud[i].est %></div>
+      <input type="text" class="page-admin__hidden-input sissejuhatusLoikEst" id="sissejuhatusLoikEst<%= i + 1 %>" name="sissejuhatusLoikEst<%= i + 1 %>" value="<%- sissejuhatusData.loigud[i].est %>"></input>
       <p class="page-admin__text">EN</p>
-      <div type="text" contenteditable="true" class="page-admin__input page-admin__text-area input editable-input sissejuhatusLoikEnEd" id="sissejuhatusLoikEn<%= i + 1 %>Ed" name="sissejuhatusLoikEn<%= i + 1 %>Ed"><%- sissejuhatusData.loigud[i].en %></div>
-      <input type="text" class="page-admin__input page-admin__hidden-input sissejuhatusLoikEn" id="sissejuhatusLoikEn<%= i + 1 %>" name="sissejuhatusLoikEn<%= i + 1 %>" value="<%- sissejuhatusData.loigud[i].en %>"
+      <div type="text" contenteditable="true" class="page-admin__input page-admin__text-area input editable-input sissejuhatusLoikEnEd" id="sissejuhatusLoikEn<%= i + 1 %>Ed" name="sissejuhatusLoikEn<%= i + 1 %>Ed"><%- sissejuhatusData.loigud[i].en %>
+      </div>
+      <input type="text" class="page-admin__hidden-input sissejuhatusLoikEn" id="sissejuhatusLoikEn<%= i + 1 %>" name="sissejuhatusLoikEn<%= i + 1 %>" value="<%- sissejuhatusData.loigud[i].en %>"
         value="<%- sissejuhatusData.loigud[i].en %>"></input>
       <button class="page-admin__small-btn deleteBtn sissejuhatusLoikDeleteBtn" type="button" id="sissejuhatusLoikDeleteBtn<%= i + 1 %>" name="sissejuhatusLoikDeleteBtn<%= i + 1 %>">Kustuta</button>
     </div>
@@ -78,31 +80,33 @@
     <div class="page-admin__form-field">
       <h3 class="page-admin__heading">Häälerühma nimi 1</h3>
       <p class="page-admin__text">EST</p>
-      <input type="text" class="page-admin__input input" name="haaleruhmaNimiEst1" id="haaleruhmaNimiEst1" value="<%= liikmedData.haaleruhmaNimed[0].est %>">
+      <input type="text" class="page-admin__input page-admin__input--bold input" name="haaleruhmaNimiEst1" id="haaleruhmaNimiEst1" value="<%= liikmedData.haaleruhmaNimed[0].est %>">
       <p class="page-admin__text">EN</p>
-      <input type="text" class="page-admin__input input" name="haaleruhmaNimiEn1" id="haaleruhmaNimiEn1" value="<%= liikmedData.haaleruhmaNimed[0].en %>">
+      <input type="text" class="page-admin__input page-admin__input--bold input" name="haaleruhmaNimiEn1" id="haaleruhmaNimiEn1" value="<%= liikmedData.haaleruhmaNimed[0].en %>">
     </div>
     <div class="page-admin__form-field">
       <h3 class="page-admin__heading">Häälerühma nimi 2</h3>
       <p class="page-admin__text">EST</p>
-      <input type="text" class="page-admin__input input" name="haaleruhmaNimiEst2" id="haaleruhmaNimiEst2" value="<%= liikmedData.haaleruhmaNimed[1].est %>">
+      <input type="text" class="page-admin__input page-admin__input--bold input" name="haaleruhmaNimiEst2" id="haaleruhmaNimiEst2" value="<%= liikmedData.haaleruhmaNimed[1].est %>">
       <p class="page-admin__text">EN</p>
-      <input type="text" class="page-admin__input input" name="haaleruhmaNimiEn2" id="haaleruhmaNimiEn2" value="<%= liikmedData.haaleruhmaNimed[1].en %>">
+      <input type="text" class="page-admin__input page-admin__input--bold input" name="haaleruhmaNimiEn2" id="haaleruhmaNimiEn2" value="<%= liikmedData.haaleruhmaNimed[1].en %>">
     </div>
     <div class="page-admin__form-field">
       <h3 class="page-admin__heading">Häälerühma nimi 3</h3>
       <p class="page-admin__text">EST</p>
-      <input type="text" class="page-admin__input input" name="haaleruhmaNimiEst3" id="haaleruhmaNimiEst3" value="<%= liikmedData.haaleruhmaNimed[2].est %>">
+      <input type="text" class="page-admin__input page-admin__input--bold input" name="haaleruhmaNimiEst3" id="haaleruhmaNimiEst3" value="<%= liikmedData.haaleruhmaNimed[2].est %>">
       <p class="page-admin__text">EN</p>
-      <input type="text" class="page-admin__input input" name="haaleruhmaNimiEn3" id="haaleruhmaNimiEn3" value="<%= liikmedData.haaleruhmaNimed[2].en %>">
+      <input type="text" class="page-admin__input page-admin__input--bold input" name="haaleruhmaNimiEn3" id="haaleruhmaNimiEn3" value="<%= liikmedData.haaleruhmaNimed[2].en %>">
     </div>
     <div class="page-admin__form-field">
       <h3 class="page-admin__heading">Häälerühma nimi 4</h3>
       <p class="page-admin__text">EST</p>
-      <input type="text" class="page-admin__input input" name="haaleruhmaNimiEst4" id="haaleruhmaNimiEst4" value="<%= liikmedData.haaleruhmaNimed[3].est %>">
+      <input type="text" class="page-admin__input page-admin__input--bold input" name="haaleruhmaNimiEst4" id="haaleruhmaNimiEst4" value="<%= liikmedData.haaleruhmaNimed[3].est %>">
       <p class="page-admin__text">EN</p>
-      <input type="text" class="page-admin__input input" name="haaleruhmaNimiEn4" id="haaleruhmaNimiEn4" value="<%= liikmedData.haaleruhmaNimed[3].en %>">
+      <input type="text" class="page-admin__input page-admin__input--bold input" name="haaleruhmaNimiEn4" id="haaleruhmaNimiEn4" value="<%= liikmedData.haaleruhmaNimed[3].en %>">
     </div>
+  </div>
+  <div class="page-admin__form-box">
     <div class="page-admin__form-field">
       <h3 class="page-admin__heading">Häälerühma tutvustus 1</h3>
       <p class="page-admin__text">EST</p>
@@ -145,9 +149,9 @@
     <div class="page-admin__form-field">
       <h3 class="page-admin__heading">Lauljate nimekirja pealkiri</h3>
       <p class="page-admin__text">EST</p>
-      <input type="text" class="page-admin__input input" name="lauljadPealkiriEst" id="lauljadPealkiriEst" value="<%= liikmedData.lauljadPealkiri.est %>">
+      <input type="text" class="page-admin__input page-admin__input--bold input" name="lauljadPealkiriEst" id="lauljadPealkiriEst" value="<%= liikmedData.lauljadPealkiri.est %>">
       <p class="page-admin__text">EN</p>
-      <input type="text" class="page-admin__input input" name="lauljadPealkiriEn" id="lauljadPealkiriEn" value="<%= liikmedData.lauljadPealkiri.en %>">
+      <input type="text" class="page-admin__input page-admin__input--bold input" name="lauljadPealkiriEn" id="lauljadPealkiriEn" value="<%= liikmedData.lauljadPealkiri.en %>">
     </div>
   </div>
   <div class="page-admin__form-box">
@@ -176,9 +180,9 @@
     <div class="page-admin__form-field">
       <h3 class="page-admin__heading">Vilistlaste nimekirja pealkiri</h3>
       <p class="page-admin__text">EST</p>
-      <input type="text" class="page-admin__input input" name="vilistlastePealkiriEst" id="vilistlastePealkiriEst" value="<%= liikmedData.vilistlastePealkiri.est %>">
+      <input type="text" class="page-admin__input page-admin__input--bold input" name="vilistlastePealkiriEst" id="vilistlastePealkiriEst" value="<%= liikmedData.vilistlastePealkiri.est %>">
       <p class="page-admin__text">EN</p>
-      <input type="text" class="page-admin__input input" name="vilistlastePealkiriEn" id="vilistlastePealkiriEn" value="<%= liikmedData.vilistlastePealkiri.en %>">
+      <input type="text" class="page-admin__input page-admin__input--bold input" name="vilistlastePealkiriEn" id="vilistlastePealkiriEn" value="<%= liikmedData.vilistlastePealkiri.en %>">
     </div>
     <div class="page-admin__form-field">
       <h3 class="page-admin__heading">Vilistlaste nimekiri</h3>
@@ -208,7 +212,7 @@
         </div>
         <div class="page-admin__form-field">
           <h3 class="page-admin__heading">Nimi</h3>
-          <input type="text" class="page-admin__input input dirigendidNimi" name="dirigendid<%= a + 1 %>Nimi" id="dirigendid<%= a + 1 %>Nimi" value="<%= dirigendidData[a].nimi %>">
+          <input type="text" class="page-admin__input page-admin__input--bold input dirigendidNimi" name="dirigendid<%= a + 1 %>Nimi" id="dirigendid<%= a + 1 %>Nimi" value="<%= dirigendidData[a].nimi %>">
         </div>
       </div>
       <div class="page-admin__form-box dirigendidLoikForm" id="dirigendid<%= a + 1 %>LoikForm" name="dirigendid<%= a + 1 %>LoikForm">
@@ -216,13 +220,13 @@
         <div class="page-admin__form-field dirigendid<%= a + 1 %>Loik" id="dirigendid<%= a + 1 %>Loik<%= i + 1 %>" data-heading="Lõik">
           <h3 class="page-admin__heading dirigendid<%= a + 1 %>LoikHeading">Lõik <%= i + 1 %></h3>
           <p class="page-admin__text">EST</p>
-          <div type="text" contenteditable="true" class="page-admin__input page-admin__text-area input editable-input dirigendid<%= a + 1 %>LoikEstEd" id="dirigendid<%= a + 1 %>LoikEst<%= i + 1 %>Ed" name="dirigendid<%= a + 1 %>LoikEst<%= i + 1 %>Ed"><%- dirigendidData[a].loigud[i].est %></div>
-          <input type="text" class="page-admin__hidden-input dirigendid<%= a + 1 %>LoikEst" id="dirigendid<%= a + 1 %>LoikEst<%= i + 1 %>" name="dirigendid<%= a + 1 %>LoikEst<%= i + 1 %>"
-            value="<%- dirigendidData[a].loigud[i].est %>"></input>
+          <div type="text" contenteditable="true" class="page-admin__input page-admin__text-area input editable-input dirigendid<%= a + 1 %>LoikEstEd" id="dirigendid<%= a + 1 %>LoikEst<%= i + 1 %>Ed"
+            name="dirigendid<%= a + 1 %>LoikEst<%= i + 1 %>Ed"><%- dirigendidData[a].loigud[i].est %></div>
+          <input type="text" class="page-admin__hidden-input dirigendid<%= a + 1 %>LoikEst" id="dirigendid<%= a + 1 %>LoikEst<%= i + 1 %>" name="dirigendid<%= a + 1 %>LoikEst<%= i + 1 %>" value="<%- dirigendidData[a].loigud[i].est %>"></input>
           <p class="page-admin__text">EN</p>
-          <div type="text" contenteditable="true" class="page-admin__input page-admin__text-area input editable-input dirigendid<%= a + 1 %>LoikEnEd" id="dirigendid<%= a + 1 %>LoikEn<%= i + 1 %>Ed" name="dirigendid<%= a + 1 %>LoikEn<%= i + 1 %>Ed"><%- dirigendidData[a].loigud[i].en %></div>
-          <input type="text" class="page-admin__hidden-input dirigendid<%= a + 1 %>LoikEn" id="dirigendid<%= a + 1 %>LoikEn<%= i + 1 %>" name="dirigendid<%= a + 1 %>LoikEn<%= i + 1 %>"
-          value="<%- dirigendidData[a].loigud[i].en %>"></input>
+          <div type="text" contenteditable="true" class="page-admin__input page-admin__text-area input editable-input dirigendid<%= a + 1 %>LoikEnEd" id="dirigendid<%= a + 1 %>LoikEn<%= i + 1 %>Ed" name="dirigendid<%= a + 1 %>LoikEn<%= i + 1 %>Ed">
+            <%- dirigendidData[a].loigud[i].en %></div>
+          <input type="text" class="page-admin__hidden-input dirigendid<%= a + 1 %>LoikEn" id="dirigendid<%= a + 1 %>LoikEn<%= i + 1 %>" name="dirigendid<%= a + 1 %>LoikEn<%= i + 1 %>" value="<%- dirigendidData[a].loigud[i].en %>"></input>
           <button class="page-admin__small-btn dirigendidLoikDeleteBtn dirigendid<%= a + 1 %>LoikDeleteBtn" type="button" id="dirigendid<%= a + 1 %>LoikDeleteBtn<%= i + 1 %>" name="dirigendid<%= a + 1 %>LoikDeleteBtn<%= i + 1 %>">Kustuta</button>
         </div>
         <% } %>
@@ -231,8 +235,8 @@
         <button class="page-admin__small-btn dirigendidLoikAddBtn" type="button" id="dirigendid<%= a + 1 %>LoikAddBtn">+ Lisa lõik +</button>
         <button class="page-admin__small-btn dirigendidDeleteBtn" type="button" id="dirigendid<%= a + 1 %>DeleteBtn">Kustuta dirigent</button>
       </div>
+      <button class="page-admin__btn dirigendidSubmitBtn" id="dirigendid<%= a + 1 %>SubmitBtn" name="dirigendid<%= a + 1 %>SubmitBtn" type="submit">Salvesta</button>
     </div>
-    <button class="page-admin__btn" type="submit">Salvesta</button>
     <% } %>
   </div>
   <div class="page-admin__form-box">
@@ -245,9 +249,9 @@
     <div class="page-admin__form-field">
       <h3 class="page-admin__heading">Sissejuhatav pealkiri</h3>
       <p class="page-admin__text">EST</p>
-      <input type="text" class="page-admin__input input" id="ajaluguSissejuhatusPealkiriEst" name="ajaluguSissejuhatusPealkiriEst" value="<%= ajaluguSissejuhatusData.pealkiri.est  %>">
+      <input type="text" class="page-admin__input page-admin__input--bold input" id="ajaluguSissejuhatusPealkiriEst" name="ajaluguSissejuhatusPealkiriEst" value="<%= ajaluguSissejuhatusData.pealkiri.est  %>">
       <p class="page-admin__text">EN</p>
-      <input type="text" class="page-admin__input input" id="ajaluguSissejuhatusPealkiriEn" name="ajaluguSissejuhatusPealkiriEn" value="<%= ajaluguSissejuhatusData.pealkiri.en %>">
+      <input type="text" class="page-admin__input page-admin__input--bold input" id="ajaluguSissejuhatusPealkiriEn" name="ajaluguSissejuhatusPealkiriEn" value="<%= ajaluguSissejuhatusData.pealkiri.en %>">
     </div>
   </div>
   <div class="page-admin__form-box" id="ajaluguSissejuhatusLoikForm">
@@ -255,13 +259,13 @@
     <div class="page-admin__form-field ajaluguSissejuhatusLoik" id="ajaluguSissejuhatusLoik<%= i + 1 %>" data-heading="Sissejuhatav lõik">
       <h3 class="page-admin__heading ajaluguSissejuhatusLoikHeading">Sissejuhatav lõik <%= i + 1 %></h3>
       <p class="page-admin__text">EST</p>
-    <div type="text" contenteditable="true" class="page-admin__input page-admin__text-area input editable-input ajaluguSissejuhatusLoikEstEd" id="ajaluguSissejuhatusLoikEst<%= i + 1 %>Ed" name="ajaluguSissejuhatus<%= a + 1 %>LoikEst<%= i + 1 %>Ed"><%- ajaluguSissejuhatusData.loigud[i].est %></div>
-      <input type="text" class="page-admin__hidden-input ajaluguSissejuhatusLoikEst" id="ajaluguSissejuhatusLoikEst<%= i + 1 %>" name="ajaluguSissejuhatusLoikEst<%= i + 1 %>"
-        value="<%- ajaluguSissejuhatusData.loigud[i].est %>"></input>
+      <div type="text" contenteditable="true" class="page-admin__input page-admin__text-area input editable-input ajaluguSissejuhatusLoikEstEd" id="ajaluguSissejuhatusLoikEst<%= i + 1 %>Ed" name="ajaluguSissejuhatus<%= a + 1 %>LoikEst<%= i + 1 %>Ed">
+        <%- ajaluguSissejuhatusData.loigud[i].est %></div>
+      <input type="text" class="page-admin__hidden-input ajaluguSissejuhatusLoikEst" id="ajaluguSissejuhatusLoikEst<%= i + 1 %>" name="ajaluguSissejuhatusLoikEst<%= i + 1 %>" value="<%- ajaluguSissejuhatusData.loigud[i].est %>"></input>
       <p class="page-admin__text">EN</p>
-      <div type="text" contenteditable="true" class="page-admin__input page-admin__text-area input editable-input ajaluguSissejuhatusLoikEnEd" id="ajaluguSissejuhatusLoikEn<%= i + 1 %>Ed" name="ajaluguSissejuhatus<%= a + 1 %>LoikEn<%= i + 1 %>Ed"><%- ajaluguSissejuhatusData.loigud[i].en %></div>
-        <input type="text" class="page-admin__hidden-input ajaluguSissejuhatusLoikEn" id="ajaluguSissejuhatusLoikEn<%= i + 1 %>" name="ajaluguSissejuhatusLoikEn<%= i + 1 %>"
-          value="<%- ajaluguSissejuhatusData.loigud[i].est %>"></input>
+      <div type="text" contenteditable="true" class="page-admin__input page-admin__text-area input editable-input ajaluguSissejuhatusLoikEnEd" id="ajaluguSissejuhatusLoikEn<%= i + 1 %>Ed" name="ajaluguSissejuhatus<%= a + 1 %>LoikEn<%= i + 1 %>Ed">
+        <%- ajaluguSissejuhatusData.loigud[i].en %></div>
+      <input type="text" class="page-admin__hidden-input ajaluguSissejuhatusLoikEn" id="ajaluguSissejuhatusLoikEn<%= i + 1 %>" name="ajaluguSissejuhatusLoikEn<%= i + 1 %>" value="<%- ajaluguSissejuhatusData.loigud[i].est %>"></input>
       <button class="page-admin__small-btn deleteBtn ajaluguSissejuhatusLoikDeleteBtn" type="button" id="ajaluguSissejuhatusLoikDeleteBtn<%= i + 1 %>" name="ajaluguSissejuhatusLoikDeleteBtn<%= i + 1 %>">Kustuta</button>
     </div>
     <% } %>
@@ -275,9 +279,9 @@
     <div class="page-admin__form-field">
       <h3 class="page-admin__heading">Sissekannete pealkiri</h3>
       <p class="page-admin__text">EST</p>
-      <input type="text" class="page-admin__input input" id="ajaluguSissekannePealkiriEst" name="ajaluguSissekannePealkiriEst" value="<%= ajaluguSissekandedData.pealkiri.est %>">
+      <input type="text" class="page-admin__input page-admin__input--bold input" id="ajaluguSissekannePealkiriEst" name="ajaluguSissekannePealkiriEst" value="<%= ajaluguSissekandedData.pealkiri.est %>">
       <p class="page-admin__text">EN</p>
-      <input type="text" class="page-admin__input input" id="ajaluguSissekannePealkiriEn" name="ajaluguSissekannePealkiriEn" value="<%= ajaluguSissekandedData.pealkiri.en %>">
+      <input type="text" class="page-admin__input page-admin__input--bold input" id="ajaluguSissekannePealkiriEn" name="ajaluguSissekannePealkiriEn" value="<%= ajaluguSissekandedData.pealkiri.en %>">
     </div>
   </div>
   <div class="page-admin__form-box" id="ajaluguSissekanneLoikForm">
@@ -285,13 +289,17 @@
     <div class="page-admin__form-field ajaluguSissekanneLoik" id="ajaluguSissekanneLoik<%= i + 1 %>" data-heading="Sissekanne">
       <h3 class="page-admin__heading ajaluguSissekanneLoikHeading">Sissekanne <%= i + 1 %></h3>
       <p class="page-admin__text">AASTA</p>
-      <input class="page-admin__input input ajaluguSissekanneLoikYear" type="text" id="ajaluguSissekanneLoikYear<%= i + 1 %>" name="ajaluguSissekanneLoikYear<%= i + 1 %>" value="<%= ajaluguSissekandedData.sissekanded[i].aasta %>">
+      <input class="page-admin__input page-admin__input--bold input ajaluguSissekanneLoikYear" type="text" id="ajaluguSissekanneLoikYear<%= i + 1 %>" name="ajaluguSissekanneLoikYear<%= i + 1 %>"
+        value="<%= ajaluguSissekandedData.sissekanded[i].aasta %>">
       <p class="page-admin__text">EST</p>
-      <div type="text" contenteditable="true" class="page-admin__input page-admin__text-area input editable-input ajaluguSissekanneLoikEstEd" id="ajaluguSissekanneLoikEst<%= i + 1 %>Ed" name="ajaluguSissekanneLoikEst<%= i + 1 %>Ed"><%- ajaluguSissekandedData.sissekanded[i].est %></div>
-      <input type="text" class="page-admin__input page-admin__hidden-input ajaluguSissekanneLoikEst" id="ajaluguSissekanneLoikEst<%= i + 1 %>" name="ajaluguSissekanneLoikEst<%= i + 1 %>" value="<%- ajaluguSissekandedData.sissekanded[i].est %>"></input>
+      <div type="text" contenteditable="true" class="page-admin__input page-admin__text-area input editable-input ajaluguSissekanneLoikEstEd" id="ajaluguSissekanneLoikEst<%= i + 1 %>Ed" name="ajaluguSissekanneLoikEst<%= i + 1 %>Ed">
+        <%- ajaluguSissekandedData.sissekanded[i].est %></div>
+      <input type="text" class="page-admin__hidden-input ajaluguSissekanneLoikEst" id="ajaluguSissekanneLoikEst<%= i + 1 %>" name="ajaluguSissekanneLoikEst<%= i + 1 %>"
+        value="<%- ajaluguSissekandedData.sissekanded[i].est %>"></input>
       <p class="page-admin__text">EN</p>
-      <div type="text" contenteditable="true" class="page-admin__input page-admin__text-area input editable-input ajaluguSissekanneLoikEnEd" id="ajaluguSissekanneLoikEn<%= i + 1 %>Ed" name="ajaluguSissekanneLoikEn<%= i + 1 %>Ed"><%- ajaluguSissekandedData.sissekanded[i].en %></div>
-      <input type="text" class="page-admin__input page-admin__hidden-input ajaluguSissekanneLoikEn" id="ajaluguSissekanneLoikEn<%= i + 1 %>" name="ajaluguSissekanneLoikEn<%= i + 1 %>" value="<%- ajaluguSissekandedData.sissekanded[i].en %>"></input>
+      <div type="text" contenteditable="true" class="page-admin__input page-admin__text-area input editable-input ajaluguSissekanneLoikEnEd" id="ajaluguSissekanneLoikEn<%= i + 1 %>Ed" name="ajaluguSissekanneLoikEn<%= i + 1 %>Ed">
+        <%- ajaluguSissekandedData.sissekanded[i].en %></div>
+      <input type="text" class="page-admin__hidden-input ajaluguSissekanneLoikEn" id="ajaluguSissekanneLoikEn<%= i + 1 %>" name="ajaluguSissekanneLoikEn<%= i + 1 %>" value="<%- ajaluguSissekandedData.sissekanded[i].en %>"></input>
       <button class="page-admin__small-btn deleteBtn ajaluguSissekanneLoikDeleteBtn" type="button" id="ajaluguSissekanneLoikDeleteBtn<%= i + 1 %>" name="ajaluguSissekanneLoikDeleteBtn<%= i + 1 %>">Kustuta</button>
     </div>
     <% } %>
@@ -308,9 +316,9 @@
         <div class="page-admin__form-field">
           <h3 class="page-admin__heading ajaluguPealkiriHeading">Sektsiooni pealkiri <%= a + 1 %></h3>
           <p class="page-admin__text">EST</p>
-          <input type="text" class="page-admin__input input ajaluguPealkiriEst" id="ajalugu<%= a + 1 %>PealkiriEst" name="ajalugu<%= a + 1 %>PealkiriEst" value="<%= ajaluguSektsioonidData[a].pealkiri.est %>">
+          <input type="text" class="page-admin__input page-admin__input--bold input ajaluguPealkiriEst" id="ajalugu<%= a + 1 %>PealkiriEst" name="ajalugu<%= a + 1 %>PealkiriEst" value="<%= ajaluguSektsioonidData[a].pealkiri.est %>">
           <p class="page-admin__text">EN</p>
-          <input type="text" class="page-admin__input input ajaluguPealkiriEn" id="ajalugu<%= a + 1 %>PealkiriEn" name="ajalugu<%= a + 1 %>PealkiriEn" value="<%= ajaluguSektsioonidData[a].pealkiri.en %>">
+          <input type="text" class="page-admin__input page-admin__input--bold input ajaluguPealkiriEn" id="ajalugu<%= a + 1 %>PealkiriEn" name="ajalugu<%= a + 1 %>PealkiriEn" value="<%= ajaluguSektsioonidData[a].pealkiri.en %>">
         </div>
       </div>
       <div class="page-admin__form-box ajaluguLoikForm" id="ajalugu<%= a + 1 %>LoikForm" name="ajalugu<%= a + 1 %>LoikForm">
@@ -318,11 +326,15 @@
         <div class="page-admin__form-field ajalugu<%= a + 1 %>Loik" id="ajalugu<%= a + 1 %>Loik<%= i + 1 %>" data-heading="Lõik">
           <h3 class="page-admin__heading ajalugu<%= a + 1 %>LoikHeading">Lõik <%= i + 1 %></h3>
           <p class="page-admin__text">EST</p>
-          <div type="text" contenteditable="true" class="page-admin__input page-admin__text-area input editable-input ajalugu<%= a + 1 %>LoikEstEd" id="ajalugu<%= a + 1 %>LoikEst<%= i + 1 %>Ed" name="ajalugu<%= a + 1 %>LoikEst<%= i + 1 %>Ed"><%- ajaluguSektsioonidData[a].loigud[i].est %></div>
-          <input type="text" class="page-admin__input page-admin__hidden-input ajalugu<%= a + 1 %>LoikEst" id="ajalugu<%= a + 1 %>LoikEst<%= i + 1 %>" name="ajalugu<%= a + 1 %>LoikEst<%= i + 1 %>" value="<%- ajaluguSektsioonidData[a].loigud[i].est %>"></input>
+          <div type="text" contenteditable="true" class="page-admin__input page-admin__text-area input editable-input ajalugu<%= a + 1 %>LoikEstEd" id="ajalugu<%= a + 1 %>LoikEst<%= i + 1 %>Ed" name="ajalugu<%= a + 1 %>LoikEst<%= i + 1 %>Ed">
+            <%- ajaluguSektsioonidData[a].loigud[i].est %></div>
+          <input type="text" class="page-admin__hidden-input ajalugu<%= a + 1 %>LoikEst" id="ajalugu<%= a + 1 %>LoikEst<%= i + 1 %>" name="ajalugu<%= a + 1 %>LoikEst<%= i + 1 %>"
+            value="<%- ajaluguSektsioonidData[a].loigud[i].est %>"></input>
           <p class="page-admin__text">EN</p>
-          <div type="text" contenteditable="true" class="page-admin__input page-admin__text-area input editable-input ajalugu<%= a + 1 %>LoikEnEd" id="ajalugu<%= a + 1 %>LoikEn<%= i + 1 %>Ed" name="ajalugu<%= a + 1 %>LoikEn<%= i + 1 %>Ed"><%- ajaluguSektsioonidData[a].loigud[i].en %></div>
-          <input type="text" class="page-admin__input page-admin__hidden-input ajalugu<%= a + 1 %>LoikEn" id="ajalugu<%= a + 1 %>LoikEn<%= i + 1 %>" name="ajaluguSissekanneLoikEn<%= i + 1 %>" value="<%- ajaluguSektsioonidData[a].loigud[i].en %>"></input>
+          <div type="text" contenteditable="true" class="page-admin__input page-admin__text-area input editable-input ajalugu<%= a + 1 %>LoikEnEd" id="ajalugu<%= a + 1 %>LoikEn<%= i + 1 %>Ed" name="ajalugu<%= a + 1 %>LoikEn<%= i + 1 %>Ed">
+            <%- ajaluguSektsioonidData[a].loigud[i].en %></div>
+          <input type="text" class="page-admin__hidden-input ajalugu<%= a + 1 %>LoikEn" id="ajalugu<%= a + 1 %>LoikEn<%= i + 1 %>" name="ajaluguSissekanneLoikEn<%= i + 1 %>"
+            value="<%- ajaluguSektsioonidData[a].loigud[i].en %>"></input>
           <button class="page-admin__small-btn ajaluguLoikDeleteBtn ajalugu<%= a + 1 %>LoikDeleteBtn" type="button" id="ajalugu<%= a + 1 %>LoikDeleteBtn<%= i + 1 %>" name="ajalugu<%= a + 1 %>LoikDeleteBtn<%= i + 1 %>">Kustuta</button>
         </div>
         <% } %>
@@ -331,8 +343,8 @@
         <button class="page-admin__small-btn ajaluguLoikAddBtn" type="button" id="ajalugu<%= a + 1 %>LoikAddBtn">+ Lisa lõik +</button>
         <button class="page-admin__small-btn ajaluguDeleteBtn" type="button" id="ajalugu<%= a + 1 %>DeleteBtn">Kustuta sektsioon</button>
       </div>
+      <button class="page-admin__btn ajaluguSubmitBtn" id="ajalugu<%= a + 1 %>SubmitBtn" name="ajalugu<%= a + 1 %>SubmitBtn" type="submit">Salvesta</button>
     </div>
-    <button class="page-admin__btn" type="submit">Salvesta</button>
     <% } %>
   </div>
   <div class="page-admin__form-box">
@@ -345,9 +357,9 @@
     <div class="page-admin__form-field">
       <h3 class="page-admin__heading">Sissejuhatav pealkiri</h3>
       <p class="page-admin__text">EST</p>
-      <input type="text" class="page-admin__input input" id="meediaPealkiriEst" name="meediaPealkiriEst" value="<%= meediaSissejuhatusData.pealkiri.est %>">
+      <input type="text" class="page-admin__input page-admin__input--bold input" id="meediaPealkiriEst" name="meediaPealkiriEst" value="<%= meediaSissejuhatusData.pealkiri.est %>">
       <p class="page-admin__text">EN</p>
-      <input type="text" class="page-admin__input input" id="meediaPealkiriEn" name="meediaPealkiriEn" value="<%= meediaSissejuhatusData.pealkiri.en %>">
+      <input type="text" class="page-admin__input page-admin__input--bold input" id="meediaPealkiriEn" name="meediaPealkiriEn" value="<%= meediaSissejuhatusData.pealkiri.en %>">
     </div>
   </div>
   <div class="page-admin__form-box" id="meediaLoikForm">
@@ -356,10 +368,10 @@
       <h3 class="page-admin__heading meediaLoikHeading">Sissejuhatav lõik <%= i + 1 %></h3>
       <p class="page-admin__text">EST</p>
       <div type="text" contenteditable="true" class="page-admin__input page-admin__text-area input editable-input meediaLoikEstEd" id="meediaLoikEst<%= i + 1 %>Ed" name="meediaLoikEst<%= i + 1 %>Ed"><%-  meediaSissejuhatusData.loigud[i].est %></div>
-      <input type="text" class="page-admin__input page-admin__hidden-input meediaLoikEst" id="meediaLoikEst<%= i + 1 %>" name="meediaLoikEst<%= i + 1 %>" value="<%-  meediaSissejuhatusData.loigud[i].est  %>"></input>
+      <input type="text" class="page-admin__hidden-input meediaLoikEst" id="meediaLoikEst<%= i + 1 %>" name="meediaLoikEst<%= i + 1 %>" value="<%-  meediaSissejuhatusData.loigud[i].est  %>"></input>
       <p class="page-admin__text">EN</p>
       <div type="text" contenteditable="true" class="page-admin__input page-admin__text-area input editable-input meediaLoikEnEd" id="meediaLoikEn<%= i + 1 %>Ed" name="meediaLoikEn<%= i + 1 %>Ed"><%-  meediaSissejuhatusData.loigud[i].en %></div>
-      <input type="text" class="page-admin__input page-admin__hidden-input meediaLoikEn" id="meediaLoikEn<%= i + 1 %>" name="meediaLoikEn<%= i + 1 %>" value="<%-  meediaSissejuhatusData.loigud[i].en  %>"></input>
+      <input type="text" class="page-admin__hidden-input meediaLoikEn" id="meediaLoikEn<%= i + 1 %>" name="meediaLoikEn<%= i + 1 %>" value="<%-  meediaSissejuhatusData.loigud[i].en  %>"></input>
       <button class="page-admin__small-btn deleteBtn meediaLoikDeleteBtn" type="button" id="meediaLoikDeleteBtn<%= i + 1 %>" name="meediaLoikDeleteBtn<%= i + 1 %>">Kustuta</button>
     </div>
     <% } %>
@@ -373,9 +385,9 @@
     <div class="page-admin__form-field">
       <h3 class="page-admin__heading">Sektsiooni pealkiri</h3>
       <p class="page-admin__text">EST</p>
-      <input type="text" class="page-admin__input input" id="meediaVideoPealkiriEst" name="meediaVideoPealkiriEst" value="<%= meediaVideodData.pealkiri.est %>">
+      <input type="text" class="page-admin__input page-admin__input--bold input" id="meediaVideoPealkiriEst" name="meediaVideoPealkiriEst" value="<%= meediaVideodData.pealkiri.est %>">
       <p class="page-admin__text">EN</p>
-      <input type="text" class="page-admin__input input" id="meediaVideoPealkiriEn" name="meediaVideoPealkiriEn" value="<%= meediaVideodData.pealkiri.en %>">
+      <input type="text" class="page-admin__input page-admin__input--bold input" id="meediaVideoPealkiriEn" name="meediaVideoPealkiriEn" value="<%= meediaVideodData.pealkiri.en %>">
     </div>
   </div>
   <div class="page-admin__form-box" id="meediaVideoLoikForm">
@@ -397,9 +409,9 @@
     <div class="page-admin__form-field">
       <h3 class="page-admin__heading">Sektsiooni pealkiri</h3>
       <p class="page-admin__text">EST</p>
-      <input type="text" class="page-admin__input input" id="meediaLinkPealkiriEst" name="meediaLinkPealkiriEst" value="<%= meediaLingidData.pealkiri.est %>">
+      <input type="text" class="page-admin__input page-admin__input--bold input" id="meediaLinkPealkiriEst" name="meediaLinkPealkiriEst" value="<%= meediaLingidData.pealkiri.est %>">
       <p class="page-admin__text">EN</p>
-      <input type="text" class="page-admin__input input" id="meediaLinkPealkiriEn" name="meediaLinkPealkiriEn" value="<%= meediaLingidData.pealkiri.en %>">
+      <input type="text" class="page-admin__input page-admin__input--bold input" id="meediaLinkPealkiriEn" name="meediaLinkPealkiriEn" value="<%= meediaLingidData.pealkiri.en %>">
     </div>
   </div>
   <div class="page-admin__form-box" id="meediaLinkLoikForm">

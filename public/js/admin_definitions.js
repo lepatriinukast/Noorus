@@ -25,6 +25,7 @@ var pood = document.getElementById("pood");
 var telli = document.getElementById("telli");
 var moodunud = document.getElementById("moodunud");
 var ankeet = document.getElementById("ankeet");
+var login = document.getElementById("login");
 
 // subforms
 
@@ -70,6 +71,11 @@ var failureBtn = document.getElementById("failureBtn");
 
 var boldBtn = document.getElementById("boldBtn");
 
+// login and logout buttons
+
+var loginBtn = document.getElementById("loginBtn");
+var logoutBtn = document.getElementById("logoutBtn");
+
 // add "loik" buttons
 
 var sissejuhatusLoikAddBtn = document.getElementById("sissejuhatusLoikAddBtn");
@@ -102,6 +108,7 @@ var sundmusedLoikKohtAddBtnArray = Array.from(document.querySelectorAll(".sundmu
 var moodunudLoikAddBtnArray = Array.from(document.querySelectorAll(".moodunudLoikAddBtn"));
 var moodunudLoikKohtAddBtnArray = Array.from(document.querySelectorAll(".moodunudLoikKohtAddBtn"));
 var poodLoikAddBtnArray = Array.from(document.querySelectorAll(".poodLoikAddBtn"));
+var poodLoikNimistuAddBtnArray = Array.from(document.querySelectorAll(".poodLoikNimistuAddBtn"));
 
 // add subform buttons
 
@@ -190,6 +197,14 @@ for (var i = 0; i < poodSubformArray.length; i++) {
   var indexNumber = i + 1;
   var poodLoikDeleteBtnArray = Array.from(document.querySelectorAll(".pood" + indexNumber + "LoikDeleteBtn"));
   poodLoikDeleteBtnArrays.push(poodLoikDeleteBtnArray);
+}
+
+var poodLoikNimistuDeleteBtnArrays = [];
+
+for (var i = 0; i < poodSubformArray.length; i++) {
+  var indexNumber = i + 1;
+  var poodLoikNimistuDeleteBtnArray = Array.from(document.querySelectorAll(".pood" + indexNumber + "NimistuLoikDeleteBtn"));
+  poodLoikNimistuDeleteBtnArrays.push(poodLoikNimistuDeleteBtnArray);
 }
 
 // get delete subform buttons as an array

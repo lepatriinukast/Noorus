@@ -8,12 +8,13 @@
   <div class="header__heading-box">
     <h1 class="heading--purple heading--primary"><%= avalehtTekstidData.suurPealkiri.est %></h1>
     <p class="paragraph--large paragraph--purple header__paragraph"><%= avalehtTekstidData.jatkuPealkiri.est %></p>
-    <a href="/koorist" class="btn btn--main btn--dark">Loe edasi</a>
+    <a href="/koorist" class="btn btn--main btn--dark u-margin-top-small">Loe edasi</a>
   </div>
 </header>
 <main class="homepage__container">
   <section class="section-features" id="section-features">
     <div class="section-features__container">
+        <% if (pealkirjadData[1].est !== "") { %>
       <div class="section-features__column">
         <div class="section-features__item">
           <a class="section-features__link" href="/koorist#section-liikmed">
@@ -22,10 +23,11 @@
           </a>
         </div>
       </div>
+      <% } %>
       <div class="section-features__column">
         <div class="section-features__item">
           <a class="section-features__link" href="/pood">
-            <i class="fas fa-user section-features__icon"></i>
+            <i class="fas fa-shopping-cart section-features__icon"></i>
             <h3 class="heading--purple heading--tertiary">Pood</h3>
           </a>
         </div>
@@ -43,16 +45,20 @@
   <% if (sundmusedData.length !== 0) { %>
   <section class="section-events" id="section-events">
     <div class="section-events__heading-box">
+      <% if (avalehtTekstidData.sektsiooniPealkiri1.est !== "") { %>
       <h2 class="heading--purple heading--secondary u-margin-bottom-big"><%= avalehtTekstidData.sektsiooniPealkiri1.est %></h2>
+      <% } %>
+      <% if (avalehtTekstidData.sektsiooniTekst1.est !== "") { %>
       <p class="paragraph--large paragraph--purple u-margin-bottom-big"><%= avalehtTekstidData.sektsiooniTekst1.est %></p>
+      <% } %>
     </div>
     <div class="section-events__container">
       <% for (var a = 0; a < sundmusedData.length && a < 3; a++) { %>
       <div class="card">
-        <div class="card__upper" <% if (plakatid[a] ==! "") { %> style="background-image: url(" <%= plakatid[a].url %>");"<% } %>>
+        <div class="card__upper" <% if (plakatid[a].url !== "") { %> style="background-image: url( <%= plakatid[a].url %>);"<% } %>>
         </div>
         <div class="card__lower">
-          <h3 class="heading--white heading--tertiary"><%= sundmusedData[a].pealkiri.est %></h3>
+          <h3 class="heading--purple heading--tertiary u-margin-bottom-big"><%= sundmusedData[a].pealkiri.est %></h3>
           <a href="/sundmused#<%= a + 1 %>" class="btn btn--main btn--dark">Loe edasi</a>
         </div>
       </div>
@@ -61,11 +67,17 @@
   </section>
   <% } %>
   <section class="section-history" id="section-history">
+    <% if (moodunudData.length !== 0) { %>
     <div class="section-history__container">
+      <% if (avalehtTekstidData.sektsiooniPealkiri2.est !== "") { %>
       <h2 class="heading--purple heading--secondary u-margin-bottom-big"><%= avalehtTekstidData.sektsiooniPealkiri2.est %></h2>
+      <% } %>
+      <% if (avalehtTekstidData.sektsiooniTekst2.est !== "") { %>
       <p class="paragraph--large paragraph--purple u-margin-bottom-big"><%= avalehtTekstidData.sektsiooniTekst2.est %></p>
+      <% } %>
       <a href="/sundmused#moodunud-sundmused" class="btn btn--main btn--dark">Loe edasi</a>
     </div>
+      <% } %>
   </section>
 </main>
 <%- include partials/footnav -%>

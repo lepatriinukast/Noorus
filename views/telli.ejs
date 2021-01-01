@@ -3,9 +3,10 @@
 <div class="page-telli__container">
   <h2 class="heading--secondary heading--purple u-margin-bottom-big">Telli</h2>
   <% for (var i = 0; i < telliData.loigud.length; i++) { %>
-  <p class="paragraph--large paragraph--purple u-margin-bottom-small"><%= telliData.loigud[i].est %></p>
+  <p class="paragraph--small paragraph--purple u-margin-bottom-small"><%- telliData.loigud[i].est %></p>
   <% } %>
   <form action="/upload/telli/email" method="post" name="orderForm" id="orderForm">
+    <% if (poodData.length !== 0) { %>
     <div class="form">
       <div class="page-telli__order-form">
           <% for (var a = 0; a < poodData.length; a++) { %>
@@ -29,8 +30,12 @@
         <input type="hidden" name="hiddenSum" id="hiddenSum" value="0">
       </div>
     </div>
+    <% } %>
+    <% if (telliAnkeetData.valjad.length !== 0) { %>
     <div class="form">
+      <% if (telliAnkeetData.pealkiri.est !== "") { %>
       <h3 class="heading--tertiary heading--purple"><%= telliAnkeetData.pealkiri.est %></h3>
+      <% } %>
       <div class="form__column">
         <% for (var i = 0; i < telliAnkeetData.valjad.length; i++) { %>
         <div class="form__field">
@@ -46,8 +51,11 @@
         <% } %>
       </div>
       <button class="btn btn--main btn--dark" type="submit" name="submitBtn">Telli</button>
-      <p class="paragraph--small paragraph--purple u-margin-top-big"><%= telliAnkeetData.jarelloik.est %></p>
+      <% if (telliAnkeetData.jarelloik !== "") { %>
+      <p class="paragraph--small paragraph--purple u-margin-top-big"><%- telliAnkeetData.jarelloik.est %></p>
+      <% } %>
     </div>
+    <% } %>
   </form>
 </div>
 <%- include partials/footer -%>

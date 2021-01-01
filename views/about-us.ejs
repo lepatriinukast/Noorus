@@ -1,66 +1,102 @@
-<%- include partials/head-en {pageTitle: pageTitle} -%>
+<%- include partials/head-en {pageTitle: pageTitle, paiseikoon: paiseikoon} -%>
 <%- include partials/navigation-en {currentPage: currentPage, pealkirjadData: pealkirjadData} -%>
 <nav class="sidenav">
   <ul class="sidenav__list">
-    <li class="sidenav__item sidenav__special-item"><a href="#" class="sidenav__link"><%= pealkirjadData[0].en %></a></li>
-    <li class="sidenav__item"><a href="#section-members" class="sidenav__link"><%= pealkirjadData[1].en %></a></li>
-    <li class="sidenav__item"><a href="#section-conductors" class="sidenav__link"><%= pealkirjadData[2].en %></a></li>
-    <li class="sidenav__item"><a href="#section-history" class="sidenav__link"><%= pealkirjadData[3].en %></a></li>
-    <li class="sidenav__item"><a href="#section-media" class="sidenav__link"><%= pealkirjadData[4].en %></a></li>
-    <li class="sidenav__item"><a href="#section-sponsors" class="sidenav__link"><%= pealkirjadData[5].en %></a></li>
+    <li class="sidenav__item sidenav__special-item"><a href="/koorist#" class="sidenav__link"><%= pealkirjadData[0].en %></a></li>
+    <li class="sidenav__item"><a href="/koorist#section-liikmed" class="sidenav__link"><%= pealkirjadData[1].en %></a></li>
+    <li class="sidenav__item"><a href="/koorist#section-dirigendid" class="sidenav__link"><%= pealkirjadData[2].en %></a></li>
+    <li class="sidenav__item"><a href="/koorist#section-ajalugu" class="sidenav__link"><%= pealkirjadData[3].en %></a></li>
+    <li class="sidenav__item"><a href="/koorist#section-meedia" class="sidenav__link"><%= pealkirjadData[4].en %></a></li>
+    <li class="sidenav__item"><a href="/koorist#section-toetajad" class="sidenav__link"><%= pealkirjadData[5].en %></a></li>
   </ul>
 </nav>
 <div class="body-container">
   <header class="section-header">
-    <div class="section-header__img"></div>
+    <% if (avapilt.url !== "") { %>
+    <div class="section-header__img" alt="Mixed Choir Noorus" style="background-image: url(<%= avapilt.url %>)"></div>
+    <% } %>
     <div class="section-header__text-box">
       <h2 class="heading--secondary heading--purple u-margin-bottom-big"><%= pealkirjadData[0].en %></h2>
+      <% if (sissejuhatusData.pealkiri !== "") { %>
       <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= sissejuhatusData.pealkiri.en %></h3>
-      <div class="section-header__paragraphs">
-        <% for (var i = 0; i < sissejuhatusData.loigud.length; i++) {
-          %> <p class="paragraph--small paragraph--purple"><%= sissejuhatusData.loigud[i].en %></p>
       <% } %>
+      <div class="section-header__paragraphs">
+        <% for (var i = 0; i < sissejuhatusData.loigud.length; i++) { %>
+        <p class="paragraph--small paragraph--purple"><%- sissejuhatusData.loigud[i].en %></p>
+        <% } %>
       </div>
     </div>
   </header>
-  <section class="section-liikmed" id="section-members">
+  <section class="section-liikmed" id="section-liikmed">
     <div class="section-liikmed__container">
       <h2 class="heading--secondary heading--purple u-margin-bottom-big"><%= pealkirjadData[1].en %></h2>
+      <% if (liikmedData.loigud.length !== 0) { %>
       <div class="section-header__paragraphs">
-        <% for (var i = 0; i < liikmedData.loigud.length; i++) {
-          %> <p class="paragraph--small paragraph--purple"><%= liikmedData.loigud[i].en %></p>
+        <% for (var i = 0; i < liikmedData.loigud.length; i++) { %>
+        <p class="paragraph--small paragraph--purple"><%- liikmedData.loigud[i].en %></p>
+        <% } %>
+      </div>
       <% } %>
-      </div>
       <div class="section-liikmed__text-box">
         <div class="section-liikmed__small-box">
+          <% if (liikmedData.haaleruhmaNimed[0].en !== "") { %>
           <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= liikmedData.haaleruhmaNimed[0].en %></h3>
-          <p class="paragraph--small paragraph--purple u-margin-bottom-big"><%= liikmedData.haaleruhmaTutvustused[0].en %></p>
+          <% } %>
+          <% if (liikmedData.haaleruhmaTutvustused[0].en !== "") { %>
+          <p class="paragraph--small paragraph--purple u-margin-bottom-big"><%- liikmedData.haaleruhmaTutvustused[0].en %></p>
+          <% } %>
         </div>
         <div class="section-liikmed__small-box">
+          <% if (liikmedData.haaleruhmaNimed[1].en !== "") { %>
           <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= liikmedData.haaleruhmaNimed[1].en %></h3>
-          <p class="paragraph--small paragraph--purple u-margin-bottom-big"><%= liikmedData.haaleruhmaTutvustused[1].en %></p>
+          <% } %>
+          <% if (liikmedData.haaleruhmaTutvustused[1].en !== "") { %>
+          <p class="paragraph--small paragraph--purple u-margin-bottom-big"><%- liikmedData.haaleruhmaTutvustused[1].en %></p>
+          <% } %>
         </div>
       </div>
       <div class="section-liikmed__text-box">
         <div class="section-liikmed__small-box">
+          <% if (liikmedData.haaleruhmaNimed[2].en !== "") { %>
           <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= liikmedData.haaleruhmaNimed[2].en %></h3>
-          <p class="paragraph--small paragraph--purple u-margin-bottom-big"><%= liikmedData.haaleruhmaTutvustused[2].en %></p>
+          <% } %>
+          <% if (liikmedData.haaleruhmaTutvustused[2].en !== "") { %>
+          <p class="paragraph--small paragraph--purple u-margin-bottom-big"><%- liikmedData.haaleruhmaTutvustused[2].en %></p>
+          <% } %>
         </div>
         <div class="section-liikmed__small-box">
+          <% if (liikmedData.haaleruhmaNimed[3].en !== "") { %>
           <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= liikmedData.haaleruhmaNimed[3].en %></h3>
-          <p class="paragraph--small paragraph--purple u-margin-bottom-big"><%= liikmedData.haaleruhmaTutvustused[3].en %></p>
+          <% } %>
+          <% if (liikmedData.haaleruhmaTutvustused[3].en !== "") { %>
+          <p class="paragraph--small paragraph--purple u-margin-bottom-big"><%- liikmedData.haaleruhmaTutvustused[3].en %></p>
+          <% } %>
         </div>
       </div>
       <div class="section-liikmed__smaller-box">
+        <% if (liikmedData.lauljadPealkiri.en !== "") { %>
         <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= liikmedData.lauljadPealkiri.en %></h3>
-        <p class="paragraph--small paragraph--purple u-margin-bottom-big"><strong>Sopranos - </strong><%= liikmedData.sopranid %></p>
-        <p class="paragraph--small paragraph--purple u-margin-bottom-big"><strong>Altos - </strong><%= liikmedData.aldid %></p>
-        <p class="paragraph--small paragraph--purple u-margin-bottom-big"> <strong>Tenors - </strong><%= liikmedData.tenorid %></p>
-        <p class="paragraph--small paragraph--purple u-margin-bottom-big"><strong>Basses/baritones - </strong><%= liikmedData.bassid %></p>
+        <% } %>
+        <% if (liikmedData.sopranid !== "") { %>
+        <p class="paragraph--small paragraph--purple u-margin-bottom-big"><strong>Sopranid - </strong><%- liikmedData.sopranid %></p>
+        <% } %>
+        <% if (liikmedData.aldid !== "") { %>
+        <p class="paragraph--small paragraph--purple u-margin-bottom-big"><strong>Aldid - </strong><%- liikmedData.aldid %></p>
+        <% } %>
+        <% if (liikmedData.tenorid !== "") { %>
+        <p class="paragraph--small paragraph--purple u-margin-bottom-big"> <strong>Tenorid - </strong><%- liikmedData.tenorid %></p>
+        <% } %>
+        <% if (liikmedData.bassid !== "") { %>
+        <p class="paragraph--small paragraph--purple u-margin-bottom-big"><strong>Bassid/baritonid - </strong><%- liikmedData.bassid %></p>
+        <% } %>
       </div>
       <div class="section-liikmed__smaller-box">
+        <% if (liikmedData.vilistlastePealkiri.en !== "") { %>
         <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= liikmedData.vilistlastePealkiri.en %></h3>
-        <p class="paragraph--small paragraph--purple"><%= liikmedData.vilistlasteNimekiri.en %></p>
+        <% } %>
+        <% if (liikmedData.vilistlasteNimekiri.en !== "") { %>
+        <p class="paragraph--small paragraph--purple"><%- liikmedData.vilistlasteNimekiri.en %></p>
+        <% } %>
       </div>
     </div>
   </section>
@@ -69,9 +105,11 @@
     <% for (var a = 0; a < dirigendidData.length; a++) { %>
     <div class="section-dirigendid__container">
       <div class="section-dirigendid__text-box">
+        <% if (dirigendidData[a].nimi !== "") { %>
         <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= dirigendidData[a].nimi %></h3>
+        <% } %>
         <% for (var i = 0; i < dirigendidData[a].loigud.length; i++) { %>
-        <p class="paragraph--small paragraph--purple u-margin-bottom-small"><%= dirigendidData[a].loigud[i].en %></p>
+        <p class="paragraph--small paragraph--purple u-margin-bottom-small"><%- dirigendidData[a].loigud[i].en %></p>
         <% } %>
       </div>
       <div class="section-dirigendid__img" style="background-image: url('..<%= portreed[a].url %>')">
@@ -79,39 +117,51 @@
     </div>
     <% } %>
   </section>
-  <section class="section-ajalugu" id="section-history">
+  <section class="section-ajalugu" id="section-ajalugu">
     <h2 class="heading--secondary heading--purple"><%= pealkirjadData[3].en %></h2>
     <div class="section-ajalugu__container">
+      <% if (ajaluguSissekandedData.pealkiri.en !== "") { %>
       <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= ajaluguSissekandedData.pealkiri.en %></h3>
+      <% } %>
+      <% if (ajaluguSissekandedData.sissekanded.length !== 0) { %>
       <ul class="list">
         <% for (var i = 0; i < ajaluguSissekandedData.sissekanded.length; i++) { %>
-        <li class="list__item list__item--small"><strong><%= ajaluguSissekandedData.sissekanded[i].aasta %></strong> <%= ajaluguSissekandedData.sissekanded[i].en %></li>
+        <li class="list__item list__item--small"><strong><%= ajaluguSissekandedData.sissekanded[i].aasta %></strong> <%- ajaluguSissekandedData.sissekanded[i].en %></li>
         <% } %>
       </ul>
+      <% } %>
       <% for (var a = 0; a < ajaluguSektsioonidData.length; a++) { %>
       <div class="section-ajalugu__text-box">
+        <% if (ajaluguSektsioonidData[a].pealkiri.en !== "") { %>
         <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= ajaluguSektsioonidData[a].pealkiri.en %></h3>
+        <% } %>
         <% for (var i = 0; i < ajaluguSektsioonidData[a].loigud.length; i++) { %>
-        <p class="paragraph--small paragraph--purple u-margin-bottom-small"><%= ajaluguSektsioonidData[a].loigud[i].en %></p>
+        <p class="paragraph--small paragraph--purple u-margin-bottom-small"><%- ajaluguSektsioonidData[a].loigud[i].en %></p>
         <% } %>
       </div>
       <% } %>
     </div>
   </section>
-  <section class="section-meedia" id="section-media">
+  <section class="section-meedia" id="section-meedia">
     <h2 class="heading--secondary heading--purple"><%= pealkirjadData[4].en %></h2>
     <div class="section-meedia__container">
+      <% if (meediaSissejuhatusData.pealkiri.en !== "") { %>
       <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= meediaSissejuhatusData.pealkiri.en %></h3>
-      <% for (var i = 0; i < meediaSissejuhatusData.loigud.length; i++) { %>
-      <p class="paragraph--small paragraph--purple u-margin-bottom-small"><%= meediaSissejuhatusData.loigud[i].en %></p>
       <% } %>
+      <% for (var i = 0; i < meediaSissejuhatusData.loigud.length; i++) { %>
+      <p class="paragraph--small paragraph--purple u-margin-bottom-small"><%- meediaSissejuhatusData.loigud[i].en %></p>
+      <% } %>
+      <% if (meediaVideodData.pealkiri.en !== "") { %>
       <h3 class="heading--tertiary heading--purple u-margin-top-big u-margin-bottom-big"><%= meediaVideodData.pealkiri.en %></h3>
+      <% } %>
       <% for (var i = 0; i < meediaVideodData.manustamislingid.length; i++) { %>
       <div class="section-meedia__iframe">
         <iframe class="iframe" src="<%= meediaVideodData.manustamislingid[i] %>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
       </div>
       <% } %>
+      <% if (meediaLingidData.pealkiri.en !== "") { %>
       <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= meediaLingidData.pealkiri.en %></h3>
+      <% } %>
       <ul class="list">
         <% for (var i = 0; i < meediaLingidData.lingid.length; i++) { %>
         <li class="list__item list__item--small"><a href="<%= meediaLingidData.lingid[i].link %>" class="list__link"><%= meediaLingidData.lingid[i].en %></a></li>
@@ -119,8 +169,9 @@
       </ul>
     </div>
   </section>
-  <section class="section-toetajad" id="section-sponsors">
+  <section class="section-toetajad" id="section-toetajad">
     <h2 class="heading--secondary heading--purple"><%= pealkirjadData[5].en %></h2>
+    <% if (toetajadData.length !== 0) { %>
     <div class="section-toetajad__container">
       <% for (var i = 0; i < toetajadData.length; i++) { %>
       <div class="section-toetajad__logo-box">
@@ -128,6 +179,7 @@
       </div>
       <% } %>
     </div>
+    <% } %>
   </section>
 </div>
 <%- include partials/footnav-en {pealkirjadData: pealkirjadData} -%>

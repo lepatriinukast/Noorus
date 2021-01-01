@@ -3,6 +3,7 @@
 
 // require node modules
 
+require('dotenv').config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
@@ -10,10 +11,28 @@ const mysql = require("mysql");
 const multer = require("multer");
 const path = require("path");
 const nodemailer = require("nodemailer");
+const session = require("express-session");
+const bcrypt = require('bcrypt');
+const saltRounds = 12;
 
-// setup express and body-parser for creating routes and getting data from the client-side
+
+// setup express back-end framework
 
 const app = express();
+
+//configure a session
+
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: true,
+  saveUninitialized: false,
+  cookie: {
+    maxAge: 1000 * 60 * 60 * 24 // 86400000 1 day
+  }
+}));
+
+// setup body-parser for creating routes and getting data from the client-side
+
 app.use(bodyParser.urlencoded({
   extended: true
 }));
@@ -25,7 +44,12 @@ app.use(express.static("public"));
 
 // connect to mySQL database
 
-var con = mysql.createConnection("mysql://bdb499b9eab505:6dd427d2@eu-cdbr-west-03.cleardb.net/heroku_8077042b55aa915?reconnect=true");
+var con = mysql.createConnection({
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_DB
+});
 
 con.connect(function(err) {
   if (err) throw err;
@@ -35,10 +59,10 @@ con.connect(function(err) {
 // setup an email transporter
 
 const transporter = nodemailer.createTransport({
-  service: 'outlook',
+  service: process.env.NODEMAILER_SERVICE,
   auth: {
-    user: 'joosep_trumm@hotmail.com',
-    pass: 'Oomega0001'
+    user: process.env.NODEMAILER_USER,
+    pass: process.env.NODEMAILER_PASSWORD
   }
 });
 
@@ -113,7 +137,7 @@ app.get("/", function(req, res) {
             en: result[5].en
           }
         };
-        con.query("SELECT * FROM sundmusedpildid ORDER BY id DESC", function(err, result) {
+        con.query("SELECT * FROM sundmusedpildid ORDER BY id", function(err, result) {
           if (err) throw err;
           var plakatid = [];
           for (var i = 0; i < result.length; i++) {
@@ -124,15 +148,15 @@ app.get("/", function(req, res) {
             plakatid.push(plakat);
           }
 
-          // find the dynamic tables from the database ("sundmused", "sundmusedkoht") and sort them into groups accordingly
+          // find the dynamic tables from the database ("sundmused" and "moodunud") and sort them into groups accordingly
 
-          var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'heroku_8077042b55aa915' ORDER by table_name";
+          var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = '" + process.env.DB_DB + "' ORDER by table_name";
 
           con.query(sql, async function(err, result) {
             if (err) throw err;
 
-            var tableNames = [];
-            var tableNamesKoht = [];
+            var tableNamesSundmused = [];
+            var tableNamesMoodunud = [];
 
             for (var i = 0; i < result.length; i++) {
 
@@ -143,22 +167,24 @@ app.get("/", function(req, res) {
                 tableName.indexOf("sissejuhatus") === -1 &&
                 tableName.indexOf("koht") === -1) {
 
-                tableNames.push(tableName);
+                tableNamesSundmused.push(tableName);
 
-              } else if (tableName.indexOf("sundmusedkoht") !== -1) {
+              } else if (tableName.indexOf("moodunud") !== -1 &&
+                tableName.indexOf("pildid") === -1 &&
+                tableName.indexOf("koht") === -1) {
 
-                tableNamesKoht.push(tableName);
+                tableNamesMoodunud.push(tableName);
 
               }
             }
 
-            var sortedTableNames = tableNames.sort(function(a, b) {
-              return a - b;
-            });
+            // sort the table arrays in alphabetic order (ascending for sundmused and descending for moodunud)
 
-            var sortedTableNamesKoht = tableNamesKoht.sort(function(a, b) {
+            var sortedTableNamesSundmused = tableNamesSundmused.sort(function(a, b) {
               return a - b;
             });
+            var sortedTableNamesMoodunud = tableNamesMoodunud.reverse();
+
 
             // to get the necessary data for dynamic subforms, we need to use async functions with promises,
             // this is necessary, because we often need to wait for database queries,
@@ -166,7 +192,7 @@ app.get("/", function(req, res) {
             // (for this advanced js code, we also use new arrow functions)
 
 
-            // two functions (for the two database tables associated with one dynamic "sundmused" subform),
+            // functions (one for each database table associated with a dynamic "sundmused" and "moodunud" subform),
             // which will each return a promise that will be resolved to an array once the database query has completed,
             // these functions take an argument, which is the relevant database table name
 
@@ -174,7 +200,7 @@ app.get("/", function(req, res) {
 
               return new Promise((resolve, reject) => {
 
-                con.query("SELECT * FROM " + tableName + " ORDER by id DESC", function(err, result) {
+                con.query("SELECT * FROM " + tableName + " ORDER by id", function(err, result) {
                   if (err) throw err;
 
                   var sundmus = {
@@ -200,56 +226,61 @@ app.get("/", function(req, res) {
               });
             };
 
-            const constructSundmusedKohtPromise = tableName => {
+
+            const constructMoodunudPromise = tableName => {
 
               return new Promise((resolve, reject) => {
 
-                con.query("SELECT * FROM " + tableName + " ORDER by id DESC", function(err, result) {
+                con.query("SELECT * FROM " + tableName + " ORDER by id", function(err, result) {
                   if (err) throw err;
 
-                  var sundmusKoht = {
-                    kohad: []
+                  var sundmus = {
+                    pealkiri: {
+                      est: result[0].est,
+                      en: result[0].en
+                    },
+                    loigud: []
                   };
-                  for (let b = 0; b < result.length; b++) {
-                    var koht = {
+                  for (let b = 1; b < result.length; b++) {
+                    var loik = {
                       est: result[b].est,
-                      en: result[b].en,
-                      link: result[b].link
+                      en: result[b].en
                     };
-                    sundmusKoht.kohad.push(koht);
+                    sundmus.loigud.push(loik);
                   }
                   if (err) {
                     reject(err);
                   } else {
-                    resolve(sundmusKoht);
+                    resolve(sundmus);
                   }
                 });
               });
             };
 
 
-            // create two arrays of the promises constructed above, using the map method
+            // create arrays of the promises constructed above, using the map method
 
-            const sundmusedDataPromise = sortedTableNames.map(async tableName => {
+            const sundmusedDataPromise = sortedTableNamesSundmused.map(async tableNameSundmused => {
 
-              const sundmused = await constructSundmusedPromise(tableName);
+              const sundmused = await constructSundmusedPromise(tableNameSundmused);
 
               return sundmused;
             });
 
 
-            const sundmusedKohtDataPromise = sortedTableNamesKoht.map(async tableNameKoht => {
+            const moodunudDataPromise = sortedTableNamesMoodunud.map(async tableNameMoodunud => {
 
-              const sundmusedKoht = await constructSundmusedKohtPromise(tableNameKoht);
+              const moodunud = await constructMoodunudPromise(tableNameMoodunud);
 
-              return sundmusedKoht;
+              return moodunud;
             });
 
 
             // wait for all the promises to be resolved into two arrays
 
             var sundmusedData = await Promise.all(sundmusedDataPromise);
-            var sundmusedKohtData = await Promise.all(sundmusedKohtDataPromise);
+            var moodunudData = await Promise.all(moodunudDataPromise);
+
             con.query("SELECT * FROM pealkirjad ORDER BY id", function(err, result) {
               if (err) throw err;
               var pealkirjadData = [];
@@ -268,6 +299,7 @@ app.get("/", function(req, res) {
                 avalehtTekstidData: avalehtTekstidData,
                 avalehtPildidData: avalehtPildidData,
                 sundmusedData: sundmusedData,
+                moodunudData: moodunudData,
                 pealkirjadData: pealkirjadData
               });
             });
@@ -379,7 +411,7 @@ app.get("/koorist", function(req, res) {
 
             // find the dynamic tables from the database ("dirigendid" and "ajalugu") and sort them into groups accordingly
 
-            var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'heroku_8077042b55aa915' ORDER by table_name";
+            var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = '" + process.env.DB_DB + "' ORDER by table_name";
 
             con.query(sql, async function(err, result) {
               if (err) throw err;
@@ -666,12 +698,13 @@ app.get("/pood", function(req, res) {
       }
       // find the dynamic "pood" tables from the database and sort them into an array
 
-      var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'heroku_8077042b55aa915' ORDER by table_name";
+      var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = '" + process.env.DB_DB + "' ORDER by table_name";
 
       con.query(sql, async function(err, result) {
         if (err) throw err;
 
         var poodTableNames = [];
+        var nimistuTableNames = [];
 
         for (var i = 0; i < result.length; i++) {
 
@@ -680,10 +713,18 @@ app.get("/pood", function(req, res) {
           if (tableName.indexOf("pood") !== -1 && tableName.indexOf("pildid") === -1 && tableName.indexOf("sissejuhatus") === -1) {
 
             poodTableNames.push(tableName);
+
+          } else if (tableName.indexOf("nimistu") !== -1) {
+
+            nimistuTableNames.push(tableName);
           }
         }
 
         var sortedPoodTableNames = poodTableNames.sort(function(a, b) {
+          return a - b;
+        });
+
+        var sortedNimistuTableNames = nimistuTableNames.sort(function(a, b) {
           return a - b;
         });
 
@@ -711,13 +752,12 @@ app.get("/pood", function(req, res) {
                   en: result[0].en,
                   price: result[0].price
                 },
-                loigud: []
+                loigud: [],
               };
               for (let b = 1; b < result.length; b++) {
                 var loik = {
                   est: result[b].est,
                   en: result[b].en,
-                  price: 0
                 };
                 pood.loigud.push(loik);
               }
@@ -730,6 +770,35 @@ app.get("/pood", function(req, res) {
           });
         };
 
+        // a function, which returns a promise that will be resolved to a "nimistu" object once the database query has completed,
+        // takes an argument, which is the relevant database table name
+
+        const constructNimistuPromise = tableName => {
+
+          return new Promise((resolve, reject) => {
+
+            con.query("SELECT * FROM " + tableName + " ORDER by id", function(err, result) {
+              if (err) throw err;
+
+              var nimistu = {
+                read: []
+              };
+
+              for (let b = 0; b < result.length; b++) {
+                var rida = {
+                  est: result[b].est,
+                  en: result[b].en,
+                };
+                nimistu.read.push(rida);
+              }
+              if (err) {
+                reject(err);
+              } else {
+                resolve(nimistu);
+              }
+            });
+          });
+        };
 
         // create an array of the "pood" promises constructed above, using the map method
 
@@ -740,10 +809,19 @@ app.get("/pood", function(req, res) {
           return pood;
         });
 
-        // wait for all the promises to be resolved into an array of "pood" objects
+        // create an array of the "nimistu" promises constructed above, using the map method
+
+        const nimistuDataPromise = sortedNimistuTableNames.map(async tableName => {
+
+          const nimistu = await constructNimistuPromise(tableName);
+
+          return nimistu;
+        });
+
+        // wait for all the promises to be resolved into an array of "pood" and "nimistu" objects
 
         var poodData = await Promise.all(poodDataPromise);
-
+        var nimistuData = await Promise.all(nimistuDataPromise);
         con.query("SELECT * FROM poodpildid ORDER by id", function(err, result) {
           if (err) throw err;
           var pildid = [];
@@ -771,6 +849,7 @@ app.get("/pood", function(req, res) {
               pealkirjadData: pealkirjadData,
               poodSissejuhatusData: poodSissejuhatusData,
               poodData: poodData,
+              nimistuData: nimistuData,
               pildid: pildid,
             });
           });
@@ -789,7 +868,7 @@ app.get("/sundmused", function(req, res) {
       url: result[0].url,
       filename: result[0].url.slice(5)
     };
-    con.query("SELECT * FROM sundmusedpildid ORDER BY id DESC", function(err, result) {
+    con.query("SELECT * FROM sundmusedpildid ORDER BY id", function(err, result) {
       if (err) throw err;
       var plakatid = [];
       for (var i = 0; i < result.length; i++) {
@@ -822,7 +901,7 @@ app.get("/sundmused", function(req, res) {
 
           // find the dynamic tables from the database ("sundmused", "sundmusedkoht", "moodunud", "moodunudkoht") and sort them into groups accordingly
 
-          var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'heroku_8077042b55aa915' ORDER by table_name";
+          var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = '" + process.env.DB_DB + "' ORDER by table_name";
 
           con.query(sql, async function(err, result) {
             if (err) throw err;
@@ -865,13 +944,9 @@ app.get("/sundmused", function(req, res) {
               return a - b;
             });
 
-            var sortedTableNamesMoodunud = tableNamesMoodunud.sort(function(a, b) {
-              return a - b;
-            });
+            var sortedTableNamesMoodunud = tableNamesMoodunud.reverse();
 
-            var sortedTableNamesMoodunudKoht = tableNamesMoodunudKoht.sort(function(a, b) {
-              return a - b;
-            });
+            var sortedTableNamesMoodunudKoht = tableNamesMoodunudKoht.reverse();
 
             // to get the necessary data for dynamic subforms, we need to use async functions with promises,
             // this is necessary, because we often need to wait for database queries,
@@ -887,7 +962,7 @@ app.get("/sundmused", function(req, res) {
 
               return new Promise((resolve, reject) => {
 
-                con.query("SELECT * FROM " + tableName + " ORDER by id DESC", function(err, result) {
+                con.query("SELECT * FROM " + tableName + " ORDER by id", function(err, result) {
                   if (err) throw err;
 
                   var sundmus = {
@@ -917,7 +992,7 @@ app.get("/sundmused", function(req, res) {
 
               return new Promise((resolve, reject) => {
 
-                con.query("SELECT * FROM " + tableName + " ORDER by id DESC", function(err, result) {
+                con.query("SELECT * FROM " + tableName + " ORDER by id", function(err, result) {
                   if (err) throw err;
 
                   var sundmusKoht = {
@@ -944,7 +1019,7 @@ app.get("/sundmused", function(req, res) {
 
               return new Promise((resolve, reject) => {
 
-                con.query("SELECT * FROM " + tableName + " ORDER by id DESC", function(err, result) {
+                con.query("SELECT * FROM " + tableName + " ORDER by id", function(err, result) {
                   if (err) throw err;
 
                   var sundmus = {
@@ -974,7 +1049,7 @@ app.get("/sundmused", function(req, res) {
 
               return new Promise((resolve, reject) => {
 
-                con.query("SELECT * FROM " + tableName + " ORDER by id DESC", function(err, result) {
+                con.query("SELECT * FROM " + tableName + " ORDER by id", function(err, result) {
                   if (err) throw err;
 
                   var sundmusKoht = {
@@ -1032,7 +1107,7 @@ app.get("/sundmused", function(req, res) {
             });
 
 
-            // wait for all the promises to be resolved into two arrays
+            // wait for all the promises to be resolved into four arrays
 
             var sundmusedData = await Promise.all(sundmusedDataPromise);
             var sundmusedKohtData = await Promise.all(sundmusedKohtDataPromise);
@@ -1058,6 +1133,7 @@ app.get("/sundmused", function(req, res) {
                 sundmusedSissejuhatusData: sundmusedSissejuhatusData,
                 sundmusedData: sundmusedData,
                 sundmusedKohtData: sundmusedKohtData,
+                moodunudPlakatid: moodunudPlakatid,
                 moodunudData: moodunudData,
                 moodunudKohtData: moodunudKohtData
               });
@@ -1273,7 +1349,7 @@ app.get("/telli" + ":number", function(req, res) {
         }
         // find the dynamic "pood" tables from the database and sort them into an array
 
-        var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'heroku_8077042b55aa915' ORDER by table_name";
+        var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = '" + process.env.DB_DB + "' ORDER by table_name";
 
         con.query(sql, async function(err, result) {
           if (err) throw err;
@@ -1495,7 +1571,30 @@ app.get("/kontakt/nurjunud", function(req, res) {
   });
 });
 
-
+app.get("/login", function(req, res) {
+  var pageTitle = "Sisselogimine";
+  con.query("SELECT * FROM avalehtpildid ORDER BY id", function(err, result) {
+    if (err) throw err;
+    var paiseikoon = {
+      url: result[0].url,
+      filename: result[0].url.slice(5)
+    };
+    con.query("SELECT * FROM avalehtpildid ORDER BY id", function query(err, result) {
+      if (err) throw err;
+      var avalehtPildidData = {
+        avalehtLogo: {
+          url: result[1].url,
+          filename: result[1].url.slice(5)
+        }
+      };
+      res.render("login", {
+        pageTitle: pageTitle,
+        paiseikoon: paiseikoon,
+        avalehtPildidData: avalehtPildidData
+      });
+    });
+  });
+});
 
 // ENGLISH ROUTES
 
@@ -1548,7 +1647,7 @@ app.get("/en", function(req, res) {
             en: result[5].en
           }
         };
-        con.query("SELECT * FROM sundmusedpildid ORDER BY id DESC", function(err, result) {
+        con.query("SELECT * FROM sundmusedpildid ORDER BY id", function(err, result) {
           if (err) throw err;
           var plakatid = [];
           for (var i = 0; i < result.length; i++) {
@@ -1559,15 +1658,15 @@ app.get("/en", function(req, res) {
             plakatid.push(plakat);
           }
 
-          // find the dynamic tables from the database ("sundmused", "sundmusedkoht") and sort them into groups accordingly
+          // find the dynamic tables from the database ("sundmused" and "moodunud") and sort them into groups accordingly
 
-          var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'heroku_8077042b55aa915' ORDER by table_name";
+          var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = '" + process.env.DB_DB + "' ORDER by table_name";
 
           con.query(sql, async function(err, result) {
             if (err) throw err;
 
-            var tableNames = [];
-            var tableNamesKoht = [];
+            var tableNamesSundmused = [];
+            var tableNamesMoodunud = [];
 
             for (var i = 0; i < result.length; i++) {
 
@@ -1578,22 +1677,24 @@ app.get("/en", function(req, res) {
                 tableName.indexOf("sissejuhatus") === -1 &&
                 tableName.indexOf("koht") === -1) {
 
-                tableNames.push(tableName);
+                tableNamesSundmused.push(tableName);
 
-              } else if (tableName.indexOf("sundmusedkoht") !== -1) {
+              } else if (tableName.indexOf("moodunud") !== -1 &&
+                tableName.indexOf("pildid") === -1 &&
+                tableName.indexOf("koht") === -1) {
 
-                tableNamesKoht.push(tableName);
+                tableNamesMoodunud.push(tableName);
 
               }
             }
 
-            var sortedTableNames = tableNames.sort(function(a, b) {
-              return a - b;
-            });
+            // sort the table arrays in alphabetic order (ascending for sundmused and descending for moodunud)
 
-            var sortedTableNamesKoht = tableNamesKoht.sort(function(a, b) {
+            var sortedTableNamesSundmused = tableNamesSundmused.sort(function(a, b) {
               return a - b;
             });
+            var sortedTableNamesMoodunud = tableNamesMoodunud.reverse();
+
 
             // to get the necessary data for dynamic subforms, we need to use async functions with promises,
             // this is necessary, because we often need to wait for database queries,
@@ -1601,7 +1702,7 @@ app.get("/en", function(req, res) {
             // (for this advanced js code, we also use new arrow functions)
 
 
-            // two functions (for the two database tables associated with one dynamic "sundmused" subform),
+            // functions (one for each database table associated with a dynamic "sundmused" and "moodunud" subform),
             // which will each return a promise that will be resolved to an array once the database query has completed,
             // these functions take an argument, which is the relevant database table name
 
@@ -1609,7 +1710,7 @@ app.get("/en", function(req, res) {
 
               return new Promise((resolve, reject) => {
 
-                con.query("SELECT * FROM " + tableName + " ORDER by id DESC", function(err, result) {
+                con.query("SELECT * FROM " + tableName + " ORDER by id", function(err, result) {
                   if (err) throw err;
 
                   var sundmus = {
@@ -1635,56 +1736,60 @@ app.get("/en", function(req, res) {
               });
             };
 
-            const constructSundmusedKohtPromise = tableName => {
+
+            const constructMoodunudPromise = tableName => {
 
               return new Promise((resolve, reject) => {
 
-                con.query("SELECT * FROM " + tableName + " ORDER by id DESC", function(err, result) {
+                con.query("SELECT * FROM " + tableName + " ORDER by id", function(err, result) {
                   if (err) throw err;
 
-                  var sundmusKoht = {
-                    kohad: []
+                  var sundmus = {
+                    pealkiri: {
+                      est: result[0].est,
+                      en: result[0].en
+                    },
+                    loigud: []
                   };
-                  for (let b = 0; b < result.length; b++) {
-                    var koht = {
+                  for (let b = 1; b < result.length; b++) {
+                    var loik = {
                       est: result[b].est,
-                      en: result[b].en,
-                      link: result[b].link
+                      en: result[b].en
                     };
-                    sundmusKoht.kohad.push(koht);
+                    sundmus.loigud.push(loik);
                   }
                   if (err) {
                     reject(err);
                   } else {
-                    resolve(sundmusKoht);
+                    resolve(sundmus);
                   }
                 });
               });
             };
 
 
-            // create two arrays of the promises constructed above, using the map method
+            // create arrays of the promises constructed above, using the map method
 
-            const sundmusedDataPromise = sortedTableNames.map(async tableName => {
+            const sundmusedDataPromise = sortedTableNamesSundmused.map(async tableNameSundmused => {
 
-              const sundmused = await constructSundmusedPromise(tableName);
+              const sundmused = await constructSundmusedPromise(tableNameSundmused);
 
               return sundmused;
             });
 
 
-            const sundmusedKohtDataPromise = sortedTableNamesKoht.map(async tableNameKoht => {
+            const moodunudDataPromise = sortedTableNamesMoodunud.map(async tableNameMoodunud => {
 
-              const sundmusedKoht = await constructSundmusedKohtPromise(tableNameKoht);
+              const moodunud = await constructMoodunudPromise(tableNameMoodunud);
 
-              return sundmusedKoht;
+              return moodunud;
             });
 
 
             // wait for all the promises to be resolved into two arrays
 
             var sundmusedData = await Promise.all(sundmusedDataPromise);
-            var sundmusedKohtData = await Promise.all(sundmusedKohtDataPromise);
+            var moodunudData = await Promise.all(moodunudDataPromise);
 
             con.query("SELECT * FROM pealkirjad ORDER BY id", function(err, result) {
               if (err) throw err;
@@ -1704,6 +1809,7 @@ app.get("/en", function(req, res) {
                 avalehtTekstidData: avalehtTekstidData,
                 avalehtPildidData: avalehtPildidData,
                 sundmusedData: sundmusedData,
+                moodunudData: moodunudData,
                 pealkirjadData: pealkirjadData
               });
             });
@@ -1816,7 +1922,7 @@ app.get("/en/about-us", function(req, res) {
 
             // find the dynamic tables from the database ("dirigendid" and "ajalugu") and sort them into groups accordingly
 
-            var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'heroku_8077042b55aa915' ORDER by table_name";
+            var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = '" + process.env.DB_DB + "' ORDER by table_name";
 
             con.query(sql, async function(err, result) {
               if (err) throw err;
@@ -2102,12 +2208,13 @@ app.get("/en/shop", function(req, res) {
       }
       // find the dynamic "pood" tables from the database and sort them into an array
 
-      var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'heroku_8077042b55aa915' ORDER by table_name";
+      var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = '" + process.env.DB_DB + "' ORDER by table_name";
 
       con.query(sql, async function(err, result) {
         if (err) throw err;
 
         var poodTableNames = [];
+        var nimistuTableNames = [];
 
         for (var i = 0; i < result.length; i++) {
 
@@ -2116,10 +2223,18 @@ app.get("/en/shop", function(req, res) {
           if (tableName.indexOf("pood") !== -1 && tableName.indexOf("pildid") === -1 && tableName.indexOf("sissejuhatus") === -1) {
 
             poodTableNames.push(tableName);
+
+          } else if (tableName.indexOf("nimistu") !== -1) {
+
+            nimistuTableNames.push(tableName);
           }
         }
 
         var sortedPoodTableNames = poodTableNames.sort(function(a, b) {
+          return a - b;
+        });
+
+        var sortedNimistuTableNames = nimistuTableNames.sort(function(a, b) {
           return a - b;
         });
 
@@ -2147,13 +2262,12 @@ app.get("/en/shop", function(req, res) {
                   en: result[0].en,
                   price: result[0].price
                 },
-                loigud: []
+                loigud: [],
               };
               for (let b = 1; b < result.length; b++) {
                 var loik = {
                   est: result[b].est,
                   en: result[b].en,
-                  price: 0
                 };
                 pood.loigud.push(loik);
               }
@@ -2166,6 +2280,35 @@ app.get("/en/shop", function(req, res) {
           });
         };
 
+        // a function, which returns a promise that will be resolved to a "nimistu" object once the database query has completed,
+        // takes an argument, which is the relevant database table name
+
+        const constructNimistuPromise = tableName => {
+
+          return new Promise((resolve, reject) => {
+
+            con.query("SELECT * FROM " + tableName + " ORDER by id", function(err, result) {
+              if (err) throw err;
+
+              var nimistu = {
+                read: []
+              };
+
+              for (let b = 0; b < result.length; b++) {
+                var rida = {
+                  est: result[b].est,
+                  en: result[b].en,
+                };
+                nimistu.read.push(rida);
+              }
+              if (err) {
+                reject(err);
+              } else {
+                resolve(nimistu);
+              }
+            });
+          });
+        };
 
         // create an array of the "pood" promises constructed above, using the map method
 
@@ -2176,9 +2319,19 @@ app.get("/en/shop", function(req, res) {
           return pood;
         });
 
-        // wait for all the promises to be resolved into an array of "pood" objects
+        // create an array of the "nimistu" promises constructed above, using the map method
+
+        const nimistuDataPromise = sortedNimistuTableNames.map(async tableName => {
+
+          const nimistu = await constructNimistuPromise(tableName);
+
+          return nimistu;
+        });
+
+        // wait for all the promises to be resolved into an array of "pood" and "nimistu" objects
 
         var poodData = await Promise.all(poodDataPromise);
+        var nimistuData = await Promise.all(nimistuDataPromise);
 
         con.query("SELECT * FROM poodpildid ORDER by id", function(err, result) {
           if (err) throw err;
@@ -2207,6 +2360,7 @@ app.get("/en/shop", function(req, res) {
               pealkirjadData: pealkirjadData,
               poodSissejuhatusData: poodSissejuhatusData,
               poodData: poodData,
+              nimistuData: nimistuData,
               pildid: pildid,
             });
           });
@@ -2226,7 +2380,7 @@ app.get("/en/events", function(req, res) {
       url: result[0].url,
       filename: result[0].url.slice(5)
     };
-    con.query("SELECT * FROM sundmusedpildid ORDER BY id DESC", function(err, result) {
+    con.query("SELECT * FROM sundmusedpildid ORDER BY id", function(err, result) {
       if (err) throw err;
       var plakatid = [];
       for (var i = 0; i < result.length; i++) {
@@ -2259,7 +2413,7 @@ app.get("/en/events", function(req, res) {
 
           // find the dynamic tables from the database ("sundmused", "sundmusedkoht", "moodunud", "moodunudkoht") and sort them into groups accordingly
 
-          var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'heroku_8077042b55aa915' ORDER by table_name";
+          var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = '" + process.env.DB_DB + "' ORDER by table_name";
 
           con.query(sql, async function(err, result) {
             if (err) throw err;
@@ -2302,13 +2456,9 @@ app.get("/en/events", function(req, res) {
               return a - b;
             });
 
-            var sortedTableNamesMoodunud = tableNamesMoodunud.sort(function(a, b) {
-              return a - b;
-            });
+            var sortedTableNamesMoodunud = tableNamesMoodunud.reverse();
 
-            var sortedTableNamesMoodunudKoht = tableNamesMoodunudKoht.sort(function(a, b) {
-              return a - b;
-            });
+            var sortedTableNamesMoodunudKoht = tableNamesMoodunudKoht.reverse();
 
             // to get the necessary data for dynamic subforms, we need to use async functions with promises,
             // this is necessary, because we often need to wait for database queries,
@@ -2324,7 +2474,7 @@ app.get("/en/events", function(req, res) {
 
               return new Promise((resolve, reject) => {
 
-                con.query("SELECT * FROM " + tableName + " ORDER by id DESC", function(err, result) {
+                con.query("SELECT * FROM " + tableName + " ORDER by id", function(err, result) {
                   if (err) throw err;
 
                   var sundmus = {
@@ -2354,7 +2504,7 @@ app.get("/en/events", function(req, res) {
 
               return new Promise((resolve, reject) => {
 
-                con.query("SELECT * FROM " + tableName + " ORDER by id DESC", function(err, result) {
+                con.query("SELECT * FROM " + tableName + " ORDER by id", function(err, result) {
                   if (err) throw err;
 
                   var sundmusKoht = {
@@ -2381,7 +2531,7 @@ app.get("/en/events", function(req, res) {
 
               return new Promise((resolve, reject) => {
 
-                con.query("SELECT * FROM " + tableName + " ORDER by id DESC", function(err, result) {
+                con.query("SELECT * FROM " + tableName + " ORDER by id", function(err, result) {
                   if (err) throw err;
 
                   var sundmus = {
@@ -2411,7 +2561,7 @@ app.get("/en/events", function(req, res) {
 
               return new Promise((resolve, reject) => {
 
-                con.query("SELECT * FROM " + tableName + " ORDER by id DESC", function(err, result) {
+                con.query("SELECT * FROM " + tableName + " ORDER by id", function(err, result) {
                   if (err) throw err;
 
                   var sundmusKoht = {
@@ -2469,7 +2619,7 @@ app.get("/en/events", function(req, res) {
             });
 
 
-            // wait for all the promises to be resolved into two arrays
+            // wait for all the promises to be resolved into four arrays
 
             var sundmusedData = await Promise.all(sundmusedDataPromise);
             var sundmusedKohtData = await Promise.all(sundmusedKohtDataPromise);
@@ -2495,8 +2645,9 @@ app.get("/en/events", function(req, res) {
                 sundmusedSissejuhatusData: sundmusedSissejuhatusData,
                 sundmusedData: sundmusedData,
                 sundmusedKohtData: sundmusedKohtData,
+                moodunudPlakatid: moodunudPlakatid,
                 moodunudData: moodunudData,
-                moodunudKohtData: moodunudKohtData
+                moodunudKohtData: moodunudKohtData,
               });
             });
           });
@@ -2612,7 +2763,7 @@ app.get("/en/contact", function(req, res) {
                   };
                   vastuvottTekstidData.loigud.push(loik);
                 }
-                con.query("SELECT * FROM vastuvottAnkeet ORDER BY id", function(err, result) {
+                con.query("SELECT * FROM vastuvottankeet ORDER BY id", function(err, result) {
                   if (err) throw err;
                   var vastuvottAnkeetData = {
                     pealkiri: {
@@ -2711,7 +2862,7 @@ app.get("/en/order" + ":number", function(req, res) {
         }
         // find the dynamic "pood" tables from the database and sort them into an array
 
-        var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'heroku_8077042b55aa915' ORDER by table_name";
+        var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = '" + process.env.DB_DB + "' ORDER by table_name";
 
         con.query(sql, async function(err, result) {
           if (err) throw err;
@@ -2939,414 +3090,422 @@ app.get("/admin", function(req, res) {
 });
 
 app.get("/admin/avaleht", function(req, res) {
-  var pageTitle = "admin/avaleht";
-  var routeName = "/";
-  con.query("SELECT * FROM avalehtpildid ORDER BY id", function(err, result) {
-    if (err) throw err;
-    var paiseikoon = {
-      url: result[0].url,
-      filename: result[0].url.slice(5)
-    };
-    con.query("SELECT * FROM avalehtpildid ORDER BY id", function query(err, result) {
+
+  if (req.session.loggedIn === true) {
+
+    var pageTitle = "admin/avaleht";
+    var routeName = "/";
+    con.query("SELECT * FROM avalehtpildid ORDER BY id", function(err, result) {
       if (err) throw err;
-      var avalehtPildidData = {
-        avalehtLogo: {
-          url: result[1].url,
-          filename: result[1].url.slice(5)
-        },
-        avalehtTaustapilt: {
-          url: result[2].url,
-          filename: result[2].url.slice(5)
-        }
+      var paiseikoon = {
+        url: result[0].url,
+        filename: result[0].url.slice(5)
       };
-      con.query("SELECT * FROM avalehttekstid ORDER BY id", function(err, result) {
+      con.query("SELECT * FROM avalehtpildid ORDER BY id", function query(err, result) {
         if (err) throw err;
-        var avalehtTekstidData = {
-          suurPealkiri: {
-            est: result[0].est,
-            en: result[0].en
+        var avalehtPildidData = {
+          avalehtLogo: {
+            url: result[1].url,
+            filename: result[1].url.slice(5)
           },
-          jatkuPealkiri: {
-            est: result[1].est,
-            en: result[1].en
-          },
-          sektsiooniPealkiri1: {
-            est: result[2].est,
-            en: result[2].en
-          },
-          sektsiooniTekst1: {
-            est: result[3].est,
-            en: result[3].en
-          },
-          sektsiooniPealkiri2: {
-            est: result[4].est,
-            en: result[4].en
-          },
-          sektsiooniTekst2: {
-            est: result[5].est,
-            en: result[5].en
+          avalehtTaustapilt: {
+            url: result[2].url,
+            filename: result[2].url.slice(5)
           }
         };
-        res.render("admin_avaleht", {
-          pageTitle: pageTitle,
-          routeName: routeName,
-          paiseikoon: paiseikoon,
-          avalehtTekstidData: avalehtTekstidData,
-          avalehtPildidData: avalehtPildidData
-        });
-      });
-    });
-  });
-});
-
-app.get("/admin/koorist", function(req, res) {
-  var pageTitle = "admin/koorist";
-  var routeName = "/koorist";
-  con.query("SELECT * FROM avalehtpildid ORDER BY id", function(err, result) {
-    if (err) throw err;
-    var paiseikoon = {
-      url: result[0].url,
-      filename: result[0].url.slice(5)
-    };
-    con.query("SELECT * FROM pealkirjad ORDER BY id", function(err, result) {
-      if (err) throw err;
-      var pealkirjadData = [];
-      for (var i = 0; i < result.length; i++) {
-        var pealkiri = {
-          est: result[i].est,
-          en: result[i].en
-        };
-        pealkirjadData.push(pealkiri);
-      }
-      con.query("SELECT * FROM sissejuhatuspildid ORDER BY id", function(err, result) {
-        if (err) throw err;
-        var avapilt = {
-          url: result[0].url,
-          filename: result[0].url.slice(5)
-        };
-        con.query("SELECT * FROM sissejuhatustekstid ORDER BY id", function(err, result) {
+        con.query("SELECT * FROM avalehttekstid ORDER BY id", function(err, result) {
           if (err) throw err;
-          var sissejuhatusData = {
-            pealkiri: {
+          var avalehtTekstidData = {
+            suurPealkiri: {
               est: result[0].est,
               en: result[0].en
             },
-            loigud: []
+            jatkuPealkiri: {
+              est: result[1].est,
+              en: result[1].en
+            },
+            sektsiooniPealkiri1: {
+              est: result[2].est,
+              en: result[2].en
+            },
+            sektsiooniTekst1: {
+              est: result[3].est,
+              en: result[3].en
+            },
+            sektsiooniPealkiri2: {
+              est: result[4].est,
+              en: result[4].en
+            },
+            sektsiooniTekst2: {
+              est: result[5].est,
+              en: result[5].en
+            }
           };
-          for (var i = 1; i < result.length; i++) {
-            var loik = {
-              name: result[i].name,
-              est: result[i].est,
-              en: result[i].en
-            };
-            sissejuhatusData.loigud.push(loik);
-          }
-          con.query("SELECT * FROM liikmed ORDER BY id", function(err, result) {
+          res.render("admin_avaleht", {
+            pageTitle: pageTitle,
+            routeName: routeName,
+            paiseikoon: paiseikoon,
+            avalehtTekstidData: avalehtTekstidData,
+            avalehtPildidData: avalehtPildidData
+          });
+        });
+      });
+    });
+  } else {
+    res.redirect("/login");
+  }
+});
+
+app.get("/admin/koorist", function(req, res) {
+  if (req.session.loggedIn === true) {
+    var pageTitle = "admin/koorist";
+    var routeName = "/koorist";
+    con.query("SELECT * FROM avalehtpildid ORDER BY id", function(err, result) {
+      if (err) throw err;
+      var paiseikoon = {
+        url: result[0].url,
+        filename: result[0].url.slice(5)
+      };
+      con.query("SELECT * FROM pealkirjad ORDER BY id", function(err, result) {
+        if (err) throw err;
+        var pealkirjadData = [];
+        for (var i = 0; i < result.length; i++) {
+          var pealkiri = {
+            est: result[i].est,
+            en: result[i].en
+          };
+          pealkirjadData.push(pealkiri);
+        }
+        con.query("SELECT * FROM sissejuhatuspildid ORDER BY id", function(err, result) {
+          if (err) throw err;
+          var avapilt = {
+            url: result[0].url,
+            filename: result[0].url.slice(5)
+          };
+          con.query("SELECT * FROM sissejuhatustekstid ORDER BY id", function(err, result) {
             if (err) throw err;
-            var liikmedData = {
-              haaleruhmaNimed: [{
+            var sissejuhatusData = {
+              pealkiri: {
                 est: result[0].est,
                 en: result[0].en
-              }, {
-                est: result[1].est,
-                en: result[1].en
-              }, {
-                est: result[2].est,
-                en: result[2].en
-              }, {
-                est: result[3].est,
-                en: result[3].en
-              }],
-              haaleruhmaTutvustused: [{
-                est: result[4].est,
-                en: result[4].en
-              }, {
-                est: result[5].est,
-                en: result[5].en
-              }, {
-                est: result[6].est,
-                en: result[6].en
-              }, {
-                est: result[7].est,
-                en: result[7].en
-              }],
-              lauljadPealkiri: {
-                est: result[8].est,
-                en: result[8].en
-              },
-              sopranid: result[9].est,
-              aldid: result[10].est,
-              tenorid: result[11].est,
-              bassid: result[12].est,
-              vilistlastePealkiri: {
-                est: result[13].est,
-                en: result[13].en
-              },
-              vilistlasteNimekiri: {
-                est: result[14].est,
-                en: result[14].en
               },
               loigud: []
             };
-            for (var i = 15; i < result.length; i++) {
+            for (var i = 1; i < result.length; i++) {
               var loik = {
                 name: result[i].name,
                 est: result[i].est,
-                en: result[i].en,
+                en: result[i].en
               };
-              liikmedData.loigud.push(loik);
+              sissejuhatusData.loigud.push(loik);
             }
-
-
-
-            // find the dynamic tables from the database ("dirigendid" and "ajalugu") and sort them into groups accordingly
-
-            var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'heroku_8077042b55aa915' ORDER by table_name";
-
-            con.query(sql, async function(err, result) {
+            con.query("SELECT * FROM liikmed ORDER BY id", function(err, result) {
               if (err) throw err;
-
-              var dirigendidTableNames = [];
-              var ajaluguTableNames = [];
-
-              for (var i = 0; i < result.length; i++) {
-
-                var tableName = (result[i].table_name);
-
-                if (tableName.indexOf("dirigendid") !== -1 && tableName.indexOf("pildid") === -1) {
-
-                  dirigendidTableNames.push(tableName);
-
-                } else if (tableName.indexOf("ajalugu") !== -1 && tableName.indexOf("sissekanded") === -1 && tableName.indexOf("sissejuhatus") === -1) {
-
-                  ajaluguTableNames.push(tableName);
-
-                }
+              var liikmedData = {
+                haaleruhmaNimed: [{
+                  est: result[0].est,
+                  en: result[0].en
+                }, {
+                  est: result[1].est,
+                  en: result[1].en
+                }, {
+                  est: result[2].est,
+                  en: result[2].en
+                }, {
+                  est: result[3].est,
+                  en: result[3].en
+                }],
+                haaleruhmaTutvustused: [{
+                  est: result[4].est,
+                  en: result[4].en
+                }, {
+                  est: result[5].est,
+                  en: result[5].en
+                }, {
+                  est: result[6].est,
+                  en: result[6].en
+                }, {
+                  est: result[7].est,
+                  en: result[7].en
+                }],
+                lauljadPealkiri: {
+                  est: result[8].est,
+                  en: result[8].en
+                },
+                sopranid: result[9].est,
+                aldid: result[10].est,
+                tenorid: result[11].est,
+                bassid: result[12].est,
+                vilistlastePealkiri: {
+                  est: result[13].est,
+                  en: result[13].en
+                },
+                vilistlasteNimekiri: {
+                  est: result[14].est,
+                  en: result[14].en
+                },
+                loigud: []
+              };
+              for (var i = 15; i < result.length; i++) {
+                var loik = {
+                  name: result[i].name,
+                  est: result[i].est,
+                  en: result[i].en,
+                };
+                liikmedData.loigud.push(loik);
               }
 
-              var sortedDirigendidTableNames = dirigendidTableNames.sort(function(a, b) {
-                return a - b;
-              });
-
-              var sortedAjaluguTableNames = ajaluguTableNames.sort(function(a, b) {
-                return a - b;
-              });
-
-              // to get the necessary data for dynamic subforms, we need to use async functions with promises,
-              // this is necessary, because we often need to wait for database queries,
-              // but because we need to have loops in our code, we cannot use callbacks like we normally do
-              // (for this advanced js code, we also use new arrow functions)
 
 
-              // a function, which returns a promise that will be resolved to a "dirigent" object once the database query has completed,
-              // takes an argument, which is the relevant database table name
+              // find the dynamic tables from the database ("dirigendid" and "ajalugu") and sort them into groups accordingly
 
-              const constructDirigendidPromise = tableName => {
+              var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = '" + process.env.DB_DB + "' ORDER by table_name";
 
-                return new Promise((resolve, reject) => {
-
-                  con.query("SELECT * FROM " + tableName + " ORDER by id", function(err, result) {
-                    if (err) throw err;
-
-                    var dirigent = {
-                      nimi: result[0].est,
-                      loigud: []
-                    };
-                    for (let b = 1; b < result.length; b++) {
-                      var loik = {
-                        est: result[b].est,
-                        en: result[b].en
-                      };
-                      dirigent.loigud.push(loik);
-                    }
-                    if (err) {
-                      reject(err);
-                    } else {
-                      resolve(dirigent);
-                    }
-                  });
-                });
-              };
-
-
-              // a function, which returns a promise that will be resolved to a "ajaluguSektsioon" object once the database query has completed,
-              // takes an argument, which is the relevant database table name
-
-              const constructAjaluguPromise = tableName => {
-
-                return new Promise((resolve, reject) => {
-
-                  con.query("SELECT * FROM " + tableName + " ORDER by id", function(err, result) {
-                    if (err) throw err;
-
-                    var ajaluguSektsioon = {
-                      pealkiri: {
-                        est: result[0].est,
-                        en: result[0].en
-                      },
-                      loigud: []
-                    };
-                    for (let b = 1; b < result.length; b++) {
-                      var loik = {
-                        est: result[b].est,
-                        en: result[b].en
-                      };
-                      ajaluguSektsioon.loigud.push(loik);
-                    }
-                    if (err) {
-                      reject(err);
-                    } else {
-                      resolve(ajaluguSektsioon);
-                    }
-                  });
-                });
-              };
-
-              // create an array of the "dirigent" promises constructed above, using the map method
-
-              const dirigendidDataPromise = sortedDirigendidTableNames.map(async tableName => {
-
-                const dirigent = await constructDirigendidPromise(tableName);
-
-                return dirigent;
-              });
-
-              // wait for all the promises to be resolved into an array of "dirigent" objects
-
-              var dirigendidData = await Promise.all(dirigendidDataPromise);
-
-
-              // create an array of the "ajaluguSektsioon" promises constructed above, using the map method
-
-              const ajaluguDataPromise = sortedAjaluguTableNames.map(async tableName => {
-
-                const ajaluguSektsioon = await constructAjaluguPromise(tableName);
-
-                return ajaluguSektsioon;
-              });
-
-              // wait for all the promises to be resolved into an array of "dirigent" objects
-
-              var ajaluguSektsioonidData = await Promise.all(ajaluguDataPromise);
-
-              con.query("SELECT * FROM dirigendidpildid ORDER by id", function(err, result) {
+              con.query(sql, async function(err, result) {
                 if (err) throw err;
-                var portreed = [];
-                for (var i = 0; i < result.length; i++) {
-                  var portree = {
-                    url: result[i].url,
-                    filename: result[i].url.slice(5)
-                  };
-                  portreed.push(portree);
-                }
-                con.query("SELECT * FROM ajalugusissejuhatus ORDER BY id", function(err, result) {
-                  if (err) throw err;
-                  var ajaluguSissejuhatusData = {
-                    pealkiri: {
-                      est: result[0].est,
-                      en: result[0].en
-                    },
-                    loigud: []
-                  };
-                  for (var i = 1; i < result.length; i++) {
-                    var loik = {
-                      est: result[i].est,
-                      en: result[i].en
-                    };
-                    ajaluguSissejuhatusData.loigud.push(loik);
-                  }
-                  con.query("SELECT * FROM ajalugusissekanded ORDER BY id", function(err, result) {
-                    if (err) throw err;
-                    var ajaluguSissekandedData = {
-                      pealkiri: {
-                        est: result[0].est,
-                        en: result[0].en
-                      },
-                      sissekanded: []
-                    };
 
-                    for (var i = 1; i < result.length; i++) {
-                      var sissekanne = {
-                        aasta: result[i].year,
-                        est: result[i].est,
-                        en: result[i].en
-                      };
-                      ajaluguSissekandedData.sissekanded.push(sissekanne);
-                    }
-                    con.query("SELECT * FROM meedia ORDER BY id", function(err, result) {
+                var dirigendidTableNames = [];
+                var ajaluguTableNames = [];
+
+                for (var i = 0; i < result.length; i++) {
+
+                  var tableName = (result[i].table_name);
+
+                  if (tableName.indexOf("dirigendid") !== -1 && tableName.indexOf("pildid") === -1) {
+
+                    dirigendidTableNames.push(tableName);
+
+                  } else if (tableName.indexOf("ajalugu") !== -1 && tableName.indexOf("sissekanded") === -1 && tableName.indexOf("sissejuhatus") === -1) {
+
+                    ajaluguTableNames.push(tableName);
+
+                  }
+                }
+
+                var sortedDirigendidTableNames = dirigendidTableNames.sort(function(a, b) {
+                  return a - b;
+                });
+
+                var sortedAjaluguTableNames = ajaluguTableNames.sort(function(a, b) {
+                  return a - b;
+                });
+
+                // to get the necessary data for dynamic subforms, we need to use async functions with promises,
+                // this is necessary, because we often need to wait for database queries,
+                // but because we need to have loops in our code, we cannot use callbacks like we normally do
+                // (for this advanced js code, we also use new arrow functions)
+
+
+                // a function, which returns a promise that will be resolved to a "dirigent" object once the database query has completed,
+                // takes an argument, which is the relevant database table name
+
+                const constructDirigendidPromise = tableName => {
+
+                  return new Promise((resolve, reject) => {
+
+                    con.query("SELECT * FROM " + tableName + " ORDER by id", function(err, result) {
                       if (err) throw err;
-                      var meediaSissejuhatusData = {
+
+                      var dirigent = {
+                        nimi: result[0].est,
+                        loigud: []
+                      };
+                      for (let b = 1; b < result.length; b++) {
+                        var loik = {
+                          est: result[b].est,
+                          en: result[b].en
+                        };
+                        dirigent.loigud.push(loik);
+                      }
+                      if (err) {
+                        reject(err);
+                      } else {
+                        resolve(dirigent);
+                      }
+                    });
+                  });
+                };
+
+
+                // a function, which returns a promise that will be resolved to a "ajaluguSektsioon" object once the database query has completed,
+                // takes an argument, which is the relevant database table name
+
+                const constructAjaluguPromise = tableName => {
+
+                  return new Promise((resolve, reject) => {
+
+                    con.query("SELECT * FROM " + tableName + " ORDER by id", function(err, result) {
+                      if (err) throw err;
+
+                      var ajaluguSektsioon = {
                         pealkiri: {
                           est: result[0].est,
-                          en: result[0].en,
+                          en: result[0].en
                         },
                         loigud: []
                       };
-                      for (var i = 1; i < result.length; i++) {
+                      for (let b = 1; b < result.length; b++) {
                         var loik = {
+                          est: result[b].est,
+                          en: result[b].en
+                        };
+                        ajaluguSektsioon.loigud.push(loik);
+                      }
+                      if (err) {
+                        reject(err);
+                      } else {
+                        resolve(ajaluguSektsioon);
+                      }
+                    });
+                  });
+                };
+
+                // create an array of the "dirigent" promises constructed above, using the map method
+
+                const dirigendidDataPromise = sortedDirigendidTableNames.map(async tableName => {
+
+                  const dirigent = await constructDirigendidPromise(tableName);
+
+                  return dirigent;
+                });
+
+                // wait for all the promises to be resolved into an array of "dirigent" objects
+
+                var dirigendidData = await Promise.all(dirigendidDataPromise);
+
+
+                // create an array of the "ajaluguSektsioon" promises constructed above, using the map method
+
+                const ajaluguDataPromise = sortedAjaluguTableNames.map(async tableName => {
+
+                  const ajaluguSektsioon = await constructAjaluguPromise(tableName);
+
+                  return ajaluguSektsioon;
+                });
+
+                // wait for all the promises to be resolved into an array of "dirigent" objects
+
+                var ajaluguSektsioonidData = await Promise.all(ajaluguDataPromise);
+
+                con.query("SELECT * FROM dirigendidpildid ORDER by id", function(err, result) {
+                  if (err) throw err;
+                  var portreed = [];
+                  for (var i = 0; i < result.length; i++) {
+                    var portree = {
+                      url: result[i].url,
+                      filename: result[i].url.slice(5)
+                    };
+                    portreed.push(portree);
+                  }
+                  con.query("SELECT * FROM ajalugusissejuhatus ORDER BY id", function(err, result) {
+                    if (err) throw err;
+                    var ajaluguSissejuhatusData = {
+                      pealkiri: {
+                        est: result[0].est,
+                        en: result[0].en
+                      },
+                      loigud: []
+                    };
+                    for (var i = 1; i < result.length; i++) {
+                      var loik = {
+                        est: result[i].est,
+                        en: result[i].en
+                      };
+                      ajaluguSissejuhatusData.loigud.push(loik);
+                    }
+                    con.query("SELECT * FROM ajalugusissekanded ORDER BY id", function(err, result) {
+                      if (err) throw err;
+                      var ajaluguSissekandedData = {
+                        pealkiri: {
+                          est: result[0].est,
+                          en: result[0].en
+                        },
+                        sissekanded: []
+                      };
+
+                      for (var i = 1; i < result.length; i++) {
+                        var sissekanne = {
+                          aasta: result[i].year,
                           est: result[i].est,
                           en: result[i].en
                         };
-                        meediaSissejuhatusData.loigud.push(loik);
+                        ajaluguSissekandedData.sissekanded.push(sissekanne);
                       }
-                      con.query("SELECT * FROM meediavideod ORDER BY id", function(err, result) {
+                      con.query("SELECT * FROM meedia ORDER BY id", function(err, result) {
                         if (err) throw err;
-                        var meediaVideodData = {
+                        var meediaSissejuhatusData = {
                           pealkiri: {
                             est: result[0].est,
                             en: result[0].en,
                           },
-                          manustamislingid: []
+                          loigud: []
                         };
                         for (var i = 1; i < result.length; i++) {
-                          var manustamislink = result[i].link;
-                          meediaVideodData.manustamislingid.push(manustamislink);
+                          var loik = {
+                            est: result[i].est,
+                            en: result[i].en
+                          };
+                          meediaSissejuhatusData.loigud.push(loik);
                         }
-                        con.query("SELECT * FROM meedialingid ORDER BY id", function(err, result) {
+                        con.query("SELECT * FROM meediavideod ORDER BY id", function(err, result) {
                           if (err) throw err;
-                          var meediaLingidData = {
+                          var meediaVideodData = {
                             pealkiri: {
                               est: result[0].est,
                               en: result[0].en,
                             },
-                            lingid: []
+                            manustamislingid: []
                           };
                           for (var i = 1; i < result.length; i++) {
-                            var link = {
-                              est: result[i].est,
-                              en: result[i].en,
-                              link: result[i].link
-                            };
-                            meediaLingidData.lingid.push(link);
+                            var manustamislink = result[i].link;
+                            meediaVideodData.manustamislingid.push(manustamislink);
                           }
-                          con.query("SELECT * FROM toetajad ORDER BY id", function(err, result) {
+                          con.query("SELECT * FROM meedialingid ORDER BY id", function(err, result) {
                             if (err) throw err;
-                            var toetajadData = [];
-                            for (var i = 0; i < result.length; i++) {
-                              var logo = {
-                                link: result[i].link,
-                                filename: result[i].url.slice(5),
-                                url: result[i].url
+                            var meediaLingidData = {
+                              pealkiri: {
+                                est: result[0].est,
+                                en: result[0].en,
+                              },
+                              lingid: []
+                            };
+                            for (var i = 1; i < result.length; i++) {
+                              var link = {
+                                est: result[i].est,
+                                en: result[i].en,
+                                link: result[i].link
                               };
-                              toetajadData.push(logo);
+                              meediaLingidData.lingid.push(link);
                             }
-                            res.render("admin_koorist", {
-                              pageTitle: pageTitle,
-                              routeName: routeName,
-                              paiseikoon: paiseikoon,
-                              avapilt: avapilt,
-                              pealkirjadData: pealkirjadData,
-                              sissejuhatusData: sissejuhatusData,
-                              liikmedData: liikmedData,
-                              portreed: portreed,
-                              dirigendidData: dirigendidData,
-                              ajaluguSissejuhatusData: ajaluguSissejuhatusData,
-                              ajaluguSissekandedData: ajaluguSissekandedData,
-                              ajaluguSektsioonidData: ajaluguSektsioonidData,
-                              meediaSissejuhatusData: meediaSissejuhatusData,
-                              meediaVideodData: meediaVideodData,
-                              meediaLingidData: meediaLingidData,
-                              toetajadData: toetajadData
+                            con.query("SELECT * FROM toetajad ORDER BY id", function(err, result) {
+                              if (err) throw err;
+                              var toetajadData = [];
+                              for (var i = 0; i < result.length; i++) {
+                                var logo = {
+                                  link: result[i].link,
+                                  filename: result[i].url.slice(5),
+                                  url: result[i].url
+                                };
+                                toetajadData.push(logo);
+                              }
+                              res.render("admin_koorist", {
+                                pageTitle: pageTitle,
+                                routeName: routeName,
+                                paiseikoon: paiseikoon,
+                                avapilt: avapilt,
+                                pealkirjadData: pealkirjadData,
+                                sissejuhatusData: sissejuhatusData,
+                                liikmedData: liikmedData,
+                                portreed: portreed,
+                                dirigendidData: dirigendidData,
+                                ajaluguSissejuhatusData: ajaluguSissejuhatusData,
+                                ajaluguSissekandedData: ajaluguSissekandedData,
+                                ajaluguSektsioonidData: ajaluguSektsioonidData,
+                                meediaSissejuhatusData: meediaSissejuhatusData,
+                                meediaVideodData: meediaVideodData,
+                                meediaLingidData: meediaLingidData,
+                                toetajadData: toetajadData
+                              });
                             });
                           });
                         });
@@ -3360,438 +3519,442 @@ app.get("/admin/koorist", function(req, res) {
         });
       });
     });
-  });
+  } else {
+    res.redirect("/login");
+  }
 });
 
 
 app.get("/admin/sundmused", function(req, res) {
-  var pageTitle = "admin/sundmused";
-  var routeName = "/sundmused";
-  con.query("SELECT * FROM avalehtpildid ORDER BY id", function(err, result) {
-    if (err) throw err;
-    var paiseikoon = {
-      url: result[0].url,
-      filename: result[0].url.slice(5)
-    };
-    con.query("SELECT * FROM sundmusedPildid ORDER BY id", function(err, result) {
+  if (req.session.loggedIn === true) {
+    var pageTitle = "admin/sundmused";
+    var routeName = "/sundmused";
+    con.query("SELECT * FROM avalehtpildid ORDER BY id", function(err, result) {
       if (err) throw err;
-      var plakatid = [];
-      for (var i = 0; i < result.length; i++) {
-        var plakat = {
-          url: result[i].url,
-          filename: result[i].url.slice(5)
-        };
-        plakatid.push(plakat);
-      }
-      con.query("SELECT * FROM moodunudPildid ORDER BY id", function(err, result) {
+      var paiseikoon = {
+        url: result[0].url,
+        filename: result[0].url.slice(5)
+      };
+      con.query("SELECT * FROM sundmusedpildid ORDER BY id", function(err, result) {
         if (err) throw err;
-        var moodunudPlakatid = [];
+        var plakatid = [];
         for (var i = 0; i < result.length; i++) {
-          var moodunudPlakat = {
+          var plakat = {
             url: result[i].url,
             filename: result[i].url.slice(5)
           };
-          moodunudPlakatid.push(moodunudPlakat);
+          plakatid.push(plakat);
         }
-        con.query("SELECT * FROM sundmusedsissejuhatus ORDER BY id", function(err, result) {
+        con.query("SELECT * FROM moodunudpildid ORDER BY id DESC", function(err, result) {
           if (err) throw err;
-          var sundmusedSissejuhatusData = [];
+          var moodunudPlakatid = [];
           for (var i = 0; i < result.length; i++) {
-            var loik = {
-              est: result[i].est,
-              en: result[i].en
+            var moodunudPlakat = {
+              url: result[i].url,
+              filename: result[i].url.slice(5)
             };
-            sundmusedSissejuhatusData.push(loik);
+            moodunudPlakatid.push(moodunudPlakat);
           }
-
-
-          // find the dynamic tables from the database ("sundmused", "sundmusedkoht", "moodunud", "moodunudkoht") and sort them into groups accordingly
-
-          var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'heroku_8077042b55aa915' ORDER by table_name";
-
-          con.query(sql, async function(err, result) {
+          con.query("SELECT * FROM sundmusedsissejuhatus ORDER BY id", function(err, result) {
             if (err) throw err;
-
-            var tableNamesSundmused = [];
-            var tableNamesSundmusedKoht = [];
-            var tableNamesMoodunud = [];
-            var tableNamesMoodunudKoht = [];
-
+            var sundmusedSissejuhatusData = [];
             for (var i = 0; i < result.length; i++) {
-
-              var tableName = (result[i].table_name);
-
-              if (tableName.indexOf("sundmused") !== -1 &&
-                tableName.indexOf("pildid") === -1 &&
-                tableName.indexOf("sissejuhatus") === -1 &&
-                tableName.indexOf("koht") === -1) {
-
-                tableNamesSundmused.push(tableName);
-
-              } else if (tableName.indexOf("sundmusedkoht") !== -1) {
-                tableNamesSundmusedKoht.push(tableName);
-
-              } else if (tableName.indexOf("moodunud") !== -1 &&
-                tableName.indexOf("pildid") === -1 &&
-                tableName.indexOf("koht") === -1) {
-
-                tableNamesMoodunud.push(tableName);
-
-              } else if (tableName.indexOf("moodunudkoht") !== -1) {
-                tableNamesMoodunudKoht.push(tableName);
-              }
+              var loik = {
+                est: result[i].est,
+                en: result[i].en
+              };
+              sundmusedSissejuhatusData.push(loik);
             }
 
-            var sortedTableNamesSundmused = tableNamesSundmused.sort(function(a, b) {
-              return a - b;
-            });
 
-            var sortedTableNamesSundmusedKoht = tableNamesSundmusedKoht.sort(function(a, b) {
-              return a - b;
-            });
+            // find the dynamic tables from the database ("sundmused", "sundmusedkoht", "moodunud", "moodunudkoht") and sort them into groups accordingly
 
-            var sortedTableNamesMoodunud = tableNamesMoodunud.sort(function(a, b) {
-              return a - b;
-            });
+            var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = '" + process.env.DB_DB + "' ORDER by table_name";
 
-            var sortedTableNamesMoodunudKoht = tableNamesMoodunudKoht.sort(function(a, b) {
-              return a - b;
-            });
+            con.query(sql, async function(err, result) {
+              if (err) throw err;
 
-            // to get the necessary data for dynamic subforms, we need to use async functions with promises,
-            // this is necessary, because we often need to wait for database queries,
-            // but because we need to have loops in our code, we cannot use callbacks like we normally do
-            // (for this advanced js code, we also use new arrow functions)
+              var tableNamesSundmused = [];
+              var tableNamesSundmusedKoht = [];
+              var tableNamesMoodunud = [];
+              var tableNamesMoodunudKoht = [];
 
+              for (var i = 0; i < result.length; i++) {
 
-            // functions (one for each database table associated with a dynamic "sundmused", "sundmusedkoht", "moodunud" or "moodunudkoht" subform),
-            // which will each return a promise that will be resolved to an array once the database query has completed,
-            // these functions take an argument, which is the relevant database table name
+                var tableName = (result[i].table_name);
 
-            const constructSundmusedPromise = tableName => {
+                if (tableName.indexOf("sundmused") !== -1 &&
+                  tableName.indexOf("pildid") === -1 &&
+                  tableName.indexOf("sissejuhatus") === -1 &&
+                  tableName.indexOf("koht") === -1) {
 
-              return new Promise((resolve, reject) => {
+                  tableNamesSundmused.push(tableName);
 
-                con.query("SELECT * FROM " + tableName + " ORDER by id DESC", function(err, result) {
-                  if (err) throw err;
+                } else if (tableName.indexOf("sundmusedkoht") !== -1) {
+                  tableNamesSundmusedKoht.push(tableName);
 
-                  var sundmus = {
-                    pealkiri: {
-                      est: result[0].est,
-                      en: result[0].en
-                    },
-                    loigud: []
-                  };
-                  for (let b = 1; b < result.length; b++) {
-                    var loik = {
-                      est: result[b].est,
-                      en: result[b].en
-                    };
-                    sundmus.loigud.push(loik);
-                  }
-                  if (err) {
-                    reject(err);
-                  } else {
-                    resolve(sundmus);
-                  }
-                });
+                } else if (tableName.indexOf("moodunud") !== -1 &&
+                  tableName.indexOf("pildid") === -1 &&
+                  tableName.indexOf("koht") === -1) {
+
+                  tableNamesMoodunud.push(tableName);
+
+                } else if (tableName.indexOf("moodunudkoht") !== -1) {
+                  tableNamesMoodunudKoht.push(tableName);
+                }
+              }
+
+              var sortedTableNamesSundmused = tableNamesSundmused.sort(function(a, b) {
+                return a - b;
               });
-            };
 
-            const constructSundmusedKohtPromise = tableName => {
-
-              return new Promise((resolve, reject) => {
-
-                con.query("SELECT * FROM " + tableName + " ORDER by id DESC", function(err, result) {
-                  if (err) throw err;
-
-                  var sundmusKoht = {
-                    kohad: []
-                  };
-                  for (let b = 0; b < result.length; b++) {
-                    var koht = {
-                      est: result[b].est,
-                      en: result[b].en,
-                      link: result[b].link
-                    };
-                    sundmusKoht.kohad.push(koht);
-                  }
-                  if (err) {
-                    reject(err);
-                  } else {
-                    resolve(sundmusKoht);
-                  }
-                });
+              var sortedTableNamesSundmusedKoht = tableNamesSundmusedKoht.sort(function(a, b) {
+                return a - b;
               });
-            };
 
-            const constructMoodunudPromise = tableName => {
+              var sortedTableNamesMoodunud = tableNamesMoodunud.reverse();
 
-              return new Promise((resolve, reject) => {
+              var sortedTableNamesMoodunudKoht = tableNamesMoodunudKoht.reverse();
 
-                con.query("SELECT * FROM " + tableName + " ORDER by id DESC", function(err, result) {
-                  if (err) throw err;
+              // to get the necessary data for dynamic subforms, we need to use async functions with promises,
+              // this is necessary, because we often need to wait for database queries,
+              // but because we need to have loops in our code, we cannot use callbacks like we normally do
+              // (for this advanced js code, we also use new arrow functions)
 
-                  var sundmus = {
-                    pealkiri: {
-                      est: result[0].est,
-                      en: result[0].en
-                    },
-                    loigud: []
-                  };
-                  for (let b = 1; b < result.length; b++) {
-                    var loik = {
-                      est: result[b].est,
-                      en: result[b].en
+
+              // functions (one for each database table associated with a dynamic "sundmused", "sundmusedkoht", "moodunud" or "moodunudkoht" subform),
+              // which will each return a promise that will be resolved to an array once the database query has completed,
+              // these functions take an argument, which is the relevant database table name
+
+              const constructSundmusedPromise = tableName => {
+
+                return new Promise((resolve, reject) => {
+
+                  con.query("SELECT * FROM " + tableName + " ORDER by id", function(err, result) {
+                    if (err) throw err;
+
+                    var sundmus = {
+                      pealkiri: {
+                        est: result[0].est,
+                        en: result[0].en
+                      },
+                      loigud: []
                     };
-                    sundmus.loigud.push(loik);
-                  }
-                  if (err) {
-                    reject(err);
-                  } else {
-                    resolve(sundmus);
-                  }
+                    for (let b = 1; b < result.length; b++) {
+                      var loik = {
+                        est: result[b].est,
+                        en: result[b].en
+                      };
+                      sundmus.loigud.push(loik);
+                    }
+                    if (err) {
+                      reject(err);
+                    } else {
+                      resolve(sundmus);
+                    }
+                  });
                 });
-              });
-            };
+              };
 
-            const constructMoodunudKohtPromise = tableName => {
+              const constructSundmusedKohtPromise = tableName => {
 
-              return new Promise((resolve, reject) => {
+                return new Promise((resolve, reject) => {
 
-                con.query("SELECT * FROM " + tableName + " ORDER by id DESC", function(err, result) {
-                  if (err) throw err;
+                  con.query("SELECT * FROM " + tableName + " ORDER by id", function(err, result) {
+                    if (err) throw err;
 
-                  var sundmusKoht = {
-                    kohad: []
-                  };
-                  for (let b = 0; b < result.length; b++) {
-                    var koht = {
-                      est: result[b].est,
-                      en: result[b].en,
-                      link: result[b].link
+                    var sundmusKoht = {
+                      kohad: []
                     };
-                    sundmusKoht.kohad.push(koht);
-                  }
-                  if (err) {
-                    reject(err);
-                  } else {
-                    resolve(sundmusKoht);
-                  }
+                    for (let b = 0; b < result.length; b++) {
+                      var koht = {
+                        est: result[b].est,
+                        en: result[b].en,
+                        link: result[b].link
+                      };
+                      sundmusKoht.kohad.push(koht);
+                    }
+                    if (err) {
+                      reject(err);
+                    } else {
+                      resolve(sundmusKoht);
+                    }
+                  });
                 });
+              };
+
+              const constructMoodunudPromise = tableName => {
+
+                return new Promise((resolve, reject) => {
+
+                  con.query("SELECT * FROM " + tableName + " ORDER by id", function(err, result) {
+                    if (err) throw err;
+
+                    var sundmus = {
+                      pealkiri: {
+                        est: result[0].est,
+                        en: result[0].en
+                      },
+                      loigud: []
+                    };
+                    for (let b = 1; b < result.length; b++) {
+                      var loik = {
+                        est: result[b].est,
+                        en: result[b].en
+                      };
+                      sundmus.loigud.push(loik);
+                    }
+                    if (err) {
+                      reject(err);
+                    } else {
+                      resolve(sundmus);
+                    }
+                  });
+                });
+              };
+
+              const constructMoodunudKohtPromise = tableName => {
+
+                return new Promise((resolve, reject) => {
+
+                  con.query("SELECT * FROM " + tableName + " ORDER by id", function(err, result) {
+                    if (err) throw err;
+
+                    var sundmusKoht = {
+                      kohad: []
+                    };
+                    for (let b = 0; b < result.length; b++) {
+                      var koht = {
+                        est: result[b].est,
+                        en: result[b].en,
+                        link: result[b].link
+                      };
+                      sundmusKoht.kohad.push(koht);
+                    }
+                    if (err) {
+                      reject(err);
+                    } else {
+                      resolve(sundmusKoht);
+                    }
+                  });
+                });
+              };
+
+
+
+              // create arrays of the promises constructed above, using the map method
+
+              const sundmusedDataPromise = sortedTableNamesSundmused.map(async tableNameSundmused => {
+
+                const sundmused = await constructSundmusedPromise(tableNameSundmused);
+
+                return sundmused;
               });
-            };
 
 
+              const sundmusedKohtDataPromise = sortedTableNamesSundmusedKoht.map(async tableNameSundmusedKoht => {
 
-            // create arrays of the promises constructed above, using the map method
+                const sundmusedKoht = await constructSundmusedKohtPromise(tableNameSundmusedKoht);
 
-            const sundmusedDataPromise = sortedTableNamesSundmused.map(async tableNameSundmused => {
+                return sundmusedKoht;
+              });
 
-              const sundmused = await constructSundmusedPromise(tableNameSundmused);
+              const moodunudDataPromise = sortedTableNamesMoodunud.map(async tableNameMoodunud => {
 
-              return sundmused;
-            });
+                const moodunud = await constructMoodunudPromise(tableNameMoodunud);
 
-
-            const sundmusedKohtDataPromise = sortedTableNamesSundmusedKoht.map(async tableNameSundmusedKoht => {
-
-              const sundmusedKoht = await constructSundmusedKohtPromise(tableNameSundmusedKoht);
-
-              return sundmusedKoht;
-            });
-
-            const moodunudDataPromise = sortedTableNamesMoodunud.map(async tableNameMoodunud => {
-
-              const moodunud = await constructMoodunudPromise(tableNameMoodunud);
-
-              return moodunud;
-            });
+                return moodunud;
+              });
 
 
-            const moodunudKohtDataPromise = sortedTableNamesMoodunudKoht.map(async tableNameMoodunudKoht => {
+              const moodunudKohtDataPromise = sortedTableNamesMoodunudKoht.map(async tableNameMoodunudKoht => {
 
-              const moodunudKoht = await constructMoodunudKohtPromise(tableNameMoodunudKoht);
+                const moodunudKoht = await constructMoodunudKohtPromise(tableNameMoodunudKoht);
 
-              return moodunudKoht;
-            });
-
-
-            // wait for all the promises to be resolved into two arrays
-
-            var sundmusedData = await Promise.all(sundmusedDataPromise);
-            var sundmusedKohtData = await Promise.all(sundmusedKohtDataPromise);
-            var moodunudData = await Promise.all(moodunudDataPromise);
-            var moodunudKohtData = await Promise.all(moodunudKohtDataPromise);
+                return moodunudKoht;
+              });
 
 
-            res.render("admin_sundmused", {
-              pageTitle: pageTitle,
-              routeName: routeName,
-              paiseikoon: paiseikoon,
-              plakatid: plakatid,
-              moodunudPlakatid: moodunudPlakatid,
-              sundmusedSissejuhatusData: sundmusedSissejuhatusData,
-              sundmusedData: sundmusedData,
-              sundmusedKohtData: sundmusedKohtData,
-              moodunudData: moodunudData,
-              moodunudKohtData: moodunudKohtData
+              // wait for all the promises to be resolved into four arrays
+
+              var sundmusedData = await Promise.all(sundmusedDataPromise);
+              var sundmusedKohtData = await Promise.all(sundmusedKohtDataPromise);
+              var moodunudData = await Promise.all(moodunudDataPromise);
+              var moodunudKohtData = await Promise.all(moodunudKohtDataPromise);
+
+
+              res.render("admin_sundmused", {
+                pageTitle: pageTitle,
+                routeName: routeName,
+                paiseikoon: paiseikoon,
+                plakatid: plakatid,
+                moodunudPlakatid: moodunudPlakatid,
+                sundmusedSissejuhatusData: sundmusedSissejuhatusData,
+                sundmusedData: sundmusedData,
+                sundmusedKohtData: sundmusedKohtData,
+                moodunudData: moodunudData,
+                moodunudKohtData: moodunudKohtData
+              });
             });
           });
         });
       });
     });
-  });
+  } else {
+    res.redirect("/login");
+  }
 });
 
 
 
 app.get("/admin/kontakt", function(req, res) {
-  var pageTitle = "admin/kontakt";
-  var routeName = "/kontakt";
-  con.query("SELECT * FROM avalehtpildid ORDER BY id", function(err, result) {
-    if (err) throw err;
-    var paiseikoon = {
-      url: result[0].url,
-      filename: result[0].url.slice(5)
-    };
-    con.query("SELECT * FROM kontaktsissejuhatus ORDER BY id", function(err, result) {
+  if (req.session.loggedIn === true) {
+    var pageTitle = "admin/kontakt";
+    var routeName = "/kontakt";
+    con.query("SELECT * FROM avalehtpildid ORDER BY id", function(err, result) {
       if (err) throw err;
-      var kontaktSissejuhatusData = {
-        loigud: []
+      var paiseikoon = {
+        url: result[0].url,
+        filename: result[0].url.slice(5)
       };
-      for (var i = 0; i < result.length; i++) {
-        var loik = {
-          est: result[i].est,
-          en: result[i].en
-        };
-        kontaktSissejuhatusData.loigud.push(loik);
-      }
-      con.query("SELECT * FROM kontaktuldine ORDER BY id", function(err, result) {
+      con.query("SELECT * FROM kontaktsissejuhatus ORDER BY id", function(err, result) {
         if (err) throw err;
-        var kontaktUldineData = {
-          pealkiri: {
-            est: result[0].est,
-            en: result[0].en
-          },
+        var kontaktSissejuhatusData = {
           loigud: []
         };
-        for (var i = 1; i < result.length; i++) {
+        for (var i = 0; i < result.length; i++) {
           var loik = {
             est: result[i].est,
             en: result[i].en
           };
-          kontaktUldineData.loigud.push(loik);
+          kontaktSissejuhatusData.loigud.push(loik);
         }
-        con.query("SELECT * FROM kontaktandmed ORDER BY id", function(err, result) {
+        con.query("SELECT * FROM kontaktuldine ORDER BY id", function(err, result) {
           if (err) throw err;
-          var kontaktAndmedData = {
+          var kontaktUldineData = {
             pealkiri: {
               est: result[0].est,
               en: result[0].en
             },
-            paarid: []
+            loigud: []
           };
           for (var i = 1; i < result.length; i++) {
-            var teave = {
-              estKey: result[i].estkey,
-              enKey: result[i].enkey,
+            var loik = {
               est: result[i].est,
               en: result[i].en
             };
-            kontaktAndmedData.paarid.push(teave);
+            kontaktUldineData.loigud.push(loik);
           }
-          con.query("SELECT * FROM kontaktnumbrid ORDER BY id", function(err, result) {
+          con.query("SELECT * FROM kontaktandmed ORDER BY id", function(err, result) {
             if (err) throw err;
-            var kontaktNumbridData = {
+            var kontaktAndmedData = {
               pealkiri: {
                 est: result[0].est,
                 en: result[0].en
               },
-              numbrid: []
+              paarid: []
             };
             for (var i = 1; i < result.length; i++) {
-              var number = {
+              var teave = {
                 estKey: result[i].estkey,
                 enKey: result[i].enkey,
-                number: result[i].number,
+                est: result[i].est,
+                en: result[i].en
               };
-              kontaktNumbridData.numbrid.push(number);
+              kontaktAndmedData.paarid.push(teave);
             }
-            con.query("SELECT * FROM kontaktmtu ORDER BY id", function(err, result) {
+            con.query("SELECT * FROM kontaktnumbrid ORDER BY id", function(err, result) {
               if (err) throw err;
-              var kontaktMtuData = {
+              var kontaktNumbridData = {
                 pealkiri: {
                   est: result[0].est,
                   en: result[0].en
                 },
-                paarid: []
+                numbrid: []
               };
               for (var i = 1; i < result.length; i++) {
-                var teave = {
+                var number = {
                   estKey: result[i].estkey,
                   enKey: result[i].enkey,
-                  est: result[i].est,
-                  en: result[i].en,
+                  number: result[i].number,
                 };
-                kontaktMtuData.paarid.push(teave);
+                kontaktNumbridData.numbrid.push(number);
               }
-              con.query("SELECT * FROM vastuvotttekstid ORDER BY id", function(err, result) {
+              con.query("SELECT * FROM kontaktmtu ORDER BY id", function(err, result) {
                 if (err) throw err;
-                var vastuvottTekstidData = {
+                var kontaktMtuData = {
                   pealkiri: {
                     est: result[0].est,
-                    en: result[0].en,
+                    en: result[0].en
                   },
-                  loigud: []
+                  paarid: []
                 };
                 for (var i = 1; i < result.length; i++) {
-                  var loik = {
+                  var teave = {
+                    estKey: result[i].estkey,
+                    enKey: result[i].enkey,
                     est: result[i].est,
-                    en: result[i].en
+                    en: result[i].en,
                   };
-                  vastuvottTekstidData.loigud.push(loik);
+                  kontaktMtuData.paarid.push(teave);
                 }
-                con.query("SELECT * FROM vastuvottAnkeet ORDER BY id", function(err, result) {
+                con.query("SELECT * FROM vastuvotttekstid ORDER BY id", function(err, result) {
                   if (err) throw err;
-                  var vastuvottAnkeetData = {
+                  var vastuvottTekstidData = {
                     pealkiri: {
                       est: result[0].est,
-                      en: result[0].en
+                      en: result[0].en,
                     },
-                    valjad: []
+                    loigud: []
                   };
                   for (var i = 1; i < result.length; i++) {
-                    var vali = {
+                    var loik = {
                       est: result[i].est,
-                      en: result[i].en,
-                      checked: result[i].checked,
-                      textArea: result[i].textarea
+                      en: result[i].en
                     };
-                    vastuvottAnkeetData.valjad.push(vali);
+                    vastuvottTekstidData.loigud.push(loik);
                   }
-                  con.query("SELECT * FROM pealkirjad ORDER BY id", function(err, result) {
+                  con.query("SELECT * FROM vastuvottankeet ORDER BY id", function(err, result) {
                     if (err) throw err;
-                    var pealkirjadData = [];
-                    for (var i = 0; i < result.length; i++) {
-                      var pealkiri = {
+                    var vastuvottAnkeetData = {
+                      pealkiri: {
+                        est: result[0].est,
+                        en: result[0].en
+                      },
+                      valjad: []
+                    };
+                    for (var i = 1; i < result.length; i++) {
+                      var vali = {
                         est: result[i].est,
-                        en: result[i].en
+                        en: result[i].en,
+                        checked: result[i].checked,
+                        textArea: result[i].textarea
                       };
-                      pealkirjadData.push(pealkiri);
+                      vastuvottAnkeetData.valjad.push(vali);
                     }
-                    res.render("admin_kontakt", {
-                      pageTitle: pageTitle,
-                      routeName: routeName,
-                      paiseikoon: paiseikoon,
-                      kontaktSissejuhatusData: kontaktSissejuhatusData,
-                      kontaktUldineData: kontaktUldineData,
-                      kontaktAndmedData: kontaktAndmedData,
-                      kontaktNumbridData: kontaktNumbridData,
-                      kontaktMtuData: kontaktMtuData,
-                      vastuvottTekstidData: vastuvottTekstidData,
-                      vastuvottAnkeetData: vastuvottAnkeetData,
-                      pealkirjadData: pealkirjadData
+                    con.query("SELECT * FROM pealkirjad ORDER BY id", function(err, result) {
+                      if (err) throw err;
+                      var pealkirjadData = [];
+                      for (var i = 0; i < result.length; i++) {
+                        var pealkiri = {
+                          est: result[i].est,
+                          en: result[i].en
+                        };
+                        pealkirjadData.push(pealkiri);
+                      }
+                      res.render("admin_kontakt", {
+                        pageTitle: pageTitle,
+                        routeName: routeName,
+                        paiseikoon: paiseikoon,
+                        kontaktSissejuhatusData: kontaktSissejuhatusData,
+                        kontaktUldineData: kontaktUldineData,
+                        kontaktAndmedData: kontaktAndmedData,
+                        kontaktNumbridData: kontaktNumbridData,
+                        kontaktMtuData: kontaktMtuData,
+                        vastuvottTekstidData: vastuvottTekstidData,
+                        vastuvottAnkeetData: vastuvottAnkeetData,
+                        pealkirjadData: pealkirjadData
+                      });
                     });
                   });
                 });
@@ -3801,175 +3964,228 @@ app.get("/admin/kontakt", function(req, res) {
         });
       });
     });
-  });
+  } else {
+    res.redirect("/login");
+  }
 });
 
 
 app.get("/admin/pood", function(req, res) {
-  var pageTitle = "admin/pood";
-  var routeName = "/pood";
-  con.query("SELECT * FROM avalehtpildid ORDER BY id", function(err, result) {
-    if (err) throw err;
-    var paiseikoon = {
-      url: result[0].url,
-      filename: result[0].url.slice(5)
-    };
-    con.query("SELECT * FROM poodsissejuhatus ORDER BY id", function(err, result) {
+  if (req.session.loggedIn === true) {
+    var pageTitle = "admin/pood";
+    var routeName = "/pood";
+    con.query("SELECT * FROM avalehtpildid ORDER BY id", function(err, result) {
       if (err) throw err;
-      var poodSissejuhatusData = {
-        loigud: []
+      var paiseikoon = {
+        url: result[0].url,
+        filename: result[0].url.slice(5)
       };
-      for (var i = 0; i < result.length; i++) {
-        var loik = {
-          est: result[i].est,
-          en: result[i].en
-        };
-        poodSissejuhatusData.loigud.push(loik);
-      }
-      // find the dynamic "pood" tables from the database and sort them into an array
-
-      var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'heroku_8077042b55aa915' ORDER by table_name";
-
-      con.query(sql, async function(err, result) {
+      con.query("SELECT * FROM poodsissejuhatus ORDER BY id", function(err, result) {
         if (err) throw err;
-
-        var poodTableNames = [];
-
+        var poodSissejuhatusData = {
+          loigud: []
+        };
         for (var i = 0; i < result.length; i++) {
-
-          var tableName = (result[i].table_name);
-
-          if (tableName.indexOf("pood") !== -1 && tableName.indexOf("pildid") === -1 && tableName.indexOf("sissejuhatus") === -1) {
-
-            poodTableNames.push(tableName);
-          }
+          var loik = {
+            est: result[i].est,
+            en: result[i].en
+          };
+          poodSissejuhatusData.loigud.push(loik);
         }
 
-        var sortedPoodTableNames = poodTableNames.sort(function(a, b) {
-          return a - b;
-        });
+        // find the dynamic "pood" tables from the database and sort them into an array
+
+        var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = '" + process.env.DB_DB + "' ORDER by table_name";
+
+        con.query(sql, async function(err, result) {
+          if (err) throw err;
+
+          var poodTableNames = [];
+          var nimistuTableNames = [];
+
+          for (var i = 0; i < result.length; i++) {
+
+            var tableName = (result[i].table_name);
+
+            if (tableName.indexOf("pood") !== -1 && tableName.indexOf("pildid") === -1 && tableName.indexOf("sissejuhatus") === -1) {
+
+              poodTableNames.push(tableName);
+
+            } else if (tableName.indexOf("nimistu") !== -1) {
+
+              nimistuTableNames.push(tableName);
+            }
+          }
+
+          var sortedPoodTableNames = poodTableNames.sort(function(a, b) {
+            return a - b;
+          });
+
+          var sortedNimistuTableNames = nimistuTableNames.sort(function(a, b) {
+            return a - b;
+          });
 
 
-        // to get the necessary data for dynamic subforms, we need to use async functions with promises,
-        // this is necessary, because we often need to wait for database queries,
-        // but because we need to have loops in our code, we cannot use callbacks like we normally do
-        // (for this advanced js code, we also use new arrow functions)
+          // to get the necessary data for dynamic subforms, we need to use async functions with promises,
+          // this is necessary, because we often need to wait for database queries,
+          // but because we need to have loops in our code, we cannot use callbacks like we normally do
+          // (for this advanced js code, we also use new arrow functions)
 
 
-        // a function, which returns a promise that will be resolved to a "pood" object once the database query has completed,
-        // takes an argument, which is the relevant database table name
+          // a function, which returns a promise that will be resolved to a "pood" object once the database query has completed,
+          // takes an argument, which is the relevant database table name
 
 
-        const constructPoodPromise = tableName => {
+          const constructPoodPromise = tableName => {
 
-          return new Promise((resolve, reject) => {
+            return new Promise((resolve, reject) => {
 
-            con.query("SELECT * FROM " + tableName + " ORDER by id", function(err, result) {
+              con.query("SELECT * FROM " + tableName + " ORDER by id", function(err, result) {
+                if (err) throw err;
+
+                var pood = {
+                  toode: {
+                    est: result[0].est,
+                    en: result[0].en,
+                    price: result[0].price
+                  },
+                  loigud: [],
+                };
+                for (let b = 1; b < result.length; b++) {
+                  var loik = {
+                    est: result[b].est,
+                    en: result[b].en,
+                  };
+                  pood.loigud.push(loik);
+                }
+                if (err) {
+                  reject(err);
+                } else {
+                  resolve(pood);
+                }
+              });
+            });
+          };
+
+          // a function, which returns a promise that will be resolved to a "nimistu" object once the database query has completed,
+          // takes an argument, which is the relevant database table name
+
+          const constructNimistuPromise = tableName => {
+
+            return new Promise((resolve, reject) => {
+
+              con.query("SELECT * FROM " + tableName + " ORDER by id", function(err, result) {
+                if (err) throw err;
+
+                var nimistu = {
+                  read: []
+                };
+
+                for (let b = 0; b < result.length; b++) {
+                  var rida = {
+                    est: result[b].est,
+                    en: result[b].en,
+                  };
+                  nimistu.read.push(rida);
+                }
+                if (err) {
+                  reject(err);
+                } else {
+                  resolve(nimistu);
+                }
+              });
+            });
+          };
+
+          // create an array of the "pood" promises constructed above, using the map method
+
+          const poodDataPromise = sortedPoodTableNames.map(async tableName => {
+
+            const pood = await constructPoodPromise(tableName);
+
+            return pood;
+          });
+
+          // create an array of the "nimistu" promises constructed above, using the map method
+
+          const nimistuDataPromise = sortedNimistuTableNames.map(async tableName => {
+
+            const nimistu = await constructNimistuPromise(tableName);
+
+            return nimistu;
+          });
+
+          // wait for all the promises to be resolved into an array of "pood" and "nimistu" objects
+
+          var poodData = await Promise.all(poodDataPromise);
+          var nimistuData = await Promise.all(nimistuDataPromise);
+
+          con.query("SELECT * FROM poodpildid ORDER by id", function(err, result) {
+            if (err) throw err;
+            var pildid = [];
+            for (var i = 0; i < result.length; i++) {
+              var pilt = {
+                url: result[i].url,
+                filename: result[i].url.slice(5)
+              };
+              pildid.push(pilt);
+            }
+            con.query("SELECT * FROM telli ORDER BY id", function(err, result) {
               if (err) throw err;
-
-              var pood = {
-                toode: {
-                  est: result[0].est,
-                  en: result[0].en,
-                  price: result[0].price
-                },
+              var telliData = {
                 loigud: []
               };
-              for (let b = 1; b < result.length; b++) {
+              for (var i = 0; i < result.length; i++) {
                 var loik = {
-                  est: result[b].est,
-                  en: result[b].en,
-                  price: result[b].price
-                };
-                pood.loigud.push(loik);
-              }
-              if (err) {
-                reject(err);
-              } else {
-                resolve(pood);
-              }
-            });
-          });
-        };
-
-
-        // create an array of the "pood" promises constructed above, using the map method
-
-        const poodDataPromise = sortedPoodTableNames.map(async tableName => {
-
-          const pood = await constructPoodPromise(tableName);
-
-          return pood;
-        });
-
-        // wait for all the promises to be resolved into an array of "pood" objects
-
-        var poodData = await Promise.all(poodDataPromise);
-
-        con.query("SELECT * FROM poodpildid ORDER by id", function(err, result) {
-          if (err) throw err;
-          var pildid = [];
-          for (var i = 0; i < result.length; i++) {
-            var pilt = {
-              url: result[i].url,
-              filename: result[i].url.slice(5)
-            };
-            pildid.push(pilt);
-          }
-          con.query("SELECT * FROM telli ORDER BY id", function(err, result) {
-            if (err) throw err;
-            var telliData = {
-              loigud: []
-            };
-            for (var i = 0; i < result.length; i++) {
-              var loik = {
-                est: result[i].est,
-                en: result[i].en
-              };
-              telliData.loigud.push(loik);
-            }
-            con.query("SELECT * FROM telliankeet ORDER BY id", function(err, result) {
-              if (err) throw err;
-              var telliAnkeetData = {
-                pealkiri: {
-                  est: result[0].est,
-                  en: result[0].en
-                },
-                jarelloik: {
-                  est: result[1].est,
-                  en: result[1].en
-                },
-                valjad: []
-              };
-              for (var i = 2; i < result.length; i++) {
-                var vali = {
                   est: result[i].est,
-                  en: result[i].en,
-                  checked: result[i].checked,
-                  textArea: result[i].textarea
+                  en: result[i].en
                 };
-                telliAnkeetData.valjad.push(vali);
+                telliData.loigud.push(loik);
               }
-              con.query("SELECT * FROM pealkirjad ORDER BY id", function(err, result) {
+              con.query("SELECT * FROM telliankeet ORDER BY id", function(err, result) {
                 if (err) throw err;
-                var pealkirjadData = [];
-                for (var i = 0; i < result.length; i++) {
-                  var pealkiri = {
+                var telliAnkeetData = {
+                  pealkiri: {
+                    est: result[0].est,
+                    en: result[0].en
+                  },
+                  jarelloik: {
+                    est: result[1].est,
+                    en: result[1].en
+                  },
+                  valjad: []
+                };
+                for (var i = 2; i < result.length; i++) {
+                  var vali = {
                     est: result[i].est,
-                    en: result[i].en
+                    en: result[i].en,
+                    checked: result[i].checked,
+                    textArea: result[i].textarea
                   };
-                  pealkirjadData.push(pealkiri);
+                  telliAnkeetData.valjad.push(vali);
                 }
-                res.render("admin_pood", {
-                  pageTitle: pageTitle,
-                  routeName: routeName,
-                  paiseikoon: paiseikoon,
-                  pealkirjadData: pealkirjadData,
-                  poodSissejuhatusData: poodSissejuhatusData,
-                  poodData: poodData,
-                  pildid: pildid,
-                  telliData: telliData,
-                  telliAnkeetData: telliAnkeetData
+                con.query("SELECT * FROM pealkirjad ORDER BY id", function(err, result) {
+                  if (err) throw err;
+                  var pealkirjadData = [];
+                  for (var i = 0; i < result.length; i++) {
+                    var pealkiri = {
+                      est: result[i].est,
+                      en: result[i].en
+                    };
+                    pealkirjadData.push(pealkiri);
+                  }
+                  res.render("admin_pood", {
+                    pageTitle: pageTitle,
+                    routeName: routeName,
+                    paiseikoon: paiseikoon,
+                    pealkirjadData: pealkirjadData,
+                    poodSissejuhatusData: poodSissejuhatusData,
+                    poodData: poodData,
+                    nimistuData: nimistuData,
+                    pildid: pildid,
+                    telliData: telliData,
+                    telliAnkeetData: telliAnkeetData
+                  });
                 });
               });
             });
@@ -3977,63 +4193,53 @@ app.get("/admin/pood", function(req, res) {
         });
       });
     });
-  });
+  } else {
+    res.redirect("/login");
+  }
 });
 
 
 app.get("/admin/arhiiv", function(req, res) {
-
-  var pageTitle = "Arhiiv";
-  con.query("SELECT * FROM avalehtpildid ORDER BY id", function(err, result) {
-    if (err) throw err;
-    var paiseikoon = {
-      url: result[0].url,
-      filename: result[0].url.slice(5)
-    };
-    con.query("SELECT * FROM moodunudPildid ORDER BY id", function(err, result) {
+  if (req.session.loggedIn === true) {
+    var pageTitle = "Arhiiv";
+    con.query("SELECT * FROM avalehtpildid ORDER BY id", function(err, result) {
       if (err) throw err;
-      var plakatid = [];
-      for (var i = 0; i < result.length; i++) {
-        var plakat = {
-          url: result[i].url,
-          filename: result[i].url.slice(5)
-        };
-        plakatid.push(plakat);
-      }
-      con.query("SELECT * FROM vastuvottAnkeet ORDER BY id", function(err, result) {
+      var paiseikoon = {
+        url: result[0].url,
+        filename: result[0].url.slice(5)
+      };
+      con.query("SELECT * FROM moodunudpildid ORDER BY id DESC", function(err, result) {
         if (err) throw err;
-        var vastuvottAnkeetData = {
-          pealkiri: {
-            est: result[0].est,
-            en: result[0].en
-          },
-          valjad: []
-        };
-        for (var i = 1; i < result.length; i++) {
-          var vali = {
-            est: result[i].est,
-            en: result[i].en,
-            checked: result[i].checked,
-            textArea: result[i].textarea
+        var plakatid = [];
+        for (var i = 0; i < result.length; i++) {
+          var plakat = {
+            url: result[i].url,
+            filename: result[i].url.slice(5)
           };
-          vastuvottAnkeetData.valjad.push(vali);
+          plakatid.push(plakat);
         }
-        con.query("SELECT * FROM ankeet ORDER BY id DESC", function(err, result) {
-          var ankeetData = [];
-          for (var i = 0; i < result.length; i++) {
-            var data = [];
-            var keys = Object.keys(result[i]);
-            for (var a = 1; a < keys.length; a++) {
-              var currentKey = keys[a];
-              var value = result[i][currentKey];
-              data.push(value);
-            }
-            ankeetData.push(data);
+        con.query("SELECT * FROM vastuvottankeet ORDER BY id", function(err, result) {
+          if (err) throw err;
+          var vastuvottAnkeetData = {
+            pealkiri: {
+              est: result[0].est,
+              en: result[0].en
+            },
+            valjad: []
+          };
+          for (var i = 1; i < result.length; i++) {
+            var vali = {
+              est: result[i].est,
+              en: result[i].en,
+              checked: result[i].checked,
+              textArea: result[i].textarea
+            };
+            vastuvottAnkeetData.valjad.push(vali);
           }
 
           // find the dynamic tables from the database ("moodunud", "moodunudkoht") and sort them into groups accordingly
 
-          var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'heroku_8077042b55aa915' ORDER by table_name";
+          var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = '" + process.env.DB_DB + "' ORDER by table_name";
 
           con.query(sql, async function(err, result) {
             if (err) throw err;
@@ -4058,13 +4264,9 @@ app.get("/admin/arhiiv", function(req, res) {
               }
             }
 
-            var sortedTableNames = tableNames.sort(function(a, b) {
-              return a - b;
-            });
+            var sortedTableNames = tableNames.reverse();
 
-            var sortedTableNamesKoht = tableNamesKoht.sort(function(a, b) {
-              return a - b;
-            });
+            var sortedTableNamesKoht = tableNamesKoht.reverse();
 
             // to get the necessary data for dynamic subforms, we need to use async functions with promises,
             // this is necessary, because we often need to wait for database queries,
@@ -4163,14 +4365,15 @@ app.get("/admin/arhiiv", function(req, res) {
               plakatid: plakatid,
               moodunudData: moodunudData,
               moodunudKohtData: moodunudKohtData,
-              ankeetData: ankeetData,
               vastuvottAnkeetData: vastuvottAnkeetData
             });
           });
         });
       });
     });
-  });
+  } else {
+    res.redirect("/login");
+  }
 });
 
 // POST ROUTES FOR HANDLING DATA POSTED FROM THE CLIENT-SIDE
@@ -4860,7 +5063,7 @@ app.post("/upload/dirigendid", function(req, res) {
 
       // create the sql text to query the database for table names (we eventually need the ones named "dirigendid" + timestamp)
 
-      var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'heroku_8077042b55aa915'";
+      var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = '" + process.env.DB_DB + "'";
 
       // make the database query
 
@@ -5242,7 +5445,7 @@ app.post("/upload/dirigendid/delete", function(req, res) {
 
   // create the sql text for querying the database for the tables related to the "dirigendid" subforms
 
-  var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'heroku_8077042b55aa915'";
+  var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = '" + process.env.DB_DB + "'";
 
   // make the database query
 
@@ -5328,7 +5531,7 @@ app.post("/upload/dirigendid" + ":number/new", function(req, res) {
 
   // create the sql text that selects all the tables in the database
 
-  var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'heroku_8077042b55aa915'";
+  var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = '" + process.env.DB_DB + "'";
 
   // make the database query
 
@@ -5406,7 +5609,7 @@ app.post("/upload/dirigendid" + ":number/delete", function(req, res) {
 
   // create the sql text to query the database for table names (we eventually need the ones named "dirigendid" + timestamp)
 
-  var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'heroku_8077042b55aa915'";
+  var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = '" + process.env.DB_DB + "'";
 
   // make the database query
 
@@ -5593,7 +5796,7 @@ app.post("/upload/ajalugu", function(req, res) {
 
   // create the sql text for querying the database for the tables related to the "ajalugu" subforms
 
-  var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'heroku_8077042b55aa915'";
+  var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = '" + process.env.DB_DB + "'";
 
   // make the database query
 
@@ -5901,7 +6104,7 @@ app.post("/upload/ajalugu/delete", function(req, res) {
 
   // create the sql text for querying the database for the tables related to the "ajalugu" subforms
 
-  var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'heroku_8077042b55aa915'";
+  var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = '" + process.env.DB_DB + "'";
 
   // make the database query
 
@@ -5967,7 +6170,7 @@ app.post("/upload/ajalugu" + ":number/new", function(req, res) {
 
   // create the sql text that selects all the tables in the database
 
-  var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'heroku_8077042b55aa915'";
+  var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = '" + process.env.DB_DB + "'";
 
   // make the database query
 
@@ -6045,7 +6248,7 @@ app.post("/upload/ajalugu" + ":number/delete", function(req, res) {
 
   // create the sql text to query the database for table names (we eventually need the ones named "ajalugu" + timestamp)
 
-  var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'heroku_8077042b55aa915'";
+  var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = '" + process.env.DB_DB + "'";
 
   // make the database query
 
@@ -6623,9 +6826,9 @@ app.post("/upload/toetajad", function(req, res) {
           await updateDatabase(sqlLingid, valuesLingid);
         }
 
-        // reload the page
+        // send a server response
 
-        res.sendStatus();
+        res.send("OK!");
       });
     });
   });
@@ -7680,7 +7883,7 @@ app.post("/upload/sundmused", function(req, res) {
 
         // create the sql text to query the database for table names (we eventually need the ones named "sundmused" + timestamp and "sundmusedkoht" + timestamp)
 
-        var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'heroku_8077042b55aa915'";
+        var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = '" + process.env.DB_DB + "'";
 
         // make the database query
 
@@ -8391,8 +8594,6 @@ app.post("/upload/sundmused/delete", function(req, res) {
 
   var deleteSubformData = JSON.parse(req.body.data);
 
-  console.log(deleteSubformData);
-
   // to find the right result, we need to know the subform's index number-
   // this will be the id number of the deleted subform minus 1 (since js starts to count from 0 not 1)
 
@@ -8400,7 +8601,7 @@ app.post("/upload/sundmused/delete", function(req, res) {
 
   // create the sql text for querying the database for the tables related to the "sundmused" subforms
 
-  var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'heroku_8077042b55aa915'";
+  var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = '" + process.env.DB_DB + "'";
 
   // make the database query
 
@@ -8639,7 +8840,7 @@ app.post("/upload/sundmused" + ":number/new", function(req, res) {
 
   // create the sql text that selects all the tables in the database
 
-  var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'heroku_8077042b55aa915'";
+  var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = '" + process.env.DB_DB + "'";
 
   // make the database query
 
@@ -8719,7 +8920,7 @@ app.post("/upload/sundmused" + ":number/delete", function(req, res) {
 
   // create the sql text to query the database for table names (we eventually need the ones named "sundmused" + timestamp)
 
-  var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'heroku_8077042b55aa915'";
+  var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = '" + process.env.DB_DB + "'";
 
   // make the database query
 
@@ -8811,7 +9012,7 @@ app.post("/upload/sundmused/koht" + ":number/new", function(req, res) {
 
   // create the sql text that selects all the tables in the database
 
-  var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'heroku_8077042b55aa915'";
+  var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = '" + process.env.DB_DB + "'";
 
   // make the database query
 
@@ -8889,7 +9090,7 @@ app.post("/upload/sundmused/koht" + ":number/delete", function(req, res) {
 
   // create the sql text to query the database for table names (we eventually need the ones named "sundmusedkoht" + timestamp)
 
-  var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'heroku_8077042b55aa915'";
+  var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = '" + process.env.DB_DB + "'";
 
   // make the database query
 
@@ -9102,18 +9303,20 @@ app.post("/upload/pood", function(req, res) {
           await updateDatabase(sql, values);
         }
 
-        // create the sql text to query the database for table names (we eventually need the ones named "pood" + timestamp)
+        // create the sql text to query the database for table names
+        // (we eventually need the ones named "pood" + timestamp and "nimistu" + timestamp)
 
-        var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'heroku_8077042b55aa915'";
+        var sqlQuery = "SELECT table_name FROM information_schema.tables WHERE table_schema = '" + process.env.DB_DB + "'";
 
         // make the database query
 
-        con.query(sql, async function(err, result) {
+        con.query(sqlQuery, async function(err, result) {
           if (err) throw err;
 
-          // create an empty array that will be populated by the names of the relevant tables in the database
+          // create two empty arrays that will be populated by the names of the relevant tables in the database
 
           var tableNames = [];
+          var tableNamesNimistu = [];
 
           // loop through all the tables in the database
 
@@ -9132,7 +9335,16 @@ app.post("/upload/pood", function(req, res) {
               // push the relevant table names into the above array
 
               tableNames.push(tableName);
+
+              // other type of relevant tables have "nimistu" in their name
+
+            } else if (tableName.indexOf("nimistu") !== -1) {
+
+              // push the relevant table names into the corresponding array
+
+              tableNamesNimistu.push(tableName);
             }
+
           }
 
           // the tables have a timestamp in their name- sort the arrays in ascending order
@@ -9141,13 +9353,18 @@ app.post("/upload/pood", function(req, res) {
             return a - b;
           });
 
+          var sortedTableNamesNimistu = tableNamesNimistu.sort(function(a, b) {
+            return a - b;
+          });
+
           // obtain all the name properties of the text inputs on the "pood" page
 
           var keysTekstid = Object.keys(req.body);
 
-          // create an empty array, where the name properties of the dynamic text inputs will be stored
+          // create two empty arrays, where the name properties of the dynamic text inputs will be stored
 
           var keysLoik = [];
+          var keysLoikNimistu = [];
 
           // to get the "loik" input names, loop through all the input names obtained above
 
@@ -9157,13 +9374,21 @@ app.post("/upload/pood", function(req, res) {
 
             var keyTekstid = keysTekstid[a];
 
-            // check if the input name contains the string "Loik" but not "Sissejuhatus"
+            // check if the input name contains the string "Loik" but not "Sissejuhatus" or "Nimistu"
 
-            if (keyTekstid.indexOf("Loik") !== -1 && keyTekstid.indexOf("Sissejuhatus") === -1) {
+            if (keyTekstid.indexOf("Loik") !== -1 && keyTekstid.indexOf("Sissejuhatus") === -1 && keyTekstid.indexOf("Nimistu") === -1) {
 
-              // if yes, store the input in the keysLoik array
+              // if yes, store the input name in the keysLoik array
 
               keysLoik.push(keyTekstid);
+
+              // else check, if the input name contains the string "Nimistu"
+
+            } else if (keyTekstid.indexOf("Nimistu") !== -1) {
+
+              // if yes, store the input name in the keysLoikNimistu array
+
+              keysLoikNimistu.push(keyTekstid);
             }
           }
 
@@ -9187,7 +9412,7 @@ app.post("/upload/pood", function(req, res) {
             var tableIndex = keysLoik[e].slice(4, loikIndex);
 
             // the input name also has an element index, which determines the position of this particular entry in the database table-
-            // we find this number at the end of the input name, after either the letters "Est" or "En"
+            // we find this number at the end of the input name, after either the letters "Est", "En" or "Number"
 
             // check if the input name contains the letters "Est"
 
@@ -9212,7 +9437,7 @@ app.post("/upload/pood", function(req, res) {
                 elementIndex: estElementIndex
               });
 
-              // check if the input name contains the letters "En" (It should if it doesn't contain the letters "Est")
+              // check if the input name contains the letters "En"
 
             } else if (keysLoik[e].indexOf("En") !== -1) {
 
@@ -9232,30 +9457,8 @@ app.post("/upload/pood", function(req, res) {
                 tableIndex: tableIndex,
                 elementIndex: enElementIndex
               });
-
-              // check if the input name contains the letters "Number"
-
-            } else if (keysLoik[e].indexOf("Number") !== -1) {
-
-              // if yes, find out where the last letter of the word "Number" is located in the input name
-
-              var numberEndIndex = keysLoik[e].indexOf("Number") + 6;
-
-              // use that information to get the element index, which is located right after the letters "Number" in the input name
-
-              var numberElementIndex = keysLoik[e].slice(numberEndIndex);
-
-              // for each input name create an object, which also holds the table and element indexes obtained above,
-              // then push this object into an array created above
-
-              sortedKeysLoik.push({
-                name: keysLoik[e],
-                tableIndex: tableIndex,
-                elementIndex: numberElementIndex
-              });
             }
           }
-
 
           // create an empty array for all the database tables, where the "poodLoik" entries are stored
 
@@ -9406,6 +9609,216 @@ app.post("/upload/pood", function(req, res) {
             });
           }
 
+          // sort all "loikNimistu" input names into an array of objects, which at first will be empty
+
+          var sortedKeysLoikNimistu = [];
+
+          // loop through all the "loik" input names
+
+          for (var q = 0; q < keysLoikNimistu.length; q++) {
+
+            // capture the index number of the database table that each of those input names are referring to-
+            // this will be a number in the input name after the word "pood" and before "Loik"
+
+            // determine where the letters "Loik" are in the input name
+
+            var loikIndexNimistu = keysLoikNimistu[q].indexOf("Loik");
+
+            // get the table index between the words "pood" and "loik"
+
+            var tableIndexNimistu = keysLoikNimistu[q].slice(4, loikIndexNimistu);
+
+            // the input name also has an element index, which determines the position of this particular entry in the database table-
+            // we find this number at the end of the input name, after either the letters "Est" or "En"
+
+            // check if the input name contains the letters "Est"
+
+            if (keysLoikNimistu[q].indexOf("Est") !== -1) {
+
+              // if yes, find out the position of those letters in the input name and add 3 to that index,
+              // because "Est" is three letters long and we need to know where is the end rather than the beginning of those three letters
+
+              var estEndIndexNimistu = keysLoikNimistu[q].indexOf("Est") + 3;
+
+              // now that we know where the end of the letters "Est" is, we can use it to obtain the element index number,
+              // which is situated right after those letters
+
+              var estElementIndexNimistu = keysLoikNimistu[q].slice(estEndIndexNimistu);
+
+              // for each input name create an object, which also holds the table and element indexes obtained above,
+              // then push this object into an array created above
+
+              sortedKeysLoikNimistu.push({
+                name: keysLoikNimistu[q],
+                tableIndex: tableIndexNimistu,
+                elementIndex: estElementIndexNimistu
+              });
+
+
+              // check if the input name contains the letters "En" (It should if it doesn't contain the letters "Est")
+
+            } else if (keysLoikNimistu[q].indexOf("En") !== -1) {
+
+              // if yes, find out where the last letter of the word "En" is located in the input name
+
+              var enEndIndexNimistu = keysLoikNimistu[q].indexOf("En") + 2;
+
+              // use that information to get the element index, which is located right after the letters "En" in the input name
+
+              var enElementIndexNimistu = keysLoikNimistu[q].slice(enEndIndexNimistu);
+
+              // for each input name create an object, which also holds the table and element indexes obtained above,
+              // then push this object into an array created above
+
+              sortedKeysLoikNimistu.push({
+                name: keysLoikNimistu[q],
+                tableIndex: tableIndexNimistu,
+                elementIndex: enElementIndexNimistu
+              });
+            }
+          }
+
+          // create an empty array for all the database tables, where the "poodLoikNimistu" entries are stored
+
+          var currentTableNamesNimistu = [];
+
+          // create empty arrays for the data about "Est" and "En" inputs
+
+          var estDataArrayNimistu = [];
+          var enDataArrayNimistu = [];
+
+          // using the sortedKeysLoikNimistu array, obtain the data about "Est" inputs-
+          // only every second object in the array will be an "Est" object, that is why the iterator will always be increased by 2 in the loop
+
+          for (let r = 0; r < sortedKeysLoikNimistu.length; r += 2) {
+
+            // for every "Est" object obtain the tableIndex, which will be used to select a relevant database table,
+            // also subtract 1 from this index, because javascript starts counting from 0
+
+            var currentTableIndexNimistu = sortedKeysLoikNimistu[r].tableIndex - 1;
+
+            // using this index, get the name of the database table that contains the data about the current input,
+            // the database names have already been stored and sorted in an array named sortedTableNames
+
+            var currentTableNameNimistu = sortedTableNamesNimistu[currentTableIndexNimistu];
+
+            // push the table name into the array created above
+
+            currentTableNamesNimistu.push(currentTableNameNimistu);
+
+            // for each input, obtain the user-inputted value (using the req.body object of multer)
+
+            var estValueNimistu = req.body[sortedKeysLoikNimistu[r].name];
+
+            // get the element index from each input
+
+            var estIndexNimistu = sortedKeysLoikNimistu[r].elementIndex;
+
+            // subtract 1 from this index, because javascript starts counting from 0
+
+            var currentEstIndexNimistu = estIndexNimistu - 1;
+
+            // using the obtained data, create a javascript object
+
+            var estDataNimistu = {
+              value: estValueNimistu,
+              elementIndex: currentEstIndexNimistu
+            };
+
+            // push this object into the array created above
+
+            estDataArrayNimistu.push(estDataNimistu);
+          }
+
+          // for the "En" inputs loop through the sortedKeysLoik array way once more, but this time the iterator will start on position 1 not 0
+
+          for (let s = 1; s < sortedKeysLoikNimistu.length; s += 2) {
+
+            // capture the user-inputted value for each input
+
+            var enValueNimistu = req.body[sortedKeysLoikNimistu[s].name];
+
+            // capture the element index for each input
+
+            var enIndexNimistu = sortedKeysLoikNimistu[s].elementIndex;
+
+            // subtract 1 from this index, because javascript starts counting from 0
+
+            var currentEnIndexNimistu = enIndexNimistu - 1;
+
+            // using the obtained data, create a javascript object
+
+            var enDataNimistu = {
+              value: enValueNimistu,
+              elementIndex: currentEnIndexNimistu
+            };
+
+            // push this object into the array created above
+
+            enDataArrayNimistu.push(enDataNimistu);
+          }
+
+          // to update the correct entries in the correct database tables, loop through the currentTableNamesNimistu array,
+          // which now contains all the relevant table names in the right order-
+          // use the keyword "let" for the iterator, because this way the iterator can be passed into the con.query callback
+
+          for (let t = 0; t < currentTableNamesNimistu.length; t++) {
+
+            // query for all entries in each of the tables
+
+            con.query("SELECT * FROM " + currentTableNamesNimistu[t] + " ORDER by id", async function(err, result) {
+              if (err) throw err;
+
+              // get the correct entry from the table using the elementIndex property created above-
+              // in this case we loop through the estDataArrayNimistu object, to update all the estonian inputs
+
+              var namePropertyNimistu = result[estDataArrayNimistu[t].elementIndex].name;
+
+              // create a values variable for the sql text to update the database table-
+              // this will consist of the user-inputted value and the name property created above
+
+              var valuesNimistu = [estDataArrayNimistu[t].value, namePropertyNimistu];
+
+              // create the sql text using the relevant entry from the currentTableNames array
+
+              var sqlNimistu = "UPDATE " + currentTableNamesNimistu[t] + " SET est = ? WHERE name = ?";
+
+              // update the database using the sql text values object created above
+
+              await updateDatabase(sqlNimistu, valuesNimistu);
+            });
+          }
+
+
+          // loop through the currentTableNamesNimistu array once more, but this time the english inputs will be updated
+
+          for (let u = 0; u < currentTableNamesNimistu.length; u++) {
+
+            // query for all entries in each of the tables
+
+            con.query("SELECT * FROM " + currentTableNamesNimistu[u] + " ORDER by id", async function(err, result) {
+              if (err) throw err;
+
+              // get the correct entry from the table using the elementIndex property created above-
+              // in this case we loop through the enDataArrayNimistu object, to update all the english inputs
+
+              var namePropertyNimistu = result[enDataArrayNimistu[u].elementIndex].name;
+
+              // create a values variable for the sql text to update the database table-
+              // this will consist of the user-inputted value and the name property created above
+
+              var valuesNimistu = [enDataArrayNimistu[u].value, namePropertyNimistu];
+
+              // create the sql text using the relevant entry from the currentTableNames array
+
+              var sqlNimistu = "UPDATE " + currentTableNamesNimistu[u] + " SET en = ? WHERE name = ?";
+
+              // update the database using the sql text values object created above
+
+              await updateDatabase(sqlNimistu, valuesNimistu);
+            });
+          }
+
           // loop through all the (sorted) "pood" table names again
 
           for (var r = 0; r < sortedTableNames.length; r++) {
@@ -9447,6 +9860,7 @@ app.post("/upload/pood", function(req, res) {
           // send a server response
 
           res.send("OK!");
+
         });
       });
     });
@@ -9458,25 +9872,30 @@ app.post("/upload/pood", function(req, res) {
 
 app.post("/upload/pood/new", async function(req, res) {
 
-  // create a name for a new table in the database- this will be "pood" + the current timestamp
+  // create a name for two new tables in the database- these will be "pood" and "nimistu" + the current timestamp
 
   var namePropertyTable = "pood" + Date.now();
+  var namePropertyTableNimistu = "nimistu" + Date.now();
 
-  // create the sql text for creating a new table
+  // create the sql texts for creating a new table
 
   var sqlCreate = "CREATE TABLE " + namePropertyTable + " (id int NOT NULL AUTO_INCREMENT, name varchar(255), est varchar(3000), en varchar(3000), price varchar(255), PRIMARY KEY(id)) CHARACTER SET utf8 COLLATE utf8_unicode_ci";
+  var sqlCreateNimistu = "CREATE TABLE " + namePropertyTableNimistu + " (id int NOT NULL AUTO_INCREMENT, name varchar(255), est varchar(3000), en varchar(3000), PRIMARY KEY(id)) CHARACTER SET utf8 COLLATE utf8_unicode_ci";
 
-  // create a new table using the sql text
+  // create the new tables using the sql texts
 
   updateDatabase(sqlCreate);
+  updateDatabase(sqlCreateNimistu);
 
-  // create sql text to alter the character set of the new table using the table name created above
+  // create sql texts to alter the character set of the new tables using the table name created above
 
   var sqlAlter = "ALTER TABLE " + namePropertyTable + " CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci";
+  var sqlAlterNimistu = "ALTER TABLE " + namePropertyTableNimistu + " CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci";
 
   // execute the alteration
 
   updateDatabase(sqlAlter);
+  updateDatabase(sqlAlterNimistu);
 
   // create the sql text for inserting a "toode" entry into the new table
 
@@ -9520,16 +9939,17 @@ app.post("/upload/pood/delete", function(req, res) {
 
   // create the sql text for querying the database for the tables related to the "pood" subforms
 
-  var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'heroku_8077042b55aa915'";
+  var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = '" + process.env.DB_DB + "'";
 
   // make the database query
 
   con.query(sql, function(err, result) {
     if (err) throw err;
 
-    // create an empty array, which will later be populated by relevant table names
+    // create two empty array, which will later be populated by relevant table names
 
     var tableNames = [];
+    var tableNamesNimistu = [];
 
     // loop through all the tables in the database
 
@@ -9548,16 +9968,28 @@ app.post("/upload/pood/delete", function(req, res) {
         // push the table names into the above array
 
         tableNames.push(tableName);
+
+      // capture the tables that have "nimistu" string in their name
+
+    } else if (tableName.indexOf("nimistu") !== -1) {
+
+        // push the table names into the corresponding array
+
+        tableNamesNimistu.push(tableName);
       }
     }
 
-    // the tables have a timestamp in their name- sort the array in ascending order
+    // the tables have a timestamp in their name- sort the arrays in ascending order
 
     var sortedTableNames = tableNames.sort(function(a, b) {
       return a - b;
     });
 
-    // get the table from the array that corresponds to the deleted subform using the retrieved index number
+    var sortedTableNamesNimistu = tableNamesNimistu.sort(function(a, b) {
+      return a - b;
+    });
+
+    // get the correct "pood" table from the array that corresponds to the deleted subform using the retrieved index number
 
     var currentResult = sortedTableNames[indexNumber];
 
@@ -9572,6 +10004,22 @@ app.post("/upload/pood/delete", function(req, res) {
     // delete the table
 
     updateDatabase(sqlDelete);
+
+    // get the correct "nimistu" table from the array that corresponds to the deleted subform using the retrieved index number
+
+    var currentResultNimistu = sortedTableNamesNimistu[indexNumber];
+
+    // the retrieved table name will be included in the sql text as a variable
+
+    var namePropertyNimistu = currentResultNimistu;
+
+    // create the sql text for deleting the database table
+
+    var sqlDeleteNimistu = "DROP TABLE " + namePropertyNimistu;
+
+    // delete the table
+
+    updateDatabase(sqlDeleteNimistu);
   });
 
   // the image on the deleted subform is stored in a different table- get all the images in this table as an array
@@ -9677,7 +10125,7 @@ app.post("/upload/pood" + ":number/new", function(req, res) {
 
   // create the sql text that selects all the tables in the database
 
-  var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'heroku_8077042b55aa915'";
+  var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = '" + process.env.DB_DB + "'";
 
   // make the database query
 
@@ -9757,7 +10205,7 @@ app.post("/upload/pood" + ":number/delete", function(req, res) {
 
   // create the sql text to query the database for table names (we eventually need the ones named "pood" + timestamp)
 
-  var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'heroku_8077042b55aa915'";
+  var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = '" + process.env.DB_DB + "'";
 
   // make the database query
 
@@ -9839,6 +10287,166 @@ app.post("/upload/pood" + ":number/delete", function(req, res) {
   });
 });
 
+// add a new "loikNimistu" element to the "pood" subform on the "pood" page-
+// because this is a dynamic route, handling several user-created databases, it also uses a custom parameter, which is the ":number" part
+
+
+app.post("/upload/pood/nimistu" + ":number/new", function(req, res) {
+
+  // create the sql text that selects all the tables in the database
+
+  var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = '" + process.env.DB_DB + "'";
+
+  // make the database query
+
+  con.query(sql, function(err, result) {
+    if (err) throw err;
+
+    // create an empty array that will be populated by the names of the relevant tables in the database
+
+    var tableNames = [];
+
+    // loop through all the tables in the database
+
+    for (var i = 0; i < result.length; i++) {
+
+      // capture the name of each table in a variable
+
+      var tableName = (result[i].table_name);
+
+      // the relevant table has a "nimistu" string in their name
+
+      if (tableName.indexOf("nimistu") !== -1) {
+
+        // push the relevant table names into the tableNames array
+
+        tableNames.push(tableName);
+      }
+    }
+
+    // the tables have a timestamp in their name- sort the array in ascending order
+
+    var sortedTableNames = tableNames.sort(function(a, b) {
+      return a - b;
+    });
+
+    // req.params is a number that is captured from the post route that the ajax call is made to,
+    // while indexNumber is the same number - 1 (because of course programmers start to count from 0)
+
+    var indexNumber = req.params.number - 1;
+
+    // use the indexNumber to get the relevant database table
+
+    var currentResult = sortedTableNames[indexNumber];
+
+    // create variables for the new entry that will be added to the relevant table-
+    // est, en and number properties will be empty strings, while the name property will be "loik" + current timestamp
+
+    var nameProperty = "rida" + Date.now();
+    var estProperty = "";
+    var enProperty = "";
+
+    // create the sql text with the variables created above
+
+    var sql = "INSERT INTO " + currentResult + " (name, est, en) VALUES ('" + nameProperty + "', '" + estProperty + "', '" + enProperty + "')";
+
+    // // insert the new entry into the corresponding database table
+
+    updateDatabase(sql);
+  });
+
+  // send a server response
+
+  res.send("OK!");
+});
+
+
+// delete a "loikNimistu" element from the "pood" subform on the "pood" page-
+// because this is a dynamic route handling several user-created databases, it also uses a custom parameter, which is the ":number" part
+
+app.post("/upload/pood/nimistu" + ":number/delete", function(req, res) {
+
+  // retrieve and parse the data sent by the browser via an ajax call- this will contain the id number of the deleted element
+
+  var deleteLoikData = JSON.parse(req.body.data);
+
+  // create the sql text to query the database for table names (we eventually need the ones named "nimistu" + timestamp)
+
+  var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = '" + process.env.DB_DB + "'";
+
+  // make the database query
+
+  con.query(sql, function(err, result) {
+    if (err) throw err;
+
+    // create an empty array that will be populated by the names of the relevant tables in the database
+
+    var tableNames = [];
+
+    // loop through all the tables in the database
+
+    for (var i = 0; i < result.length; i++) {
+
+      // capture the name of each table in a variable
+
+      var tableName = (result[i].table_name);
+
+      // the relevant tables have a "nimistu" string in their name
+
+      if (tableName.indexOf("nimistu") !== -1) {
+
+        // push the relevant table names into the tableNames array
+
+        tableNames.push(tableName);
+      }
+    }
+
+    // the tables have a timestamp in their name- sort the array in ascending order
+
+    var sortedTableNames = tableNames.sort(function(a, b) {
+      return a - b;
+    });
+
+    // get the relevant table's position in the array, using the custom route parameter (which is a number)
+
+    var indexNumber = req.params.number - 1;
+
+    // get the relevant table
+
+    var currentTableName = sortedTableNames[indexNumber];
+
+    // query the selected table for all the "rida" entries
+
+    con.query("SELECT * FROM " + currentTableName + " ORDER by id", function(err, result) {
+      if (err) throw err;
+
+      // to find the right result, we need to know its index number-
+      // this will be the id number of the deleted element minus 1 (since js starts to count from 0 not 1)
+
+      var currentIndex = deleteLoikData.idNumber - 1;
+
+      // get the database entry of the deleted "loik" element
+
+      var currentResult = result[currentIndex];
+
+      // get the name property of the database entry
+
+      var nameProperty = currentResult.name;
+
+      // create the sql text
+
+      var sql = "DELETE FROM " + currentTableName + " WHERE name = '" + nameProperty + "'";
+
+      // delete the entry from the database
+
+      updateDatabase(sql);
+
+      // send a server response
+
+      res.send("OK!");
+    });
+  });
+});
 
 // update the "telli" part of the "pood" page
 
@@ -10102,7 +10710,7 @@ app.post("/upload/moodunud", function(req, res) {
 
   // query the database for existing entries for the "plakat" images
 
-  con.query("SELECT * FROM moodunudpildid ORDER by id", function(err, result) {
+  con.query("SELECT * FROM moodunudpildid ORDER by id DESC", function(err, result) {
     if (err) throw err;
 
     // create as many field objects as there are database entries
@@ -10148,6 +10756,7 @@ app.post("/upload/moodunud", function(req, res) {
 
         var currentKeyPildid = keysPildid[i];
 
+
         // using the key, get the corresponding image in the req.files object
 
         var currentImg = req.files[currentKeyPildid];
@@ -10162,7 +10771,7 @@ app.post("/upload/moodunud", function(req, res) {
 
           // obtain the index number within the image's fieldname, in the specified position
 
-          var indexNumber = currentImg[0].fieldname.slice(9, -6);
+          var indexNumber = currentImg[0].fieldname.slice(8, -6);
 
           // since js starts counting from 0 not 1, subtract 1 from the index number
 
@@ -10188,7 +10797,7 @@ app.post("/upload/moodunud", function(req, res) {
 
       // create the sql text to query the database for table names (we eventually need the ones named "moodunud" + timestamp and "moodunudkoht" + timestamp)
 
-      var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'heroku_8077042b55aa915'";
+      var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = '" + process.env.DB_DB + "'";
 
       // make the database query
 
@@ -10228,15 +10837,11 @@ app.post("/upload/moodunud", function(req, res) {
           }
         }
 
-        // the tables have a timestamp in their name- sort the arrays in ascending order
+        // the tables have a timestamp in their name- sort the arrays in descending order
 
-        var sortedTableNames = tableNames.sort(function(a, b) {
-          return a - b;
-        });
+        var sortedTableNames = tableNames.reverse();
 
-        var sortedTableNamesKoht = tableNamesKoht.sort(function(a, b) {
-          return a - b;
-        });
+        var sortedTableNamesKoht = tableNamesKoht.reverse();
 
         // obtain all the name properties of the text inputs on the "arhiiv" page
 
@@ -10833,7 +11438,7 @@ app.post("/upload/moodunud/delete", function(req, res) {
 
   // create the sql text for querying the database for the tables related to the "moodunud" subforms
 
-  var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'heroku_8077042b55aa915'";
+  var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = '" + process.env.DB_DB + "'";
 
   // make the database query
 
@@ -10875,15 +11480,11 @@ app.post("/upload/moodunud/delete", function(req, res) {
       }
     }
 
-    // the tables have a timestamp in their name- sort both arrays in ascending order
+    // the tables have a timestamp in their name- sort both arrays in descending order
 
-    var sortedTableNames = tableNames.sort(function(a, b) {
-      return a - b;
-    });
+    var sortedTableNames = tableNames.reverse();
 
-    var sortedTableNamesKoht = tableNamesKoht.sort(function(a, b) {
-      return a - b;
-    });
+    var sortedTableNamesKoht = tableNamesKoht.reverse();
 
     // get the tables from both arrays that correspond to the deleted subform using the retrieved index number
 
@@ -10949,7 +11550,7 @@ app.post("/upload/moodunud/restore/delete", function(req, res) {
 
   // create the sql text for querying the database for the tables related to the "moodunud" subforms
 
-  var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'heroku_8077042b55aa915'";
+  var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = '" + process.env.DB_DB + "'";
 
   // make the database query
 
@@ -10990,15 +11591,11 @@ app.post("/upload/moodunud/restore/delete", function(req, res) {
       }
     }
 
-    // the tables have a timestamp in their name- sort both arrays in ascending order
+    // the tables have a timestamp in their name- sort both arrays in descending order
 
-    var sortedTableNames = tableNames.sort(function(a, b) {
-      return a - b;
-    });
+    var sortedTableNames = tableNames.reverse();
 
-    var sortedTableNamesKoht = tableNamesKoht.sort(function(a, b) {
-      return a - b;
-    });
+    var sortedTableNamesKoht = tableNamesKoht.reverse();
 
     // get the tables from both arrays that correspond to the restored subform using the retrieved index number
 
@@ -11078,7 +11675,7 @@ app.post("/upload/moodunud" + ":number/new", function(req, res) {
 
   // create the sql text that selects all the tables in the database
 
-  var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'heroku_8077042b55aa915'";
+  var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = '" + process.env.DB_DB + "'";
 
   // make the database query
 
@@ -11109,12 +11706,9 @@ app.post("/upload/moodunud" + ":number/new", function(req, res) {
       }
     }
 
-    // the tables have a timestamp in their name- sort the array in ascending order
+    // the tables have a timestamp in their name- sort the array in descending order
 
-    var sortedTableNames = tableNames.sort(function(a, b) {
-      return a - b;
-    });
-
+    var sortedTableNames = tableNames.reverse();
     // req.params is a number that is captured from the post route that the ajax call is made to,
     // while indexNumber is the same number - 1 (because of course programmers start to count from 0)
 
@@ -11157,7 +11751,7 @@ app.post("/upload/moodunud" + ":number/delete", function(req, res) {
 
   // create the sql text to query the database for table names (we eventually need the ones named "moodunud" + timestamp)
 
-  var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'heroku_8077042b55aa915'";
+  var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = '" + process.env.DB_DB + "'";
 
   // make the database query
 
@@ -11188,11 +11782,9 @@ app.post("/upload/moodunud" + ":number/delete", function(req, res) {
       }
     }
 
-    // the tables have a timestamp in their name- sort the array in ascending order
+    // the tables have a timestamp in their name- sort the array in descending order
 
-    var sortedTableNames = tableNames.sort(function(a, b) {
-      return a - b;
-    });
+    var sortedTableNames = tableNames.reverse();
 
     // get the relevant table's position in the array, using the custom route parameter (which is a number)
 
@@ -11248,7 +11840,7 @@ app.post("/upload/moodunud/koht" + ":number/new", function(req, res) {
 
   // create the sql text that selects all the tables in the database
 
-  var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'heroku_8077042b55aa915'";
+  var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = '" + process.env.DB_DB + "'";
 
   // make the database query
 
@@ -11277,11 +11869,9 @@ app.post("/upload/moodunud/koht" + ":number/new", function(req, res) {
       }
     }
 
-    // the tables have a timestamp in their name- sort the array in ascending order
+    // the tables have a timestamp in their name- sort the array in descending order
 
-    var sortedTableNames = tableNames.sort(function(a, b) {
-      return a - b;
-    });
+    var sortedTableNames = tableNames.reverse();
 
     // req.params is a number that is captured from the post route that the ajax call is made to,
     // while indexNumber is the same number - 1 (because of course programmers start to count from 0)
@@ -11326,7 +11916,7 @@ app.post("/upload/moodunud/koht" + ":number/delete", function(req, res) {
 
   // create the sql text to query the database for table names (we eventually need the ones named "moodunudkoht" + timestamp)
 
-  var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'heroku_8077042b55aa915'";
+  var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = '" + process.env.DB_DB + "'";
 
   // make the database query
 
@@ -11355,11 +11945,9 @@ app.post("/upload/moodunud/koht" + ":number/delete", function(req, res) {
       }
     }
 
-    // the tables have a timestamp in their name- sort the array in ascending order
+    // the tables have a timestamp in their name- sort the array in descending order
 
-    var sortedTableNames = tableNames.sort(function(a, b) {
-      return a - b;
-    });
+    var sortedTableNames = tableNames.reverse();
 
     // get the relevant table's position in the array, using the custom route parameter (which is a number)
 
@@ -11408,13 +11996,22 @@ app.post("/upload/moodunud/koht" + ":number/delete", function(req, res) {
 // retrieve the data that was sent from the form on "telli" page and send an email containing this data
 
 app.post("/upload/telli/email", function(req, res, next) {
+
+  // get the data from the client-side
+
   var text = JSON.parse(req.body.text);
+
+  // configure the mail options
+
   var mailOptions = {
     from: 'joosep_trumm@hotmail.com',
     to: 'joosep_trumm@hotmail.com',
     subject: 'Uus tellimus Nooruse kodulehelt',
     html: text
   };
+
+  // send the email
+
   transporter.sendMail(mailOptions, function(error, info) {
     if (error) {
       next(error);
@@ -11446,12 +12043,74 @@ app.post("/upload/kontakt/email", function(req, res, next) {
 });
 
 
+// handle the login to the admin page
+
+app.post("/upload/login", function(req, res) {
+
+  // get the client-inputted data
+
+  var data = JSON.parse(req.body.data);
+
+  // extract the inputted username and password from the data
+
+  var username = data.username;
+  var password = data.password;
+
+  // query the database for the username and password hash
+
+  con.query("SELECT * FROM kasutajad ORDER BY id", function(err, result) {
+
+    // obtain the username and hash from the database
+
+    var loadedUsername = result[0].username;
+    var hash = result[0].password;
+
+    // use bcrypt to compare the inputted password with the hash obtained from the database
+    // if they match, the comparison variable will automatically be set to true
+
+    bcrypt.compare(password, hash, function(err, comparison) {
+
+      // check if the credentials in the database match those posted from the client-side
+
+      if (result[0].username === username && comparison === true) {
+
+        // if yes, create a session with these credentials
+
+        req.session.loggedIn = true;
+
+        // send a server response, that will indicate that we are logged in
+
+        res.send("logged in");
+
+        // if the credentials are wrong, send a response indicating this fact
+
+      } else {
+        res.send("wrong credentials");
+      }
+    });
+  });
+});
+
+
+// handle the logout from the admin page
+
+app.post("/upload/logout", function(req, res) {
+
+  // destroy the login session
+
+  req.session.destroy(function(err) {
+    if (err) throw err;
+
+    // send a server response
+
+    res.send("OK!");
+  });
+});
 
 
 // start server
 
-app.listen(process.env.PORT ||
-
-   3000, function() {
-  console.log("Server is now running on port 3000");
-});
+app.listen(process.env.PORT || 3000,
+  function() {
+    console.log("Server is now running on port 3000");
+  });

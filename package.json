@@ -4,12 +4,10 @@
   "description": "website for mixed choir Noorus",
   "main": "server.js",
   "scripts": {
-   "start": "node server.js",
+    "start": "node server.js",
     "watch:sass": "node-sass public/sass/main.scss public/css/style.css -w",
-    "compile:sass": "node-sass public/sass/main.scss public/css/style.comp.css",
-    "concat:css": "concat -o public/css/style.conc.css public/css/style.comp.css public/css/all.css",
-    "prefix:css": "postcss --use autoprefixer -o public/css/style.pref.css public/css/style.conc.css",
-    "compress:css": "node-sass public/css/style.pref.css public/css/style.css --output-style compressed"
+    "prefix:css": "postcss --use autoprefixer -o public/css/style.pref.css public/css/style.css",
+    "compress:css": "node-sass public/css/all.css public/css/all.css --output-style compressed"
   },
   "repository": {
     "type": "git",
@@ -25,13 +23,18 @@
   },
   "homepage": "https://github.com/jooseptrumm/Noorus#readme",
   "dependencies": {
+    "autoprefixer": "^10.1.0",
+    "bcrypt": "^5.0.0",
+    "dotenv": "^8.2.0",
     "ejs": "^2.7.1",
     "express": "^4.17.1",
+    "express-session": "^1.17.1",
     "multer": "^1.4.2",
     "mysql": "^2.17.1",
     "node-sass": "^4.14.1",
     "nodemailer": "^6.4.16",
     "nodemon": "^2.0.6",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "postcss-cli": "^8.3.1"
   }
 }

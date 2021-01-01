@@ -1,19 +1,18 @@
 <%- include partials/head {pageTitle: pageTitle, paiseikoon: paiseikoon} -%>
 <%- include partials/admin-nav {routeName: routeName} -%>
 <%- include partials/admin-popup -%>
-
 <form action="/upload/kontakt" method="post" class="page-admin__form" id="kontakt">
   <h3 class="page-admin__title">Kontaktandmed</h3>
   <div class="page-admin__form-box" id="kontaktSissejuhatusLoikForm">
     <% for (var i = 0; i < kontaktSissejuhatusData.loigud.length; i++) { %>
     <div class="page-admin__form-field kontaktSissejuhatusLoik" id="kontaktSissejuhatusLoik<%= i + 1 %>" data-heading="Sissejuhatav lõik">
       <h3 class="page-admin__heading kontaktSissejuhatusLoikHeading">Sissejuhatav lõik <%= i + 1 %></h3>
-      <p class="page-admin__text">EST</p>    
+      <p class="page-admin__text">EST</p>
       <div type="text" contenteditable="true" class="page-admin__input page-admin__text-area input editable-input kontaktSissejuhatusLoikEstEd" id="kontaktSissejuhatusLoikEst<%= i + 1 %>Ed" name="kontaktSissejuhatusLoikEst<%= i + 1 %>Ed"><%-  kontaktSissejuhatusData.loigud[i].est %></div>
-      <input type="text" class="page-admin__input page-admin__hidden-input kontaktSissejuhatusLoikEst" id="kontaktSissejuhatusLoikEst<%= i + 1 %>" name="kontaktSissejuhatusLoikEst<%= i + 1 %>" value="<%-  kontaktSissejuhatusData.loigud[i].est  %>"></input>
+      <input type="text" class="page-admin__hidden-input kontaktSissejuhatusLoikEst" id="kontaktSissejuhatusLoikEst<%= i + 1 %>" name="kontaktSissejuhatusLoikEst<%= i + 1 %>" value="<%-  kontaktSissejuhatusData.loigud[i].est  %>"></input>
       <p class="page-admin__text">EN</p>
       <div type="text" contenteditable="true" class="page-admin__input page-admin__text-area input editable-input kontaktSissejuhatusLoikEnEd" id="kontaktSissejuhatusLoikEn<%= i + 1 %>Ed" name="kontaktSissejuhatusLoikEn<%= i + 1 %>Ed"><%-  kontaktSissejuhatusData.loigud[i].en %></div>
-      <input type="text" class="page-admin__input page-admin__hidden-input kontaktSissejuhatusLoikEn" id="kontaktSissejuhatusLoikEn<%= i + 1 %>" name="kontaktSissejuhatusLoikEn<%= i + 1 %>" value="<%-  kontaktSissejuhatusData.loigud[i].en  %>"></input>
+      <input type="text" class="page-admin__hidden-input kontaktSissejuhatusLoikEn" id="kontaktSissejuhatusLoikEn<%= i + 1 %>" name="kontaktSissejuhatusLoikEn<%= i + 1 %>" value="<%-  kontaktSissejuhatusData.loigud[i].en  %>"></input>
       <button class="page-admin__small-btn deleteBtn kontaktSissejuhatusLoikDeleteBtn" type="button" id="kontaktSissejuhatusLoikDeleteBtn<%= i + 1 %>" name="kontaktSissejuhatusLoikDeleteBtn<%= i + 1 %>">Kustuta</button>
     </div>
     <% } %>
@@ -27,9 +26,9 @@
     <div class="page-admin__form-field">
       <h3 class="page-admin__heading">Pealkiri</h3>
       <p class="page-admin__text">EST</p>
-      <input type="text" class="page-admin__input input" name="andmedPealkiriEst" id="andmedPealkiriEst" value="<%= kontaktAndmedData.pealkiri.est %>">
+      <input type="text" class="page-admin__input page-admin__input--bold input" name="andmedPealkiriEst" id="andmedPealkiriEst" value="<%= kontaktAndmedData.pealkiri.est %>">
       <p class="page-admin__text">EN </p>
-      <input type="text" class="page-admin__input input" name="andmedPealkiriEn" id="andmedPealkiriEn" value="<%= kontaktAndmedData.pealkiri.en %>">
+      <input type="text" class="page-admin__input page-admin__input--bold input" name="andmedPealkiriEn" id="andmedPealkiriEn" value="<%= kontaktAndmedData.pealkiri.en %>">
     </div>
   </div>
   <div class="page-admin__form-box" id="andmedLoikForm">
@@ -37,9 +36,9 @@
     <div class="page-admin__form-field andmedLoik" id="andmedLoik<%= i + 1 %>" data-heading="Teave">
       <h3 class="page-admin__heading andmedLoikHeading">Teave <%= i + 1 %></h3>
       <p class="page-admin__text">VÕTI EST</p>
-      <input class="page-admin__input input andmedLoikEstKey" type="text" id="andmedLoikEstKey<%= i + 1 %>" name="andmedLoikEstKey<%= i + 1 %>" value="<%= kontaktAndmedData.paarid[i].estKey %>">
+      <input class="page-admin__input page-admin__input--bold input andmedLoikEstKey" type="text" id="andmedLoikEstKey<%= i + 1 %>" name="andmedLoikEstKey<%= i + 1 %>" value="<%= kontaktAndmedData.paarid[i].estKey %>">
       <p class="page-admin__text">VÕTI EN</p>
-      <input class="page-admin__input input andmedLoikEnKey" type="text" id="andmedLoikEnKey<%= i + 1 %>" name="andmedLoikEnKey<%= i + 1 %>" value="<%= kontaktAndmedData.paarid[i].enKey %>">
+      <input class="page-admin__input page-admin__input--bold input andmedLoikEnKey" type="text" id="andmedLoikEnKey<%= i + 1 %>" name="andmedLoikEnKey<%= i + 1 %>" value="<%= kontaktAndmedData.paarid[i].enKey %>">
       <p class="page-admin__text u-margin-top-big">TEAVE EST</p>
       <input class="page-admin__input input andmedLoikEst" type="text" id="andmedLoikEst<%= i + 1 %>" name="andmedLoikEst<%= i + 1 %>" value="<%= kontaktAndmedData.paarid[i].est %>">
       <p class="page-admin__text">TEAVE EN</p>
@@ -57,9 +56,9 @@
     <div class="page-admin__form-field">
       <h3 class="page-admin__heading">Pealkiri</h3>
       <p class="page-admin__text">EST</p>
-      <input type="text" class="page-admin__input input" name="numbridPealkiriEst" id="numbridPealkiriEst" value="<%= kontaktNumbridData.pealkiri.est %>">
+      <input type="text" class="page-admin__input page-admin__input--bold input" name="numbridPealkiriEst" id="numbridPealkiriEst" value="<%= kontaktNumbridData.pealkiri.est %>">
       <p class="page-admin__text">EN </p>
-      <input type="text" class="page-admin__input input" name="numbridPealkiriEn" id="numbridPealkiriEn" value="<%= kontaktNumbridData.pealkiri.en %>">
+      <input type="text" class="page-admin__input page-admin__input--bold input" name="numbridPealkiriEn" id="numbridPealkiriEn" value="<%= kontaktNumbridData.pealkiri.en %>">
     </div>
   </div>
   <div class="page-admin__form-box" id="numbridLoikForm">
@@ -67,9 +66,9 @@
     <div class="page-admin__form-field numbridLoik" id="numbridLoik<%= i + 1 %>" data-heading="Telefoninumber">
       <h3 class="page-admin__heading numbridLoikHeading">Telefoninumber <%= i + 1 %></h3>
       <p class="page-admin__text">KONTAKTISIK EST</p>
-      <input class="page-admin__input input numbridLoikEstKey" type="text" id="numbridLoikEstKey<%= i + 1 %>" name="numbridLoikEstKey<%= i + 1 %>" value="<%= kontaktNumbridData.numbrid[i].estKey %>">
+      <input class="page-admin__input page-admin__input--bold input numbridLoikEstKey" type="text" id="numbridLoikEstKey<%= i + 1 %>" name="numbridLoikEstKey<%= i + 1 %>" value="<%= kontaktNumbridData.numbrid[i].estKey %>">
       <p class="page-admin__text">KONTAKTISIK EN</p>
-      <input class="page-admin__input input numbridLoikEnKey" type="text" id="numbridLoikEnKey<%= i + 1 %>" name="numbridLoikEnKey<%= i + 1 %>" value="<%= kontaktNumbridData.numbrid[i].enKey %>">
+      <input class="page-admin__input page-admin__input--bold input numbridLoikEnKey" type="text" id="numbridLoikEnKey<%= i + 1 %>" name="numbridLoikEnKey<%= i + 1 %>" value="<%= kontaktNumbridData.numbrid[i].enKey %>">
       <p class="page-admin__text">NUMBER</p>
       <input class="page-admin__input input numbridLoikNumber" type="text" id="numbridLoikNumber<%= i + 1 %>" name="numbridLoikNumber<%= i + 1 %>" value="<%= kontaktNumbridData.numbrid[i].number %>">
       <button class="page-admin__small-btn deleteBtn numbridLoikDeleteBtn" type="button" id="numbridLoikDeleteBtn<%= i + 1 %>" name="numbridLoikDeleteBtn<%= i + 1 %>">Kustuta</button>
@@ -85,9 +84,9 @@
     <div class="page-admin__form-field">
       <h3 class="page-admin__heading">Pealkiri</h3>
       <p class="page-admin__text">EST</p>
-      <input type="text" class="page-admin__input input" name="mtuPealkiriEst" id="mtuPealkiriEst" value="<%= kontaktMtuData.pealkiri.est %>">
+      <input type="text" class="page-admin__input page-admin__input--bold input" name="mtuPealkiriEst" id="mtuPealkiriEst" value="<%= kontaktMtuData.pealkiri.est %>">
       <p class="page-admin__text">EN </p>
-      <input type="text" class="page-admin__input input" name="mtuPealkiriEn" id="mtuPealkiriEn" value="<%= kontaktMtuData.pealkiri.en %>">
+      <input type="text" class="page-admin__input page-admin__input--bold input" name="mtuPealkiriEn" id="mtuPealkiriEn" value="<%= kontaktMtuData.pealkiri.en %>">
     </div>
   </div>
   <div class="page-admin__form-box" id="mtuLoikForm">
@@ -95,9 +94,9 @@
     <div class="page-admin__form-field mtuLoik" id="mtuLoik<%= i + 1 %>" data-heading="Teave">
       <h3 class="page-admin__heading mtuLoikHeading">Teave <%= i + 1 %></h3>
       <p class="page-admin__text">VÕTI EST</p>
-      <input class="page-admin__input input mtuLoikEstKey" type="text" id="mtuLoikEstKey<%= i + 1 %>" name="mtuLoikEstKey<%= i + 1 %>" value="<%= kontaktMtuData.paarid[i].estKey %>">
+      <input class="page-admin__input page-admin__input--bold input mtuLoikEstKey" type="text" id="mtuLoikEstKey<%= i + 1 %>" name="mtuLoikEstKey<%= i + 1 %>" value="<%= kontaktMtuData.paarid[i].estKey %>">
       <p class="page-admin__text">VÕTI EN</p>
-      <input class="page-admin__input input mtuLoikEnKey" type="text" id="mtuLoikEnKey<%= i + 1 %>" name="mtuLoikEnKey<%= i + 1 %>" value="<%= kontaktMtuData.paarid[i].enKey %>">
+      <input class="page-admin__input page-admin__input--bold input mtuLoikEnKey" type="text" id="mtuLoikEnKey<%= i + 1 %>" name="mtuLoikEnKey<%= i + 1 %>" value="<%= kontaktMtuData.paarid[i].enKey %>">
       <p class="page-admin__text u-margin-top-big">TEAVE EST</p>
       <input class="page-admin__input input mtuLoikEst" type="text" id="mtuLoikEst<%= i + 1 %>" name="mtuLoikEst<%= i + 1 %>" value="<%= kontaktMtuData.paarid[i].est %>">
       <p class="page-admin__text">TEAVE EN</p>
@@ -115,9 +114,9 @@
     <div class="page-admin__form-field">
       <h3 class="page-admin__heading">Pealkiri</h3>
       <p class="page-admin__text">EST</p>
-      <input type="text" class="page-admin__input input" name="uldinePealkiriEst" id="uldinePealkiriEst" value="<%= kontaktUldineData.pealkiri.est %>">
+      <input type="text" class="page-admin__input page-admin__input--bold input" name="uldinePealkiriEst" id="uldinePealkiriEst" value="<%= kontaktUldineData.pealkiri.est %>">
       <p class="page-admin__text">EN </p>
-      <input type="text" class="page-admin__input input" name="uldinePealkiriEn" id="uldinePealkiriEn" value="<%= kontaktUldineData.pealkiri.en %>">
+      <input type="text" class="page-admin__input page-admin__input--bold input" name="uldinePealkiriEn" id="uldinePealkiriEn" value="<%= kontaktUldineData.pealkiri.en %>">
     </div>
   </div>
   <div class="page-admin__form-box" id="uldineLoikForm">
@@ -126,10 +125,10 @@
       <h3 class="page-admin__heading uldineLoikHeading">Lõik <%= i + 1 %></h3>
       <p class="page-admin__text">EST</p>
       <div type="text" contenteditable="true" class="page-admin__input page-admin__text-area input editable-input uldineLoikEstEd" id="uldineLoikEst<%= i + 1 %>Ed" name="uldineLoikEst<%= i + 1 %>Ed"><%-  kontaktUldineData.loigud[i].est %></div>
-      <input type="text" class="page-admin__input page-admin__hidden-input uldineLoikEst" id="uldineLoikEst<%= i + 1 %>" name="uldineLoikEst<%= i + 1 %>" value="<%-  kontaktUldineData.loigud[i].est  %>"></input>
+      <input type="text" class="page-admin__hidden-input uldineLoikEst" id="uldineLoikEst<%= i + 1 %>" name="uldineLoikEst<%= i + 1 %>" value="<%-  kontaktUldineData.loigud[i].est  %>"></input>
       <p class="page-admin__text">EN</p>
       <div type="text" contenteditable="true" class="page-admin__input page-admin__text-area input editable-input uldineLoikEnEd" id="uldineLoikEn<%= i + 1 %>Ed" name="uldineLoikEn<%= i + 1 %>Ed"><%-  kontaktUldineData.loigud[i].en %></div>
-      <input type="text" class="page-admin__input page-admin__hidden-input uldineLoikEn" id="uldineLoikEn<%= i + 1 %>" name="uldineLoikEn<%= i + 1 %>" value="<%-  kontaktUldineData.loigud[i].en  %>"></input>
+      <input type="text" class="page-admin__hidden-input uldineLoikEn" id="uldineLoikEn<%= i + 1 %>" name="uldineLoikEn<%= i + 1 %>" value="<%-  kontaktUldineData.loigud[i].en  %>"></input>
       <button class="page-admin__small-btn deleteBtn uldineLoikDeleteBtn" type="button" id="uldineLoikDeleteBtn<%= i + 1 %>" name="uldineLoikDeleteBtn<%= i + 1 %>">Kustuta</button>
     </div>
     <% } %>
@@ -145,9 +144,9 @@
     <div class="page-admin__form-field">
       <h3 class="page-admin__heading">Pealkiri</h3>
       <p class="page-admin__text">EST</p>
-      <input type="text" class="page-admin__input input" name="vastuvottPealkiriEst" id="vastuvottPealkiriEst" value="<%= %>">
+      <input type="text" class="page-admin__input page-admin__input--bold input" name="vastuvottPealkiriEst" id="vastuvottPealkiriEst" value="<%= %>">
       <p class="page-admin__text">EN </p>
-      <input type="text" class="page-admin__input input" name="vastuvottPealkiriEn" id="vastuvottPealkiriEn" value="<%=  %>">
+      <input type="text" class="page-admin__input page-admin__input--bold input" name="vastuvottPealkiriEn" id="vastuvottPealkiriEn" value="<%=  %>">
     </div>
   </div>
   <div class="page-admin__form-box" id="vastuvottLoikForm">
@@ -156,10 +155,10 @@
       <h3 class="page-admin__heading vastuvottLoikHeading">Sissejuhatav lõik <%= i + 1 %></h3>
       <p class="page-admin__text">EST</p>
       <div type="text" contenteditable="true" class="page-admin__input page-admin__text-area input editable-input vastuvottLoikEstEd" id="vastuvottLoikEst<%= i + 1 %>Ed" name="vastuvottLoikEst<%= i + 1 %>Ed"><%-  vastuvottTekstidData.loigud[i].est %></div>
-      <input type="text" class="page-admin__input page-admin__hidden-input vastuvottLoikEst" id="vastuvottLoikEst<%= i + 1 %>" name="vastuvottLoikEst<%= i + 1 %>" value="<%-  vastuvottTekstidData.loigud[i].est  %>"></input>
+      <input type="text" class="page-admin__hidden-input vastuvottLoikEst" id="vastuvottLoikEst<%= i + 1 %>" name="vastuvottLoikEst<%= i + 1 %>" value="<%-  vastuvottTekstidData.loigud[i].est  %>"></input>
       <p class="page-admin__text">EN</p>
       <div type="text" contenteditable="true" class="page-admin__input page-admin__text-area input editable-input vastuvottLoikEnEd" id="vastuvottLoikEn<%= i + 1 %>Ed" name="vastuvottLoikEn<%= i + 1 %>Ed"><%-  vastuvottTekstidData.loigud[i].en %></div>
-      <input type="text" class="page-admin__input page-admin__hidden-input vastuvottLoikEn" id="vastuvottLoikEn<%= i + 1 %>" name="vastuvottLoikEn<%= i + 1 %>" value="<%-  vastuvottTekstidData.loigud[i].en  %>"></input>
+      <input type="text" class="page-admin__hidden-input vastuvottLoikEn" id="vastuvottLoikEn<%= i + 1 %>" name="vastuvottLoikEn<%= i + 1 %>" value="<%-  vastuvottTekstidData.loigud[i].en  %>"></input>
       <button class="page-admin__small-btn deleteBtn vastuvottLoikDeleteBtn" type="button" id="vastuvottLoikDeleteBtn<%= i + 1 %>" name="vastuvottLoikDeleteBtn<%= i + 1 %>">Kustuta</button>
     </div>
     <% } %>
@@ -173,9 +172,9 @@
     <div class="page-admin__form-field">
       <h3 class="page-admin__heading">Pealkiri</h3>
       <p class="page-admin__text">EST</p>
-      <input type="text" class="page-admin__input input" name="ankeetPealkiriEst" id="ankeetPealkiriEst" value="<%= vastuvottAnkeetData.pealkiri.est  %>">
+      <input type="text" class="page-admin__input page-admin__input--bold input" name="ankeetPealkiriEst" id="ankeetPealkiriEst" value="<%= vastuvottAnkeetData.pealkiri.est  %>">
       <p class="page-admin__text">EN </p>
-      <input type="text" class="page-admin__input input" name="ankeetPealkiriEn" id="ankeetPealkiriEn" value="<%= vastuvottAnkeetData.pealkiri.en %>">
+      <input type="text" class="page-admin__input page-admin__input--bold input" name="ankeetPealkiriEn" id="ankeetPealkiriEn" value="<%= vastuvottAnkeetData.pealkiri.en %>">
     </div>
   </div>
   <div class="page-admin__form-box" id="ankeetLoikForm">

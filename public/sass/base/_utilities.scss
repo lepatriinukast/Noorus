@@ -32,10 +32,16 @@
   margin-right: 1rem !important;
 }
 
+// a class that centers the element
+
+.u-centered {
+  margin: auto;
+}
+
 // a class that gives the text boxes on the "pood" page a max-height of 19 rem
 
 .low-fixed-height {
-  max-height: 17rem;
+  max-height: 16.75rem;
   transition-property: max-height;
   transition-duration: 0.5s;
   @media screen and (max-width: 62.5em) {

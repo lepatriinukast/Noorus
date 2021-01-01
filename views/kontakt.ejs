@@ -3,59 +3,93 @@
 <div class="page-kontakt__container">
   <h2 class="heading--secondary heading--purple u-margin-bottom-big">Kontakt</h2>
   <div class="page-kontakt__text-box">
+    <% if (kontaktSissejuhatusData.loigud.length !== 0) { %>
     <div class="page-kontakt__small-box">
       <% for (var i = 0; i < kontaktSissejuhatusData.loigud.length; i++) { %>
-      <p class="paragraph--small paragraph--purple"><%= kontaktSissejuhatusData.loigud[i].est %></p>
+      <p class="paragraph--small paragraph--purple"><%- kontaktSissejuhatusData.loigud[i].est %></p>
       <% } %>
     </div>
+    <% } %>
+    <% if (kontaktAndmedData.paarid.length !== 0) { %>
     <div class="page-kontakt__small-box">
+      <% if (kontaktAndmedData.pealkiri.est !== "") { %>
       <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= kontaktAndmedData.pealkiri.est %></h3>
+      <% } %>
       <% for (var i = 0; i < kontaktAndmedData.paarid.length; i++) { %>
       <p class="paragraph--small paragraph--purple"><strong><%= kontaktAndmedData.paarid[i].estKey %>:</strong> <%= kontaktAndmedData.paarid[i].est %></p>
       <% } %>
     </div>
+    <% } %>
+    <% if (kontaktNumbridData.numbrid.length !== 0) { %>
     <div class="page-kontakt__small-box">
+      <% if (kontaktNumbridData.pealkiri.est !== "") { %>
       <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= kontaktNumbridData.pealkiri.est %></h3>
+      <% } %>
       <ul class="list">
         <% for (var i = 0; i < kontaktNumbridData.numbrid.length; i++) { %>
         <li class="list__item"><strong><%= kontaktNumbridData.numbrid[i].estKey %>:</strong> <%= kontaktNumbridData.numbrid[i].number %></li>
         <% } %>
       </ul>
     </div>
+    <% } %>
+    <% if (kontaktMtuData.paarid.length !== 0 ) { %>
     <div class="page-kontakt__small-box">
+      <% if (kontaktMtuData.pealkiri.est !== "") { %>
       <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= kontaktMtuData.pealkiri.est %></h3>
+      <% } %>
       <ul class="list">
         <% for (var i = 0; i < kontaktMtuData.paarid.length; i++) { %>
         <li class="list__item"><strong><%= kontaktMtuData.paarid[i].estKey %>:</strong> <%= kontaktMtuData.paarid[i].est %></li>
         <% } %>
       </ul>
     </div>
+    <% } %>
+    <% if (kontaktUldineData.loigud.length !== 0) { %>
     <div class="page-kontakt__small-box">
+      <% if (kontaktUldineData.pealkiri.est !== "") { %>
       <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= kontaktUldineData.pealkiri.est %></h3>
+      <% } %>
       <% for (var i = 0; i < kontaktUldineData.loigud.length; i++) { %>
-      <p class="paragraph--small paragraph--purple"><%= kontaktUldineData.loigud[i].est %></p>
+      <p class="paragraph--small paragraph--purple"><%- kontaktUldineData.loigud[i].est %></p>
       <% } %>
     </div>
+    <% } %>
+    <% if (vastuvottTekstidData.pealkiri.est !== "" && vastuvottTekstidData.loigud.length !== 0) { %>
+    <div class="page-kontakt__small-box">
+      <% if (vastuvottTekstidData.pealkiri.est !== "") { %>
+      <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= vastuvottTekstidData.pealkiri.est %></h3>
+      <% } %>
+      <% if (vastuvottTekstidData.loigud.length !== 0) { %>
+      <% for (var i = 0; i < vastuvottTekstidData.loigud.length; i++) { %>
+      <p class="paragraph--small paragraph--purple"><%- vastuvottTekstidData.loigud[i].est %></p>
+      <% } %>
+      <% } %>
+    </div>
+    <% } %>
   </div>
+  <% if (vastuvottAnkeetData.valjad.length !== 0) { %>
   <div class="page-kontakt__text-box">
     <form action="/upload/kontakt/email" method="post" class="form" name="contactForm" id="contactForm">
+      <% if (vastuvottAnkeetData.pealkiri.est !== "") { %>
       <h3 class="heading--tertiary heading--purple u-margin-bottom-small"><%= vastuvottAnkeetData.pealkiri.est %></h3>
+      <% } %>
       <div class="form__column">
         <% for (var i = 0; i < vastuvottAnkeetData.valjad.length; i++) { %>
         <div class="form__field">
           <p class="paragraph--small paragraph--purple paragraph--inline u-margin-right-small"><%= vastuvottAnkeetData.valjad[i].checked %></p>
           <% if (vastuvottAnkeetData.valjad[i].textArea === "*") { %>
-           <textarea class="form__input form__text-area vastuvottField" id="vastuvottField<%= i + 1 %>" name="vastuvottField<%= i + 1 %>" rows="1" placeholder="<%= vastuvottAnkeetData.valjad[i].est %>" <% if (vastuvottAnkeetData.valjad[i].checked === "*") { %>
-             required <% } %> aria-label="<%= vastuvottAnkeetData.valjad[i].est %>"></textarea>
-            <% }  else { %>
+          <textarea class="form__input form__text-area vastuvottField" id="vastuvottField<%= i + 1 %>" name="vastuvottField<%= i + 1 %>" rows="1" placeholder="<%= vastuvottAnkeetData.valjad[i].est %>"
+            <% if (vastuvottAnkeetData.valjad[i].checked === "*") { %> required <% } %> aria-label="<%= vastuvottAnkeetData.valjad[i].est %>"></textarea>
+          <% }  else { %>
           <input type="text" class="form__input vastuvottField" id="vastuvottField<%= i + 1 %>" name="vastuvottField<%= i + 1 %>" placeholder="<%= vastuvottAnkeetData.valjad[i].est %>" <% if (vastuvottAnkeetData.valjad[i].checked === "*") { %>
             required <% } %> aria-label="<%= vastuvottAnkeetData.valjad[i].est %>">
-            <% } %>
+          <% } %>
         </div>
         <% } %>
       </div>
       <button class="btn btn--main btn--dark u-margin-top-small" type="submit" name="submitContactBtn">Saada</button>
     </form>
   </div>
+  <% } %>
 </div>
 <%- include partials/footer -%>
