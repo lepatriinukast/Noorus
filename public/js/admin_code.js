@@ -438,9 +438,22 @@ if (editableInputArray.length !== 0) {
 
       event.preventDefault();
 
-      // instead paste the plain text version of the copied text
+      // instead paste a plain text version of the copied text
+       // by first getting the clipboard data and turning into plain text without HTML
 
-      document.execCommand('inserttext', false, event.clipboardData.getData('text/plain'));
+      var text = event.clipboardData.getData("text/plain");
+
+      // then create a temporary div element
+
+      var temp = document.createElement("div");
+
+      // change the inner HTML of this temporary element to the obtained plain clipboard text
+
+      temp.innerHTML = text;
+
+      // insert this innerHTML into the editable input
+
+      document.execCommand("insertHTML", false, temp.textContent);
     });
   }
 }
@@ -504,7 +517,7 @@ function getChangedInputValue(input) {
 
     // if yes, return its value attribute
 
-    var innerValue = input.value
+    var innerValue = input.value;
 
     return innerValue;
 
@@ -2949,7 +2962,7 @@ function updatePoodSubformProperties(elementData) {
 
     // loop through all the "loikNimistu" components on every "pood" subform and update their attributes
 
-    for (var a = 0; a < elementData.subforms.subformLoikArrays[i].length; a++) {
+    for (var a = 0; a < elementData.subforms.subformLoikNimistuArrays[i].length; a++) {
 
       // the indexNumber in the end of the "loikNimistu" elements' attributes is their position in the array + 1 (since humans count from 1 not 0)
 
@@ -3559,8 +3572,21 @@ function appendElement(form, docElements) {
           event.preventDefault();
 
           // instead paste a plain text version of the copied text
+           // by first getting the clipboard data and turning into plain text without HTML
 
-          document.execCommand('inserttext', false, event.clipboardData.getData('text/plain'));
+          var text = event.clipboardData.getData("text/plain");
+
+          // then create a temporary div element
+
+          var temp = document.createElement("div");
+
+          // change the inner HTML of this temporary element to the obtained plain clipboard text
+
+          temp.innerHTML = text;
+
+          // insert this innerHTML into the editable input
+
+          document.execCommand("insertHTML", false, temp.textContent);
         });
 
         // listen to the focus event

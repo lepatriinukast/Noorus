@@ -78,12 +78,12 @@
         <% } %>
       </div>
       <div class="page-admin__form-box">
-        <button class="page-admin__small-btn poodLoikNimistuAddBtn" type="button" id="pood<%= a + 1 %>LoikNimistuAddBtn">+ Lisa träkk +</button>
+        <button class="page-admin__small-btn poodLoikNimistuAddBtn" type="button" id="pood<%= a + 1 %>LoikNimistuAddBtn" name="pood<%= a + 1 %>LoikNimistuAddBtn">+ Lisa träkk +</button>
         <button class="page-admin__small-btn poodDeleteBtn" type="button" id="pood<%= a + 1 %>DeleteBtn">Kustuta toode</button>
       </div>
       <div class="page-admin__form-box">
       </div>
-      <button class="page-admin__btn" type="submit">Salvesta</button>
+      <button class="page-admin__btn poodSubmitBtn" id="pood<%= a + 1 %>SubmitBtn" name="pood<%= a + 1 %>SubmitBtn" type="submit">Salvesta</button>
     </div>
     <% } %>
   </div>
@@ -140,7 +140,7 @@
   <div class="page-admin__form-box">
     <button class="page-admin__small-btn" type="button" id="kontaktandmedLoikAddBtn">+ Lisa väli +</button>
   </div>
-  <button class="page-admin__btn poodSubmitBtn" id="pood<%= a + 1 %>SubmitBtn" name="pood<%= a + 1 %>SubmitBtn" type="submit">Salvesta</button>
+  <button class="page-admin__btn" type="submit">Salvesta</button>
   <div class="page-admin__form-box">
     <div class="page-admin__form-field">
       <h3 class="page-admin__heading">Järellõik</h3>
