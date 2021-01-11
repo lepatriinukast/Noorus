@@ -515,17 +515,17 @@ function getChangedInputValue(input) {
 
   if (input.tagName === "INPUT") {
 
-    // if yes, return its value attribute
+    // if yes, return its value attribute, where all whitespace is trimmed down to one
 
-    var innerValue = input.value;
+    var innerValue = input.value.replace(/\s+/g, " ");
 
     return innerValue;
 
   } else {
 
-    // if not return its innerHTML attribute
+    // if not return its innerHTML attribute, where all whitespace is trimmed down to one
 
-    var innerText = input.innerHTML
+    var innerText = input.innerHTML.replace(/\s+/g, " ");
 
     return innerText;
   }
@@ -3721,6 +3721,7 @@ if (sundmused !== null) {
 if (pood !== null) {
 
   pood.addEventListener("submit", function(event) {
+    console.log(document.getElementById("pood3LoikEn3").value);
     ajaxMulter(event, new MulterParam(pood, "pood"));
   });
 }
