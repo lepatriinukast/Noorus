@@ -48,14 +48,27 @@ app.use(express.static("public"));
 
 // create a model function for getting data
 
-  const queryDatabase = (tableName, model) => {
+  // const queryDatabase = (tableName, model) => {
+  //   let promise = new Promise((resolve, reject) => {
+  //     con.query(`SELECT * FROM ${tableName} ORDER BY id`, (err, result) => {
+  //       if (err) {
+  //         reject(err);
+  //       } else {
+  //         let data = model(result);
+  //         resolve(data);
+  //       }
+  //     });
+  //   });
+  //   return promise;
+  // };
+
+  const queryDatabase = (tableName) => {
     let promise = new Promise((resolve, reject) => {
       con.query(`SELECT * FROM ${tableName} ORDER BY id`, (err, result) => {
         if (err) {
           reject(err);
         } else {
-          let data = model(result);
-          resolve(data);
+          resolve(result);
         }
       });
     });
@@ -100,7 +113,8 @@ app.route("/")
   .get(async (req, res) => {
     const pageTitle = "Avaleht";
     const currentPage = "en";
-    const staticImages = await queryDatabase("static_images", mod.getStaticImages);
+    const result = await queryDatabase("members_sections");
+    console.log(result);
 
 
 
