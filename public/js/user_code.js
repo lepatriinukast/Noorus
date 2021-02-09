@@ -3,7 +3,6 @@
 //J S   C L I E N T - S I D E   C O D E
 
 
-
 // GET THE RELEVANT DOM ELEMENTS
 
 

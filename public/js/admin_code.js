@@ -225,6 +225,7 @@ function sessionLogin() {
       // if there is another problem with the login, create a failure message
 
     } else if (this.status !== 200) {
+      console.log(this.response);
       createFailureMessage();
     }
   };
@@ -274,6 +275,7 @@ function sessionLogout() {
       // if there is a problem, create a failure message
 
     } else if (this.status !== 200) {
+      console.log(this.response);
       createFailureMessage();
     }
   };
@@ -4153,6 +4155,7 @@ function ajaxGetNew(event, location, destination, subform) {
       // if something is wrong, create a failure message
 
     } else if (this.status !== 200) {
+      console.log(this.response);
       createFailureMessage();
     }
   };
@@ -4204,6 +4207,7 @@ function ajaxMulter(event, params) {
       // if not, create a failure message
 
     } else if (this.status !== 200) {
+      console.log(this.response);
       createFailureMessage();
     }
   };
@@ -4293,6 +4297,7 @@ function ajaxBodyParser(event, params) {
       // if there is another problem, create a failure message
 
     } else if (this.status !== 200) {
+      console.log(this.response);
       createFailureMessage();
     }
   };

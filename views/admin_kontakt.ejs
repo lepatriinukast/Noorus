@@ -3,6 +3,15 @@
 <%- include partials/admin-popup -%>
 <form action="/upload/kontakt" method="post" class="page-admin__form" id="kontakt">
   <h3 class="page-admin__title">Kontaktandmed</h3>
+
+  <p class="page-admin__text">EST</p>
+  <iframe class="page-admin__input page-admin__text-area input editable-input" id="richTextFieldEst" name="richTextFieldEst"></iframe>
+  <input type="text" class="page-admin__hidden-input kontaktSissejuhatusLoikEst" id="richTextFieldEstInput" name="richTextFieldEstInput" value="<%- %>"></input>
+
+  <p class="page-admin__text">EN</p>
+  <iframe class="page-admin__input page-admin__text-area input editable-input" id="richTextFieldEn" name="richTextFieldEn"></iframe>
+  <input type="text" class="page-admin__hidden-input" id="richTextFieldEnInput" name="richTextFieldEnInput" value="<%- %>"></input>
+
   <div class="page-admin__form-box" id="kontaktSissejuhatusLoikForm">
     <% for (var i = 0; i < kontaktSissejuhatusData.loigud.length; i++) { %>
     <div class="page-admin__form-field kontaktSissejuhatusLoik" id="kontaktSissejuhatusLoik<%= i + 1 %>" data-heading="Sissejuhatav lõik">

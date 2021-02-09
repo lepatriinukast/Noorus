@@ -7,14 +7,18 @@ require('dotenv').config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
-const mysql = require("mysql");
+
 const multer = require("multer");
-const path = require("path");
 const nodemailer = require("nodemailer");
 const session = require("express-session");
 const bcrypt = require('bcrypt');
 const saltRounds = 12;
 
+
+// require the custom modules
+
+const mod = require("./renderingModel");
+const con = require("./dbConnection");
 
 // setup express back-end framework
 
@@ -42,19 +46,22 @@ app.use(bodyParser.urlencoded({
 app.set('view engine', 'ejs');
 app.use(express.static("public"));
 
-// connect to mySQL database
+// create a model function for getting data
 
-var con = mysql.createConnection({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_DB
-});
+  const queryDatabase = (tableName, model) => {
+    let promise = new Promise((resolve, reject) => {
+      con.query(`SELECT * FROM ${tableName} ORDER BY id`, (err, result) => {
+        if (err) {
+          reject(err);
+        } else {
+          let data = model(result);
+          resolve(data);
+        }
+      });
+    });
+    return promise;
+  };
 
-con.connect(function(err) {
-  if (err) throw err;
-  console.log("Connected!");
-});
 
 // setup an email transporter
 
@@ -68,428 +75,100 @@ const transporter = nodemailer.createTransport({
 
 // setup multer storage engine for picture uploads
 
-var storage = multer.diskStorage({
-  destination: function(req, file, cb) {
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
     cb(null, "./public/img");
   },
-  filename: function(req, file, cb) {
+  filename: (req, file, cb) => {
     cb(null, file.originalname);
   }
 });
 
 // an asynchronous function for updating the database
 
-async function updateDatabase(sql, values) {
-  con.query(sql, values, function(err, result) {
+const updateDatabase = async (sql, values) => {
+  con.query(sql, values, (err, result) => {
     if (err) throw err;
   });
-}
+};
 
 
 // ESTONIAN ROUTES
 
-app.get("/", function(req, res) {
-  var pageTitle = "Avaleht";
-  var currentPage = "en";
-  con.query("SELECT * FROM avalehtpildid ORDER BY id", function(err, result) {
-    if (err) throw err;
-    var paiseikoon = {
-      url: result[0].url,
-      filename: result[0].url.slice(5)
-    };
-    con.query("SELECT * FROM avalehtpildid ORDER BY id", function query(err, result) {
-      if (err) throw err;
-      var avalehtPildidData = {
-        avalehtLogo: {
-          url: result[1].url,
-          filename: result[1].url.slice(5)
-        },
-        avalehtTaustapilt: {
-          url: result[2].url,
-          filename: result[2].url.slice(5)
-        }
-      };
-      con.query("SELECT * FROM avalehttekstid ORDER BY id", function(err, result) {
-        if (err) throw err;
-        var avalehtTekstidData = {
-          suurPealkiri: {
-            est: result[0].est,
-            en: result[0].en
-          },
-          jatkuPealkiri: {
-            est: result[1].est,
-            en: result[1].en
-          },
-          sektsiooniPealkiri1: {
-            est: result[2].est,
-            en: result[2].en
-          },
-          sektsiooniTekst1: {
-            est: result[3].est,
-            en: result[3].en
-          },
-          sektsiooniPealkiri2: {
-            est: result[4].est,
-            en: result[4].en
-          },
-          sektsiooniTekst2: {
-            est: result[5].est,
-            en: result[5].en
-          }
-        };
-        con.query("SELECT * FROM sundmusedpildid ORDER BY id", function(err, result) {
-          if (err) throw err;
-          var plakatid = [];
-          for (var i = 0; i < result.length; i++) {
-            var plakat = {
-              url: result[i].url,
-              filename: result[i].url.slice(5)
-            };
-            plakatid.push(plakat);
-          }
+app.route("/")
 
-          // find the dynamic tables from the database ("sundmused" and "moodunud") and sort them into groups accordingly
+  .get(async (req, res) => {
+    const pageTitle = "Avaleht";
+    const currentPage = "en";
+    const staticImages = await queryDatabase("static_images", mod.getStaticImages);
 
-          var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = '" + process.env.DB_DB + "' ORDER by table_name";
 
-          con.query(sql, async function(err, result) {
+
+          con.query("SELECT * FROM sundmusedpildid ORDER BY id", (err, result) => {
             if (err) throw err;
-
-            var tableNamesSundmused = [];
-            var tableNamesMoodunud = [];
-
-            for (var i = 0; i < result.length; i++) {
-
-              var tableName = (result[i].table_name);
-
-              if (tableName.indexOf("sundmused") !== -1 &&
-                tableName.indexOf("pildid") === -1 &&
-                tableName.indexOf("sissejuhatus") === -1 &&
-                tableName.indexOf("koht") === -1) {
-
-                tableNamesSundmused.push(tableName);
-
-              } else if (tableName.indexOf("moodunud") !== -1 &&
-                tableName.indexOf("pildid") === -1 &&
-                tableName.indexOf("koht") === -1) {
-
-                tableNamesMoodunud.push(tableName);
-
-              }
-            }
-
-            // sort the table arrays in alphabetic order (ascending for sundmused and descending for moodunud)
-
-            var sortedTableNamesSundmused = tableNamesSundmused.sort(function(a, b) {
-              return a - b;
-            });
-            var sortedTableNamesMoodunud = tableNamesMoodunud.reverse();
-
-
-            // to get the necessary data for dynamic subforms, we need to use async functions with promises,
-            // this is necessary, because we often need to wait for database queries,
-            // but because we need to have loops in our code, we cannot use callbacks like we normally do
-            // (for this advanced js code, we also use new arrow functions)
-
-
-            // functions (one for each database table associated with a dynamic "sundmused" and "moodunud" subform),
-            // which will each return a promise that will be resolved to an array once the database query has completed,
-            // these functions take an argument, which is the relevant database table name
-
-            const constructSundmusedPromise = tableName => {
-
-              return new Promise((resolve, reject) => {
-
-                con.query("SELECT * FROM " + tableName + " ORDER by id", function(err, result) {
-                  if (err) throw err;
-
-                  var sundmus = {
-                    pealkiri: {
-                      est: result[0].est,
-                      en: result[0].en
-                    },
-                    loigud: []
-                  };
-                  for (let b = 1; b < result.length; b++) {
-                    var loik = {
-                      est: result[b].est,
-                      en: result[b].en
-                    };
-                    sundmus.loigud.push(loik);
-                  }
-                  if (err) {
-                    reject(err);
-                  } else {
-                    resolve(sundmus);
-                  }
-                });
-              });
-            };
-
-
-            const constructMoodunudPromise = tableName => {
-
-              return new Promise((resolve, reject) => {
-
-                con.query("SELECT * FROM " + tableName + " ORDER by id", function(err, result) {
-                  if (err) throw err;
-
-                  var sundmus = {
-                    pealkiri: {
-                      est: result[0].est,
-                      en: result[0].en
-                    },
-                    loigud: []
-                  };
-                  for (let b = 1; b < result.length; b++) {
-                    var loik = {
-                      est: result[b].est,
-                      en: result[b].en
-                    };
-                    sundmus.loigud.push(loik);
-                  }
-                  if (err) {
-                    reject(err);
-                  } else {
-                    resolve(sundmus);
-                  }
-                });
-              });
-            };
-
-
-            // create arrays of the promises constructed above, using the map method
-
-            const sundmusedDataPromise = sortedTableNamesSundmused.map(async tableNameSundmused => {
-
-              const sundmused = await constructSundmusedPromise(tableNameSundmused);
-
-              return sundmused;
-            });
-
-
-            const moodunudDataPromise = sortedTableNamesMoodunud.map(async tableNameMoodunud => {
-
-              const moodunud = await constructMoodunudPromise(tableNameMoodunud);
-
-              return moodunud;
-            });
-
-
-            // wait for all the promises to be resolved into two arrays
-
-            var sundmusedData = await Promise.all(sundmusedDataPromise);
-            var moodunudData = await Promise.all(moodunudDataPromise);
-
-            con.query("SELECT * FROM pealkirjad ORDER BY id", function(err, result) {
-              if (err) throw err;
-              var pealkirjadData = [];
-              for (var i = 0; i < result.length; i++) {
-                var pealkiri = {
-                  est: result[i].est,
-                  en: result[i].en
-                };
-                pealkirjadData.push(pealkiri);
-              }
-              res.render("avaleht", {
-                pageTitle: pageTitle,
-                currentPage: currentPage,
-                paiseikoon: paiseikoon,
-                plakatid: plakatid,
-                avalehtTekstidData: avalehtTekstidData,
-                avalehtPildidData: avalehtPildidData,
-                sundmusedData: sundmusedData,
-                moodunudData: moodunudData,
-                pealkirjadData: pealkirjadData
-              });
-            });
-          });
-        });
-      });
-    });
-  });
-});
-
-
-app.get("/koorist", function(req, res) {
-  var pageTitle = "Koorist";
-  var currentPage = "en/about-us";
-  con.query("SELECT * FROM avalehtpildid ORDER BY id", function(err, result) {
-    if (err) throw err;
-    var paiseikoon = {
-      url: result[0].url,
-      filename: result[0].url.slice(5)
-    };
-    con.query("SELECT * FROM sissejuhatuspildid ORDER BY id", function(err, result) {
-      if (err) throw err;
-      var avapilt = {
-        url: result[0].url,
-        filename: result[0].url.slice(5)
-      };
-      con.query("SELECT * FROM pealkirjad ORDER BY id", function(err, result) {
-        if (err) throw err;
-        var pealkirjadData = [];
-        for (var i = 0; i < result.length; i++) {
-          var pealkiri = {
-            est: result[i].est,
-            en: result[i].en
-          };
-          pealkirjadData.push(pealkiri);
-        }
-
-        con.query("SELECT * FROM sissejuhatustekstid ORDER BY id", function(err, result) {
-          if (err) throw err;
-          var sissejuhatusData = {
-            pealkiri: {
-              est: result[0].est,
-              en: result[0].en
-            },
-            loigud: []
-          };
-          for (var i = 1; i < result.length; i++) {
-            var loik = {
-              est: result[i].est,
-              en: result[i].en
-            };
-            sissejuhatusData.loigud.push(loik);
-          }
-          con.query("SELECT * FROM liikmed ORDER BY id", function(err, result) {
-            if (err) throw err;
-            var liikmedData = {
-              haaleruhmaNimed: [{
-                est: result[0].est,
-                en: result[0].en
-              }, {
-                est: result[1].est,
-                en: result[1].en
-              }, {
-                est: result[2].est,
-                en: result[2].en
-              }, {
-                est: result[3].est,
-                en: result[3].en
-              }],
-              haaleruhmaTutvustused: [{
-                est: result[4].est,
-                en: result[4].en
-              }, {
-                est: result[5].est,
-                en: result[5].en
-              }, {
-                est: result[6].est,
-                en: result[6].en
-              }, {
-                est: result[7].est,
-                en: result[7].en
-              }],
-              lauljadPealkiri: {
-                est: result[8].est,
-                en: result[8].en
-              },
-              sopranid: result[9].est,
-              aldid: result[10].est,
-              tenorid: result[11].est,
-              bassid: result[12].est,
-              vilistlastePealkiri: {
-                est: result[13].est,
-                en: result[13].en
-              },
-              vilistlasteNimekiri: {
-                est: result[14].est,
-                en: result[14].en
-              },
-              loigud: []
-            };
-            for (var i = 15; i < result.length; i++) {
-              var loik = {
-                name: result[i].name,
-                est: result[i].est,
-                en: result[i].en,
+            const plakatid = [];
+            for (let i = 0; i < result.length; i++) {
+              let plakat = {
+                url: result[i].url,
+                filename: result[i].url.slice(5)
               };
-              liikmedData.loigud.push(loik);
+              plakatid.push(plakat);
             }
 
-            // find the dynamic tables from the database ("dirigendid" and "ajalugu") and sort them into groups accordingly
+            // find the dynamic tables from the database ("sundmused" and "moodunud") and sort them into groups accordingly
 
-            var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = '" + process.env.DB_DB + "' ORDER by table_name";
+            const sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = '" + process.env.DB_DB + "' ORDER by table_name";
 
-            con.query(sql, async function(err, result) {
+            con.query(sql, async (err, result) => {
               if (err) throw err;
 
-              var dirigendidTableNames = [];
-              var ajaluguTableNames = [];
+              const tableNamesSundmused = [];
+              const tableNamesMoodunud = [];
 
-              for (var i = 0; i < result.length; i++) {
+              for (let i = 0; i < result.length; i++) {
 
-                var tableName = (result[i].table_name);
+                let tableName = (result[i].table_name);
 
-                if (tableName.indexOf("dirigendid") !== -1 && tableName.indexOf("pildid") === -1) {
+                if (tableName.indexOf("sundmused") !== -1 &&
+                  tableName.indexOf("pildid") === -1 &&
+                  tableName.indexOf("sissejuhatus") === -1 &&
+                  tableName.indexOf("koht") === -1) {
 
-                  dirigendidTableNames.push(tableName);
+                  tableNamesSundmused.push(tableName);
 
-                } else if (tableName.indexOf("ajalugu") !== -1 && tableName.indexOf("sissekanded") === -1 && tableName.indexOf("sissejuhatus") === -1) {
+                } else if (tableName.indexOf("moodunud") !== -1 &&
+                  tableName.indexOf("pildid") === -1 &&
+                  tableName.indexOf("koht") === -1) {
 
-                  ajaluguTableNames.push(tableName);
+                  tableNamesMoodunud.push(tableName);
 
                 }
               }
 
-              var sortedDirigendidTableNames = dirigendidTableNames.sort(function(a, b) {
-                return a - b;
-              });
+              // sort the table arrays in alphabetic order (ascending for sundmused and descending for moodunud)
 
-              var sortedAjaluguTableNames = ajaluguTableNames.sort(function(a, b) {
+              const sortedTableNamesSundmused = tableNamesSundmused.sort(function(a, b) {
                 return a - b;
               });
+              const sortedTableNamesMoodunud = tableNamesMoodunud.reverse();
+
 
               // to get the necessary data for dynamic subforms, we need to use async functions with promises,
               // this is necessary, because we often need to wait for database queries,
               // but because we need to have loops in our code, we cannot use callbacks like we normally do
-              // (for this advanced js code, we also use new arrow functions)
 
+              // functions (one for each database table associated with a dynamic "sundmused" and "moodunud" subform),
+              // which will each return a promise that will be resolved to an array once the database query has completed,
+              // these functions take an argument, which is the relevant database table name
 
-              // a function, which returns a promise that will be resolved to a "dirigent" object once the database query has completed,
-              // takes an argument, which is the relevant database table name
-
-              const constructDirigendidPromise = tableName => {
-
-                return new Promise((resolve, reject) => {
-
-                  con.query("SELECT * FROM " + tableName + " ORDER by id", function(err, result) {
-                    if (err) throw err;
-
-                    var dirigent = {
-                      nimi: result[0].est,
-                      loigud: []
-                    };
-                    for (let b = 1; b < result.length; b++) {
-                      var loik = {
-                        est: result[b].est,
-                        en: result[b].en
-                      };
-                      dirigent.loigud.push(loik);
-                    }
-                    if (err) {
-                      reject(err);
-                    } else {
-                      resolve(dirigent);
-                    }
-                  });
-                });
-              };
-
-
-              // a function, which returns a promise that will be resolved to a "ajaluguSektsioon" object once the database query has completed,
-              // takes an argument, which is the relevant database table name
-
-              const constructAjaluguPromise = tableName => {
+              const constructSundmusedPromise = tableName => {
 
                 return new Promise((resolve, reject) => {
 
-                  con.query("SELECT * FROM " + tableName + " ORDER by id", function(err, result) {
+                  con.query("SELECT * FROM " + tableName + " ORDER by id", (err, result) => {
                     if (err) throw err;
 
-                    var ajaluguSektsioon = {
+                    const sundmus = {
                       pealkiri: {
                         est: result[0].est,
                         en: result[0].en
@@ -497,167 +176,453 @@ app.get("/koorist", function(req, res) {
                       loigud: []
                     };
                     for (let b = 1; b < result.length; b++) {
-                      var loik = {
+                      let loik = {
                         est: result[b].est,
                         en: result[b].en
                       };
-                      ajaluguSektsioon.loigud.push(loik);
+                      sundmus.loigud.push(loik);
                     }
                     if (err) {
                       reject(err);
                     } else {
-                      resolve(ajaluguSektsioon);
+                      resolve(sundmus);
                     }
                   });
                 });
               };
 
-              // create an array of the "dirigent" promises constructed above, using the map method
 
-              const dirigendidDataPromise = sortedDirigendidTableNames.map(async tableName => {
+              const constructMoodunudPromise = tableName => {
 
-                const dirigent = await constructDirigendidPromise(tableName);
+                return new Promise((resolve, reject) => {
 
-                return dirigent;
+                  con.query("SELECT * FROM " + tableName + " ORDER by id", (err, result) => {
+                    if (err) throw err;
+
+                    const sundmus = {
+                      pealkiri: {
+                        est: result[0].est,
+                        en: result[0].en
+                      },
+                      loigud: []
+                    };
+                    for (let b = 1; b < result.length; b++) {
+                      let loik = {
+                        est: result[b].est,
+                        en: result[b].en
+                      };
+                      sundmus.loigud.push(loik);
+                    }
+                    if (err) {
+                      reject(err);
+                    } else {
+                      resolve(sundmus);
+                    }
+                  });
+                });
+              };
+
+
+              // create arrays of the promises constructed above, using the map method
+
+              const sundmusedDataPromise = sortedTableNamesSundmused.map(async tableNameSundmused => {
+
+                const sundmused = await constructSundmusedPromise(tableNameSundmused);
+
+                return sundmused;
               });
 
-              // wait for all the promises to be resolved into an array of "dirigent" objects
 
-              var dirigendidData = await Promise.all(dirigendidDataPromise);
+              const moodunudDataPromise = sortedTableNamesMoodunud.map(async tableNameMoodunud => {
 
+                const moodunud = await constructMoodunudPromise(tableNameMoodunud);
 
-              // create an array of the "ajaluguSektsioon" promises constructed above, using the map method
-
-              const ajaluguDataPromise = sortedAjaluguTableNames.map(async tableName => {
-
-                const ajaluguSektsioon = await constructAjaluguPromise(tableName);
-
-                return ajaluguSektsioon;
+                return moodunud;
               });
 
-              // wait for all the promises to be resolved into an array of "dirigent" objects
 
-              var ajaluguSektsioonidData = await Promise.all(ajaluguDataPromise);
+              // wait for all the promises to be resolved into two arrays
 
-              con.query("SELECT * FROM dirigendidpildid ORDER by id", function(err, result) {
+              const sundmusedData = await Promise.all(sundmusedDataPromise);
+              const moodunudData = await Promise.all(moodunudDataPromise);
+
+              con.query("SELECT * FROM pealkirjad ORDER BY id", (err, result) => {
                 if (err) throw err;
-                var portreed = [];
-                for (var i = 0; i < result.length; i++) {
-                  var portree = {
-                    url: result[i].url,
-                    filename: result[i].url.slice(5)
+                const pealkirjadData = [];
+                for (let i = 0; i < result.length; i++) {
+                  let pealkiri = {
+                    est: result[i].est,
+                    en: result[i].en
                   };
-                  portreed.push(portree);
+                  pealkirjadData.push(pealkiri);
                 }
-                con.query("SELECT * FROM ajalugusissejuhatus ORDER BY id", function(err, result) {
-                  if (err) throw err;
-                  var ajaluguSissejuhatusData = {
-                    pealkiri: {
-                      est: result[0].est,
-                      en: result[0].en
-                    },
-                    loigud: []
-                  };
-                  for (var i = 1; i < result.length; i++) {
-                    var loik = {
-                      est: result[i].est,
-                      en: result[i].en
-                    };
-                    ajaluguSissejuhatusData.loigud.push(loik);
+                res.render("avaleht", {
+                  pageTitle: pageTitle,
+                  currentPage: currentPage,
+                  paiseikoon: paiseikoon,
+                  plakatid: plakatid,
+                  avalehtTekstidData: avalehtTekstidData,
+                  avalehtPildidData: avalehtPildidData,
+                  sundmusedData: sundmusedData,
+                  moodunudData: moodunudData,
+                  pealkirjadData: pealkirjadData
+                });
+              });
+            });
+          });
+  });
+
+
+app.route("/koorist")
+
+  .get((req, res) => {
+    const pageTitle = "Koorist";
+    const currentPage = "en/about-us";
+    con.query("SELECT * FROM avalehtpildid ORDER BY id", (err, result) => {
+      if (err) throw err;
+      const paiseikoon = {
+        url: result[0].url,
+        filename: result[0].url.slice(5)
+      };
+      con.query("SELECT * FROM sissejuhatuspildid ORDER BY id", (err, result) => {
+        if (err) throw err;
+        const avapilt = {
+          url: result[0].url,
+          filename: result[0].url.slice(5)
+        };
+        con.query("SELECT * FROM pealkirjad ORDER BY id", (err, result) => {
+          if (err) throw err;
+          var pealkirjadData = [];
+          for (var i = 0; i < result.length; i++) {
+            var pealkiri = {
+              est: result[i].est,
+              en: result[i].en
+            };
+            pealkirjadData.push(pealkiri);
+          }
+
+          con.query("SELECT * FROM sissejuhatustekstid ORDER BY id", function(err, result) {
+            if (err) throw err;
+            var sissejuhatusData = {
+              pealkiri: {
+                est: result[0].est,
+                en: result[0].en
+              },
+              loigud: []
+            };
+            for (var i = 1; i < result.length; i++) {
+              var loik = {
+                est: result[i].est,
+                en: result[i].en
+              };
+              sissejuhatusData.loigud.push(loik);
+            }
+            con.query("SELECT * FROM liikmed ORDER BY id", function(err, result) {
+              if (err) throw err;
+              var liikmedData = {
+                haaleruhmaNimed: [{
+                  est: result[0].est,
+                  en: result[0].en
+                }, {
+                  est: result[1].est,
+                  en: result[1].en
+                }, {
+                  est: result[2].est,
+                  en: result[2].en
+                }, {
+                  est: result[3].est,
+                  en: result[3].en
+                }],
+                haaleruhmaTutvustused: [{
+                  est: result[4].est,
+                  en: result[4].en
+                }, {
+                  est: result[5].est,
+                  en: result[5].en
+                }, {
+                  est: result[6].est,
+                  en: result[6].en
+                }, {
+                  est: result[7].est,
+                  en: result[7].en
+                }],
+                lauljadPealkiri: {
+                  est: result[8].est,
+                  en: result[8].en
+                },
+                sopranid: result[9].est,
+                aldid: result[10].est,
+                tenorid: result[11].est,
+                bassid: result[12].est,
+                vilistlastePealkiri: {
+                  est: result[13].est,
+                  en: result[13].en
+                },
+                vilistlasteNimekiri: {
+                  est: result[14].est,
+                  en: result[14].en
+                },
+                loigud: []
+              };
+              for (var i = 15; i < result.length; i++) {
+                var loik = {
+                  name: result[i].name,
+                  est: result[i].est,
+                  en: result[i].en,
+                };
+                liikmedData.loigud.push(loik);
+              }
+
+              // find the dynamic tables from the database ("dirigendid" and "ajalugu") and sort them into groups accordingly
+
+              var sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = '" + process.env.DB_DB + "' ORDER by table_name";
+
+              con.query(sql, async function(err, result) {
+                if (err) throw err;
+
+                var dirigendidTableNames = [];
+                var ajaluguTableNames = [];
+
+                for (var i = 0; i < result.length; i++) {
+
+                  var tableName = (result[i].table_name);
+
+                  if (tableName.indexOf("dirigendid") !== -1 && tableName.indexOf("pildid") === -1) {
+
+                    dirigendidTableNames.push(tableName);
+
+                  } else if (tableName.indexOf("ajalugu") !== -1 && tableName.indexOf("sissekanded") === -1 && tableName.indexOf("sissejuhatus") === -1) {
+
+                    ajaluguTableNames.push(tableName);
+
                   }
-                  con.query("SELECT * FROM ajalugusissekanded ORDER by id", function(err, result) {
-                    if (err) throw err;
-                    var ajaluguSissekandedData = {
-                      pealkiri: {
-                        est: result[0].est,
-                        en: result[0].en
-                      },
-                      sissekanded: []
-                    };
+                }
 
-                    for (var i = 1; i < result.length; i++) {
+                var sortedDirigendidTableNames = dirigendidTableNames.sort(function(a, b) {
+                  return a - b;
+                });
 
-                      var sissekanne = {
-                        aasta: result[i].year,
-                        est: result[i].est,
-                        en: result[i].en
-                      };
-                      ajaluguSissekandedData.sissekanded.push(sissekanne);
-                    }
-                    con.query("SELECT * FROM meedia ORDER BY id", function(err, result) {
+                var sortedAjaluguTableNames = ajaluguTableNames.sort(function(a, b) {
+                  return a - b;
+                });
+
+                // to get the necessary data for dynamic subforms, we need to use async functions with promises,
+                // this is necessary, because we often need to wait for database queries,
+                // but because we need to have loops in our code, we cannot use callbacks like we normally do
+                // (for this advanced js code, we also use new arrow functions)
+
+
+                // a function, which returns a promise that will be resolved to a "dirigent" object once the database query has completed,
+                // takes an argument, which is the relevant database table name
+
+                const constructDirigendidPromise = tableName => {
+
+                  return new Promise((resolve, reject) => {
+
+                    con.query("SELECT * FROM " + tableName + " ORDER by id", function(err, result) {
                       if (err) throw err;
-                      var meediaSissejuhatusData = {
+
+                      var dirigent = {
+                        nimi: result[0].est,
+                        loigud: []
+                      };
+                      for (let b = 1; b < result.length; b++) {
+                        var loik = {
+                          est: result[b].est,
+                          en: result[b].en
+                        };
+                        dirigent.loigud.push(loik);
+                      }
+                      if (err) {
+                        reject(err);
+                      } else {
+                        resolve(dirigent);
+                      }
+                    });
+                  });
+                };
+
+
+                // a function, which returns a promise that will be resolved to a "ajaluguSektsioon" object once the database query has completed,
+                // takes an argument, which is the relevant database table name
+
+                const constructAjaluguPromise = tableName => {
+
+                  return new Promise((resolve, reject) => {
+
+                    con.query("SELECT * FROM " + tableName + " ORDER by id", function(err, result) {
+                      if (err) throw err;
+
+                      var ajaluguSektsioon = {
                         pealkiri: {
                           est: result[0].est,
-                          en: result[0].en,
+                          en: result[0].en
                         },
                         loigud: []
                       };
-                      for (var i = 1; i < result.length; i++) {
+                      for (let b = 1; b < result.length; b++) {
                         var loik = {
+                          est: result[b].est,
+                          en: result[b].en
+                        };
+                        ajaluguSektsioon.loigud.push(loik);
+                      }
+                      if (err) {
+                        reject(err);
+                      } else {
+                        resolve(ajaluguSektsioon);
+                      }
+                    });
+                  });
+                };
+
+                // create an array of the "dirigent" promises constructed above, using the map method
+
+                const dirigendidDataPromise = sortedDirigendidTableNames.map(async tableName => {
+
+                  const dirigent = await constructDirigendidPromise(tableName);
+
+                  return dirigent;
+                });
+
+                // wait for all the promises to be resolved into an array of "dirigent" objects
+
+                var dirigendidData = await Promise.all(dirigendidDataPromise);
+
+
+                // create an array of the "ajaluguSektsioon" promises constructed above, using the map method
+
+                const ajaluguDataPromise = sortedAjaluguTableNames.map(async tableName => {
+
+                  const ajaluguSektsioon = await constructAjaluguPromise(tableName);
+
+                  return ajaluguSektsioon;
+                });
+
+                // wait for all the promises to be resolved into an array of "dirigent" objects
+
+                var ajaluguSektsioonidData = await Promise.all(ajaluguDataPromise);
+
+                con.query("SELECT * FROM dirigendidpildid ORDER by id", function(err, result) {
+                  if (err) throw err;
+                  var portreed = [];
+                  for (var i = 0; i < result.length; i++) {
+                    var portree = {
+                      url: result[i].url,
+                      filename: result[i].url.slice(5)
+                    };
+                    portreed.push(portree);
+                  }
+                  con.query("SELECT * FROM ajalugusissejuhatus ORDER BY id", function(err, result) {
+                    if (err) throw err;
+                    var ajaluguSissejuhatusData = {
+                      pealkiri: {
+                        est: result[0].est,
+                        en: result[0].en
+                      },
+                      loigud: []
+                    };
+                    for (var i = 1; i < result.length; i++) {
+                      var loik = {
+                        est: result[i].est,
+                        en: result[i].en
+                      };
+                      ajaluguSissejuhatusData.loigud.push(loik);
+                    }
+                    con.query("SELECT * FROM ajalugusissekanded ORDER by id", function(err, result) {
+                      if (err) throw err;
+                      var ajaluguSissekandedData = {
+                        pealkiri: {
+                          est: result[0].est,
+                          en: result[0].en
+                        },
+                        sissekanded: []
+                      };
+
+                      for (var i = 1; i < result.length; i++) {
+
+                        var sissekanne = {
+                          aasta: result[i].year,
                           est: result[i].est,
                           en: result[i].en
                         };
-                        meediaSissejuhatusData.loigud.push(loik);
+                        ajaluguSissekandedData.sissekanded.push(sissekanne);
                       }
-                      con.query("SELECT * FROM meediavideod ORDER BY id", function(err, result) {
+                      con.query("SELECT * FROM meedia ORDER BY id", function(err, result) {
                         if (err) throw err;
-                        var meediaVideodData = {
+                        var meediaSissejuhatusData = {
                           pealkiri: {
                             est: result[0].est,
                             en: result[0].en,
                           },
-                          manustamislingid: []
+                          loigud: []
                         };
                         for (var i = 1; i < result.length; i++) {
-                          var manustamislink = result[i].link;
-                          meediaVideodData.manustamislingid.push(manustamislink);
+                          var loik = {
+                            est: result[i].est,
+                            en: result[i].en
+                          };
+                          meediaSissejuhatusData.loigud.push(loik);
                         }
-                        con.query("SELECT * FROM meedialingid ORDER BY id", function(err, result) {
+                        con.query("SELECT * FROM meediavideod ORDER BY id", function(err, result) {
                           if (err) throw err;
-                          var meediaLingidData = {
+                          var meediaVideodData = {
                             pealkiri: {
                               est: result[0].est,
                               en: result[0].en,
                             },
-                            lingid: []
+                            manustamislingid: []
                           };
                           for (var i = 1; i < result.length; i++) {
-                            var link = {
-                              est: result[i].est,
-                              en: result[i].en,
-                              link: result[i].link
-                            };
-                            meediaLingidData.lingid.push(link);
+                            var manustamislink = result[i].link;
+                            meediaVideodData.manustamislingid.push(manustamislink);
                           }
-                          con.query("SELECT * FROM toetajad ORDER BY id", function(err, result) {
+                          con.query("SELECT * FROM meedialingid ORDER BY id", function(err, result) {
                             if (err) throw err;
-                            var toetajadData = [];
-                            for (var i = 0; i < result.length; i++) {
-                              var logo = {
-                                link: result[i].link,
-                                filename: result[i].url.slice(5),
-                                url: result[i].url
+                            var meediaLingidData = {
+                              pealkiri: {
+                                est: result[0].est,
+                                en: result[0].en,
+                              },
+                              lingid: []
+                            };
+                            for (var i = 1; i < result.length; i++) {
+                              var link = {
+                                est: result[i].est,
+                                en: result[i].en,
+                                link: result[i].link
                               };
-                              toetajadData.push(logo);
+                              meediaLingidData.lingid.push(link);
                             }
-                            res.render("koorist", {
-                              pageTitle: pageTitle,
-                              currentPage: currentPage,
-                              paiseikoon: paiseikoon,
-                              avapilt: avapilt,
-                              pealkirjadData: pealkirjadData,
-                              sissejuhatusData: sissejuhatusData,
-                              liikmedData: liikmedData,
-                              portreed: portreed,
-                              dirigendidData: dirigendidData,
-                              ajaluguSissejuhatusData: ajaluguSissejuhatusData,
-                              ajaluguSissekandedData: ajaluguSissekandedData,
-                              ajaluguSektsioonidData: ajaluguSektsioonidData,
-                              meediaSissejuhatusData: meediaSissejuhatusData,
-                              meediaVideodData: meediaVideodData,
-                              meediaLingidData: meediaLingidData,
-                              toetajadData: toetajadData
+                            con.query("SELECT * FROM toetajad ORDER BY id", function(err, result) {
+                              if (err) throw err;
+                              var toetajadData = [];
+                              for (var i = 0; i < result.length; i++) {
+                                var logo = {
+                                  link: result[i].link,
+                                  filename: result[i].url.slice(5),
+                                  url: result[i].url
+                                };
+                                toetajadData.push(logo);
+                              }
+                              res.render("koorist", {
+                                pageTitle: pageTitle,
+                                currentPage: currentPage,
+                                paiseikoon: paiseikoon,
+                                avapilt: avapilt,
+                                pealkirjadData: pealkirjadData,
+                                sissejuhatusData: sissejuhatusData,
+                                liikmedData: liikmedData,
+                                portreed: portreed,
+                                dirigendidData: dirigendidData,
+                                ajaluguSissejuhatusData: ajaluguSissejuhatusData,
+                                ajaluguSissekandedData: ajaluguSissekandedData,
+                                ajaluguSektsioonidData: ajaluguSektsioonidData,
+                                meediaSissejuhatusData: meediaSissejuhatusData,
+                                meediaVideodData: meediaVideodData,
+                                meediaLingidData: meediaLingidData,
+                                toetajadData: toetajadData
+                              });
                             });
                           });
                         });
@@ -672,7 +637,6 @@ app.get("/koorist", function(req, res) {
       });
     });
   });
-});
 
 
 app.get("/pood", function(req, res) {
@@ -1145,46 +1109,136 @@ app.get("/sundmused", function(req, res) {
   });
 });
 
-app.get("/kontakt", function(req, res) {
-  var pageTitle = "Kontakt";
-  var currentPage = "en/contact";
-  con.query("SELECT * FROM avalehtpildid ORDER BY id", function(err, result) {
-    if (err) throw err;
-    var paiseikoon = {
-      url: result[0].url,
-      filename: result[0].url.slice(5)
-    };
-    con.query("SELECT * FROM kontaktsissejuhatus ORDER BY id", function(err, result) {
-      if (err) throw err;
-      var kontaktSissejuhatusData = {
+// create an object that returns a new CreateQuery instance
+// CreateQuery.init is the real constructor, while CreateQuery itself
+ // is only a wrapper that we use in order not to write the new keyword each time
+
+const CreateQuery = (tableName, model) => new CreateQuery.init(tableName, model);
+
+// create a constructor function that takes two parametres - a sql tablename that we want to query
+ // and a model object that defines what we do with the results of that query
+
+CreateQuery.init = function(tableName, model) {
+
+  this.query = async () => {
+
+    const newPromise = new Promise((resolve, reject) => {
+
+      con.query(`SELECT * FROM ${tableName} ORDER BY id`, (err, result) => {
+        if (err) {
+          resolve(err);
+        } else {
+          const newModel = eval(model);
+          resolve(newModel);
+        }
+      });
+    });
+
+    return await newPromise;
+  };
+};
+
+
+
+
+
+
+
+
+
+
+
+const kontaktSissejuhatusData = new Promise((resolve, reject) => {
+  con.query("SELECT * FROM kontaktsissejuhatus ORDER BY id", (err, result) => {
+    if (err) {
+      reject(err);
+    } else {
+      const kontaktSissejuhatusData = {
         loigud: []
       };
-      for (var i = 0; i < result.length; i++) {
-        var loik = {
+      for (let i = 0; i < result.length; i++) {
+        let loik = {
           est: result[i].est,
           en: result[i].en
         };
         kontaktSissejuhatusData.loigud.push(loik);
       }
-      con.query("SELECT * FROM kontaktuldine ORDER BY id", function(err, result) {
+
+      resolve(kontaktSissejuhatusData);
+    }
+  });
+});
+
+
+
+
+
+
+
+
+
+app.get("/kontakt", async function(req, res) {
+  var pageTitle = "Kontakt";
+  var currentPage = "en/contact";
+
+
+
+
+
+  con.query("SELECT * FROM kontaktuldine ORDER BY id", function(err, result) {
+    if (err) throw err;
+    var kontaktUldineData = {
+      pealkiri: {
+        est: result[0].est,
+        en: result[0].en
+      },
+      loigud: []
+    };
+    for (var i = 1; i < result.length; i++) {
+      var loik = {
+        est: result[i].est,
+        en: result[i].en
+      };
+      kontaktUldineData.loigud.push(loik);
+    }
+    con.query("SELECT * FROM kontaktandmed ORDER BY id", function(err, result) {
+      if (err) throw err;
+      var kontaktAndmedData = {
+        pealkiri: {
+          est: result[0].est,
+          en: result[0].en
+        },
+        paarid: []
+      };
+      for (var i = 1; i < result.length; i++) {
+        var teave = {
+          estKey: result[i].estkey,
+          enKey: result[i].enkey,
+          est: result[i].est,
+          en: result[i].en
+        };
+        kontaktAndmedData.paarid.push(teave);
+      }
+      con.query("SELECT * FROM kontaktnumbrid ORDER BY id", function(err, result) {
         if (err) throw err;
-        var kontaktUldineData = {
+        var kontaktNumbridData = {
           pealkiri: {
             est: result[0].est,
             en: result[0].en
           },
-          loigud: []
+          numbrid: []
         };
         for (var i = 1; i < result.length; i++) {
-          var loik = {
-            est: result[i].est,
-            en: result[i].en
+          var number = {
+            estKey: result[i].estkey,
+            enKey: result[i].enkey,
+            number: result[i].number,
           };
-          kontaktUldineData.loigud.push(loik);
+          kontaktNumbridData.numbrid.push(number);
         }
-        con.query("SELECT * FROM kontaktandmed ORDER BY id", function(err, result) {
+        con.query("SELECT * FROM kontaktmtu ORDER BY id", function(err, result) {
           if (err) throw err;
-          var kontaktAndmedData = {
+          var kontaktMtuData = {
             pealkiri: {
               est: result[0].est,
               en: result[0].en
@@ -1196,103 +1250,69 @@ app.get("/kontakt", function(req, res) {
               estKey: result[i].estkey,
               enKey: result[i].enkey,
               est: result[i].est,
-              en: result[i].en
+              en: result[i].en,
             };
-            kontaktAndmedData.paarid.push(teave);
+            kontaktMtuData.paarid.push(teave);
           }
-          con.query("SELECT * FROM kontaktnumbrid ORDER BY id", function(err, result) {
+          con.query("SELECT * FROM vastuvotttekstid ORDER BY id", function(err, result) {
             if (err) throw err;
-            var kontaktNumbridData = {
+            var vastuvottTekstidData = {
               pealkiri: {
                 est: result[0].est,
-                en: result[0].en
+                en: result[0].en,
               },
-              numbrid: []
+              loigud: []
             };
             for (var i = 1; i < result.length; i++) {
-              var number = {
-                estKey: result[i].estkey,
-                enKey: result[i].enkey,
-                number: result[i].number,
+              var loik = {
+                est: result[i].est,
+                en: result[i].en
               };
-              kontaktNumbridData.numbrid.push(number);
+              vastuvottTekstidData.loigud.push(loik);
             }
-            con.query("SELECT * FROM kontaktmtu ORDER BY id", function(err, result) {
+            con.query("SELECT * FROM vastuvottankeet ORDER BY id", function(err, result) {
               if (err) throw err;
-              var kontaktMtuData = {
+              var vastuvottAnkeetData = {
                 pealkiri: {
                   est: result[0].est,
                   en: result[0].en
                 },
-                paarid: []
+                valjad: []
               };
               for (var i = 1; i < result.length; i++) {
-                var teave = {
-                  estKey: result[i].estkey,
-                  enKey: result[i].enkey,
+                var vali = {
                   est: result[i].est,
                   en: result[i].en,
+                  checked: result[i].checked,
+                  textArea: result[i].textarea
                 };
-                kontaktMtuData.paarid.push(teave);
+                vastuvottAnkeetData.valjad.push(vali);
               }
-              con.query("SELECT * FROM vastuvotttekstid ORDER BY id", function(err, result) {
+              con.query("SELECT * FROM pealkirjad ORDER BY id", function(err, result) {
                 if (err) throw err;
-                var vastuvottTekstidData = {
-                  pealkiri: {
-                    est: result[0].est,
-                    en: result[0].en,
-                  },
-                  loigud: []
-                };
-                for (var i = 1; i < result.length; i++) {
-                  var loik = {
+                var pealkirjadData = [];
+                for (var i = 0; i < result.length; i++) {
+                  var pealkiri = {
                     est: result[i].est,
                     en: result[i].en
                   };
-                  vastuvottTekstidData.loigud.push(loik);
+                  pealkirjadData.push(pealkiri);
                 }
-                con.query("SELECT * FROM vastuvottankeet ORDER BY id", function(err, result) {
-                  if (err) throw err;
-                  var vastuvottAnkeetData = {
-                    pealkiri: {
-                      est: result[0].est,
-                      en: result[0].en
-                    },
-                    valjad: []
-                  };
-                  for (var i = 1; i < result.length; i++) {
-                    var vali = {
-                      est: result[i].est,
-                      en: result[i].en,
-                      checked: result[i].checked,
-                      textArea: result[i].textarea
-                    };
-                    vastuvottAnkeetData.valjad.push(vali);
-                  }
-                  con.query("SELECT * FROM pealkirjad ORDER BY id", function(err, result) {
-                    if (err) throw err;
-                    var pealkirjadData = [];
-                    for (var i = 0; i < result.length; i++) {
-                      var pealkiri = {
-                        est: result[i].est,
-                        en: result[i].en
-                      };
-                      pealkirjadData.push(pealkiri);
-                    }
-                    res.render("kontakt", {
-                      pageTitle: pageTitle,
-                      currentPage: currentPage,
-                      paiseikoon: paiseikoon,
-                      pealkirjadData: pealkirjadData,
-                      kontaktSissejuhatusData: kontaktSissejuhatusData,
-                      kontaktUldineData: kontaktUldineData,
-                      kontaktAndmedData: kontaktAndmedData,
-                      kontaktNumbridData: kontaktNumbridData,
-                      kontaktMtuData: kontaktMtuData,
-                      vastuvottTekstidData: vastuvottTekstidData,
-                      vastuvottAnkeetData: vastuvottAnkeetData
-                    });
-                  });
+
+                console.log(paiseikoon);
+
+                res.render("kontakt", {
+                  pageTitle: pageTitle,
+                  currentPage: currentPage,
+                  paiseikoon: paiseikoon,
+                  pealkirjadData: pealkirjadData,
+                  kontaktSissejuhatusData: kontaktSissejuhatusData,
+                  kontaktUldineData: kontaktUldineData,
+                  kontaktAndmedData: kontaktAndmedData,
+                  kontaktNumbridData: kontaktNumbridData,
+                  kontaktMtuData: kontaktMtuData,
+                  vastuvottTekstidData: vastuvottTekstidData,
+                  vastuvottAnkeetData: vastuvottAnkeetData
                 });
               });
             });
@@ -1302,6 +1322,7 @@ app.get("/kontakt", function(req, res) {
     });
   });
 });
+
 
 app.get("/telli" + ":number", function(req, res) {
   var number = req.params.number;
@@ -1607,18 +1628,7 @@ app.get("/en", function(req, res) {
       url: result[0].url,
       filename: result[0].url.slice(5)
     };
-    con.query("SELECT * FROM avalehtpildid ORDER BY id", function query(err, result) {
-      if (err) throw err;
-      var avalehtPildidData = {
-        avalehtLogo: {
-          url: result[1].url,
-          filename: result[1].url.slice(5)
-        },
-        avalehtTaustapilt: {
-          url: result[2].url,
-          filename: result[2].url.slice(5)
-        }
-      };
+
       con.query("SELECT * FROM avalehttekstid ORDER BY id", function(err, result) {
         if (err) throw err;
         var avalehtTekstidData = {
@@ -1818,7 +1828,6 @@ app.get("/en", function(req, res) {
       });
     });
   });
-});
 
 
 
@@ -3807,16 +3816,10 @@ app.get("/admin/sundmused", function(req, res) {
 
 
 
-app.get("/admin/kontakt", function(req, res) {
-  if (req.session.loggedIn === true) {
+app.get("/admin/kontakt", async function(req, res) {
     var pageTitle = "admin/kontakt";
     var routeName = "/kontakt";
-    con.query("SELECT * FROM avalehtpildid ORDER BY id", function(err, result) {
-      if (err) throw err;
-      var paiseikoon = {
-        url: result[0].url,
-        filename: result[0].url.slice(5)
-      };
+    var avalehtPildidData = await getData("static_images", dataModels.getStaticImages);
       con.query("SELECT * FROM kontaktsissejuhatus ORDER BY id", function(err, result) {
         if (err) throw err;
         var kontaktSissejuhatusData = {
@@ -3942,10 +3945,11 @@ app.get("/admin/kontakt", function(req, res) {
                         };
                         pealkirjadData.push(pealkiri);
                       }
+                      console.log(avalehtPildidData);
                       res.render("admin_kontakt", {
                         pageTitle: pageTitle,
                         routeName: routeName,
-                        paiseikoon: paiseikoon,
+                        paiseikoon: avalehtPildidData.favicon,
                         kontaktSissejuhatusData: kontaktSissejuhatusData,
                         kontaktUldineData: kontaktUldineData,
                         kontaktAndmedData: kontaktAndmedData,
@@ -3954,7 +3958,6 @@ app.get("/admin/kontakt", function(req, res) {
                         vastuvottTekstidData: vastuvottTekstidData,
                         vastuvottAnkeetData: vastuvottAnkeetData,
                         pealkirjadData: pealkirjadData
-                      });
                     });
                   });
                 });
@@ -3964,9 +3967,6 @@ app.get("/admin/kontakt", function(req, res) {
         });
       });
     });
-  } else {
-    res.redirect("/login");
-  }
 });
 
 
@@ -9969,9 +9969,9 @@ app.post("/upload/pood/delete", function(req, res) {
 
         tableNames.push(tableName);
 
-      // capture the tables that have "nimistu" string in their name
+        // capture the tables that have "nimistu" string in their name
 
-    } else if (tableName.indexOf("nimistu") !== -1) {
+      } else if (tableName.indexOf("nimistu") !== -1) {
 
         // push the table names into the corresponding array
 
@@ -12110,6 +12110,6 @@ app.post("/upload/logout", function(req, res) {
 
 // start server
 
-app.listen(process.env.PORT, function() {
-    console.log("Server is now running");
-  });
+app.listen(3000, function() {
+  console.log("Server is now running");
+});
