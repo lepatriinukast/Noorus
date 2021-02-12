@@ -1,12 +1,11 @@
-<%- include partials/head-en {pageTitle: pageTitle, paiseikoon: paiseikoon} -%>
-<%- include partials/navigation-en {currentPage: currentPage} -%>
-<%- include partials/popup-en -%>
+<%- include partials/head {adjustForLanguage: adjustForLanguage, pageInfo: pageInfo, staticImages: staticImages} -%>
+<%- include partials/navigation -%>
 <div class="logo">
-  <img class="logo__img" src="<%= avalehtPildidData.avalehtLogo.url %>" alt="Logo of Mixed Choir Noorus">
+  <img class="logo__img" src="<%= staticImages.logo.url %>" alt="Logo of Mixed Choir Noorus">
 </div>
-<header class="header" style="background-image: linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6)), url('<%= avalehtPildidData.avalehtTaustapilt.url %>')">
+<header class="header" style="background-image: linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6)), url('<%= staticImages.homeBackgroundImage.url %>')">
   <div class="header__heading-box">
-    <h1 class="heading--purple heading--primary"><%= avalehtTekstidData.suurPealkiri.en %></h1>
+    <h1 class="heading--purple heading--primary"><%= adjustForLanguage(pageInfo.language, staticTextWithHeading.homeIntroduction, true) %></h1>
     <p class="paragraph--large paragraph--purple header__paragraph"><%= avalehtTekstidData.jatkuPealkiri.en %></p>
     <a href="/koorist" class="btn btn--main btn--dark u-margin-top-small">Read more</a>
   </div>
