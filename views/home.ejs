@@ -1,24 +1,24 @@
 <%- include partials/head {adjustForLanguage: adjustForLanguage, pageInfo: pageInfo, staticImages: staticImages} -%>
 <%- include partials/navigation -%>
 <div class="logo">
-  <img class="logo__img" src="<%= staticImages.logo.url %>" alt="Logo of Mixed Choir Noorus">
+  <img class="logo__img" src="<%= data.staticImages.logo.url %>" alt="Logo of Mixed Choir Noorus">
 </div>
 <header class="header" style="background-image: linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6)), url('<%= staticImages.homeBackgroundImage.url %>')">
   <div class="header__heading-box">
-    <h1 class="heading--purple heading--primary"><%= adjustForLanguage(pageInfo.language, staticTextWithHeading.homeIntroduction, true) %></h1>
-    <p class="paragraph--large paragraph--purple header__paragraph"><%= avalehtTekstidData.jatkuPealkiri.en %></p>
+    <h1 class="heading--purple heading--primary"><%= data.staticTextWithHeading.homeIntroduction.heading %></h1>
+    <p class="paragraph--large paragraph--purple header__paragraph"><%= data.staticTextWithHeading.homeIntroduction.content %></p>
     <a href="/koorist" class="btn btn--main btn--dark u-margin-top-small">Read more</a>
   </div>
 </header>
 <main class="homepage__container">
   <section class="section-features" id="section-features">
     <div class="section-features__container">
-        <% if (pealkirjadData[1].en !== "") { %>
+        <% if (data.dropdownMenu[1] !== "") { %>
       <div class="section-features__column">
         <div class="section-features__item">
           <a class="section-features__link" href="/koorist#section-liikmed">
             <i class="fas fa-music section-features__icon"></i>
-            <h3 class="heading--purple heading--tertiary"><%= pealkirjadData[1].en %></h3>
+            <h3 class="heading--purple heading--tertiary"><%= dropdownMenu[1] %></h3>
           </a>
         </div>
       </div>
@@ -41,7 +41,7 @@
       </div>
     </div>
   </section>
-  <% if (sundmusedData.length !== 0) { %>
+  <% if (data.eventsContent.length !== 0) { %>
   <section class="section-events" id="section-events">
     <div class="section-events__heading-box">
       <% if (avalehtTekstidData.sektsiooniPealkiri1.en !== "") { %>

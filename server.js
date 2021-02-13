@@ -82,15 +82,22 @@ const updateDatabase = async (sql, values) => {
 
 // ESTONIAN ROUTES
 
-app.route("/")
-  .get(async (req, res) => {
-    const staticTextWithHeading = await reqData("staticTextWithHeading", mod.TextWithHeadingModel, "est");
-    console.log(staticTextWithHeading);
+app.get("/", async (req, res) => {
+    const data = {
+      dropdownMenu: await reqData("dropdownMenu", mod.TextModel, "est"),
+      staticImages: await reqData("staticImages", mod.ImageModel),
+      staticTextWithHeading: await reqData("staticTextWithHeading", mod.TextWithHeadingModel, "est"),
+      eventsImages: await reqData("eventsImages", mod.ImageModel),
+      eventsContent: await reqData("eventsContent", mod.TextWithHeadingModel, "est")
+    };
     res.render("home", {
+      data: data
     });
   });
-//
-//
+
+  
+
+
 // app.route("/koorist")
 //
 //   .get((req, res) => {
