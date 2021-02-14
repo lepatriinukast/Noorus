@@ -1,22 +1,22 @@
 <nav class="footnav">
   <ul class="footnav__list">
     <li class="footnav__item">
-      <a href="/koorist" class="footnav__link">Koorist</a>
-      <a href="" class="btn btn--menu" id="dropdown-button-footer">
-        <i class="fas fa-caret-up btn__icon" id="dropdown-icon-footer"></i>
+      <a href="/koorist" class="footnav__link"><%= data.pageInfo.navigation[0] %></a>
+      <a href="" class="btn btn--menu" id="dropdownButtonFooter">
+        <i class="fas fa-caret-up btn__icon" id="dropdownIconFooter"></i>
       </a>
-      <div class="dropdown dropdown--footer hide" id="dropdown-menu-footer">
+      <div class="dropdown dropdown--footer hide" id="dropdownMenuFooter">
         <ul class="dropdown__list">
-          <li class="dropdown__item"><a href="/koorist#section-liikmed" class="dropdown__link"><%= pealkirjadData[1].est %></a></li>
-          <li class="dropdown__item"><a href="/koorist#section-dirigendid" class="dropdown__link"><%= pealkirjadData[2].est %></a></li>
-          <li class="dropdown__item"><a href="/koorist#section-ajalugu" class="dropdown__link"><%= pealkirjadData[3].est %></a></li>
-          <li class="dropdown__item"><a href="/koorist#section-meedia" class="dropdown__link"><%= pealkirjadData[4].est %></a></li>
-          <li class="dropdown__item"><a href="/koorist#section-toetajad" class="dropdown__link"><%= pealkirjadData[5].est %></a></li>
+          <li class="dropdown__item"><a href="/koorist#liikmed" class="dropdown__link"><%= data.dropdownMenu[1] %> %></a></li>
+          <li class="dropdown__item"><a href="/koorist#dirigendid" class="dropdown__link"><%= data.dropdownMenu[1] %> %></a></li>
+          <li class="dropdown__item"><a href="/koorist#ajalugu" class="dropdown__link"><%= data.dropdownMenu[1] %> %></a></li>
+          <li class="dropdown__item"><a href="/koorist#meedia" class="dropdown__link"><%= data.dropdownMenu[1] %> %></a></li>
+          <li class="dropdown__item"><a href="/koorist#toetajad" class="dropdown__link"><%= data.dropdownMenu[1] %> %></a></li>
         </ul>
       </div>
     </li>
-    <li class="footnav__item"><a href="/sundmused" class="footnav__link">Sündmused</a></li>
-    <li class="footnav__item"><a href="/kontakt" class="footnav__link">Kontakt</a></li>
-    <li class="footnav__item"><a href="/pood" class="footnav__link">Pood</a></li>
+    <li class="footnav__item"><a href="/sundmused" class="footnav__link"><%= data.pageInfo.navigation[1] %></a></li>
+    <li class="footnav__item"><a href="/kontakt" class="footnav__link"><%= data.pageInfo.navigation[2] %></a></li>
+    <li class="footnav__item"><a href="/pood" class="footnav__link"><%= data.pageInfo.navigation[3] %></a></li>
   </ul>
 </nav>

@@ -3,62 +3,62 @@
     <nav class="navigation">
       <ul class="navigation__list">
         <li class="navigation__item">
-          <a href="/koorist" class="navigation__link">Koorist</a>
-          <a href="" class="btn btn--menu" id="dropdown-button-header" aria-label="Ava lisamenüü">
-            <i class="fas fa-caret-down btn__icon" id="dropdown-icon-header"></i>
+          <a href="/koorist" class="navigation__link"><%= data.pageInfo.navigation[0] %></a>
+          <a href="" class="btn btn--menu" id="dropdownButtonHeader" aria-label="<%= data.pageInfo.navigationAriaLabels[0] %>">
+            <i class="fas fa-caret-down btn__icon" id="dropdownIconHeader"></i>
           </a>
-          <div class="dropdown dropdown--header hide" id="dropdown-menu-header">
+          <div class="dropdown dropdown--header hide" id="dropdownMenuHeader">
             <ul class="dropdown__list">
-              <li class="dropdown__item"><a href="/koorist#section-liikmed" class="dropdown__link"><%= pealkirjadData[1].est %></a></li>
-              <li class="dropdown__item"><a href="/koorist#section-dirigendid" class="dropdown__link"><%= pealkirjadData[2].est %></a></li>
-              <li class="dropdown__item"><a href="/koorist#section-ajalugu" class="dropdown__link"><%= pealkirjadData[3].est %></a></li>
-              <li class="dropdown__item"><a href="/koorist#section-meedia" class="dropdown__link"><%= pealkirjadData[4].est %></a></li>
-              <li class="dropdown__item"><a href="/koorist#section-toetajad" class="dropdown__link"><%= pealkirjadData[5].est %></a></li>
+              <li class="dropdown__item"><a href="/koorist#liikmed" class="dropdown__link"><%= data.dropdownMenu[1] %></a></li>
+              <li class="dropdown__item"><a href="/koorist#dirigendid" class="dropdown__link"><%= data.dropdownMenu[2] %></a></li>
+              <li class="dropdown__item"><a href="/koorist#ajalugu" class="dropdown__link"><%= data.dropdownMenu[3] %></a></li>
+              <li class="dropdown__item"><a href="/koorist#meedia" class="dropdown__link"><%= data.dropdownMenu[4] %></a></li>
+              <li class="dropdown__item"><a href="/koorist#toetajad" class="dropdown__link"><%= data.dropdownMenu[5] %></a></li>
             </ul>
           </div>
         </li>
-        <li class="navigation__item"><a href="/sundmused" class="navigation__link">Sündmused</a></li>
-        <li class="navigation__item"><a href="/kontakt" class="navigation__link">Kontakt</a></li>
-        <li class="navigation__item"><a href="/pood" class="navigation__link">Pood</a></li>
+        <li class="navigation__item"><a href="/sundmused" class="navigation__link"><%= data.pageInfo.navigation[1] %></a></li>
+        <li class="navigation__item"><a href="/kontakt" class="navigation__link"><%= data.pageInfo.navigation[2] %></a></li>
+        <li class="navigation__item"><a href="/pood" class="navigation__link"><%= data.pageInfo.navigation[3] %></a></li>
       </ul>
       <div class="navigation__item navigation__menu-button">
-        <a href="" class="navigation__link" aria-label="Ava menüü">
-          <i class="fas fa-bars navigation__menu-icon" id="menu-button"></i>
+        <a href="" class="navigation__link" aria-label="aria-label="<%= data.pageInfo.navigationAriaLabels[1] %>"">
+          <i class="fas fa-bars navigation__menu-icon" id="menuButton"></i>
         </a>
       </div>
       <div class="navigation__logo">
-        <a href="/" class="navigation__logo-link" aria-label="Avalehele">
+        <a href="/" class="navigation__logo-link" aria-label="aria-label="<%= data.pageInfo.navigationAriaLabels[2] %>"">
           <img src="/img/logo-vaike.png" alt="Väike logo" class="navigation__logo-img">
         </a>
       </div>
       <div class="navigation__icons">
-        <a href="https://www.facebook.com/segakoorNoorus/" class="navigation__social-link" aria-label="Facebooki link">
+        <a href="https://www.facebook.com/segakoorNoorus/" class="navigation__social-link" aria-label="aria-label="<%= data.pageInfo.navigationAriaLabels[3] %>"">
           <i class="fab fa-facebook-f navigation__social-icon"></i>
         </a>
-        <a href="https://www.instagram.com/segakoornoorus/" class="navigation__social-link" aria-label="Instagrami link">
+        <a href="https://www.instagram.com/segakoornoorus/" class="navigation__social-link" aria-label="aria-label="<%= data.pageInfo.navigationAriaLabels[4] %>"">
           <i class="fab fa-instagram navigation__social-icon"></i>
         </a>
-        <a href="/<%= currentPage %>" class="navigation__language-link" aria-label="English">EN</a>
+        <a href="<%= data.pageInfo.languageButtonHref %>" class="navigation__language-link" aria-label="aria-label="<%= data.pageInfo.navigationAriaLabels[5] %>"">EN</a>
       </div>
     </nav>
-    <nav class="hidden-menu hide" id="hidden-menu">
+    <nav class="hidden-menu hide" id="hiddenMenu">
       <ul class="hidden-menu__list">
-        <li class="hidden-menu__item"><a href="/koorist" class="hidden-menu__link">Koorist</a>
-          <a href="#" class="btn btn--menu" id="dropdown-button-hidden" aria-label="Ava lisamenüü">
-            <i class="fas fa-caret-down btn__icon" id="dropdown-icon-hidden"></i>
+        <li class="hidden-menu__item"><a href="/koorist" class="hidden-menu__link"><%= data.pageInfo.navigation[0] %></a>
+          <a href="#" class="btn btn--menu" id="dropdownButtonHidden" aria-label="<%= data.pageInfo.navigationAriaLabels[0] %>">
+            <i class="fas fa-caret-down btn__icon" id="dropdownIconHidden"></i>
           </a>
-          <div class="dropdown dropdown--hidden hide" id="dropdown-menu-hidden">
+          <div class="dropdown dropdown--hidden hide" id="dropdownMenuHidden">
             <ul class="dropdown__list">
-              <li class="dropdown__item"><a href="/koorist#section-liikmed" class="dropdown__link"><%= pealkirjadData[1].est %></a></li>
-              <li class="dropdown__item"><a href="/koorist#section-dirigendid" class="dropdown__link"><%= pealkirjadData[2].est %></a></li>
-              <li class="dropdown__item"><a href="/koorist#section-ajalugu" class="dropdown__link"><%= pealkirjadData[3].est %></a></li>
-              <li class="dropdown__item"><a href="/koorist#section-meedia" class="dropdown__link"><%= pealkirjadData[4].est %></a></li>
-              <li class="dropdown__item"><a href="/koorist#section-toetajad" class="dropdown__link"><%= pealkirjadData[5].est %></a></li>
+              <li class="dropdown__item"><a href="/koorist#liikmed" class="dropdown__link"><%= data.dropdownMenu[1] %></a></li>
+              <li class="dropdown__item"><a href="/koorist#dirigendid" class="dropdown__link"><%= data.dropdownMenu[2] %></a></li>
+              <li class="dropdown__item"><a href="/koorist#ajalugu" class="dropdown__link"><%= data.dropdownMenu[3] %></a></li>
+              <li class="dropdown__item"><a href="/koorist#meedia" class="dropdown__link"><%= data.dropdownMenu[4] %></a></li>
+              <li class="dropdown__item"><a href="/koorist#toetajad" class="dropdown__link"><%= data.dropdownMenu[5] %></a></li>
             </ul>
           </div>
         </li>
-        <li class="hidden-menu__item"><a href="/sundmused" class="hidden-menu__link">Sündmused</a></li>
-        <li class="hidden-menu__item"><a href="/kontakt" class="hidden-menu__link">Kontakt</a></li>
-        <li class="hidden-menu__item"><a href="/pood" class="hidden-menu__link">Pood</a></li>
+        <li class="hidden-menu__item"><a href="/sundmused" class="hidden-menu__link"><%= data.pageInfo.navigation[1] %></a></li>
+        <li class="hidden-menu__item"><a href="/kontakt" class="hidden-menu__link"><%= data.pageInfo.navigation[2] %></a></li>
+        <li class="hidden-menu__item"><a href="/pood" class="hidden-menu__link"><%= data.pageInfo.navigation[3] %></a></li>
       </ul>
     </nav>

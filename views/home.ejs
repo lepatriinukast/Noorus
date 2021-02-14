@@ -1,24 +1,26 @@
-<%- include partials/head {adjustForLanguage: adjustForLanguage, pageInfo: pageInfo, staticImages: staticImages} -%>
-<%- include partials/navigation -%>
+<%- include partials/head {data: data} -%>
+<%- include partials/navigation {data: data} -%>
 <div class="logo">
   <img class="logo__img" src="<%= data.staticImages.logo.url %>" alt="Logo of Mixed Choir Noorus">
 </div>
-<header class="header" style="background-image: linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6)), url('<%= staticImages.homeBackgroundImage.url %>')">
+<header class="header" style="background-image: linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6)), url('<%= data.staticImages.homeBackgroundImage.url %>')">
   <div class="header__heading-box">
     <h1 class="heading--purple heading--primary"><%= data.staticTextWithHeading.homeIntroduction.heading %></h1>
     <p class="paragraph--large paragraph--purple header__paragraph"><%= data.staticTextWithHeading.homeIntroduction.content %></p>
-    <a href="/koorist" class="btn btn--main btn--dark u-margin-top-small">Read more</a>
+      <% if (data.staticTextWithHeading.homeSection1.heading || data.staticTextWithHeading.homeSection1.content) { %>
+    <a href="/koorist" class="btn btn--main btn--dark u-margin-top-small"><%= data.pageInfo.buttonText %></a>
+    <% } %>
   </div>
 </header>
 <main class="homepage__container">
   <section class="section-features" id="section-features">
     <div class="section-features__container">
-        <% if (data.dropdownMenu[1] !== "") { %>
+        <% if (data.dropdownMenu[1]) { %>
       <div class="section-features__column">
         <div class="section-features__item">
           <a class="section-features__link" href="/koorist#section-liikmed">
             <i class="fas fa-music section-features__icon"></i>
-            <h3 class="heading--purple heading--tertiary"><%= dropdownMenu[1] %></h3>
+            <h3 class="heading--purple heading--tertiary"><%= data.dropdownMenu[1] %></h3>
           </a>
         </div>
       </div>
@@ -41,24 +43,24 @@
       </div>
     </div>
   </section>
-  <% if (data.eventsContent.length !== 0) { %>
+  <% if (data.eventsContent.length) { %>
   <section class="section-events" id="section-events">
     <div class="section-events__heading-box">
-      <% if (avalehtTekstidData.sektsiooniPealkiri1.en !== "") { %>
-      <h2 class="heading--purple heading--secondary u-margin-bottom-big"><%= avalehtTekstidData.sektsiooniPealkiri1.en %></h2>
+      <% if (data.staticTextWithHeading.homeSection1.heading) { %>
+      <h2 class="heading--purple heading--secondary u-margin-bottom-big"><%= data.staticTextWithHeading.homeSection1.heading %></h2>
       <% } %>
-      <% if (avalehtTekstidData.sektsiooniTekst1.en !== "") { %>
-      <p class="paragraph--large paragraph--purple u-margin-bottom-big"><%= avalehtTekstidData.sektsiooniTekst1.en %></p>
+      <% if (data.staticTextWithHeading.homeSection1.content) { %>
+      <p class="paragraph--large paragraph--purple u-margin-bottom-big"><%= data.staticTextWithHeading.homeSection1.content %></p>
       <% } %>
     </div>
     <div class="section-events__container">
-      <% for (var a = 0; a < sundmusedData.length && a < 3; a++) { %>
+      <% for (var i = 0; i < data.eventsContent.length && i < 3; i++) { %>
       <div class="card">
-        <div class="card__upper" <% if (plakatid[a].url !== "") { %> style="background-image: url( <%= plakatid[a].url %>);"<% } %>>
+        <div class="card__upper" <% if (data.eventsImages[i].url) { %> style="background-image: url( <%= data.eventsImages[i].url %>);"<% } %>>
         </div>
         <div class="card__lower">
-          <h3 class="heading--purple heading--tertiary u-margin-bottom-big"><%= sundmusedData[a].pealkiri.en %></h3>
-          <a href="/sundmused#<%= a + 1 %>" class="btn btn--main btn--dark">Read more</a>
+          <h3 class="heading--purple heading--tertiary u-margin-bottom-big"><%= data.eventsContent[a].heading %></h3>
+          <a href="/#<%= i + 1 %>" class="btn btn--main btn--dark"><%= data.pageInfo.buttonText %></a>
         </div>
       </div>
       <% } %>
@@ -66,18 +68,18 @@
   </section>
   <% } %>
   <section class="section-history" id="section-history">
-    <% if (moodunudData.length !== 0) { %>
+    <% if (data.pastEventsContent.length) { %>
     <div class="section-history__container">
-      <% if (avalehtTekstidData.sektsiooniPealkiri2.en !== "") { %>
-      <h2 class="heading--purple heading--secondary u-margin-bottom-big"><%= avalehtTekstidData.sektsiooniPealkiri2.en %></h2>
+      <% if (data.staticTextWithHeading.homeSection2.heading) { %>
+      <h2 class="heading--purple heading--secondary u-margin-bottom-big"><%= data.staticTextWithHeading.homeSection2.heading %></h2>
       <% } %>
-      <% if (avalehtTekstidData.sektsiooniTekst2.en !== "") { %>
-      <p class="paragraph--large paragraph--purple u-margin-bottom-big"><%= avalehtTekstidData.sektsiooniTekst2.en %></p>
+      <% if (data.staticTextWithHeading.homeSection2.content) { %>
+      <p class="paragraph--large paragraph--purple u-margin-bottom-big"><%= data.staticTextWithHeading.homeSection2.content %></p>
       <% } %>
-      <a href="/sundmused#moodunud-sundmused" class="btn btn--main btn--dark">Read more</a>
+      <a href="/sundmused#moodunud-sundmused" class="btn btn--main btn--dark"><%= data.pageInfo.buttonText %></a>
     </div>
       <% } %>
   </section>
 </main>
-<%- include partials/footnav-en -%>
+<%- include partials/footnav {data: data} -%>
 <%- include partials/footer -%>

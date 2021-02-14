@@ -54,6 +54,8 @@ const keyArrays = {
   shopImages: getDynamicKeys("shop_images"),
   eventsContent: getDynamicKeys("events_content"),
   eventsImages: getDynamicKeys("events_images"),
+  pastEventsContent: getDynamicKeys("past_events_content"),
+  pastEventsImages: getDynamicKeys("past_events_images"),
   contactFormFields: getDynamicKeys("contact_form_fields"),
   orderFormFields: getDynamicKeys("order_form_fields"),
   iframes: getDynamicKeys("iframes"),
