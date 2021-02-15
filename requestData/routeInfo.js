@@ -46,8 +46,8 @@ const routeInfo = {
     },
     hrefs: {
       links: {
-        est: ["koorist", "sundmused", "kontakt", "pood"],
-        en: ["/en/about", "en/events", "en/contact", "en/shop"]
+        est: ["", "koorist", "sundmused", "kontakt", "pood"],
+        en: ["en", "/en/about", "en/events", "en/contact", "en/shop"]
       },
       dropdown: {
         est: ["koorist#liikmed", "koorist#dirigendid", "koorist#ajalugu", "koorist#meedia", "koorist#toetajad"],

@@ -93,6 +93,13 @@ app.get("/", async (req, res) => {
   });
 });
 
+app.get("/koorist", async (req, res) => {
+  const data = await getRouteData("about", "est");
+  res.render("about", {
+    data: data
+  });
+});
+
 
 
 

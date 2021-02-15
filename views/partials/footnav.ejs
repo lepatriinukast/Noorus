@@ -1,22 +1,22 @@
 <nav class="footnav">
   <ul class="footnav__list">
     <li class="footnav__item">
-      <a href="/koorist" class="footnav__link"><%= data.pageInfo.navigation[0] %></a>
+      <a href="/<%= data.pageInfo.basicInfo.navigation.hrefs.links[0] %>" class="footnav__link"><%= data.pageInfo.basicInfo.navigation.linkTexts[0] %></a>
       <a href="" class="btn btn--menu" id="dropdownButtonFooter">
         <i class="fas fa-caret-up btn__icon" id="dropdownIconFooter"></i>
       </a>
       <div class="dropdown dropdown--footer hide" id="dropdownMenuFooter">
         <ul class="dropdown__list">
-          <li class="dropdown__item"><a href="/koorist#liikmed" class="dropdown__link"><%= data.dropdownMenu[1] %> %></a></li>
-          <li class="dropdown__item"><a href="/koorist#dirigendid" class="dropdown__link"><%= data.dropdownMenu[1] %> %></a></li>
-          <li class="dropdown__item"><a href="/koorist#ajalugu" class="dropdown__link"><%= data.dropdownMenu[1] %> %></a></li>
-          <li class="dropdown__item"><a href="/koorist#meedia" class="dropdown__link"><%= data.dropdownMenu[1] %> %></a></li>
-          <li class="dropdown__item"><a href="/koorist#toetajad" class="dropdown__link"><%= data.dropdownMenu[1] %> %></a></li>
+          <li class="dropdown__item"><a href="/<%= data.pageInfo.basicInfo.navigation.hrefs.dropdown[0] %>" class="dropdown__link"><%= data.dropdownMenu[1] %> %></a></li>
+          <li class="dropdown__item"><a href="/<%= data.pageInfo.basicInfo.navigation.hrefs.dropdown[1] %>" class="dropdown__link"><%= data.dropdownMenu[2] %> %></a></li>
+          <li class="dropdown__item"><a href="/<%= data.pageInfo.basicInfo.navigation.hrefs.dropdown[2] %>" class="dropdown__link"><%= data.dropdownMenu[3] %> %></a></li>
+          <li class="dropdown__item"><a href="/<%= data.pageInfo.basicInfo.navigation.hrefs.dropdown[3] %>" class="dropdown__link"><%= data.dropdownMenu[4] %> %></a></li>
+          <li class="dropdown__item"><a href="/<%= data.pageInfo.basicInfo.navigation.hrefs.dropdown[4] %>" class="dropdown__link"><%= data.dropdownMenu[5] %> %></a></li>
         </ul>
       </div>
     </li>
-    <li class="footnav__item"><a href="/sundmused" class="footnav__link"><%= data.pageInfo.navigation[1] %></a></li>
-    <li class="footnav__item"><a href="/kontakt" class="footnav__link"><%= data.pageInfo.navigation[2] %></a></li>
-    <li class="footnav__item"><a href="/pood" class="footnav__link"><%= data.pageInfo.navigation[3] %></a></li>
+    <li class="footnav__item"><a href="/<%= data.pageInfo.basicInfo.navigation.hrefs.links[1] %>" class="footnav__link"><%= data.pageInfo.basicInfo.navigation.linkTexts[1] %></a></li>
+    <li class="footnav__item"><a href="/<%= data.pageInfo.basicInfo.navigation.hrefs.links[2] %>" class="footnav__link"><%= data.pageInfo.basicInfo.navigation.linkTexts[2] %></a></li>
+    <li class="footnav__item"><a href="/<%= data.pageInfo.basicInfo.navigation.hrefs.links[3] %>" class="footnav__link"><%= data.pageInfo.basicInfo.navigation.linkTexts[3] %></a></li>
   </ul>
 </nav>

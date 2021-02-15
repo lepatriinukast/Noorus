@@ -77,3 +77,14 @@ the number (and names) of which are specified in the provided array of key names
 Some objects also need a language specification, which is also provided by the server.
 
 The compiler returns a container object or a container array, which can be passed into the server routes to be rendered on the webpage.
+
+
+There is also some content on each template that does not originate from any database, but which on first look isn't hardcoded either.
+This is because each template is usually used by two routes- one for Estonian and one for English version of the page.
+This means that even some of the content that is not meant to be changed is still passed in as javascript variables.
+The route in the server file only provides information about the language and the variables on the template will get a corresponding value.
+The raw hardcoded data that gets passed into the variables is stored in the module routeInfo.js.
+
+The module compileRouteData.js compiles this hardcoded data into larger javascript containers, one for each template.
+In the route, one can then only call the function returned by this module, specify the template and language,
+and get nicely structured language-specific data in return to be passed into the template.

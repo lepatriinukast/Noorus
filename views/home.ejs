@@ -1,14 +1,14 @@
 <%- include partials/head {data: data} -%>
 <%- include partials/navigation {data: data} -%>
 <div class="logo">
-  <img class="logo__img" src="<%= data.staticImages.logo.url %>" alt="Logo of Mixed Choir Noorus">
+  <img class="logo__img" src="<%= data.staticImages.logo.url %>" alt="<%= data.pageInfo.miscellaneous[0] %>">
 </div>
 <header class="header" style="background-image: linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6)), url('<%= data.staticImages.homeBackgroundImage.url %>')">
   <div class="header__heading-box">
     <h1 class="heading--purple heading--primary"><%= data.staticTextWithHeading.homeIntroduction.heading %></h1>
     <p class="paragraph--large paragraph--purple header__paragraph"><%= data.staticTextWithHeading.homeIntroduction.content %></p>
       <% if (data.staticTextWithHeading.homeSection1.heading || data.staticTextWithHeading.homeSection1.content) { %>
-    <a href="/koorist" class="btn btn--main btn--dark u-margin-top-small"><%= data.pageInfo.buttonText %></a>
+    <a href="/<%= data.pageInfo.basicInfo.navigation.hrefs[1] %>" class="btn btn--main btn--dark u-margin-top-small"><%= data.pageInfo.basicInfo.buttonText %></a>
     <% } %>
   </div>
 </header>
@@ -18,7 +18,7 @@
         <% if (data.dropdownMenu[1]) { %>
       <div class="section-features__column">
         <div class="section-features__item">
-          <a class="section-features__link" href="/koorist#section-liikmed">
+          <a class="section-features__link" href="/koorist#liikmed">
             <i class="fas fa-music section-features__icon"></i>
             <h3 class="heading--purple heading--tertiary"><%= data.dropdownMenu[1] %></h3>
           </a>
@@ -29,7 +29,7 @@
         <div class="section-features__item">
           <a class="section-features__link" href="/pood">
             <i class="fas fa-shopping-cart section-features__icon"></i>
-            <h3 class="heading--purple heading--tertiary">Shop</h3>
+            <h3 class="heading--purple heading--tertiary"><%= data.pageInfo.basicInfo.navigation.linkTexts[3] %></h3>
           </a>
         </div>
       </div>
@@ -37,7 +37,7 @@
         <div class="section-features__item">
           <a class="section-features__link" href="/kontakt">
             <i class="fas fa-envelope section-features__icon"></i>
-            <h3 class="heading--purple heading--tertiary">Contact</h3>
+            <h3 class="heading--purple heading--tertiary"><%= data.pageInfo.basicInfo.navigation.linkTexts[2] %></h3>
           </a>
         </div>
       </div>
@@ -60,7 +60,7 @@
         </div>
         <div class="card__lower">
           <h3 class="heading--purple heading--tertiary u-margin-bottom-big"><%= data.eventsContent[a].heading %></h3>
-          <a href="/#<%= i + 1 %>" class="btn btn--main btn--dark"><%= data.pageInfo.buttonText %></a>
+          <a href="/#<%= i + 1 %>" class="btn btn--main btn--dark"><%= data.pageInfo.basicInfo.buttonText %></a>
         </div>
       </div>
       <% } %>
@@ -76,7 +76,7 @@
       <% if (data.staticTextWithHeading.homeSection2.content) { %>
       <p class="paragraph--large paragraph--purple u-margin-bottom-big"><%= data.staticTextWithHeading.homeSection2.content %></p>
       <% } %>
-      <a href="/sundmused#moodunud-sundmused" class="btn btn--main btn--dark"><%= data.pageInfo.buttonText %></a>
+      <a href="/<%= data.pageInfo.miscellaneous[1] %>" class="btn btn--main btn--dark"><%= data.pageInfo.basicInfo.buttonText %></a>
     </div>
       <% } %>
   </section>
