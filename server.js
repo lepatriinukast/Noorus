@@ -20,7 +20,7 @@ const saltRounds = 12;
 const con = require("./requestData/databaseConnection");
 const mod = require("./requestData/modelConstructors");
 const query = require("./requestData/queryDatabase");
-const getRouteData = require("./requestData/compileRouteData");
+const getData = require("./requestData/dataCompiler");
 
 // setup express back-end framework
 
@@ -87,14 +87,14 @@ const updateDatabase = async (sql, values) => {
 // ESTONIAN ROUTES
 
 app.get("/", async (req, res) => {
-  const data = await getRouteData("home", "est");
+  const data = await getData("home", "est");
   res.render("home", {
     data: data
   });
 });
 
 app.get("/koorist", async (req, res) => {
-  const data = await getRouteData("about", "est");
+  const data = await getData("about", "est");
   res.render("about", {
     data: data
   });

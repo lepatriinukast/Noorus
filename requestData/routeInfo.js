@@ -1,5 +1,9 @@
 /* jshint esversion: 8 */
 
+// This module contains some of the raw hardcoded data that will be rendered on the webpage.
+// Each piece of data in this module has two versions however- Estonian and English.
+// The module gives basic structure to this data.
+
 const routeInfo = {
   appName: {
     est: "Segakoor Noorus ",
@@ -66,5 +70,7 @@ const routeInfo = {
     }
   }
 };
+
+// Export the object.
 
 module.exports = routeInfo;

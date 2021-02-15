@@ -51,10 +51,10 @@ When these names are returned from the database, the compiler function determine
 and returns a container array with the same length.
 
 
-Now that the containers have been compiled, they can be requested by a route in the server using the module requestData.js.
-The function returned by this module is basically only a simplifier that refers to the correct module at the right time.
+Now that the containers have been compiled, they can be requested by yet another function in another module.
+This function is basically only a simplifier that does all the processing, requiring and deciding.
 
-The server passes in four arguments to this function:
+Four arguments are passed to this function:
 1) a target string,
 2) the name of a model constructor,
 3) a boolean that determines whether the requested data is dynamic,
@@ -62,7 +62,7 @@ The server passes in four arguments to this function:
 
 
 The target string is a simplified string and will be converted into two important pieces of data:
-Firstly the name of the database table, that the server wants to make a query to,
+Firstly the name of the database table that the server wants to make a query to,
 and secondly a variable name which will locate the relevant array in the keyArrays module.
 
 The name of the model constructor will be used to locate the correct constructor in the modelConstructors module.
@@ -76,15 +76,17 @@ Inside the compiler, the specified model constructor is used to create new rende
 the number (and names) of which are specified in the provided array of key names.
 Some objects also need a language specification, which is also provided by the server.
 
-The compiler returns a container object or a container array, which can be passed into the server routes to be rendered on the webpage.
+The compiler returns a container object or a container array for all the content that comes from the database.
 
 
-There is also some content on each template that does not originate from any database, but which on first look isn't hardcoded either.
+There are also some parts on each template that do not originate from any database, but which on first look aren't hardcoded either.
 This is because each template is usually used by two routes- one for Estonian and one for English version of the page.
 This means that even some of the content that is not meant to be changed is still passed in as javascript variables.
 The route in the server file only provides information about the language and the variables on the template will get a corresponding value.
 The raw hardcoded data that gets passed into the variables is stored in the module routeInfo.js.
 
-The module compileRouteData.js compiles this hardcoded data into larger javascript containers, one for each template.
-In the route, one can then only call the function returned by this module, specify the template and language,
-and get nicely structured language-specific data in return to be passed into the template.
+The last piece before the server can get access to the content it wants to render is the module dataCompiler.js.
+This module has access to both the database data via requestData.js and the hardcoded content in the routeInfo.js.
+The module compiles all of that together and returns one data container for each template.
+A route in the server side only needs to pass in the name of the template and the language it uses
+and in return it gets access to a huge javascript object full of all the content that the route needs to display a webpage.
