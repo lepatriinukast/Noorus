@@ -1,5 +1,8 @@
 /*jshint esversion: 8 */
 
+// This module exports models for creating javascript objects populated with content coming from a database table.
+
+
 // A function that filters out language-specific properties from a database entry.
 
 const chooseLanguage = (result, iterator, language, heading) => {
@@ -12,7 +15,7 @@ const chooseLanguage = (result, iterator, language, heading) => {
 
 // The exportable object, which contains constructor functions for making javascript objects from database entries.
 
-const modelConstructors = {
+const models = {
 
   // A constructor for creating a model of a single image.
   // If the url is not a valid one for the image, the filename property will revert to null.
@@ -98,4 +101,4 @@ const modelConstructors = {
 
 // Export the object.
 
-module.exports = modelConstructors;
+module.exports = models;

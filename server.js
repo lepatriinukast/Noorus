@@ -17,10 +17,10 @@ const saltRounds = 12;
 
 // require the custom modules
 
-const con = require("./requestData/databaseConnection");
-const mod = require("./requestData/modelConstructors");
-const query = require("./requestData/queryDatabase");
-const getData = require("./requestData/dataCompiler");
+const con = require("./requestData/DBConnection");
+const mod = require("./requestData/models");
+const query = require("./requestData/queryDB");
+const reqData = require("./requestData/reqData");
 
 // setup express back-end framework
 
@@ -87,15 +87,43 @@ const updateDatabase = async (sql, values) => {
 // ESTONIAN ROUTES
 
 app.get("/", async (req, res) => {
-  const data = await getData("home", "est");
+  const data = await reqData("home", "est");
   res.render("home", {
     data: data
   });
 });
 
 app.get("/koorist", async (req, res) => {
-  const data = await getData("about", "est");
+  const data = await reqData("about", "est");
   res.render("about", {
+    data: data
+  });
+});
+
+app.get("/sundmused", async (req, res) => {
+  const data = await reqData("events", "est");
+  res.render("events", {
+    data: data
+  });
+});
+
+app.get("/kontakt", async (req, res) => {
+  const data = await reqData("events", "est");
+  res.render("contact", {
+    data: data
+  });
+});
+
+app.get("/pood", async (req, res) => {
+  const data = await reqData("events", "est");
+  res.render("shop", {
+    data: data
+  });
+});
+
+app.get("/telli", async (req, res) => {
+  const data = await reqData("order", "est");
+  res.render("order", {
     data: data
   });
 });

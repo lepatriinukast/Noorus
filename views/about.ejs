@@ -1,62 +1,55 @@
-<%- include partials/head {pageTitle: pageTitle, paiseikoon: paiseikoon} -%>
-<%- include partials/navigation {currentPage: currentPage, pealkirjadData: pealkirjadData} -%>
+<%- include partials/head {data: data} -%>
+<%- include partials/navigation {data: data} -%>
 <nav class="sidenav">
   <ul class="sidenav__list">
-    <li class="sidenav__item sidenav__special-item"><a href="/koorist#" class="sidenav__link"><%= pealkirjadData[0].est %></a></li>
-    <li class="sidenav__item"><a href="/koorist#section-liikmed" class="sidenav__link"><%= pealkirjadData[1].est %></a></li>
-    <li class="sidenav__item"><a href="/koorist#section-dirigendid" class="sidenav__link"><%= pealkirjadData[2].est %></a></li>
-    <li class="sidenav__item"><a href="/koorist#section-ajalugu" class="sidenav__link"><%= pealkirjadData[3].est %></a></li>
-    <li class="sidenav__item"><a href="/koorist#section-meedia" class="sidenav__link"><%= pealkirjadData[4].est %></a></li>
-    <li class="sidenav__item"><a href="/koorist#section-toetajad" class="sidenav__link"><%= pealkirjadData[5].est %></a></li>
+    <li class="sidenav__item sidenav__special-item"><a href="#" class="sidenav__link"><%= data.dropdownMenu[0] %></a></li>
+    <li class="sidenav__item"><a href="/<%= data.pageInfo.navigation.hrefs.dropdown[0] %>" class="sidenav__link"><%= data.aboutSectionHeadings[1] %></a></li>
+    <li class="sidenav__item"><a href="/<%= data.pageInfo.navigation.hrefs.dropdown[1] %>" class="sidenav__link"><%= data.aboutSectionHeadings[2] %></a></li>
+    <li class="sidenav__item"><a href="/<%= data.pageInfo.navigation.hrefs.dropdown[2] %>" class="sidenav__link"><%= data.aboutSectionHeadings[3] %></a></li>
+    <li class="sidenav__item"><a href="/<%= data.pageInfo.navigation.hrefs.dropdown[3] %>" class="sidenav__link"><%= data.aboutSectionHeadings[4] %></a></li>
+    <li class="sidenav__item"><a href="/<%= data.pageInfo.navigation.hrefs.dropdown[4] %>" class="sidenav__link"><%= data.aboutSectionHeadings[5] %></a></li>
   </ul>
 </nav>
-<div class="body-container">
-  <header class="section-header">
-    <% if (avapilt.url !== "") { %>
-    <div class="section-header__img" alt="Segakoor Noorus" style="background-image: url(<%= avapilt.url %>)"></div>
+<div class="about__body-container">
+  <header class="about__section-intro" id="aboutSectionIntro"!!*>
+    <% if (data.staticImages.aboutBackgroundImage) { %>
+    <div class="about__section-intro__img" alt="Segakoor Noorus!!*" style="background-image: url(<%= data.staticImages.aboutBackgroundImage.url %>)"></div>
     <% } %>
-    <div class="section-header__text-box">
-      <h2 class="heading--secondary heading--purple u-margin-bottom-big"><%= pealkirjadData[0].est %></h2>
-      <% if (sissejuhatusData.pealkiri !== "") { %>
-      <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= sissejuhatusData.pealkiri.est %></h3>
+    <div class="about__section-intro__text-box">
+      <h2 class="heading--secondary heading--purple u-margin-bottom-big"><%= data.pageInfo.PageTitle %></h2>
+      <% if (data.aboutSectionHeadings[0]) { %>
+      <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= data.aboutSectionHeadings[0] %></h3>
       <% } %>
-      <div class="section-header__paragraphs">
-        <% for (var i = 0; i < sissejuhatusData.loigud.length; i++) { %>
-        <p class="paragraph--small paragraph--purple"><%- sissejuhatusData.loigud[i].est %></p>
-        <% } %>
-      </div>
+      <% if (data.staticText.aboutIntroductionSection) { %>
+      <template id="aboutIntroductionSection">
+        <%- data.staticText.aboutIntroductionSection %>
+      </template>
+      <% } %>
     </div>
   </header>
-  <section class="section-liikmed" id="section-liikmed">
-    <div class="section-liikmed__container">
-      <h2 class="heading--secondary heading--purple u-margin-bottom-big"><%= pealkirjadData[1].est %></h2>
-      <% if (liikmedData.loigud.length !== 0) { %>
-      <div class="section-header__paragraphs">
-        <% for (var i = 0; i < liikmedData.loigud.length; i++) { %>
-        <p class="paragraph--small paragraph--purple"><%- liikmedData.loigud[i].est %></p>
-        <% } %>
-      </div>
+  <section class="about__section-members" id="aboutSectionMembers">
+    <div class="about__section-members__container">
+      <h2 class="heading--secondary heading--purple u-margin-bottom-big"><%= data.aboutSectionHeadings[1] %></h2>
+      <% if (data.staticText.aboutMembersSection) { %>
+        <template id="aboutMembersSection">
+          <%- data.staticText.aboutMembersSection %>
+        </template>
       <% } %>
-      <div class="section-liikmed__text-box">
-        <div class="section-liikmed__small-box">
+
+
+      <div class="about__section-members__grid">
+        <% for (data.staticText.) { %>
           <% if (liikmedData.haaleruhmaNimed[0].est !== "") { %>
           <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= liikmedData.haaleruhmaNimed[0].est %></h3>
           <% } %>
           <% if (liikmedData.haaleruhmaTutvustused[0].est !== "") { %>
           <p class="paragraph--small paragraph--purple u-margin-bottom-big"><%- liikmedData.haaleruhmaTutvustused[0].est %></p>
           <% } %>
-        </div>
-        <div class="section-liikmed__small-box">
-          <% if (liikmedData.haaleruhmaNimed[1].est !== "") { %>
-          <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= liikmedData.haaleruhmaNimed[1].est %></h3>
-          <% } %>
-          <% if (liikmedData.haaleruhmaTutvustused[1].est !== "") { %>
-          <p class="paragraph--small paragraph--purple u-margin-bottom-big"><%- liikmedData.haaleruhmaTutvustused[1].est %></p>
-          <% } %>
-        </div>
       </div>
-      <div class="section-liikmed__text-box">
-        <div class="section-liikmed__small-box">
+
+
+      <div class="about__section-members__text-box">
+        <div class="about__section-members__small-box">
           <% if (liikmedData.haaleruhmaNimed[2].est !== "") { %>
           <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= liikmedData.haaleruhmaNimed[2].est %></h3>
           <% } %>
@@ -64,7 +57,7 @@
           <p class="paragraph--small paragraph--purple u-margin-bottom-big"><%- liikmedData.haaleruhmaTutvustused[2].est %></p>
           <% } %>
         </div>
-        <div class="section-liikmed__small-box">
+        <div class="about__section-liikmed__small-box">
           <% if (liikmedData.haaleruhmaNimed[3].est !== "") { %>
           <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= liikmedData.haaleruhmaNimed[3].est %></h3>
           <% } %>
@@ -73,7 +66,19 @@
           <% } %>
         </div>
       </div>
-      <div class="section-liikmed__smaller-box">
+
+
+      <% if (data.membersSections) { %>
+      <div class="about__section-header__paragraphs">
+        <% for (let i = 0; i < data.membersSections.length; i++) { %>
+        <%- data.membersSections[i] %>
+        <% } %>
+      </div>
+      <% } %>
+
+
+
+      <div class="about__section-members__smaller-box">
         <% if (liikmedData.lauljadPealkiri.est !== "") { %>
         <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= liikmedData.lauljadPealkiri.est %></h3>
         <% } %>
@@ -90,7 +95,7 @@
         <p class="paragraph--small paragraph--purple u-margin-bottom-big"><strong>Bassid/baritonid - </strong><%- liikmedData.bassid %></p>
         <% } %>
       </div>
-      <div class="section-liikmed__smaller-box">
+      <div class="about__section-members__smaller-box">
         <% if (liikmedData.vilistlastePealkiri.est !== "") { %>
         <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= liikmedData.vilistlastePealkiri.est %></h3>
         <% } %>
@@ -100,11 +105,11 @@
       </div>
     </div>
   </section>
-  <section class="section-dirigendid" id="section-dirigendid">
-    <h2 class="heading--secondary heading--purple"><%= pealkirjadData[2].est %></h2>
+  <section class="about__section-conductors" id="aboutSectionConductors">
+    <h2 class="heading--secondary heading--purple"><%= data.aboutSectionHeadings[2] %></h2>
     <% for (var a = 0; a < dirigendidData.length; a++) { %>
-    <div class="section-dirigendid__container">
-      <div class="section-dirigendid__text-box">
+    <div class="about__section-conductors__container">
+      <div class="about__section-conductors__text-box">
         <% if (dirigendidData[a].nimi !== "") { %>
         <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= dirigendidData[a].nimi %></h3>
         <% } %>
@@ -112,14 +117,14 @@
         <p class="paragraph--small paragraph--purple u-margin-bottom-small"><%- dirigendidData[a].loigud[i].est %></p>
         <% } %>
       </div>
-      <div class="section-dirigendid__img" style="background-image: url('..<%= portreed[a].url %>')">
+      <div class="about__section-conductors__img" style="background-image: url('..<%= portreed[a].url %>')">
       </div>
     </div>
     <% } %>
   </section>
-  <section class="section-ajalugu" id="section-ajalugu">
-    <h2 class="heading--secondary heading--purple"><%= pealkirjadData[3].est %></h2>
-    <div class="section-ajalugu__container">
+  <section class="about__section-history" id="aboutSectionHistory">
+    <h2 class="heading--secondary heading--purple"><%= data.aboutSectionHeadings[3] %></h2>
+    <div class="about__section-history__container">
       <% if (ajaluguSissekandedData.pealkiri.est !== "") { %>
       <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= ajaluguSissekandedData.pealkiri.est %></h3>
       <% } %>
@@ -131,7 +136,7 @@
       </ul>
       <% } %>
       <% for (var a = 0; a < ajaluguSektsioonidData.length; a++) { %>
-      <div class="section-ajalugu__text-box">
+      <div class="about__section-history__text-box">
         <% if (ajaluguSektsioonidData[a].pealkiri.est !== "") { %>
         <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= ajaluguSektsioonidData[a].pealkiri.est %></h3>
         <% } %>
@@ -142,9 +147,9 @@
       <% } %>
     </div>
   </section>
-  <section class="section-meedia" id="section-meedia">
-    <h2 class="heading--secondary heading--purple"><%= pealkirjadData[4].est %></h2>
-    <div class="section-meedia__container">
+  <section class="about__section-media" id="aboutSectionMedia">
+    <h2 class="heading--secondary heading--purple"><%= data.aboutSectionHeadings[4] %></h2>
+    <div class="about__section-media__container">
       <% if (meediaSissejuhatusData.pealkiri.est !== "") { %>
       <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= meediaSissejuhatusData.pealkiri.est %></h3>
       <% } %>
@@ -155,7 +160,7 @@
       <h3 class="heading--tertiary heading--purple u-margin-top-big u-margin-bottom-big"><%= meediaVideodData.pealkiri.est %></h3>
       <% } %>
       <% for (var i = 0; i < meediaVideodData.manustamislingid.length; i++) { %>
-      <div class="section-meedia__iframe">
+      <div class="about__section-media__iframe">
         <iframe class="iframe" src="<%= meediaVideodData.manustamislingid[i] %>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
       </div>
       <% } %>
@@ -169,18 +174,18 @@
       </ul>
     </div>
   </section>
-  <section class="section-toetajad" id="section-toetajad">
-    <h2 class="heading--secondary heading--purple"><%= pealkirjadData[5].est %></h2>
+  <section class="about__section-sponsors" id="aboutSectionSponsors">
+    <h2 class="heading--secondary heading--purple"><%= data.aboutSectionHeadings[5] %></h2>
     <% if (toetajadData.length !== 0) { %>
-    <div class="section-toetajad__container">
+    <div class="about__section-sponsors__container">
       <% for (var i = 0; i < toetajadData.length; i++) { %>
-      <div class="section-toetajad__logo-box">
-        <a href="<%= toetajadData[i].link %>"><img src="<%= toetajadData[i].url %>" alt="Logo <%= i + 1 %>" class="section-toetajad__logo"></a>
+      <div class="about__section-sponsors__logo-box">
+        <a href="<%= toetajadData[i].link %>"><img src="<%= toetajadData[i].url %>" alt="Logo <%= i + 1 %>" class="about__section-sponsors__logo"></a>
       </div>
       <% } %>
     </div>
     <% } %>
   </section>
 </div>
-<%- include partials/footnav {pealkirjadData: pealkirjadData} -%>
+<%- include partials/footnav {data: data} -%>
 <%- include partials/footer -%>

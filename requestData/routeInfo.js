@@ -67,7 +67,27 @@ const routeInfo = {
     home: {
       est: ["Segakoor Nooruse Logo", "sundmused#moodunud"],
       en: ["Logo of Mixed Choir Noorus", "events#past"]
-    }
+    },
+    about: {
+      est: [],
+      en: []
+    },
+    events: {
+      est: [],
+      en: []
+    },
+    contact: {
+      est: [],
+      en: []
+    },
+    shop: {
+      est: [],
+      en: []
+    },
+    order: {
+      est: [],
+      en: []
+    },
   }
 };
 

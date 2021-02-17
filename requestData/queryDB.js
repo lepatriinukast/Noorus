@@ -6,7 +6,7 @@
 
 // Require the connection object from a custom module.
 
-var con = require("./databaseConnection.js");
+var con = require("./DBConnection.js");
 
 // This function returns a promise, which will resolve into an array containing all data in a specified database table.
 
