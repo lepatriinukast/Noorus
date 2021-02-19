@@ -17,6 +17,7 @@
 
 const routeInfo = require("./routeInfo");
 const models = require("./models");
+const compiler = require("./compiler");
 
 
 // This function creates a boilerplate-
@@ -46,27 +47,27 @@ const reqData = async (templateName, language) => {
 
   if (templateName === "home") {
     return {
-      dropdownMenu: await reqData("dropdownMenu", models.TextModel, language),
-      staticImages: await reqData("staticImages", models.ImageModel),
-      staticTextWithHeading: await reqData("staticTextWithHeading", models.TextWithHeadingModel, language),
-      eventsImages: await reqData("eventsImages", models.ImageModel),
-      eventsContent: await reqData("eventsContent", models.TextWithHeadingModel, language),
-      pastEventsContent: await reqData("pastEventsContent", models.TextWithHeadingModel, language),
+      aboutSectionHeadings: await compiler("about_section_headings", models.TextModel, language),
+      staticImages: await compiler("static_images", models.ImageModel),
+      staticTextWithHeading: await compiler("static_text_with_heading", models.TextWithHeadingModel, language),
+      eventsImages: await compiler("events_images", models.ImageModel),
+      eventsContent: await compiler("events_content", models.TextWithHeadingModel, language),
+      pastEventsContent: await compiler("past_events_content", models.TextWithHeadingModel, language),
       pageInfo: getPageInfo("home", "est")
     };
   } else if (templateName === "about") {
     return {
-      dropdownMenu: await reqData("dropdownMenu", models.TextModel, language),
-      staticImages: await reqData("staticImages", models.ImageModel),
-      staticText: await reqData("staticText", models.TextModel, language),
-      staticTextWithHeading: await reqData("staticTextWithHeading", models.TextWithHeadingModel, language),
-      membersSections: await reqData("MembersSections", models.TextWithHeadingModel, language),
-      conductorsImages: await reqData("conductorsImages", models.ImageModel),
-      conductorsSections: await reqData("conductorsSections", models.TextWithHeadingModel, language),
-      historySections: await reqData("historySections", models.TextWithHeadingModel, language),
-      mediaSections: await reqData("mediaSections", models.TextWithHeadingModel, language),
-      iframes: await reqData("iframes", models.mediaItemModel),
-      sponsorsLogos: await reqData("sponsorsLogos", models.imageLinkModel),
+      aboutSectionHeadings: await compiler("about_section_headings", models.TextModel, language),
+      staticImages: await compiler("static_images", models.ImageModel),
+      staticText: await compiler("static_Text", models.TextModel, language),
+      staticTextWithHeading: await compiler("static_text_with_heading", models.TextWithHeadingModel, language),
+      membersSections: await compiler("Members_sections", models.TextWithHeadingModel, language),
+      conductorsImages: await compiler("conductors_images", models.ImageModel),
+      conductorsSections: await compiler("conductors_sections", models.TextWithHeadingModel, language),
+      historySections: await compiler("history_sections", models.TextWithHeadingModel, language),
+      mediaSections: await compiler("media_sections", models.TextWithHeadingModel, language),
+      iframes: await compiler("iframes", models.mediaItemModel),
+      sponsorsLogos: await compiler("sponsors_logos", models.imageLinkModel),
       pageInfo: getPageInfo("home", "est")
     };
   }

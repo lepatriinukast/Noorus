@@ -18,9 +18,9 @@ const saltRounds = 12;
 // require the custom modules
 
 const con = require("./requestData/DBConnection");
-const mod = require("./requestData/models");
-const query = require("./requestData/queryDB");
-const reqData = require("./requestData/reqData");
+const models = require("./requestData/models");
+const queryDB = require("./requestData/queryDB");
+const reqData = require("./requestData");
 
 // setup express back-end framework
 
@@ -82,12 +82,11 @@ const updateDatabase = async (sql, values) => {
 
 
 
-
-
 // ESTONIAN ROUTES
 
 app.get("/", async (req, res) => {
   const data = await reqData("home", "est");
+  console.log(data.aboutSectionHeadings);
   res.render("home", {
     data: data
   });

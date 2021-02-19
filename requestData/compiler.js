@@ -21,6 +21,10 @@ const models = require("./models");
 
 const compiler = async (tableName, model, language) => {
 
+  // Query the specified table name for results.
+
+  const result = await queryDB(tableName);
+
 // Create an empty array, which will be used as a container for similarily structured javascript objects containing data from the database.
 
   const container = [];
@@ -29,8 +33,8 @@ const compiler = async (tableName, model, language) => {
   // create a new javascript object for each entry in the database.
   // Finally, push all these objects into the empty container array.
 
-  for (let i = 0; i < result; i++) {
-    container[i] = new model(await query(tableName), i, language);
+  for (let i = 0; i < result.length; i++) {
+    container[i] = new model(result, i, language);
   }
 
   // Return the data in an array.
