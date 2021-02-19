@@ -1,18 +1,16 @@
-<%- include partials/head {data: data} -%>
-<%- include partials/navigation {data: data} -%>
-<div class="logo">
-  <img class="logo__img" src="<%= data.staticImages[1].url %>" alt="<%= data.pageInfo.miscellaneous[0] %>">
-</div>
-<header class="header" style="background-image: linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6)), url('<%= data.staticImages[3].url %>')">
-  <div class="header__heading-box">
+<%- include('partials/head', {data: data}); -%>
+<%- include('partials/navigation', {data: data}); -%>
+<%- include('partials/logo', {data: data}); -%>
+<header class="home-header" style="background-image: linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6)), url('<%= data.staticImages[3].url %>')">
+  <div class="home-header__heading-box">
     <h1 class="heading--purple heading--primary"><%= data.staticTextWithHeading[0].heading %></h1>
-    <p class="paragraph--large paragraph--purple header__paragraph"><%= data.staticTextWithHeading[0].content %></p>
+    <p class="paragraph--large paragraph--purple home-header__paragraph"><%= data.staticTextWithHeading[0].content %></p>
       <% if (data.staticTextWithHeading[1].heading || data.staticTextWithHeading[1].content) { %>
     <a href="/<%= data.pageInfo.navigation.hrefs[1] %>" class="btn btn--main btn--dark u-margin-top-small"><%= data.pageInfo.buttonText %></a>
     <% } %>
   </div>
 </header>
-<main class="home__container">
+<main class="home-body">
   <section class="home-features">
     <div class="home-features__container">
         <% if (data.aboutSectionHeadings[1].content) { %>
@@ -81,5 +79,5 @@
       <% } %>
   </section>
 </main>
-<%- include partials/footnav {data: data} -%>
-<%- include partials/footer -%>
+<%- include('partials/footnav', {data: data}); -%>
+<%- include('partials/footer'); -%>
