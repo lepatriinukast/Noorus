@@ -17,10 +17,10 @@ const saltRounds = 12;
 
 // require the custom modules
 
-const con = require("./requestData/DBConnection");
-const models = require("./requestData/models");
-const queryDB = require("./requestData/queryDB");
-const reqData = require("./requestData");
+const con = require("./reqData/DBConnection");
+const models = require("./reqData/models");
+const queryDB = require("./reqData/queryDB");
+const reqData = require("./reqData");
 
 // setup express back-end framework
 
@@ -86,7 +86,6 @@ const updateDatabase = async (sql, values) => {
 
 app.get("/", async (req, res) => {
   const data = await reqData("home", "est");
-  console.log(data.aboutSectionHeadings);
   res.render("home", {
     data: data
   });

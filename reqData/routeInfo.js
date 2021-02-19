@@ -69,8 +69,8 @@ const routeInfo = {
       en: ["Logo of Mixed Choir Noorus", "events#past"]
     },
     about: {
-      est: [],
-      en: []
+      est: ["liikmed", "dirigendid", "ajalugu", "meedia", "toetajad"],
+      en: ["members", "conductors", "history", "media", "sponsors"]
     },
     events: {
       est: [],

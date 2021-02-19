@@ -10,182 +10,141 @@
     <li class="sidenav__item"><a href="/<%= data.pageInfo.navigation.hrefs.dropdown[4] %>" class="sidenav__link"><%= data.aboutSectionHeadings[5] %></a></li>
   </ul>
 </nav>
-<div class="about__body-container">
-  <header class="about__section-intro" id="aboutSectionIntro"!!*>
+<main class="about-container">
+  <section class="about-intro">
     <% if (data.staticImages.aboutBackgroundImage) { %>
-    <div class="about__section-intro__img" alt="Segakoor Noorus!!*" style="background-image: url(<%= data.staticImages.aboutBackgroundImage.url %>)"></div>
+    <div class="about-intro__img" alt="Segakoor Noorus!!*" style="background-image: url(<%= data.staticImages.aboutBackgroundImage.url %>)"></div>
     <% } %>
-    <div class="about__section-intro__text-box">
+    <div class="about-intro__text-box">
       <h2 class="heading--secondary heading--purple u-margin-bottom-big"><%= data.pageInfo.PageTitle %></h2>
       <% if (data.aboutSectionHeadings[0]) { %>
       <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= data.aboutSectionHeadings[0] %></h3>
       <% } %>
-      <% if (data.staticText.aboutIntroductionSection) { %>
-      <template id="aboutIntroductionSection">
-        <%- data.staticText.aboutIntroductionSection %>
-      </template>
-      <% } %>
-    </div>
-  </header>
-  <section class="about__section-members" id="aboutSectionMembers">
-    <div class="about__section-members__container">
-      <h2 class="heading--secondary heading--purple u-margin-bottom-big"><%= data.aboutSectionHeadings[1] %></h2>
-      <% if (data.staticText.aboutMembersSection) { %>
-        <template id="aboutMembersSection">
-          <%- data.staticText.aboutMembersSection %>
+      <% if (data.staticText[0]) { %>
+      <div class="about-intro__content">
+        <template>
+          <%- data.staticText[0] %>
         </template>
-      <% } %>
-
-
-      <div class="about__section-members__grid">
-        <% for (data.staticText.) { %>
-          <% if (liikmedData.haaleruhmaNimed[0].est !== "") { %>
-          <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= liikmedData.haaleruhmaNimed[0].est %></h3>
-          <% } %>
-          <% if (liikmedData.haaleruhmaTutvustused[0].est !== "") { %>
-          <p class="paragraph--small paragraph--purple u-margin-bottom-big"><%- liikmedData.haaleruhmaTutvustused[0].est %></p>
-          <% } %>
-      </div>
-
-
-      <div class="about__section-members__text-box">
-        <div class="about__section-members__small-box">
-          <% if (liikmedData.haaleruhmaNimed[2].est !== "") { %>
-          <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= liikmedData.haaleruhmaNimed[2].est %></h3>
-          <% } %>
-          <% if (liikmedData.haaleruhmaTutvustused[2].est !== "") { %>
-          <p class="paragraph--small paragraph--purple u-margin-bottom-big"><%- liikmedData.haaleruhmaTutvustused[2].est %></p>
-          <% } %>
-        </div>
-        <div class="about__section-liikmed__small-box">
-          <% if (liikmedData.haaleruhmaNimed[3].est !== "") { %>
-          <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= liikmedData.haaleruhmaNimed[3].est %></h3>
-          <% } %>
-          <% if (liikmedData.haaleruhmaTutvustused[3].est !== "") { %>
-          <p class="paragraph--small paragraph--purple u-margin-bottom-big"><%- liikmedData.haaleruhmaTutvustused[3].est %></p>
-          <% } %>
-        </div>
-      </div>
-
-
-      <% if (data.membersSections) { %>
-      <div class="about__section-header__paragraphs">
-        <% for (let i = 0; i < data.membersSections.length; i++) { %>
-        <%- data.membersSections[i] %>
-        <% } %>
       </div>
       <% } %>
-
-
-
-      <div class="about__section-members__smaller-box">
-        <% if (liikmedData.lauljadPealkiri.est !== "") { %>
-        <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= liikmedData.lauljadPealkiri.est %></h3>
-        <% } %>
-        <% if (liikmedData.sopranid !== "") { %>
-        <p class="paragraph--small paragraph--purple u-margin-bottom-big"><strong>Sopranid - </strong><%- liikmedData.sopranid %></p>
-        <% } %>
-        <% if (liikmedData.aldid !== "") { %>
-        <p class="paragraph--small paragraph--purple u-margin-bottom-big"><strong>Aldid - </strong><%- liikmedData.aldid %></p>
-        <% } %>
-        <% if (liikmedData.tenorid !== "") { %>
-        <p class="paragraph--small paragraph--purple u-margin-bottom-big"> <strong>Tenorid - </strong><%- liikmedData.tenorid %></p>
-        <% } %>
-        <% if (liikmedData.bassid !== "") { %>
-        <p class="paragraph--small paragraph--purple u-margin-bottom-big"><strong>Bassid/baritonid - </strong><%- liikmedData.bassid %></p>
-        <% } %>
+    </div>
+  </section>
+  <section class="about-members" id="<%= data.pageInfo.miscellaneous[0] %>">
+    <h2 class="heading--secondary heading--purple u-margin-bottom-big"><%= data.aboutSectionHeadings[1] %></h2>
+    <div class="about-members__subsection">
+      <% if (data.staticText[1]) { %>
+      <div class="about-members__content">
+        <template>
+          <%- data.staticText[1] %>
+        </template>
       </div>
-      <div class="about__section-members__smaller-box">
-        <% if (liikmedData.vilistlastePealkiri.est !== "") { %>
-        <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= liikmedData.vilistlastePealkiri.est %></h3>
-        <% } %>
-        <% if (liikmedData.vilistlasteNimekiri.est !== "") { %>
-        <p class="paragraph--small paragraph--purple"><%- liikmedData.vilistlasteNimekiri.est %></p>
+      <% } %>
+    </div>
+    <div class="about-members__subsection">
+      <div class="about-members__grid">
+        <% for (i = 3; i < 7; i++) { %>
+        <div class="about-members__grid-item">
+          <% if (data.staticTextWithHeading[i].heading) { %>
+          <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= data.staticTextWithHeading[i].heading %></h3>
+          <% } %>
+          <% if (data.staticTextWithHeading[i].content) { %>
+          <p class="paragraph--small paragraph--purple u-margin-bottom-big"><%- data.staticTextWithHeading[i].content %></p>
+        </div>
         <% } %>
       </div>
     </div>
+    <div class="about-members__subsection">
+      <% for (i = 0; i < data.membersSegments.length; i++) { %>
+      <div class="about-members__segment">
+        <% if (data.membersSegments[i].heading) { %>
+        <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= data.membersSegments[i].heading %></h3>
+        <% } %>
+        <% if (data.membersSegments[i].content) { %>
+        <div class="about-members__content">
+          <template>
+            <%- data.membersSegments[i].content %>
+          </template>
+        </div>
+        <% } %>
+        <% } %>
+      </div>
   </section>
-  <section class="about__section-conductors" id="aboutSectionConductors">
+  <section class="about-conductors" id="<%= data.pageInfo.miscellaneous[1] %>">
     <h2 class="heading--secondary heading--purple"><%= data.aboutSectionHeadings[2] %></h2>
-    <% for (var a = 0; a < dirigendidData.length; a++) { %>
-    <div class="about__section-conductors__container">
-      <div class="about__section-conductors__text-box">
-        <% if (dirigendidData[a].nimi !== "") { %>
-        <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= dirigendidData[a].nimi %></h3>
+    <% for (var i = 0; i < data.conductorsSegments.length; i++) { %>
+    <div class="about-conductors__segment">
+      <div class="about-conductors__text-box">
+        <% if (data.conductorsSegments[i].heading) { %>
+        <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= data.conductorsSegments[i].heading %></h3>
         <% } %>
-        <% for (var i = 0; i < dirigendidData[a].loigud.length; i++) { %>
-        <p class="paragraph--small paragraph--purple u-margin-bottom-small"><%- dirigendidData[a].loigud[i].est %></p>
+        <% if (data.conductorsSegments[i].content) { %>
+        <div class="about-conductors__content">
+          <template>
+            <%- data.conductorsSegments[i].content %>
+          </template>
+        </div>
         <% } %>
       </div>
-      <div class="about__section-conductors__img" style="background-image: url('..<%= portreed[a].url %>')">
-      </div>
+      <div class="about-conductors__img" style="background-image: url('..<%= data.conductorsImages[i].url %>')"></div>
     </div>
     <% } %>
   </section>
-  <section class="about__section-history" id="aboutSectionHistory">
+
+
+  <section class="about-history" id="<%= data.pageInfo.miscellaneous[2] %>">
     <h2 class="heading--secondary heading--purple"><%= data.aboutSectionHeadings[3] %></h2>
-    <div class="about__section-history__container">
-      <% if (ajaluguSissekandedData.pealkiri.est !== "") { %>
-      <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= ajaluguSissekandedData.pealkiri.est %></h3>
+    <% for (var i = 0; i < data.historySegments.length; i++) { %>
+    <div class="about-history__segment">
+      <% if (data.historySegments[i].heading) { %>
+      <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= data.historySegments[i].heading %></h3>
       <% } %>
-      <% if (ajaluguSissekandedData.sissekanded.length !== 0) { %>
-      <ul class="list">
-        <% for (var i = 0; i < ajaluguSissekandedData.sissekanded.length; i++) { %>
-        <li class="list__item list__item--small"><strong><%= ajaluguSissekandedData.sissekanded[i].aasta %></strong> <%- ajaluguSissekandedData.sissekanded[i].est %></li>
-        <% } %>
-      </ul>
-      <% } %>
-      <% for (var a = 0; a < ajaluguSektsioonidData.length; a++) { %>
-      <div class="about__section-history__text-box">
-        <% if (ajaluguSektsioonidData[a].pealkiri.est !== "") { %>
-        <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= ajaluguSektsioonidData[a].pealkiri.est %></h3>
-        <% } %>
-        <% for (var i = 0; i < ajaluguSektsioonidData[a].loigud.length; i++) { %>
-        <p class="paragraph--small paragraph--purple u-margin-bottom-small"><%- ajaluguSektsioonidData[a].loigud[i].est %></p>
-        <% } %>
-      </div>
-      <% } %>
-    </div>
-  </section>
-  <section class="about__section-media" id="aboutSectionMedia">
-    <h2 class="heading--secondary heading--purple"><%= data.aboutSectionHeadings[4] %></h2>
-    <div class="about__section-media__container">
-      <% if (meediaSissejuhatusData.pealkiri.est !== "") { %>
-      <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= meediaSissejuhatusData.pealkiri.est %></h3>
-      <% } %>
-      <% for (var i = 0; i < meediaSissejuhatusData.loigud.length; i++) { %>
-      <p class="paragraph--small paragraph--purple u-margin-bottom-small"><%- meediaSissejuhatusData.loigud[i].est %></p>
-      <% } %>
-      <% if (meediaVideodData.pealkiri.est !== "") { %>
-      <h3 class="heading--tertiary heading--purple u-margin-top-big u-margin-bottom-big"><%= meediaVideodData.pealkiri.est %></h3>
-      <% } %>
-      <% for (var i = 0; i < meediaVideodData.manustamislingid.length; i++) { %>
-      <div class="about__section-media__iframe">
-        <iframe class="iframe" src="<%= meediaVideodData.manustamislingid[i] %>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-      </div>
-      <% } %>
-      <% if (meediaLingidData.pealkiri.est !== "") { %>
-      <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= meediaLingidData.pealkiri.est %></h3>
-      <% } %>
-      <ul class="list">
-        <% for (var i = 0; i < meediaLingidData.lingid.length; i++) { %>
-        <li class="list__item list__item--small"><a href="<%= meediaLingidData.lingid[i].link %>" class="list__link"><%= meediaLingidData.lingid[i].est %></a></li>
-        <% } %>
-      </ul>
-    </div>
-  </section>
-  <section class="about__section-sponsors" id="aboutSectionSponsors">
-    <h2 class="heading--secondary heading--purple"><%= data.aboutSectionHeadings[5] %></h2>
-    <% if (toetajadData.length !== 0) { %>
-    <div class="about__section-sponsors__container">
-      <% for (var i = 0; i < toetajadData.length; i++) { %>
-      <div class="about__section-sponsors__logo-box">
-        <a href="<%= toetajadData[i].link %>"><img src="<%= toetajadData[i].url %>" alt="Logo <%= i + 1 %>" class="about__section-sponsors__logo"></a>
+      <% if (data.historySegments[i].content) { %>
+      <div class="about-history__content">
+        <template>
+          <%- data.historySegments[i].content %>
+        </template>
       </div>
       <% } %>
     </div>
     <% } %>
   </section>
-</div>
+
+  <section class="about-media" id="<%= data.pageInfo.miscellaneous[3] %>">
+    <h2 class="heading--secondary heading--purple"><%= data.aboutSectionHeadings[4] %></h2>
+      <% for (var i = 0; i < data.iframes.length; i++) { %>
+      <div class="about-media__iframe">
+        <iframe class="iframe" src="<%= data.iframes[i].link %>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+      <% } %>
+      <% for (var i = 0; i < data.mediaSegments.length; i++) { %>
+      <div class="about-media__segment">
+        <% if (data.historySegments[i].heading) { %>
+        <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= data.mediaSegments[i].heading %></h3>
+        <% } %>
+        <% if (data.mediaSegments[i].content) { %>
+        <div class="about-media__content">
+          <template>
+            <%- data.mediaSegments[i].content %>
+          </template>
+        </div>
+        <% } %>
+      </div>
+      <% } %>
+  </section>
+<% if (data.sponsorsLogos) { %>
+  <section class="about-sponsors" id="<%= data.pageInfo.miscellaneous[4] %>">
+    <h2 class="heading--secondary heading--purple"><%= data.aboutSectionHeadings[5] %></h2>
+    <div class="about-sponsors__container">
+      <% for (var i = 0; i < data.sponsorsLogos.length; i++) { %>
+      <div class="about-sponsors__logo-box">
+        <a href="<%= data.sponsorsLogos[i].link %>">
+          <img src="<%= data.sponsorsLogos[i].url %>" alt="Logo <%= i + 1 %>" class="about-sponsors__logo">
+        </a>
+      </div>
+      <% } %>
+    </div>
+  </section>
+  <% } %>
+</main>
 <%- include partials/footnav {data: data} -%>
 <%- include partials/footer -%>

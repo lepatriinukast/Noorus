@@ -39,7 +39,7 @@ const models = {
 
   TextModel: function (result, iterator, language) {
     if (result) {
-      return chooseLanguage(result, iterator, language, false);
+      this.content = chooseLanguage(result, iterator, language, false);
     }
   },
 

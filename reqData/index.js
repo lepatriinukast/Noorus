@@ -61,14 +61,14 @@ const reqData = async (templateName, language) => {
       staticImages: await compiler("static_images", models.ImageModel),
       staticText: await compiler("static_Text", models.TextModel, language),
       staticTextWithHeading: await compiler("static_text_with_heading", models.TextWithHeadingModel, language),
-      membersSections: await compiler("Members_sections", models.TextWithHeadingModel, language),
+      membersSegments: await compiler("Members_segments", models.TextWithHeadingModel, language),
       conductorsImages: await compiler("conductors_images", models.ImageModel),
-      conductorsSections: await compiler("conductors_sections", models.TextWithHeadingModel, language),
-      historySections: await compiler("history_sections", models.TextWithHeadingModel, language),
-      mediaSections: await compiler("media_sections", models.TextWithHeadingModel, language),
+      conductorsSegments: await compiler("conductors_segments", models.TextWithHeadingModel, language),
+      historySegments: await compiler("history_segments", models.TextWithHeadingModel, language),
+      mediaSegments: await compiler("media_segments", models.TextWithHeadingModel, language),
       iframes: await compiler("iframes", models.mediaItemModel),
       sponsorsLogos: await compiler("sponsors_logos", models.imageLinkModel),
-      pageInfo: getPageInfo("home", "est")
+      pageInfo: getPageInfo("about", "est")
     };
   }
 };

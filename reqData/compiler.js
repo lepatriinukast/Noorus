@@ -19,7 +19,7 @@ const models = require("./models");
 
 // This function also needs to be asynchronous, because it needs to wait for the database to finish sending the data.
 
-const compiler = async (tableName, model, language) => {
+const compiler = async (tableName, Model, language) => {
 
   // Query the specified table name for results.
 
@@ -34,7 +34,7 @@ const compiler = async (tableName, model, language) => {
   // Finally, push all these objects into the empty container array.
 
   for (let i = 0; i < result.length; i++) {
-    container[i] = new model(result, i, language);
+    container[i] = new Model(result, i, language);
   }
 
   // Return the data in an array.

@@ -13,30 +13,30 @@
   </div>
 </header>
 <main class="home__container">
-  <section class="home__section-features">
-    <div class="home__section-features__container">
-        <% if (data.aboutSectionHeadings[1]) { %>
-      <div class="home__section-features__column">
-        <div class="home__section-features__item">
-          <a class="home__section-features__link" href="/<%= data.pageInfo.navigation.hrefs.dropdown[0] %>">
-            <i class="fas fa-music home__section-features__icon"></i>
-            <h3 class="heading--purple heading--tertiary"><%= data.aboutSectionHeadings[1] %></h3>
+  <section class="home-features">
+    <div class="home-features__container">
+        <% if (data.aboutSectionHeadings[1].content) { %>
+      <div class="home-features__column">
+        <div class="home-features__item">
+          <a class="home-features__link" href="/<%= data.pageInfo.navigation.hrefs.dropdown[0] %>">
+            <i class="fas fa-music home-features__icon"></i>
+            <h3 class="heading--purple heading--tertiary"><%= data.aboutSectionHeadings[1].content %></h3>
           </a>
         </div>
       </div>
       <% } %>
-      <div class="home__section-features__column">
-        <div class="home__section-features__item">
-          <a class="home__section-features__link" href="/<%= data.pageInfo.navigation.hrefs.links[4] %>">
-            <i class="fas fa-shopping-cart section-features__icon"></i>
+      <div class="home-features__column">
+        <div class="home-features__item">
+          <a class="home-features__link" href="/<%= data.pageInfo.navigation.hrefs.links[4] %>">
+            <i class="fas fa-shopping-cart home-features__icon"></i>
             <h3 class="heading--purple heading--tertiary"><%= data.pageInfo.navigation.linkTexts[3] %></h3>
           </a>
         </div>
       </div>
-      <div class="home_section-features__column">
-        <div class="home_section-features__item">
-          <a class="home_section-features__link" href="/<%= data.pageInfo.navigation.hrefs.links[3] %>">
-            <i class="fas fa-envelope home_section-features__icon"></i>
+      <div class="home-features__column">
+        <div class="home-features__item">
+          <a class="home-features__link" href="/<%= data.pageInfo.navigation.hrefs.links[3] %>">
+            <i class="fas fa-envelope home-features__icon"></i>
             <h3 class="heading--purple heading--tertiary"><%= data.pageInfo.navigation.linkTexts[2] %></h3>
           </a>
         </div>
@@ -44,8 +44,8 @@
     </div>
   </section>
   <% if (data.eventsContent.length) { %>
-  <section class="home__section-events">
-    <div class="home_section-events__heading-box">
+  <section class="home-events">
+    <div class="home-events__heading-box">
       <% if (data.staticTextWithHeading[1].heading) { %>
       <h2 class="heading--purple heading--secondary u-margin-bottom-big"><%= data.staticTextWithHeading[1].heading %></h2>
       <% } %>
@@ -53,7 +53,7 @@
       <p class="paragraph--large paragraph--purple u-margin-bottom-big"><%= data.staticTextWithHeading[1].content %></p>
       <% } %>
     </div>
-    <div class="home__section-events__container">
+    <div class="home-events__container">
       <% for (var i = 0; i < data.eventsContent.length && i < 3; i++) { %>
       <div class="card">
         <div class="card__upper" <% if (data.eventsImages[i].url) { %> style="background-image: url( <%= data.eventsImages[i].url %>);"<% } %>>
@@ -67,9 +67,9 @@
     </div>
   </section>
   <% } %>
-  <section class="home__section-past">
+  <section class="home-past">
     <% if (data.pastEventsContent.length) { %>
-    <div class="home__section-past__container">
+    <div class="home-past__container">
       <% if (data.staticTextWithHeading[2].heading) { %>
       <h2 class="heading--purple heading--secondary u-margin-bottom-big"><%= data.staticTextWithHeading[2].heading %></h2>
       <% } %>
