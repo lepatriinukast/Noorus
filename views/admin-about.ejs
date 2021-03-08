@@ -1,0 +1,40 @@
+<%- include('partials/head', {data: data}); -%>
+<%- include('partials/admin-nav', {data: data}); -%>
+<%- include('partials/admin-popup', {data: data}); -%>
+
+<h1 class="admin__heading admin__heading--primary">Koorist</h1>
+<form action="/api/about" method="post" enctype="multipart/form-data" class="admin__form" id="about">
+  <div class="admin__img-group">
+    <div class="admin__input__group">
+      <h3 class="admin__heading admin__heading--tertiary">Taustapilt</h3>
+      <input type="file" name="aboutBackgroundImg" id="aboutBackgroundImg" class="admin__hidden-input file">
+      <label for="aboutBackgroundImg" class="admin__small-btn" id="aboutBackgroundImgLabel">Vali fail</label>
+      <p class="admin__input-placeholder" id="aboutBackgroundImgPlaceholder"><%= data.staticImages[1].filename %></p>
+      <img class="admin__icon" src="/img/Lendutõus.jpg" id="aboutBackgroundImgIcon" alt="Taustapilt">
+    </div>
+  </div>
+    <div class="admin__form-field">
+      <h3 class="admin__heading admin__heading--tertiary">Tekst</h3>
+      <div class="admin__input-group">
+        <div class="admin__input-item">
+          <h3 class="admin__heading admin__heading--quarternary">EST</h3>
+          <div class="admin__input">
+            <div class="editor">
+            </div>
+          </div>
+        </div>
+        <div class="admin__input-item">
+          <h3 class="admin__heading admin__heading--quarternary">EN</h3>
+          <div class="admin__input">
+            <div class="editor">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="admin__btn-group">
+        <button class="admin__btn" type="submit" name="button" id="aboutBtn">Salvesta</button>
+      </div>
+      </div>
+</form>
+
+<%- include('partials/footer') -%>

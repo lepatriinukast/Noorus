@@ -1,0 +1,89 @@
+<%- include('partials/head', {data: data}); -%>
+<%- include('partials/admin-nav', {data: data}); -%>
+<%- include('partials/admin-popup', {data: data}); -%>
+
+<h1 class="admin__heading admin__heading--primary">Sündmused</h1>
+  <form action="/api/events/intro" method="post" enctype="application/x-www-form-urlencoded" class="admin__form" id="eventsIntro">
+    <h3 class="admin__heading admin__heading--secondary">Sissejuhatav tekst</h3>
+
+      <div class="admin__form-field">
+        <div class="admin__input-group">
+          <div class="admin__input-item">
+            <h3 class="admin__heading admin__heading--quarternary">EST</h3>
+            <div class="admin__input">
+              <div class="editor ">
+              </div>
+            </div>
+          </div>
+          <div class="admin__input-item">
+            <h3 class="admin__heading admin__heading--quarternary">EN</h3>
+            <div class="admin__input">
+              <div class="editor">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="admin__btn-group">
+          <button class="admin__btn" type="submit" name="button" id="eventsIntroBtn">Salvesta</button>
+        </div>
+        </div>
+  </form>
+
+  <% for (var i = 0; i < 2; i++) { %>
+
+<form action="/api/events/content/<%= i + 1 %>" method="post" enctype="application/x-www-form-urlencoded" class="admin__form" id="eventsContent<%= i + 1 %>">
+  <h3 class="admin__heading admin__heading--secondary">Sündmus <%= i + 1 %></h3>
+<div class="admin__form-field">
+  <div class="admin__img-group">
+    <div class="admin__input__group">
+      <h3 class="admin__heading admin__heading--tertiary">Plakat</h3>
+      <input type="file" name="eventsImg<%= i + 1 %>" id="eventsImg<%= i + 1 %>" class="admin__hidden-input file">
+      <label for="eventsImg<%= i + 1 %>" class="admin__small-btn" id="eventsImgLabel<%= i + 1 %>">Vali fail</label>
+      <p class="admin__input-placeholder" id="eventsImgPlaceholder<%= i + 1 %>"><%= %></p>
+      <img class="admin__icon" src="/img/Lendutõus.jpg" id="eventsImgIcon<%= i + 1 %>" alt="Sündmuse plakat">
+    </div>
+  </div>
+  <h3 class="admin__heading admin__heading--tertiary">Pealkiri</h3>
+  <div class="admin__input-group">
+    <div class="admin__input-item">
+      <h3 class="admin__heading admin__heading--quarternary">EST</h3>
+      <div class="admin__input admin__input--bold">
+        <div class="textInput">
+        </div>
+      </div>
+    </div>
+    <div class="admin__input-item">
+      <h3 class="admin__heading admin__heading--quarternary">EN</h3>
+      <div class="admin__input admin__input--bold">
+        <div class="textInput">
+        </div>
+      </div>
+    </div>
+  </div>
+  <h3 class="admin__heading admin__heading--tertiary">Sisu</h3>
+  <div class="admin__input-group">
+    <div class="admin__input-item">
+      <h3 class="admin__heading admin__heading--quarternary">EST</h3>
+      <div class="admin__input">
+        <div class="editor">
+        </div>
+      </div>
+    </div>
+    <div class="admin__input-item">
+      <h3 class="admin__heading admin__heading--quarternary">EN</h3>
+      <div class="admin__input">
+        <div class="editor">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="admin__btn-group">
+    <button class="admin__btn" name="button" id="eventsContentDeleteBtn<%= i + 1 %>">Kustuta</button>
+    <button class="admin__btn" type="submit" name="button" id="eventsContentBtn<%= i + 1 %>">Salvesta</button>
+  </div>
+  </div>
+</form>
+<% } %>
+<button class="admin__btn" name="button" id="eventsContentAddBtn">+ Lisa Sündmus +</button>
+
+<%- include('partials/footer') -%>

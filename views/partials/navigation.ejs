@@ -9,11 +9,11 @@
           </a>
           <div class="dropdown dropdown--header hide" id="dropdownMenuHeader">
             <ul class="dropdown__list">
-              <li class="dropdown__item"><a href="/<%= data.pageInfo.navigation.hrefs.dropdown[0] %>" class="dropdown__link"><%= data.aboutSectionHeadings[1].content %></a></li>
-              <li class="dropdown__item"><a href="/<%= data.pageInfo.navigation.hrefs.dropdown[1] %>" class="dropdown__link"><%= data.aboutSectionHeadings[2].content %></a></li>
-              <li class="dropdown__item"><a href="/<%= data.pageInfo.navigation.hrefs.dropdown[2] %>" class="dropdown__link"><%= data.aboutSectionHeadings[3].content %></a></li>
-              <li class="dropdown__item"><a href="/<%= data.pageInfo.navigation.hrefs.dropdown[3] %>" class="dropdown__link"><%= data.aboutSectionHeadings[4].content %></a></li>
-              <li class="dropdown__item"><a href="/<%= data.pageInfo.navigation.hrefs.dropdown[4] %>" class="dropdown__link"><%= data.aboutSectionHeadings[5].content %></a></li>
+              <li class="dropdown__item"><a href="/<%= data.pageInfo.navigation.hrefs.dropdown[0] %>" class="dropdown__link"><%= data.aboutSubheadings[1].content %></a></li>
+              <li class="dropdown__item"><a href="/<%= data.pageInfo.navigation.hrefs.dropdown[1] %>" class="dropdown__link"><%= data.aboutSubheadings[2].content %></a></li>
+              <li class="dropdown__item"><a href="/<%= data.pageInfo.navigation.hrefs.dropdown[2] %>" class="dropdown__link"><%= data.aboutSubheadings[3].content %></a></li>
+              <li class="dropdown__item"><a href="/<%= data.pageInfo.navigation.hrefs.dropdown[3] %>" class="dropdown__link"><%= data.aboutSubheadings[4].content %></a></li>
+              <li class="dropdown__item"><a href="/<%= data.pageInfo.navigation.hrefs.dropdown[4] %>" class="dropdown__link"><%= data.aboutSubheadings[5].content %></a></li>
             </ul>
           </div>
         </li>
@@ -22,23 +22,23 @@
         <li class="navigation__item"><a href="/<%= data.pageInfo.navigation.hrefs.links[4] %>" class="navigation__link"><%= data.pageInfo.navigation.linkTexts[3] %></a></li>
       </ul>
       <div class="navigation__item navigation__menu-button">
-        <a href="" class="navigation__link" aria-label="aria-label="<%= data.pageInfo.navigation.ariaLabels[1] %>">
+        <a href="" class="navigation__link" aria-label="<%= data.pageInfo.navigation.ariaLabels[1] %>">
           <i class="fas fa-bars navigation__menu-icon" id="menuButton"></i>
         </a>
       </div>
       <div class="navigation__logo">
-        <a href="/<%= data.pageInfo.navigation.hrefs.links[0] %>" class="navigation__logo-link" aria-label="aria-label="<%= data.pageInfo.navigation.ariaLabels[2] %>"">
+        <a href="/<%= data.pageInfo.navigation.hrefs.links[0] %>" class="navigation__logo-link" aria-label="<%= data.pageInfo.navigation.ariaLabels[2] %>">
           <img src="/img/logo-vaike.png" alt="Väike logo" class="navigation__logo-img">
         </a>
       </div>
       <div class="navigation__icons">
-        <a href="https://www.facebook.com/segakoorNoorus/" class="navigation__social-link" aria-label="aria-label="<%= data.pageInfo.navigation.ariaLabels[3] %>"">
+        <a href="https://www.facebook.com/segakoorNoorus/" class="navigation__social-link" aria-label="<%= data.pageInfo.navigation.ariaLabels[3] %>">
           <i class="fab fa-facebook-f navigation__social-icon"></i>
         </a>
-        <a href="https://www.instagram.com/segakoornoorus/" class="navigation__social-link" aria-label="aria-label="<%= data.pageInfo.navigation.ariaLabels[4] %>"">
+        <a href="https://www.instagram.com/segakoornoorus/" class="navigation__social-link" aria-label="<%= data.pageInfo.navigation.ariaLabels[4] %>">
           <i class="fab fa-instagram navigation__social-icon"></i>
         </a>
-        <a href="<%= data.pageInfo.navigation.changeLanguage %>" class="navigation__language-link" aria-label="aria-label="<%= data.pageInfo.navigation.ariaLabels[5] %>"">EN</a>
+        <a href="/<%= data.pageInfo.navigation.hrefs.changeLanguage %>" class="navigation__language-link" aria-label="<%= data.pageInfo.navigation.ariaLabels[5] %>"><%= data.pageInfo.navigation.linkTexts[4] %></a>
       </div>
     </nav>
     <nav class="hidden-menu hide" id="hiddenMenu">
@@ -49,11 +49,11 @@
           </a>
           <div class="dropdown dropdown--hidden hide" id="dropdownMenuHidden">
             <ul class="dropdown__list">
-              <li class="dropdown__item"><a href="/<%= data.pageInfo.navigation.hrefs.dropdown[0] %>" class="dropdown__link"><%= data.aboutSectionHeadings[1].content %></a></li>
-              <li class="dropdown__item"><a href="/<%= data.pageInfo.navigation.hrefs.dropdown[1] %>" class="dropdown__link"><%= data.aboutSectionHeadings[2].content %></a></li>
-              <li class="dropdown__item"><a href="/<%= data.pageInfo.navigation.hrefs.dropdown[2] %>" class="dropdown__link"><%= data.aboutSectionHeadings[3].content %></a></li>
-              <li class="dropdown__item"><a href="/<%= data.pageInfo.navigation.hrefs.dropdown[3] %>" class="dropdown__link"><%= data.aboutSectionHeadings[4].content %></a></li>
-              <li class="dropdown__item"><a href="/<%= data.pageInfo.navigation.hrefs.dropdown[4] %>" class="dropdown__link"><%= data.aboutSectionHeadings[5].content %></a></li>
+              <li class="dropdown__item"><a href="/<%= data.pageInfo.navigation.hrefs.dropdown[0] %>" class="dropdown__link"><%= data.aboutSubheadings[1].content %></a></li>
+              <li class="dropdown__item"><a href="/<%= data.pageInfo.navigation.hrefs.dropdown[1] %>" class="dropdown__link"><%= data.aboutSubheadings[2].content %></a></li>
+              <li class="dropdown__item"><a href="/<%= data.pageInfo.navigation.hrefs.dropdown[2] %>" class="dropdown__link"><%= data.aboutSubheadings[3].content %></a></li>
+              <li class="dropdown__item"><a href="/<%= data.pageInfo.navigation.hrefs.dropdown[3] %>" class="dropdown__link"><%= data.aboutSubheadings[4].content %></a></li>
+              <li class="dropdown__item"><a href="/<%= data.pageInfo.navigation.hrefs.dropdown[4] %>" class="dropdown__link"><%= data.aboutSubheadings[5].content %></a></li>
             </ul>
           </div>
         </li>

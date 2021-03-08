@@ -78,11 +78,11 @@ const updateDatabase = async (sql, values) => {
 };
 
 
+// PAGE ROUTES
 
 
 
-
-// ESTONIAN ROUTES
+// Estonian routes
 
 app.get("/", async (req, res) => {
   const data = await reqData("home", "est");
@@ -106,14 +106,14 @@ app.get("/sundmused", async (req, res) => {
 });
 
 app.get("/kontakt", async (req, res) => {
-  const data = await reqData("events", "est");
+  const data = await reqData("contact", "est");
   res.render("contact", {
     data: data
   });
 });
 
 app.get("/pood", async (req, res) => {
-  const data = await reqData("events", "est");
+  const data = await reqData("shop", "est");
   res.render("shop", {
     data: data
   });
@@ -124,7 +124,142 @@ app.get("/telli", async (req, res) => {
   res.render("order", {
     data: data
   });
+
 });
+// English routes
+
+app.get("/en", async (req, res) => {
+  const data = await reqData("home", "en");
+  res.render("home", {
+    data: data
+  });
+});
+
+app.get("/en/about", async (req, res) => {
+  const data = await reqData("about", "en");
+  res.render("about", {
+    data: data
+  });
+});
+
+app.get("/en/events", async (req, res) => {
+  const data = await reqData("events", "en");
+  res.render("events", {
+    data: data
+  });
+});
+
+app.get("/en/contact", async (req, res) => {
+  const data = await reqData("contact", "en");
+  res.render("contact", {
+    data: data
+  });
+});
+
+app.get("/en/shop", async (req, res) => {
+  const data = await reqData("shop", "en");
+  res.render("shop", {
+    data: data
+  });
+});
+
+app.get("/en/order", async (req, res) => {
+  const data = await reqData("order", "en");
+  res.render("order", {
+    data: data
+  });
+});
+
+
+// LOGIN ROUTE
+
+app.get("/login", async (req, res) => {
+  const data = await reqData("login");
+  res.render("login", {
+    data: data
+  });
+});
+
+
+// ADMIN ROUTES
+
+app.get("/admin/home", async (req, res) => {
+  const data = await reqData("admin-home");
+  res.render("admin-home", {
+    data: data
+  });
+});
+
+app.get("/admin/about", async (req, res) => {
+  const data = await reqData("admin-about");
+  res.render("admin-about", {
+    data: data
+  });
+});
+
+app.get("/admin/members", async (req, res) => {
+  const data = await reqData("admin-members");
+  res.render("admin-members", {
+    data: data
+  });
+});
+
+app.get("/admin/conductors", async (req, res) => {
+  const data = await reqData("admin-conductors");
+  res.render("admin-conductors", {
+    data: data
+  });
+});
+
+app.get("/admin/history", async (req, res) => {
+  const data = await reqData("admin-history");
+  res.render("admin-history", {
+    data: data
+  });
+});
+
+app.get("/admin/media", async (req, res) => {
+  const data = await reqData("admin-media");
+  res.render("admin-media", {
+    data: data
+  });
+});
+
+app.get("/admin/sponsors", async (req, res) => {
+  const data = await reqData("admin-sponsors");
+  res.render("admin-sponsors", {
+    data: data
+  });
+});
+
+app.get("/admin/events", async (req, res) => {
+  const data = await reqData("admin-events");
+  res.render("admin-events", {
+    data: data
+  });
+});
+
+app.get("/admin/contact", async (req, res) => {
+  const data = await reqData("admin-contact");
+  res.render("admin-contact", {
+    data: data
+  });
+});
+
+app.get("/admin/shop", async (req, res) => {
+  const data = await reqData("admin-shop");
+  res.render("admin-shop", {
+    data: data
+  });
+});
+
+
+
+
+// API
+
+
+
 
 
 

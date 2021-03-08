@@ -1,4 +1,4 @@
-MODULE GROUP DOCUMENTATION:
+MODULE DOCUMENTATION:
 
 
 The information about what to render on the webpage is stored in the tables of the database.

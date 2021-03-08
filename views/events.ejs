@@ -1,77 +1,64 @@
-<%- include partials/head-en {pageTitle: pageTitle, paiseikoon: paiseikoon} -%>
-<%- include partials/navigation-en {currentPage: currentPage} -%>
-<div class="page-sundmused__container">
-  <section class="page-sundmused__section">
-    <div class="page-sundmused__intro-box">
-      <h2 class="heading--secondary heading--purple u-margin-bottom-big">Events</h2>
-      <% for (var i = 0; i < sundmusedSissejuhatusData.length; i++) { %>
-      <p class="paragraph--small paragraph--purple u-margin-bottom-small"><%- sundmusedSissejuhatusData[i].en %></p>
+<%- include('partials/head', {data: data}); -%>
+<%- include('partials/navigation', {data: data}); -%>
+<main class="events">
+  <section class="events__section">
+      <h2 class="heading--secondary heading--purple u-margin-bottom-big"><%= data.pageInfo.PageTitle %></h2>
+      <% if (data.intros[6].content) { %>
+      <div class="events__content">
+        <div>
+          <%- data.intros[6].content %>
+        </div>
+      </div>
       <% } %>
-    </div>
-    <% for (var a = 0; a < sundmusedData.length; a++) { %>
-    <div class="page-sundmused__event" id="<%= a + 1 %>">
-      <img src="<% if (plakatid[a].url !== "") { %>
-        <%= plakatid[a].url %>
-        <% } else { %> /img/logoga-pilt.jpg <% } %>" alt="Event <%= a + 1 %>" class="page-sundmused__img page-sundmused__img--landscape">
-      <div class="page-sundmused__text-box">
-        <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= sundmusedData[a].pealkiri.en %></h3>
-        <% if (sundmusedKohtData[a].length !== 0) { %>
-        <ul class="list u-margin-bottom-small">
-          <% for (var i = 0; i < sundmusedKohtData[a].kohad.length; i++) { %>
-          <li class="list__item list__item--large">
-            <% if (sundmusedKohtData[a].kohad[i].link !== "") { %> <a class="list__link" href="<%= sundmusedKohtData[a].kohad[i].link %>"><% } %>
-              <%= sundmusedKohtData[a].kohad[i].en %>
-              <% if (sundmusedKohtData[a].kohad[i].link !== "") { %></a><% } %>
-          </li>
-          <% } %>
-        </ul>
-        <% } %>
-        <% if (sundmusedData[a].loigud.length !== 0) { %>
-        <ul class="list u-margin-bottom-small">
-          <% for (var i = 0; i < sundmusedData[a].loigud.length; i++) { %>
-          <li class="list__item list__item--small"><%- sundmusedData[a].loigud[i].en %></li>
-          <% } %>
-        </ul>
+    <% for (var i = 0; i < data.eventsContent.length; i++) { %>
+    <div class="events__segment" id="<%= i + 1 %>">
+      <img src="<% if (data.eventsImages[i].url) { %>
+        <%= data.eventsImages[i].url %>
+        <% } else { %> /img/logoga-pilt.jpg <% } %>"
+         alt="<%= data.pageInfo.miscellaneous[0] +" " + (i + 1) %>" class="events__img">
+      <div class="events__text-box">
+        <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= data.eventsContent[i].heading %></h3>
+        <% if (data.eventsContent[i].content) { %>
+        <div class="events__content">
+          <div>
+            <%- data.eventsContent[i].content %>
+          </div>
+        </div>
         <% } %>
       </div>
     </div>
     <% } %>
   </section>
-  <% if (moodunudData.length !== 0) { %>
-  <section class="page-sundmused__section" id="moodunud-sundmused">
-    <div class="page-sundmused__intro-box">
-      <h2 class="heading--secondary heading--purple">Past events</h2>
-    </div>
-    <% for (var a = 0; a < moodunudData.length; a++) { %>
-    <div class="page-sundmused__event" id="past<%= a + 1 %>">
-      <img src="<% if (moodunudPlakatid[a].url !== '') { %>
-        <%= moodunudPlakatid[a].url %>
-        <% } else { %> /img/logoga-pilt.jpg <% } %>" alt="Möödunud sündmus <%= a + 1 %>" class="page-sundmused__img page-sundmused__img--landscape page-sundmused__img--past">
-      <div class="page-sundmused__text-box">
-        <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= moodunudData[a].pealkiri.en %></h3>
-        <% if (moodunudKohtData[a].kohad.length !== 0) { %>
-        <ul class="list u-margin-bottom-small">
-          <% for (var i = 0; i < moodunudKohtData[a].kohad.length; i++) { %>
-          <li class="list__item list__item--large">
-            <% if (moodunudKohtData[a].kohad[i].link !== "") { %> <a class="list__link" href="<%= moodunudKohtData[a].kohad[i].link %>"><% } %>
-              <%= moodunudKohtData[a].kohad[i].en %>
-              <% if (moodunudKohtData[a].kohad[i].link !== "") { %></a><% } %>
-          </li>
-          <% } %>
-        </ul>
-        <% } %>
-        <% if (moodunudData[a].loigud.length !== 0) { %>
-        <ul class="list u-margin-bottom-small">
-          <% for (var i = 0; i < moodunudData[a].loigud.length; i++) { %>
-          <li class="list__item list__item--large"><%- moodunudData[a].loigud[i].en %></li>
-          <% } %>
-        </ul>
+  <% if (data.pastEventsContent.length) { %>
+  <section class="past-events__section">
+      <h2 class="heading--secondary heading--purple u-margin-bottom-big"><%= data.pageInfo.miscellaneous[1] %></h2>
+      <% if (data.intros[7].content) { %>
+      <div class="past-events__content">
+        <div>
+          <%- data.intros[7].content %>
+        </div>
+      </div>
+      <% } %>
+    <% for (var i = 0; i < data.pastEventsContent.length; i++) { %>
+    <div class="past-events__segment" id="<%= i + 1 %>">
+      <img src="<% if (data.pastEventsImages[i].url) { %>
+        <%= data.pastEventsImages[i].url %>
+        <% } else { %> /img/logoga-pilt.jpg <% } %>"
+         alt="<%= data.pageInfo.miscellaneous[2] + " " + (i + 1) %>" class="events__img events__img--past">
+      <div class="past-events__text-box">
+        <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= data.pastEventsContent[i].heading %></h3>
+        <% if (data.pastEventsContent[i].content) { %>
+        <div class="past-events__content">
+          <div>
+            <%- data.pastEventsContent[i].content %>
+          </div>
+        </div>
         <% } %>
       </div>
     </div>
     <% } %>
   </section>
   <% } %>
-</div>
-<%- include partials/footnav -%>
-<%- include partials/footer -%>
+</main>
+<%- include('partials/footnav', {data: data}); -%>
+<%- include('partials/footer'); -%>

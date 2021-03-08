@@ -1,0 +1,109 @@
+<%- include('partials/head', {data: data}); -%>
+<%- include('partials/admin-nav', {data: data}); -%>
+<%- include('partials/admin-popup', {data: data}); -%>
+
+<h1 class="admin__heading admin__heading--primary">Meedia</h1>
+<form action="/api/media/intro" method="post" enctype="application/x-www-form-urlencoded" class="admin__form" id="mediaIntro">
+  <h3 class="admin__heading admin__heading--secondary">Sissejuhatav tekst</h3>
+
+  <div class="admin__form-field">
+    <div class="admin__input-group">
+      <div class="admin__input-item">
+        <h3 class="admin__heading admin__heading--quarternary">EST</h3>
+        <div class="admin__input">
+          <div class="editor ">
+          </div>
+        </div>
+      </div>
+      <div class="admin__input-item">
+        <h3 class="admin__heading admin__heading--quarternary">EN</h3>
+        <div class="admin__input">
+          <div class="editor">
+          </div>
+        </div>
+      </div>
+    </div>
+     <div class="admin__btn-group">
+    <button class="admin__btn" type="submit" name="button" id="mediaIntroBtn">Salvesta</button>
+    </div>
+  </div>
+</form>
+
+<form action="/api/media/iframes" method="post" enctype="application/x-www-form-urlencoded" class="admin__form" id="mediaIframes">
+  <h3 class="admin__heading admin__heading--secondary">Manustamislingid</h3>
+
+  <div class="admin__form-field">
+    <% for (var i = 0; i < 2; i++) { %>
+    <h3 class="admin__heading admin__heading--tertiary">Manustamislink <%= i + 1 %></h3>
+    <div class="admin__input-group">
+      <div class="admin__input-item">
+        <h3 class="admin__heading admin__heading--quarternary">LINK</h3>
+        <div class="admin__input">
+          <div class="textInput">
+          </div>
+        </div>
+        <button class="admin__small-btn iframeDeleteBtn" type="button" id="iframeDeleteBtn<%= i + 1 %>" name="iframeDeleteBtn<%= i + 1 %>">Kustuta</button>
+      </div>
+    </div>
+    <% } %>
+    <div class="admin__btn-group">
+      <button class="admin__small-btn" name="button" id="iframesAddBtn<%= i + 1 %>">+ Lisa manustamislink +</button>
+    </div>
+    <div class="admin__btn-group">
+      <button class="admin__btn" name="button" type="submit" id="iframesBtn<%= i + 1 %>">Salvesta</button>
+    </div>
+  </div>
+</form>
+
+
+
+
+<% for (var i = 0; i < 2; i++) { %>
+
+<form action="/api/media/sections/<%= i + 1 %>" method="post" enctype="application/x-www-form-urlencoded" class="admin__form" id="mediaSections<%= i + 1 %>">
+  <h3 class="admin__heading admin__heading--secondary">Sektsioon <%= i + 1 %></h3>
+  <div class="admin__form-field">
+    <h3 class="admin__heading admin__heading--tertiary">Pealkiri</h3>
+    <div class="admin__input-group">
+      <div class="admin__input-item">
+        <h3 class="admin__heading admin__heading--quarternary">EST</h3>
+        <div class="admin__input admin__input--bold">
+          <div class="textInput">
+          </div>
+        </div>
+      </div>
+      <div class="admin__input-item">
+        <h3 class="admin__heading admin__heading--quarternary">EN</h3>
+        <div class="admin__input admin__input--bold">
+          <div class="textInput">
+          </div>
+        </div>
+      </div>
+    </div>
+    <h3 class="admin__heading admin__heading--tertiary">Sisu</h3>
+    <div class="admin__input-group">
+      <div class="admin__input-item">
+        <h3 class="admin__heading admin__heading--quarternary">EST</h3>
+        <div class="admin__input">
+          <div class="editor">
+          </div>
+        </div>
+      </div>
+      <div class="admin__input-item">
+        <h3 class="admin__heading admin__heading--quarternary">EN</h3>
+        <div class="admin__input">
+          <div class="editor">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="admin__btn-group">
+      <button class="admin__btn" name="button" id="mediaSectionsDeleteBtn<%= i + 1 %>">Kustuta</button>
+      <button class="admin__btn" type="submit" name="button" id="mediaSectionsBtn<%= i + 1 %>">Salvesta</button>
+    </div>
+  </div>
+</form>
+<% } %>
+<button class="admin__btn" name="button" id="mediaSectionsAddBtn">+ Lisa Sektsioon +</button>
+
+<%- include('partials/footer') -%>

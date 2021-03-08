@@ -3,9 +3,9 @@
 <%- include('partials/logo', {data: data}); -%>
 <header class="home-header" style="background-image: linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6)), url('<%= data.staticImages[3].url %>')">
   <div class="home-header__heading-box">
-    <h1 class="heading--purple heading--primary"><%= data.staticTextWithHeading[0].heading %></h1>
-    <p class="paragraph--large paragraph--purple home-header__paragraph"><%= data.staticTextWithHeading[0].content %></p>
-      <% if (data.staticTextWithHeading[1].heading || data.staticTextWithHeading[1].content) { %>
+    <h1 class="heading--purple heading--primary"><%= data.homeText[0].heading %></h1>
+    <p class="paragraph--large paragraph--purple home-header__paragraph"><%= data.homeText[0].content %></p>
+      <% if (data.homeText[1].heading || data.homeText[1].content) { %>
     <a href="/<%= data.pageInfo.navigation.hrefs[1] %>" class="btn btn--main btn--dark u-margin-top-small"><%= data.pageInfo.buttonText %></a>
     <% } %>
   </div>
@@ -13,12 +13,12 @@
 <main class="home-body">
   <section class="home-features">
     <div class="home-features__container">
-        <% if (data.aboutSectionHeadings[1].content) { %>
+        <% if (data.aboutSubheadings[1].content) { %>
       <div class="home-features__column">
         <div class="home-features__item">
           <a class="home-features__link" href="/<%= data.pageInfo.navigation.hrefs.dropdown[0] %>">
             <i class="fas fa-music home-features__icon"></i>
-            <h3 class="heading--purple heading--tertiary"><%= data.aboutSectionHeadings[1].content %></h3>
+            <h3 class="heading--purple heading--tertiary"><%= data.aboutSubheadings[1].content %></h3>
           </a>
         </div>
       </div>
@@ -44,11 +44,11 @@
   <% if (data.eventsContent.length) { %>
   <section class="home-events">
     <div class="home-events__heading-box">
-      <% if (data.staticTextWithHeading[1].heading) { %>
-      <h2 class="heading--purple heading--secondary u-margin-bottom-big"><%= data.staticTextWithHeading[1].heading %></h2>
+      <% if (data.homeText[1].heading) { %>
+      <h2 class="heading--purple heading--secondary u-margin-bottom-big"><%= data.homeText[1].heading %></h2>
       <% } %>
-      <% if (data.staticTextWithHeading[1].content) { %>
-      <p class="paragraph--large paragraph--purple u-margin-bottom-big"><%= data.staticTextWithHeading[1].content %></p>
+      <% if (data.homeText[1].content) { %>
+      <p class="paragraph--large paragraph--purple u-margin-bottom-big"><%= data.homeText[1].content %></p>
       <% } %>
     </div>
     <div class="home-events__container">
@@ -68,10 +68,10 @@
   <section class="home-past">
     <% if (data.pastEventsContent.length) { %>
     <div class="home-past__container">
-      <% if (data.staticTextWithHeading[2].heading) { %>
+      <% if (data.homeText[2].heading) { %>
       <h2 class="heading--purple heading--secondary u-margin-bottom-big"><%= data.staticTextWithHeading[2].heading %></h2>
       <% } %>
-      <% if (data.staticTextWithHeading[2].content) { %>
+      <% if (data.homeText[2].content) { %>
       <p class="paragraph--large paragraph--purple u-margin-bottom-big"><%= data.staticTextWithHeading[2].content %></p>
       <% } %>
       <a href="/<%= data.pageInfo.miscellaneous[1] %>" class="btn btn--main btn--dark"><%= data.pageInfo.buttonText %></a>

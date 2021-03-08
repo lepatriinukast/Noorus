@@ -3639,16 +3639,16 @@ function appendSubform(form, docSubforms) {
 
 // check if the current page is "admin/avaleht" by checking if the avalehtPildid element exists
 
-if (avalehtPildid !== null) {
-
-  avalehtPildid.addEventListener("submit", function(event) {
-    ajaxMulter(event, new MulterParam(avalehtPildid, "avaleht/pildid"));
-  });
-
-  avalehtTekstid.addEventListener("submit", function(event) {
-    ajaxBodyParser(event, new BodyParserParam(createAvalehtTekstidData, "avaleht/tekstid", "update"));
-  });
-}
+// if (avalehtPildid !== null) {
+//
+//   avalehtPildid.addEventListener("submit", function(event) {
+//     ajaxMulter(event, new MulterParam(avalehtPildid, "avaleht/pildid"));
+//   });
+//
+//   avalehtTekstid.addEventListener("submit", function(event) {
+//     ajaxBodyParser(event, new BodyParserParam(createAvalehtTekstidData, "avaleht/tekstid", "update"));
+//   });
+// }
 
 // check if the current page is "admin/koorist" by checking if the kooristPealkirjad element exists
 
@@ -4305,4 +4305,34 @@ function ajaxBodyParser(event, params) {
   // send the data to the server
 
   xhr.send("data=" + jsonData);
+}
+
+
+var inputContainerArray = document.querySelectorAll('.textInput');
+var quillInputArray = [];
+
+for (var i = 0; i < inputContainerArray.length; i++) {
+  var quill = new Quill(inputContainerArray[i], {
+    modules: {
+    toolbar: false
+  },
+  theme: 'snow'  // or 'bubble'
+  });
+
+quillInputArray.push(quill);
+}
+
+var editorContainerArray = document.querySelectorAll('.editor');
+var quillEditorArray = [];
+
+for (var i = 0; i < editorContainerArray.length; i++) {
+  var quill = new Quill(editorContainerArray[i], {
+  modules: {
+    toolbar: [
+      ['bold', 'italic', 'underline', 'link'],
+    ]
+  },
+  theme: 'snow'  // or 'bubble'
+  });
+  quillEditorArray.push(quill);
 }

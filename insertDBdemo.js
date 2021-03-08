@@ -1,11 +1,11 @@
 // insert default values into database
 
-var con = require("./dbConnection");
+var con = require("./reqData/dbConnection");
 
 
-  var sql = "INSERT INTO about_section_headings (name) VALUES ?";
+  var sql = "INSERT INTO miscellaneous (name) VALUES ?";
   var values = [
-    ["heading_1"], ["heading_2"], ["heading_3"], ["heading_4"], ["heading_5"], ["heading_6"]
+    ["contact_form_heading"], ["order_form_heading"]
   ];
   con.query(sql, [values], function(err, result) {
     if (err) throw err;

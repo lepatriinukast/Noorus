@@ -1,61 +1,70 @@
-<%- include partials/head-en {pageTitle: pageTitle} -%>
-<%- include partials/navigation-en {currentPage: currentPage} -%>
-<div class="page-telli__container">
-  <h2 class="heading--secondary heading--purple u-margin-bottom-big">Order</h2>
-  <% for (var i = 0; i < telliData.loigud.length; i++) { %>
-  <p class="paragraph--small paragraph--purple u-margin-bottom-small"><%- telliData.loigud[i].en %></p>
+<%- include('partials/head', {data: data}); -%>
+<%- include('partials/navigation', {data: data}); -%>
+<div class="shop__container">
+  <h2 class="heading--secondary heading--purple u-margin-bottom-big"><%= data.pageInfo.PageTitle %></h2>
+
+
+  <% if (data.intros[10].content) { %>
+  <div class="order__content">
+    <div>
+      <%- data.intros[10].content %>
+    </div>
+  </div>
   <% } %>
+
+
   <form action="/upload/telli/email" method="post" name="orderForm" id="orderForm">
-    <% if (poodData.length !== 0) { %>
+    <% if (data.shopItems.length) { %>
     <div class="form">
-      <div class="page-telli__order-form">
-          <% for (var a = 0; a < poodData.length; a++) { %>
-            <div class="page-telli__link-box">
-              <a class="paragraph--large link link--purple" href="/pood/#contentBox<%= a + 1 %>"><%= poodData[a].toode.en %></a>
+      <div class="shop__order-form">
+          <% for (var i = 0; i < data.shopItems.length; i++) { %>
+            <div class="shop__link-box">
+              <a class="paragraph--large link link--purple" href="/<%= data.pageInfo.miscellaneous[0] %>/#contentBox<%= i + 1 %>"><%= data.shopItems[i].heading %></a>
             </div>
-          <div class="page-telli__input-box">
+          <div class="shop__input-box">
             <a class="link numberBtnMinus" id="numberBtnMinus<%= a + 1 %>" href="#"><i class="fas fa-minus-circle form__number-btn"></i></a>
             <input class="form__input form__number-input itemCount" type="number" min="0" step="1" max="99" name="itemCount<%= a + 1 %>" id="itemCount<%= a + 1 %>" data-price="<%= poodData[a].toode.price %>"
-              data-heading="<%= poodData[a].toode.en %>" <% if (number == (a + 1))  {%> value="1" <% } else {%> value="0" <% }%>>
+              data-heading="<%= data.shopItems[i].heading %>" <% if (data.number == (i + 1))  {%> value="1" <% } else {%> value="0" <% }%>>
             <a class="link numberBtnPlus" id="numberBtnPlus<%= a + 1 %>" href="#"><i class="fas fa-plus-circle form__number-btn"></i></a>
           </div>
-          <div class="page-telli__link-box">
-            <p class="paragraph--large paragraph--grey price" data-price="<%= poodData[a].toode.price %>" id="price<%= a + 1 %>"><%= poodData[a].toode.price %> €</p>
+          <div class="shop__link-box">
+            <p class="paragraph--large paragraph--grey price" data-price="<%= data.shopItems[i].price %>" id="price<%= i + 1 %>"><%= data.shopItems[i].price %> €</p>
           </div>
           <% } %>
       </div>
-      <div class="page-telli__sum-box">
-        <h2 class="heading--tertiary heading--purple" id="sum">Total: 0 €</h2>
-        <input class="form__hidden-checkbox" type="checkbox" name="hiddenCheckbox" id="hiddenCheckbox" required oninvalid="this.setCustomValidity('Please choose a product!')" oninput="setCustomValidity('')" aria-hidden>
+      <div class="shop__sum-box">
+        <h2 class="heading--tertiary heading--purple" id="sum"><%= data.pageInfo.miscellaneous[1] %>: 0 €</h2>
+        <input class="form__hidden-checkbox" type="checkbox" name="hiddenCheckbox" id="hiddenCheckbox" required oninvalid="this.setCustomValidity('<%= data.pageInfo.miscellaneous[2] %>')" oninput="setCustomValidity('')" aria-hidden>
         <input type="hidden" name="hiddenSum" id="hiddenSum" value="0">
       </div>
     </div>
     <% } %>
-    <% if (telliAnkeetData.valjad.length !== 0) { %>
+    <% if (data.orderForm.length) { %>
     <div class="form">
-      <% if (telliAnkeetData.pealkiri.en !== "") { %>
-      <h3 class="heading--tertiary heading--purple"><%= telliAnkeetData.pealkiri.en %></h3>
+      <% if (data.miscellaneous[1].content) { %>
+      <h3 class="heading--tertiary heading--purple"><%= data.miscellaneous[1].content %></h3>
       <% } %>
       <div class="form__column">
-        <% for (var i = 0; i < telliAnkeetData.valjad.length; i++) { %>
+        <% for (var i = 0; i < data.orderForm.length; i++) { %>
         <div class="form__field">
-          <p class="paragraph--small paragraph--purple paragraph--inline u-margin-right-small"><%= telliAnkeetData.valjad[i].checked %></p>
-          <% if (telliAnkeetData.valjad[i].textArea === "*") { %>
-          <textarea class="form__input form__text-area telliField" id="telliField<%= i + 1 %>" name="telliField<%= i + 1 %>" rows="1" placeholder="<%= telliAnkeetData.valjad[i].en %>" <% if (telliAnkeetData.valjad[i].checked === "*") { %> required
-            <% } %> aria-label="<%= telliAnkeetData.valjad[i].en %>"></textarea>
+          <p class="paragraph--small paragraph--purple paragraph--inline u-margin-right-small"><%= data.orderForm[i].checked %></p>
+          <% if (data.orderForm[i].textArea === "*") { %>
+          <textarea class="form__input form__text-area orderField" id="orderField<%= i + 1 %>" name="orderField<%= i + 1 %>" rows="1" placeholder="<%= data.orderForm[i].content %>" <% if (data.orderForm[i].checked === "*") { %> required
+            <% } %> aria-label="<%= data.orderForm[i].content %>"></textarea>
           <% }  else { %>
-          <input type="text" class="form__input telliField" id="telliField<%= i + 1 %>" name="telliField<%= i + 1 %>" placeholder="<%= telliAnkeetData.valjad[i].en %>" <% if (telliAnkeetData.valjad[i].checked === "*") { %> required <% } %>
-            aria-label="<%= telliAnkeetData.valjad[i].en %>">
+          <input type="text" class="form__input orderField" id="orderField<%= i + 1 %>" name="orderField<%= i + 1 %>" placeholder="<%= data.orderForm[i].content %>" <% if (data.orderForm[i].checked === "*") { %> required <% } %>
+            aria-label="<%= data.orderForm[i].content %>">
           <% } %>
         </div>
         <% } %>
       </div>
-      <button class="btn btn--main btn--dark" type="submit" name="submitBtn">Order</button>
-      <% if (telliAnkeetData.jarelloik !== "") { %>
-      <p class="paragraph--small paragraph--purple u-margin-top-big"><%- telliAnkeetData.jarelloik.en %></p>
+      <button class="btn btn--main btn--dark" type="submit" name="submitBtn"><%= data.pageInfo.miscellaneous[2] %></button>
+      <% if (data.miscellaneous[2].content) { %>
+      <p class="paragraph--small paragraph--purple u-margin-top-big"><%= data.miscellaneous[2].content %></p>
       <% } %>
     </div>
     <% } %>
   </form>
 </div>
-<%- include partials/footer -%>
+<%- include('partials/footnav', {data: data}); -%>
+<%- include('partials/footer'); -%>

@@ -1,0 +1,82 @@
+<%- include('partials/head', {data: data}); -%>
+<%- include('partials/admin-nav', {data: data}); -%>
+<%- include('partials/admin-popup', {data: data}); -%>
+
+<h1 class="admin__heading admin__heading--primary">Dirigendid</h1>
+  <form action="/api/conductors/intro" method="post" enctype="application/x-www-form-urlencoded" class="admin__form" id="conductorsIntro">
+    <h3 class="admin__heading admin__heading--secondary">Sissejuhatav tekst</h3>
+
+      <div class="admin__form-field">
+        <h3 class="admin__heading admin__heading--tertiary">Sisu</h3>
+        <div class="admin__input-group">
+          <div class="admin__input-item">
+            <h3 class="admin__heading admin__heading--quarternary">EST</h3>
+            <div class="admin__input">
+              <div class="editor ">
+              </div>
+            </div>
+          </div>
+          <div class="admin__input-item">
+            <h3 class="admin__heading admin__heading--quarternary">EN</h3>
+            <div class="admin__input">
+              <div class="editor">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="admin__btn-group">
+          <button class="admin__btn" type="submit" name="button" id="conductorsIntroBtn">Salvesta</button>
+        </div>
+        </div>
+  </form>
+
+  <% for (var i = 0; i < 2; i++) { %>
+
+<form action="/api/conductors/sections/<%= i + 1 %>" method="post" enctype="multipart/form-data" class="admin__form" id="conductorsSections<%= i + 1 %>">
+  <h3 class="admin__heading admin__heading--secondary">Dirigent <%= i + 1 %></h3>
+  <div class="admin__img-group">
+    <div class="admin__input__group">
+      <h3 class="admin__heading admin__heading--tertiary">Portree</h3>
+      <input type="file" name="conductorsImg<%= i + 1 %>" id="conductorsImg<%= i + 1 %>" class="admin__hidden-input file">
+      <label for="conductorsImg<%= i + 1 %>" class="admin__small-btn" id="conductorsImgLabel<%= i + 1 %>">Vali fail</label>
+      <p class="admin__input-placeholder" id="conductorsImgPlaceholder<%= i + 1 %>"><%= %></p>
+      <img class="admin__icon" src="/img/Lendutõus.jpg" id="conductorsImgIcon<%= i + 1 %>" alt="Dirigendi portree">
+    </div>
+  </div>
+<div class="admin__form-field">
+  <h3 class="admin__heading admin__heading--tertiary">Nimi</h3>
+  <div class="admin__input-group">
+    <div class="admin__input-item">
+      <div class="admin__input admin__input--bold">
+        <div class="textInput">
+        </div>
+      </div>
+    </div>
+  </div>
+  <h3 class="admin__heading admin__heading--tertiary">Sisu</h3>
+  <div class="admin__input-group">
+    <div class="admin__input-item">
+      <h3 class="admin__heading admin__heading--quarternary">EST</h3>
+      <div class="admin__input">
+        <div class="editor">
+        </div>
+      </div>
+    </div>
+    <div class="admin__input-item">
+      <h3 class="admin__heading admin__heading--quarternary">EN</h3>
+      <div class="admin__input">
+        <div class="editor">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="admin__btn-group">
+    <button class="admin__btn" name="button" id="conductorsSectionsDeleteBtn<%= i + 1 %>">Kustuta</button>
+    <button class="admin__btn" type="submit" name="button" id="conductorsSectionsBtn<%= i + 1 %>">Salvesta</button>
+  </div>
+  </div>
+</form>
+<% } %>
+<button class="admin__btn" name="button" id="conductorsSectionsAddBtn">+ Lisa dirigent +</button>
+
+<%- include('partials/footer') -%>

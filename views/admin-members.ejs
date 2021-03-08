@@ -1,0 +1,120 @@
+<%- include('partials/head', {data: data}); -%>
+<%- include('partials/admin-nav', {data: data}); -%>
+<%- include('partials/admin-popup', {data: data}); -%>
+
+<h1 class="admin__heading admin__heading--primary">Liikmed</h1>
+<form action="/api/members/intro" method="post" enctype="multipart/form-data" class="admin__form" id="membersIntro">
+  <h3 class="admin__heading admin__heading--secondary">Sissejuhatav tekst</h3>
+
+    <div class="admin__form-field">
+      <div class="admin__input-group">
+        <div class="admin__input-item">
+          <h3 class="admin__heading admin__heading--quarternary">EST</h3>
+          <div class="admin__input">
+            <div class="editor ">
+            </div>
+          </div>
+        </div>
+        <div class="admin__input-item">
+          <h3 class="admin__heading admin__heading--quarternary">EN</h3>
+          <div class="admin__input">
+            <div class="editor">
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="admin__btn" type="submit" name="button" id="membersIntroBtn">Salvesta</button>
+      </div>
+</form>
+
+<% for (var i = 0; i < 4; i++) { %>
+
+  <form action="/api/members/grid/<%= i + 1 %>" method="post" class="admin__form" id="membersGrid<%= i + 1 %>">
+        <h3 class="admin__heading admin__heading--secondary">Häälerühm <%= i + 1 %></h3>
+      <div class="admin__form-field">
+        <h3 class="admin__heading admin__heading--tertiary">Pealkiri</h3>
+        <div class="admin__input-group">
+          <div class="admin__input-item">
+            <h3 class="admin__heading admin__heading--quarternary">EST</h3>
+            <div class="admin__input admin__input--bold">
+              <div class="textInput">
+              </div>
+            </div>
+          </div>
+          <div class="admin__input-item">
+            <h3 class="admin__heading admin__heading--quarternary">EN</h3>
+            <div class="admin__input admin__input--bold">
+              <div class="textInput">
+              </div>
+            </div>
+          </div>
+        </div>
+        <h3 class="admin__heading admin__heading--tertiary">Sisu</h3>
+        <div class="admin__input-group">
+          <div class="admin__input-item">
+            <h3 class="admin__heading admin__heading--quarternary">EST</h3>
+            <div class="admin__input">
+              <div class="editor">
+              </div>
+            </div>
+          </div>
+          <div class="admin__input-item">
+            <h3 class="admin__heading admin__heading--quarternary">EN</h3>
+            <div class="admin__input">
+              <div class="editor">
+              </div>
+            </div>
+          </div>
+        </div>
+        <button class="admin__btn" type="submit" name="button" id="membersGrid<%= i + 1 %>Btn">Salvesta</button>
+        </div>
+  </form>
+<% } %>
+
+<% for (var i = 0; i < 2; i++) { %>
+
+  <form action="/api/members/sections/<%= i + 1 %>" method="post" class="admin__form" id="membersSections<%= i + 1 %>">
+        <h3 class="admin__heading admin__heading--secondary">Sektsioon <%= i + 1 %></h3>
+      <div class="admin__form-field">
+        <h3 class="admin__heading admin__heading--tertiary">Pealkiri</h3>
+        <div class="admin__input-group">
+          <div class="admin__input-item">
+            <h3 class="admin__heading admin__heading--quarternary">EST</h3>
+            <div class="admin__input admin__input--bold">
+              <div class="textInput">
+              </div>
+            </div>
+          </div>
+          <div class="admin__input-item">
+            <h3 class="admin__heading admin__heading--quarternary">EN</h3>
+            <div class="admin__input admin__input--bold">
+              <div class="textInput">
+              </div>
+            </div>
+          </div>
+        </div>
+        <h3 class="admin__heading admin__heading--tertiary">Sisu</h3>
+        <div class="admin__input-group">
+          <div class="admin__input-item">
+            <h3 class="admin__heading admin__heading--quarternary">EST</h3>
+            <div class="admin__input">
+              <div class="editor">
+              </div>
+            </div>
+          </div>
+          <div class="admin__input-item">
+            <h3 class="admin__heading admin__heading--quarternary">EN</h3>
+            <div class="admin__input">
+              <div class="editor">
+              </div>
+            </div>
+          </div>
+        </div>
+        <button class="admin__btn" type="submit" name="button" id="membersSectionsBtn<%= i + 1 %>">Salvesta</button>
+        </div>
+  </form>
+<% } %>
+
+
+
+<%- include('partials/footer') -%>

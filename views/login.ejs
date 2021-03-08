@@ -1,20 +1,20 @@
-<%- include partials/head {pageTitle: pageTitle, paiseikoon: paiseikoon} -%>
-<%- include partials/admin-popup -%>
-<body class="">
-  <div class="page-admin__login-box">
+<%- include('partials/head', {data: data}); -%>
+<%- include('partials/admin-popup') -%>
+<body class="login">
+  <div class="login__input-group">
     <form action="/upload/login" method="post" class="form" name="login" id="login">
-      <img class="page-admin__logo" src="<%= avalehtPildidData.avalehtLogo.url %>" alt="">
+      <img class="login__logo" src="<%= data.staticImages[1].url %>" alt="">
         <div class="form__field">
           <input type="text" class="form__input" id="username" name="username" placeholder="Kasutajanimi" required aria-label="Kasutajanimi">
         </div>
         <div class="form__field u-margin-bottom-small">
           <input type="password" class="form__input" id="password" name="password" placeholder="Parool" required aria-label="Parool">
         </div>
-        <div class="page-admin__instruction-box">
+        <div class="login__message-box">
           <p class="paragraph--large paragraph--red u-margin-bottom-small delete" id="wrongText">Vale kasutajanimi või parool!</p>
         </div>
       <button class="btn btn--main btn--dark u-margin-top-small" type="submit" name="loginBtn" id="loginBtn">Logi sisse</button>
     </form>
   </div>
 </body>
-<%- include partials/footer -%>
+<%- include('partials/footer') -%>

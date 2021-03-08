@@ -1,0 +1,152 @@
+<%- include('partials/head', {data: data}); -%>
+<%- include('partials/admin-nav', {data: data}); -%>
+<%- include('partials/admin-popup', {data: data}); -%>
+
+<h1 class="admin__heading admin__heading--primary">Pood</h1>
+<form action="/api/shop/intro" method="post" enctype="application/x-www-form-urlencoded" class="admin__form" id="shopIntro">
+  <h3 class="admin__heading admin__heading--secondary">Sissejuhatav tekst</h3>
+
+  <div class="admin__form-field">
+    <div class="admin__input-group">
+      <div class="admin__input-item">
+        <h3 class="admin__heading admin__heading--quarternary">EST</h3>
+        <div class="admin__input">
+          <div class="editor ">
+          </div>
+        </div>
+      </div>
+      <div class="admin__input-item">
+        <h3 class="admin__heading admin__heading--quarternary">EN</h3>
+        <div class="admin__input">
+          <div class="editor">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="admin__btn-group">
+      <button class="admin__btn" type="submit" name="button" id="shopIntroBtn">Salvesta</button>
+    </div>
+  </div>
+</form>
+
+<% for (var i = 0; i < 2; i++) { %>
+
+<form action="/api/shop/items/<%= i + 1 %>" method="post" enctype="application/x-www-form-urlencoded" class="admin__form" id="shopItems<%= i + 1 %>">
+  <h3 class="admin__heading admin__heading--secondary">Toode <%= i + 1 %></h3>
+  <div class="admin__form-field">
+    <h3 class="admin__heading admin__heading--tertiary">Nimetus</h3>
+    <div class="admin__input-group">
+      <div class="admin__input-item">
+        <h3 class="admin__heading admin__heading--quarternary">EST</h3>
+        <div class="admin__input admin__input--bold">
+          <div class="textInput">
+          </div>
+        </div>
+      </div>
+      <div class="admin__input-item">
+        <h3 class="admin__heading admin__heading--quarternary">EN</h3>
+        <div class="admin__input admin__input--bold">
+          <div class="textInput">
+          </div>
+        </div>
+      </div>
+    </div>
+    <h3 class="admin__heading admin__heading--tertiary">Hind</h3>
+    <div class="admin__input-group">
+      <div class="admin__input-item">
+        <div class="admin__input admin__input--bold">
+          <div class="textInput">
+          </div>
+        </div>
+      </div>
+    </div>
+    <h3 class="admin__heading admin__heading--tertiary">Sisu</h3>
+    <div class="admin__input-group">
+      <div class="admin__input-item">
+        <h3 class="admin__heading admin__heading--quarternary">EST</h3>
+        <div class="admin__input">
+          <div class="editor">
+          </div>
+        </div>
+      </div>
+      <div class="admin__input-item">
+        <h3 class="admin__heading admin__heading--quarternary">EN</h3>
+        <div class="admin__input">
+          <div class="editor">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="admin__btn-group">
+      <button class="admin__btn" name="button" id="shopItemsDeleteBtn<%= i + 1 %>">Kustuta</button>
+      <button class="admin__btn" type="submit" name="button" id="shopItemsBtn<%= i + 1 %>">Salvesta</button>
+    </div>
+  </div>
+</form>
+<% } %>
+<button class="admin__btn" name="button" id="shopItemsAddBtn">+ Lisa Toode +</button>
+
+
+<form action="/api/shop/form" method="post" enctype="application/x-www-form-urlencoded" class="admin__form" id="orderForm">
+  <h3 class="admin__heading admin__heading--secondary">Ankeet</h3>
+
+  <div class="admin__form-field">
+    <h3 class="admin__heading admin__heading--tertiary">Pealkiri</h3>
+    <div class="admin__input-group">
+      <div class="admin__input-item">
+        <h3 class="admin__heading admin__heading--quarternary">EST</h3>
+        <div class="admin__input admin__input--bold">
+          <div class="textInput">
+          </div>
+        </div>
+      </div>
+      <div class="admin__input-item">
+        <h3 class="admin__heading admin__heading--quarternary">EN</h3>
+        <div class="admin__input admin__input--bold">
+          <div class="textInput">
+          </div>
+        </div>
+      </div>
+    </div>
+    <% for (var i = 0; i < 2; i++) { %>
+    <h3 class="admin__heading admin__heading--tertiary">Väli <%= i + 1 %></h3>
+    <div class="admin__input-group">
+      <div class="admin__input-item">
+        <h3 class="admin__heading admin__heading--quarternary">EST</h3>
+        <div class="admin__input">
+          <div class="textInput">
+          </div>
+        </div>
+      </div>
+      <div class="admin__input-item">
+        <h3 class="admin__heading admin__heading--quarternary">EN</h3>
+        <div class="admin__input">
+          <div class="textInput">
+          </div>
+        </div>
+      </div>
+      </div>
+      <div class="admin__input-group">
+        <div class="admin__input-item">
+          <h3 class="admin__heading admin__heading--quarternary">KOHUSTUSLIK</h3>
+          <input class="admin__checkbox input orderFormRequired" type="checkbox" id="orderFormRequired<%= i + 1 %>" name="orderFormRequired<%= i + 1 %>" <% if (true) { %> checked <% } %>>
+        </div>
+        <div class="admin__input-item">
+          <h3 class="admin__heading admin__heading--quarternary">SUURENEV</h3>
+          <input class="admin__checkbox input orderFormExpanding" type="checkbox" id="orderFormExpanding<%= i + 1 %>" name="orderFormExpanding<%= i + 1 %>" <% if (true) { %> checked <% } %>>
+        </div>
+      </div>
+      <div class="admin__input-group">
+        <button class="admin__small-btn orderFormDeleteBtn" type="button" id="orderFormDeleteBtn<%= i + 1 %>" name="orderFormDeleteBtn<%= i + 1 %>">Kustuta</button>
+      </div>
+      <% } %>
+      <div class="admin__btn-group">
+        <button class="admin__small-btn" name="button" id="orderFormAddBtn<%= i + 1 %>">+ Lisa väli +</button>
+      </div>
+      <div class="admin__btn-group">
+        <button class="admin__btn" name="button" type="submit" id="orderFormBtn<%= i + 1 %>">Salvesta</button>
+      </div>
+    </div>
+</form>
+
+<%- include('partials/footer') -%>

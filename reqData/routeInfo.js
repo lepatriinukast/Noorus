@@ -41,8 +41,8 @@ const routeInfo = {
   },
   navigation: {
     linkTexts: {
-      est: ["Koorist", "Sündmused", "Kontakt", "Pood"],
-      en: ["About us", "Events", "Contact", "Shop"]
+      est: ["Koorist", "Sündmused", "Kontakt", "Pood", "EN"],
+      en: ["About us", "Events", "Contact", "Shop", "EST"]
     },
     ariaLabels: {
       est: ["Ava lisavalikud", "Näita valikuid", "Avalehele", "Facebooki link", "Instagrami link", "In English"],
@@ -58,8 +58,30 @@ const routeInfo = {
         en: ["about#members", "about#conductors", "about#history", "about#media", "about#sponsors"]
       },
       changeLanguage: {
-        est: "/en",
-        en: "est"
+        home: {
+          est: "en",
+          en: ""
+        },
+        about: {
+          est: "en/about",
+          en: "koorist"
+        },
+        events: {
+          est: "en/events",
+          en: "sundmused"
+        },
+        contact: {
+          est: "en/contact",
+          en: "kontakt"
+        },
+        shop: {
+          est: "en/shop",
+          en: "pood"
+        },
+        order: {
+          est: "en/order",
+          en: "telli"
+        },
       }
     }
   },
@@ -69,26 +91,30 @@ const routeInfo = {
       en: ["Logo of Mixed Choir Noorus", "events#past"]
     },
     about: {
-      est: ["liikmed", "dirigendid", "ajalugu", "meedia", "toetajad"],
-      en: ["members", "conductors", "history", "media", "sponsors"]
+      est: ["liikmed", "dirigendid", "ajalugu", "meedia", "toetajad", "Segakoor Noorus"],
+      en: ["members", "conductors", "history", "media", "sponsors", "Mixed Choir Noorus"]
     },
     events: {
-      est: [],
-      en: []
+      est: ["Sündmus", "Möödunud sündmused", "Möödunud sündmus"],
+      en: ["Event", "Past events", "Past event"]
     },
     contact: {
-      est: [],
-      en: []
+      est: ["Saada"],
+      en: ["Send"]
     },
     shop: {
-      est: [],
-      en: []
+      est: ["Loe edasi...", "Telli siit"],
+      en: ["Read more...", "Order here"]
     },
     order: {
+      est: ["pood", "Kokku", "Telli"],
+      en: ["en/shop", "Total", "Order"]
+    },
+    login: {
       est: [],
       en: []
-    },
-  }
+    }
+  },
 };
 
 // Export the object.

@@ -1,95 +1,54 @@
-<%- include partials/head-en {pageTitle: pageTitle, paiseikoon: paiseikoon} -%>
-<%- include partials/navigation-en {currentPage: currentPage} -%>
-<div class="page-kontakt__container">
-  <h2 class="heading--secondary heading--purple u-margin-bottom-big">Contact</h2>
-  <div class="page-kontakt__text-box">
-    <% if (kontaktSissejuhatusData.loigud.length !== 0) { %>
-    <div class="page-kontakt__small-box">
-      <% for (var i = 0; i < kontaktSissejuhatusData.loigud.length; i++) { %>
-      <p class="paragraph--small paragraph--purple"><%- kontaktSissejuhatusData.loigud[i].en %></p>
-      <% } %>
+<%- include('partials/head', {data: data}); -%>
+<%- include('partials/navigation', {data: data}); -%>
+<div class="contact">
+  <h2 class="heading--secondary heading--purple u-margin-bottom-big"><%= data.pageInfo.PageTitle %></h2>
+  <div class="contact__text-box">
+    <% if (data.intros[8].content) { %>
+    <div class="contact__content">
+      <div>
+        <%- data.intros[8].content %>
+      </div>
     </div>
     <% } %>
-      <% if (kontaktAndmedData.paarid.length !== 0) { %>
-    <div class="page-kontakt__small-box">
-      <% if (kontaktAndmedData.pealkiri.en !== "") { %>
-      <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= kontaktAndmedData.pealkiri.en %></h3>
+    <% for (var i = 0; i < data.contactSections.length; i++) { %>
+    <div class="contact__segment">
+      <% if (data.contactSections[i].heading) { %>
+      <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= data.contactSections[i].heading %></h3>
       <% } %>
-      <% for (var i = 0; i < kontaktAndmedData.paarid.length; i++) { %>
-      <p class="paragraph--small paragraph--purple"><strong><%= kontaktAndmedData.paarid[i].enKey %>:</strong> <%= kontaktAndmedData.paarid[i].en %></p>
-      <% } %>
-    </div>
-    <% } %>
-    <% if (kontaktNumbridData.numbrid.length !== 0) { %>
-    <div class="page-kontakt__small-box">
-      <% if (kontaktNumbridData.pealkiri.en !== "") { %>
-      <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= kontaktNumbridData.pealkiri.en %></h3>
-      <% } %>
-      <ul class="list">
-        <% for (var i = 0; i < kontaktNumbridData.numbrid.length; i++) { %>
-        <li class="list__item"><strong><%= kontaktNumbridData.numbrid[i].enKey %>:</strong> <%= kontaktNumbridData.numbrid[i].number %></li>
-        <% } %>
-      </ul>
-    </div>
-    <% } %>
-    <% if (kontaktMtuData.paarid.length !== 0 ) { %>
-    <div class="page-kontakt__small-box">
-      <% if (kontaktMtuData.pealkiri.en !== "") { %>
-      <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= kontaktMtuData.pealkiri.en %></h3>
-      <% } %>
-      <ul class="list">
-        <% for (var i = 0; i < kontaktMtuData.paarid.length; i++) { %>
-        <li class="list__item"><strong><%= kontaktMtuData.paarid[i].enKey %>:</strong> <%= kontaktMtuData.paarid[i].en %></li>
-        <% } %>
-      </ul>
-    </div>
-    <% } %>
-    <% if (kontaktUldineData.loigud.length !== 0) { %>
-    <div class="page-kontakt__small-box">
-      <% if (kontaktUldineData.pealkiri.en !== "") { %>
-      <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= kontaktUldineData.pealkiri.en %></h3>
-      <% } %>
-      <% for (var i = 0; i < kontaktUldineData.loigud.length; i++) { %>
-      <p class="paragraph--small paragraph--purple"><%- kontaktUldineData.loigud[i].en %></p>
-      <% } %>
-    </div>
-    <% } %>
-    <% if (vastuvottTekstidData.pealkiri.est !== "" && vastuvottTekstidData.loigud.length !== 0) { %>
-    <div class="page-kontakt__small-box">
-      <% if (vastuvottTekstidData.pealkiri.en !== "") { %>
-      <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= vastuvottTekstidData.pealkiri.en %></h3>
-      <% } %>
-      <% if (vastuvottTekstidData.loigud.length !== 0) { %>
-      <% for (var i = 0; i < vastuvottTekstidData.loigud.length; i++) { %>
-      <p class="paragraph--small paragraph--purple"><%- vastuvottTekstidData.loigud[i].en %></p>
-      <% } %>
+      <% if (data.contactSections[i].content) { %>
+      <div class="contact__content">
+        <div>
+          <%- data.contactSections[i].content %>
+        </div>
+      </div>
       <% } %>
     </div>
     <% } %>
   </div>
-  <% if (vastuvottAnkeetData.valjad.length !== 0) { %>
-  <div class="page-kontakt__text-box">
+  <% if (data.contactForm.length) { %>
+  <div class="contact__text-box">
     <form action="/upload/kontakt/email" method="post" class="form" name="contactForm" id="contactForm">
-      <% if (vastuvottAnkeetData.pealkiri.en !== "") { %>
-      <h3 class="heading--tertiary heading--purple u-margin-bottom-small"><%= vastuvottAnkeetData.pealkiri.en %></h3>
+      <% if (data.miscellaneous[0].content) { %>
+      <h3 class="heading--tertiary heading--purple u-margin-bottom-small"><%= data.miscellaneous[0].content %></h3>
       <% } %>
       <div class="form__column">
-        <% for (var i = 0; i < vastuvottAnkeetData.valjad.length; i++) { %>
+        <% for (var i = 0; i < data.contactForm.length; i++) { %>
         <div class="form__field">
-          <p class="paragraph--small paragraph--purple paragraph--inline u-margin-right-small"><%= vastuvottAnkeetData.valjad[i].checked %></p>
-          <% if (vastuvottAnkeetData.valjad[i].textArea === "*") { %>
-          <textarea class="form__input form__text-area vastuvottField" id="vastuvottField<%= i + 1 %>" name="vastuvottField<%= i + 1 %>" rows="1" placeholder="<%= vastuvottAnkeetData.valjad[i].en %>"
-            <% if (vastuvottAnkeetData.valjad[i].checked === "*") { %> required <% } %> aria-label="<%= vastuvottAnkeetData.valjad[i].en %>"></textarea>
+          <p class="paragraph--small paragraph--purple paragraph--inline u-margin-right-small"><%= data.contactForm[i].checked %></p>
+          <% if (data.contactForm[i].textArea === "*") { %>
+          <textarea class="form__input form__text-area contactFormField" id="contactFormField<%= i + 1 %>" name="contactFormField<%= i + 1 %>" rows="1" placeholder="<%= data.contactForm[i].content %>"
+            <% if (data.contactForm[i].checked === "*") { %> required <% } %> aria-label="<%= data.contactForm[i].content %>"></textarea>
           <% }  else { %>
-          <input type="text" class="form__input vastuvottField" id="vastuvottField<%= i + 1 %>" name="vastuvottField<%= i + 1 %>" placeholder="<%= vastuvottAnkeetData.valjad[i].en %>" <% if (vastuvottAnkeetData.valjad[i].checked === "*") { %>
-            required <% } %> aria-label="<%= vastuvottAnkeetData.valjad[i].en %>">
+          <input type="text" class="form__input contactFormField" id="contactFormField<%= i + 1 %>" name="contactFormField<%= i + 1 %>" placeholder="<%= data.contactForm[i].content %>" <% if (data.contactForm[i].checked === "*") { %>
+            required <% } %> aria-label="<%= data.contactForm[i].content %>">
           <% } %>
         </div>
         <% } %>
       </div>
-      <button class="btn btn--main btn--dark u-margin-top-small" type="submit" name="submitContactBtn">Send</button>
+      <button class="btn btn--main btn--dark u-margin-top-small" type="submit" name="submitContactBtn"><%= data.pageInfo.miscellaneous[0] %></button>
     </form>
   </div>
   <% } %>
 </div>
-<%- include partials/footer -%>
+<%- include('partials/footnav', {data: data}); -%>
+<%- include('partials/footer'); -%>

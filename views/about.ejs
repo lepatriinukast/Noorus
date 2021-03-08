@@ -4,75 +4,82 @@
 <main class="about">
   <section class="about-intro">
     <% if (data.staticImages[3].url) { %>
-    <div class="about-intro__img" alt="Segakoor Noorus!!*" style="background-image: url(<%= data.staticImages[3].url %>)"></div>
+    <div class="about-intro__img" alt="<%= data.pageInfo.miscellaneous[5] %>" style="background-image: url(<%= data.staticImages[3].url %>)"></div>
     <% } %>
     <div class="about-intro__text-box">
-      <% if (data.staticText[0].content) { %>
+      <% if (data.intros[0].content) { %>
       <h2 class="heading--secondary heading--purple u-margin-bottom-big"><%= data.pageInfo.PageTitle %></h2>
       <div class="about-intro__content">
-        <template>
-          <%- data.staticText[0].content %>
-        </template>
+        <div>
+          <%- data.intros[0].content %>
+        </div>
       </div>
       <% } %>
     </div>
   </section>
   <section class="about-members" id="<%= data.pageInfo.miscellaneous[0] %>">
-    <% if (data.staticText[1].content || data.membersSegments.length) { %>
-    <h2 class="heading--secondary heading--purple u-margin-bottom-big"><%= data.aboutSectionHeadings[1].content %></h2>
+    <% if (data.intros[1].content || data.membersSegments.length) { %>
+    <h2 class="heading--secondary heading--purple u-margin-bottom-big"><%= data.aboutSubheadings[1].content %></h2>
     <% } %>
     <div class="about-members__subsection">
-      <% if (data.staticText[1].content) { %>
+      <% if (data.intros[1].content) { %>
       <div class="about-members__content">
-        <template>
-          <%- data.staticText[1].content %>
-        </template>
+        <div>
+          <%- data.intros[1].content %>
+        </div>
       </div>
       <% } %>
     </div>
     <div class="about-members__subsection">
       <div class="about-members__grid">
-        <% for (i = 3; i < 7; i++) { %>
+        <% for (i = 0; i < data.membersGrid.length; i++) { %>
         <div class="about-members__grid-item">
-          <% if (data.staticTextWithHeading[i].heading) { %>
-          <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= data.staticTextWithHeading[i].heading %></h3>
+          <% if (data.membersGrid[i].heading) { %>
+          <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= data.membersGrid[i].heading %></h3>
           <% } %>
-          <% if (data.staticTextWithHeading[i].content) { %>
-          <p class="paragraph--small paragraph--purple u-margin-bottom-big"><%- data.staticTextWithHeading[i].content %></p>
+          <% if (data.membersGrid[i].content) { %>
+          <p class="paragraph--small paragraph--purple u-margin-bottom-big"><%- data.membersGrid[i].content %></p>
           <% } %>
         </div>
         <% } %>
       </div>
     </div>
     <div class="about-members__subsection">
-      <% for (i = 0; i < data.membersSegments.length; i++) { %>
+      <% for (i = 0; i < data.membersSections.length; i++) { %>
       <div class="about-members__segment">
-        <% if (data.membersSegments[i].heading) { %>
-        <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= data.membersSegments[i].heading %></h3>
+        <% if (data.membersSections[i].heading) { %>
+        <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= data.membersSections[i].heading %></h3>
         <% } %>
-        <% if (data.membersSegments[i].content) { %>
+        <% if (data.membersSections[i].content) { %>
         <div class="about-members__content">
-          <template>
-            <%- data.membersSegments[i].content %>
-          </template>
+          <div>
+            <%- data.membersSections[i].content %>
+          </div>
         </div>
         <% } %>
         <% } %>
       </div>
   </section>
   <section class="about-conductors" id="<%= data.pageInfo.miscellaneous[1] %>">
-    <h2 class="heading--secondary heading--purple"><%= data.aboutSectionHeadings[2].content %></h2>
-    <% for (var i = 0; i < data.conductorsSegments.length; i++) { %>
+    <h2 class="heading--secondary heading--purple"><%= data.aboutSubheadings[2].content %></h2>
+    <% if (data.intros[2].content) { %>
+    <div class="about-conductors__content">
+      <div>
+        <%- data.intros[2].content %>
+      </div>
+    </div>
+    <% } %>
+    <% for (var i = 0; i < data.conductorsSections.length; i++) { %>
     <div class="about-conductors__segment">
       <div class="about-conductors__text-box">
-        <% if (data.conductorsSegments[i].heading) { %>
-        <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= data.conductorsSegments[i].heading %></h3>
+        <% if (data.conductorsSections[i].heading) { %>
+        <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= data.conductorsSections[i].heading %></h3>
         <% } %>
-        <% if (data.conductorsSegments[i].content) { %>
+        <% if (data.conductorsSections[i].content) { %>
         <div class="about-conductors__content">
-          <template>
-            <%- data.conductorsSegments[i].content %>
-          </template>
+          <div>
+            <%- data.conductorsSections[i].content %>
+          </div>
         </div>
         <% } %>
       </div>
@@ -80,43 +87,54 @@
     </div>
     <% } %>
   </section>
-
-
   <section class="about-history" id="<%= data.pageInfo.miscellaneous[2] %>">
-    <h2 class="heading--secondary heading--purple"><%= data.aboutSectionHeadings[3].content %></h2>
-    <% for (var i = 0; i < data.historySegments.length; i++) { %>
+    <% if (data.intros[3].content) { %>
+    <div class="about-history__content">
+      <div>
+        <%- data.intros[3].content %>
+      </div>
+    </div>
+    <% } %>
+    <h2 class="heading--secondary heading--purple"><%= data.aboutSubheadings[3].content %></h2>
+    <% for (var i = 0; i < data.historySections.length; i++) { %>
     <div class="about-history__segment">
-      <% if (data.historySegments[i].heading) { %>
-      <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= data.historySegments[i].heading %></h3>
+      <% if (data.historySections[i].heading) { %>
+      <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= data.historySections[i].heading %></h3>
       <% } %>
-      <% if (data.historySegments[i].content) { %>
+      <% if (data.historySections[i].content) { %>
       <div class="about-history__content">
-        <template>
-          <%- data.historySegments[i].content %>
-        </template>
+        <div>
+          <%- data.historySections[i].content %>
+        </div>
       </div>
       <% } %>
     </div>
     <% } %>
   </section>
-
   <section class="about-media" id="<%= data.pageInfo.miscellaneous[3] %>">
-    <h2 class="heading--secondary heading--purple"><%= data.aboutSectionHeadings[4].content %></h2>
+    <h2 class="heading--secondary heading--purple"><%= data.aboutSubheadings[4].content %></h2>
+    <% if (data.intros[4].content) { %>
+    <div class="about-members__content">
+      <div>
+        <%- data.intros[4].content %>
+      </div>
+    </div>
+    <% } %>
       <% for (var i = 0; i < data.iframes.length; i++) { %>
       <div class="about-media__iframe">
         <iframe class="iframe" src="<%= data.iframes[i].link %>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
       </div>
       <% } %>
-      <% for (var i = 0; i < data.mediaSegments.length; i++) { %>
+      <% for (var i = 0; i < data.mediaSections.length; i++) { %>
       <div class="about-media__segment">
-        <% if (data.historySegments[i].heading) { %>
-        <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= data.mediaSegments[i].heading %></h3>
+        <% if (data.mediaSections[i].heading) { %>
+        <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= data.mediaSections[i].heading %></h3>
         <% } %>
-        <% if (data.mediaSegments[i].content) { %>
+        <% if (data.mediaSections[i].content) { %>
         <div class="about-media__content">
-          <template>
-            <%- data.mediaSegments[i].content %>
-          </template>
+          <div>
+            <%- data.mediaSections[i].content %>
+          </div>
         </div>
         <% } %>
       </div>
@@ -124,7 +142,14 @@
   </section>
 <% if (data.sponsorsLogos) { %>
   <section class="about-sponsors" id="<%= data.pageInfo.miscellaneous[4] %>">
-    <h2 class="heading--secondary heading--purple"><%= data.aboutSectionHeadings[5].content %></h2>
+    <h2 class="heading--secondary heading--purple"><%= data.aboutSubheadings[5].content %></h2>
+    <% if (data.intros[5].content) { %>
+    <div class="about-sponsors__content">
+      <div>
+        <%- data.intros[5].content %>
+      </div>
+    </div>
+    <% } %>
     <div class="about-sponsors__container">
       <% for (var i = 0; i < data.sponsorsLogos.length; i++) { %>
       <div class="about-sponsors__logo-box">
