@@ -3,31 +3,34 @@
 <%- include('partials/admin-popup', {data: data}); -%>
 
 <h1 class="admin__heading admin__heading--primary">Ajalugu</h1>
-  <form action="/api/history/intro" method="post" enctype="application/x-www-form-urlencoded" class="admin__form" id="historyIntro">
-    <h3 class="admin__heading admin__heading--secondary">Sissejuhatav tekst</h3>
+<form action="/api/history/intro" method="post" enctype="application/x-www-form-urlencoded" class="admin__form" id="historyIntro">
+  <h3 class="admin__heading admin__heading--secondary">Sissejuhatav tekst</h3>
 
-      <div class="admin__form-field">
-        <div class="admin__input-group">
-          <div class="admin__input-item">
-            <h3 class="admin__heading admin__heading--quarternary">EST</h3>
-            <div class="admin__input">
-              <div class="editor ">
-              </div>
+    <div class="admin__form-field">
+      <h3 class="admin__heading admin__heading--tertiary">Sisu</h3>
+      <div class="admin__input-group">
+        <div class="admin__input-item">
+          <h3 class="admin__heading admin__heading--quarternary">EST</h3>
+          <div class="admin__editor">
+            <div class="editor" name="historyIntroEstEditor" id="historyIntroEstEditor">
             </div>
           </div>
-          <div class="admin__input-item">
-            <h3 class="admin__heading admin__heading--quarternary">EN</h3>
-            <div class="admin__input">
-              <div class="editor">
-              </div>
+            <input type="text" class="admin__hidden-input" name="historyIntroEst" id="historyIntroEst">
+        </div>
+        <div class="admin__input-item">
+          <h3 class="admin__heading admin__heading--quarternary">EN</h3>
+          <div class="admin__editor">
+            <div class="editor" name="historyIntroEnEditor" id="historyIntroEnEditor">
             </div>
           </div>
+            <input type="text" class="admin__hidden-input" name="historyIntroEn" id="historyIntroEn">
         </div>
-        <div class="admin__btn-group">
-          <button class="admin__btn" type="submit" name="button" id="historyIntroBtn">Salvesta</button>
-        </div>
-        </div>
-  </form>
+      </div>
+      <div class="admin__btn-group">
+        <button class="admin__btn" type="submit" name="historyIntroBtn" id="historyIntroBtn">Salvesta</button>
+      </div>
+      </div>
+</form>
 
   <% for (var i = 0; i < 2; i++) { %>
 
@@ -38,43 +41,39 @@
   <div class="admin__input-group">
     <div class="admin__input-item">
       <h3 class="admin__heading admin__heading--quarternary">EST</h3>
-      <div class="admin__input admin__input--bold">
-        <div class="textInput">
-        </div>
-      </div>
+      <input type="text" class="admin__input admin__input--bold historyHeadingEst" name="historyHeading<%= i + 1 %>Est" id="historyHeading<%= i + 1 %>Est">
     </div>
     <div class="admin__input-item">
       <h3 class="admin__heading admin__heading--quarternary">EN</h3>
-      <div class="admin__input admin__input--bold">
-        <div class="textInput">
-        </div>
-      </div>
+      <input type="text" class="admin__input admin__input--bold historyHeadingEn" name="historyHeading<%= i + 1 %>En" id="historyHeading<%= i + 1 %>En">
     </div>
   </div>
   <h3 class="admin__heading admin__heading--tertiary">Sisu</h3>
   <div class="admin__input-group">
     <div class="admin__input-item">
       <h3 class="admin__heading admin__heading--quarternary">EST</h3>
-      <div class="admin__input">
-        <div class="editor">
+      <div class="admin__editor">
+        <div class="editor historySectionEstEditor" name="historySection<%= i + 1 %>EstEditor" id="historySection<%= i + 1 %>EstEditor">
         </div>
       </div>
+        <input type="text" class="admin__hidden-input historySectionEst" name="historySection<%= i + 1 %>Est" id="historySection<%= i + 1 %>Est">
     </div>
     <div class="admin__input-item">
       <h3 class="admin__heading admin__heading--quarternary">EN</h3>
-      <div class="admin__input">
-        <div class="editor">
+      <div class="admin__editor">
+        <div class="editor historySectionEnEditor" name="historySection<%= i + 1 %>EnEditor" id="historySection<%= i + 1 %>EnEditor">
         </div>
       </div>
     </div>
+    <input type="text" class="admin__hidden-input historySectionEn" name="historySection<%= i + 1 %>En" id="historySection<%= i + 1 %>En">
   </div>
   <div class="admin__btn-group">
-    <button class="admin__btn" name="button" id="historySectionsDeleteBtn<%= i + 1 %>">Kustuta</button>
-    <button class="admin__btn" type="submit" name="button" id="historySectionsBtn<%= i + 1 %>">Salvesta</button>
+    <a class="admin__btn historySectionDeleteBtn" name="historySection<%= i + 1 %>DeleteBtn" id="historySection<%= i + 1 %>DeleteBtn">Kustuta</a>
+    <button class="admin__btn historySectionBtn" type="submit" name="historySection<%= i + 1 %>Btn" id="historySection<%= i + 1 %>Btn">Salvesta</button>
   </div>
   </div>
 </form>
 <% } %>
-<button class="admin__btn" name="button" id="historySectionsAddBtn">+ Lisa Sektsioon +</button>
+<a class="admin__btn" name="historySectionAddBtn" id="historySectionAddBtn">+ Lisa Sektsioon +</a>
 
 <%- include('partials/footer') -%>

@@ -253,6 +253,13 @@ app.get("/admin/shop", async (req, res) => {
   });
 });
 
+app.get("/admin/archive", async (req, res) => {
+  const data = await reqData("admin-archive");
+  res.render("admin-archive", {
+    data: data
+  });
+});
+
 
 
 

@@ -717,7 +717,8 @@ body {
       font-size: 3rem;
       margin: 3rem; }
     .admin__heading--tertiary {
-      font-size: 2rem; }
+      font-size: 2rem;
+      margin: 1rem; }
     .admin__heading--quarternary {
       font-size: 1.2rem; }
   .admin__navigation {
@@ -801,6 +802,10 @@ body {
       outline: 2px rgba(26, 26, 26, 0.8) solid;
       outline-offset: 1px;
       z-index: 3; }
+  .admin__line {
+    margin: 5rem;
+    height: 2px;
+    width: 80%; }
   .admin__form-field {
     display: flex;
     flex-direction: column;
@@ -808,20 +813,38 @@ body {
     justify-content: center;
     width: 60%;
     margin: auto; }
-  .admin__input {
+  .admin__editor {
     background-color: white;
     color: #32093F;
     width: 30rem;
     margin: 2rem;
-    font-size: 1.6rem;
-    line-height: 2.5rem;
-    font-weight: 200; }
-    .admin__input:focus {
+    border: none; }
+    .admin__editor:focus {
       outline: none;
       border: 2px #5F045F solid; }
-    .admin__input:focus:invalid {
+    .admin__editor:focus:invalid {
       outline: none;
       border: 2px #E91E63 solid; }
+    .admin__editor--bold {
+      font-weight: bold; }
+  .admin__input {
+    outline: none;
+    overflow-y: auto;
+    padding: 12px 15px;
+    tab-size: 4;
+    -moz-tab-size: 4;
+    text-align: left;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    background-color: white;
+    color: #32093F;
+    width: 30rem;
+    margin: 2rem;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 13px;
+    line-height: 1.42;
+    font-weight: 200;
+    border: none; }
     .admin__input--bold {
       font-weight: bold; }
   .admin__checkbox {
@@ -846,6 +869,7 @@ body {
     text-decoration: none;
     border: none;
     border-radius: 10px;
+    font-family: inherit;
     font-weight: 700;
     cursor: pointer;
     transition-property: background-color;
@@ -870,6 +894,7 @@ body {
     background-color: #1A1A1A;
     color: #FFFFFF;
     border: none;
+    font-family: inherit;
     font-size: 1rem;
     font-weight: 600;
     cursor: pointer;

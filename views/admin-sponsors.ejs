@@ -7,56 +7,57 @@
   <h3 class="admin__heading admin__heading--secondary">Sissejuhatav tekst</h3>
 
   <div class="admin__form-field">
+    <h3 class="admin__heading admin__heading--tertiary">Sisu</h3>
     <div class="admin__input-group">
       <div class="admin__input-item">
         <h3 class="admin__heading admin__heading--quarternary">EST</h3>
-        <div class="admin__input">
-          <div class="editor ">
+        <div class="admin__editor">
+          <div class="editor" name="sponsorsIntroEstEditor" id="sponsorsIntroEstEditor">
           </div>
         </div>
+        <input type="text" class="admin__hidden-input" name="sponsorsIntroEst" id="sponsorsIntroEst">
       </div>
       <div class="admin__input-item">
         <h3 class="admin__heading admin__heading--quarternary">EN</h3>
-        <div class="admin__input">
-          <div class="editor">
+        <div class="admin__editor">
+          <div class="editor" name="sponsorsIntroEnEditor" id="sponsorsIntroEnEditor">
           </div>
         </div>
+        <input type="text" class="admin__hidden-input" name="sponsorsIntroEn" id="sponsorsIntroEn">
       </div>
     </div>
-     <div class="admin__btn-group">
-    <button class="admin__btn" type="submit" name="button" id="sponsorsIntroBtn">Salvesta</button>
+    <div class="admin__btn-group">
+      <button class="admin__btn" type="submit" name="sponsorsIntroBtn" id="sponsorsIntroBtn">Salvesta</button>
     </div>
   </div>
 </form>
 
-<form action="/api/sponsors/sponsors" method="post" enctype="multipart/form-data" class="admin__form" id="sponsorsLogos">
+<form action="/api/sponsors/logos" method="post" enctype="multipart/form-data" class="admin__form" id="sponsorsLogos">
   <h3 class="admin__heading admin__heading--secondary">Lingid</h3>
-
-  <div class="admin__form-field">
-    <% for (var i = 0; i < 2; i++) { %>
-      <h3 class="admin__heading admin__heading--tertiary">Logo <%= i + 1 %></h3>
-    <div class="admin__input__group">
+  <% for (var i = 0; i < 2; i++) { %>
+    <div class="admin__img-group">
+      <div class="admin__input__group">
+    <h3 class="admin__heading admin__heading--tertiary">Logo <%= i + 1 %></h3>
       <input type="file" name="sponsorsImg<%= i + 1 %>" id="sponsorsImg<%= i + 1 %>" class="admin__hidden-input file">
-      <label for="sponsorsImg<%= i + 1 %>" class="admin__small-btn" id="sponsorsImgLabel<%= i + 1 %>">Vali fail</label>
-      <p class="admin__input-placeholder" id="sponsorsImgPlaceholder<%= i + 1 %>"><%= %></p>
-      <img class="admin__icon" src="/img/Lendutõus.jpg" id="sponsorsImgIcon<%= i + 1 %>" alt="Toetaja logo">
+      <label for="sponsorsImg<%= i + 1 %>" class="admin__small-btn" id="sponsorsImg<%= i + 1 %>Label">Vali fail</label>
+      <p class="admin__input-placeholder" id="sponsorsImg<%= i + 1 %>Placeholder"><%= %></p>
+      <img class="admin__icon" src="/img/Lendutõus.jpg" id="sponsorsImg<%= i + 1 %>Icon" alt="Toetaja logo">
     </div>
+  </div>
+  <div class="admin__form-field">
     <div class="admin__input-group">
       <div class="admin__input-item">
         <h3 class="admin__heading admin__heading--quarternary">LINK</h3>
-        <div class="admin__input">
-          <div class="textInput">
-          </div>
-        </div>
+        <input type="text" class="admin__input sponsorsLink" name="sponsors<%= i + 1 %>Link" id="sponsors<%= i + 1 %>Link">
       </div>
     </div>
-    <button class="admin__small-btn sponsorsDeleteBtn" type="button" id="sponsorsDeleteBtn<%= i + 1 %>" name="sponsorsDeleteBtn<%= i + 1 %>">Kustuta</button>
+    <a class="admin__small-btn sponsorsDeleteBtn" id="sponsors<%= i + 1 %>DeleteBtn" name="sponsors<%= i + 1 %>DeleteBtn">Kustuta</a>
     <% } %>
     <div class="admin__btn-group">
-      <button class="admin__small-btn" name="button" id="sponsorsSectionsAddBtn">+ Lisa logo +</button>
+      <a class="admin__small-btn" name="sponsorsAddBtn" id="sponsorsAddBtn">+ Lisa logo +</a>
     </div>
     <div class="admin__btn-group">
-      <button class="admin__btn" name="button" type="submit" id="sponsorsSectionsBtn<%= i + 1 %>">Salvesta</button>
+      <button class="admin__btn" name="sponsorsBtn" type="submit" id="sponsorsBtn">Salvesta</button>
     </div>
   </div>
 </form>

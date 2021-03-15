@@ -10,21 +10,23 @@
         <div class="admin__input-group">
           <div class="admin__input-item">
             <h3 class="admin__heading admin__heading--quarternary">EST</h3>
-            <div class="admin__input">
-              <div class="editor ">
+            <div class="admin__editor">
+              <div class="editor" name="eventsIntroEstEditor" id="eventsIntroEstEditor">
               </div>
             </div>
+            <input type="text" class="admin__hidden-input" name="eventsIntroEst" id="eventsIntroEst">
           </div>
           <div class="admin__input-item">
             <h3 class="admin__heading admin__heading--quarternary">EN</h3>
-            <div class="admin__input">
-              <div class="editor">
+            <div class="admin__editor">
+              <div class="editor" name="eventsIntroEnEditor" id="eventsIntroEnEditor">
               </div>
             </div>
+            <input type="text" class="admin__hidden-input" name="eventsIntroEn" id="eventsIntroEn">
           </div>
         </div>
         <div class="admin__btn-group">
-          <button class="admin__btn" type="submit" name="button" id="eventsIntroBtn">Salvesta</button>
+          <button class="admin__btn" type="submit" name="eventsIntroBtn" id="eventsIntroBtn">Salvesta</button>
         </div>
         </div>
   </form>
@@ -38,52 +40,48 @@
     <div class="admin__input__group">
       <h3 class="admin__heading admin__heading--tertiary">Plakat</h3>
       <input type="file" name="eventsImg<%= i + 1 %>" id="eventsImg<%= i + 1 %>" class="admin__hidden-input file">
-      <label for="eventsImg<%= i + 1 %>" class="admin__small-btn" id="eventsImgLabel<%= i + 1 %>">Vali fail</label>
-      <p class="admin__input-placeholder" id="eventsImgPlaceholder<%= i + 1 %>"><%= %></p>
-      <img class="admin__icon" src="/img/Lendutõus.jpg" id="eventsImgIcon<%= i + 1 %>" alt="Sündmuse plakat">
+      <label for="eventsImg<%= i + 1 %>" class="admin__small-btn" id="eventsImg<%= i + 1 %>Label">Vali fail</label>
+      <p class="admin__input-placeholder" id="eventsImg<%= i + 1 %>Placeholder"><%= %></p>
+      <img class="admin__icon" src="/img/Lendutõus.jpg" id="eventsImg<%= i + 1 %>Icon" alt="Sündmuse plakat">
     </div>
   </div>
   <h3 class="admin__heading admin__heading--tertiary">Pealkiri</h3>
   <div class="admin__input-group">
     <div class="admin__input-item">
       <h3 class="admin__heading admin__heading--quarternary">EST</h3>
-      <div class="admin__input admin__input--bold">
-        <div class="textInput">
-        </div>
-      </div>
+      <input type="text" class="admin__input admin__input--bold eventsHeadingEst" name="eventsHeading<%= i + 1 %>Est" id="eventsHeading<%= i + 1 %>Est">
     </div>
     <div class="admin__input-item">
       <h3 class="admin__heading admin__heading--quarternary">EN</h3>
-      <div class="admin__input admin__input--bold">
-        <div class="textInput">
-        </div>
-      </div>
+    <input type="text" class="admin__input admin__input--bold eventsHeadingEn" name="eventsHeading<%= i + 1 %>En" id="eventsHeading<%= i + 1 %>En">
     </div>
   </div>
   <h3 class="admin__heading admin__heading--tertiary">Sisu</h3>
   <div class="admin__input-group">
     <div class="admin__input-item">
       <h3 class="admin__heading admin__heading--quarternary">EST</h3>
-      <div class="admin__input">
-        <div class="editor">
+      <div class="admin__editor">
+        <div class="editor eventsContentEstEditor" name="eventsContent<%= i + 1 %>EstEditor" id="eventsContent<%= i + 1 %>EstEditor">
         </div>
       </div>
+        <input type="text" class="admin__hidden-input eventsContentEst" name="eventsContent<%= i + 1 %>Est" id="eventsContent<%= i + 1 %>Est">
     </div>
     <div class="admin__input-item">
       <h3 class="admin__heading admin__heading--quarternary">EN</h3>
-      <div class="admin__input">
-        <div class="editor">
+      <div class="admin__editor">
+        <div class="editor eventsContentEnEditor" name="eventContent<%= i + 1 %>EnEditor" id="eventsContent<%= i + 1 %>EnEditor">
         </div>
       </div>
     </div>
+    <input type="text" class="admin__hidden-input eventsContentEn" name="eventsContent<%= i + 1 %>En" id="eventsContent<%= i + 1 %>En">
   </div>
   <div class="admin__btn-group">
-    <button class="admin__btn" name="button" id="eventsContentDeleteBtn<%= i + 1 %>">Kustuta</button>
-    <button class="admin__btn" type="submit" name="button" id="eventsContentBtn<%= i + 1 %>">Salvesta</button>
+    <a class="admin__btn eventsContentDeleteBtn" name="eventsContent<%= i + 1 %>DeleteBtn" id="eventsContent<%= i + 1 %>DeleteBtn">Kustuta</a>
+    <button class="admin__btn eventsContentBtn" type="submit" name="eventsContent<%= i + 1 %>Btn" id="eventsContent<%= i + 1 %>Btn">Salvesta</button>
   </div>
   </div>
 </form>
 <% } %>
-<button class="admin__btn" name="button" id="eventsContentAddBtn">+ Lisa Sündmus +</button>
+<a class="admin__btn" name="eventsContentAddBtn" id="eventsContentAddBtn">+ Lisa Sündmus +</a>
 
 <%- include('partials/footer') -%>

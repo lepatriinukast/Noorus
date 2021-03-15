@@ -1,0 +1,61 @@
+<%- include('partials/head', {data: data}); -%>
+<%- include('partials/admin-nav', {data: data}); -%>
+<%- include('partials/admin-popup', {data: data}); -%>
+
+<h1 class="admin__heading admin__heading--primary">Möödunud sündmused</h1>
+
+  <% for (var i = 0; i < 2; i++) { %>
+
+<form action="/api/archive/content/<%= i + 1 %>" method="post" enctype="application/x-www-form-urlencoded" class="admin__form" id="pastEventsContent<%= i + 1 %>">
+  <h3 class="admin__heading admin__heading--secondary">Sündmus <%= i + 1 %></h3>
+  <div class="admin__form-field">
+    <div class="admin__img-group">
+      <div class="admin__input__group">
+        <h3 class="admin__heading admin__heading--tertiary">Plakat</h3>
+        <input type="file" name="pastEventsImg<%= i + 1 %>" id="pastEventsImg<%= i + 1 %>" class="admin__hidden-input file">
+        <label for="pastEventsImg<%= i + 1 %>" class="admin__small-btn" id="pastEventsImg<%= i + 1 %>Label">Vali fail</label>
+        <p class="admin__input-placeholder" id="pastEventsImg<%= i + 1 %>Placeholder"><%= %></p>
+        <img class="admin__icon" src="/img/Lendutõus.jpg" id="pastEventsImg<%= i + 1 %>Icon" alt="Sündmuse plakat">
+      </div>
+    </div>
+    <h3 class="admin__heading admin__heading--tertiary">Pealkiri</h3>
+    <div class="admin__input-group">
+      <div class="admin__input-item">
+        <h3 class="admin__heading admin__heading--quarternary">EST</h3>
+        <input type="text" class="admin__input admin__input--bold pastEventsHeadingEst" name="pastEventsHeading<%= i + 1 %>Est" id="pastEventsHeading<%= i + 1 %>Est">
+      </div>
+      <div class="admin__input-item">
+        <h3 class="admin__heading admin__heading--quarternary">EN</h3>
+      <input type="text" class="admin__input admin__input--bold pastEventsHeadingEn" name="pastEventsHeading<%= i + 1 %>En" id="pastEventsHeading<%= i + 1 %>En">
+      </div>
+    </div>
+    <h3 class="admin__heading admin__heading--tertiary">Sisu</h3>
+    <div class="admin__input-group">
+      <div class="admin__input-item">
+        <h3 class="admin__heading admin__heading--quarternary">EST</h3>
+        <div class="admin__editor">
+          <div class="editor pastEventsContentEstEditor" name="pastEventsContent<%= i + 1 %>EstEditor" id="pastEventsContent<%= i + 1 %>EstEditor">
+          </div>
+        </div>
+          <input type="text" class="admin__hidden-input pastEventsContentEst" name="pastEventsContent<%= i + 1 %>Est" id="pastEventsContent<%= i + 1 %>Est">
+      </div>
+      <div class="admin__input-item">
+        <h3 class="admin__heading admin__heading--quarternary">EN</h3>
+        <div class="admin__editor">
+          <div class="editor pastEventsContentEnEditor" name="eventContent<%= i + 1 %>EnEditor" id="pastEventsContent<%= i + 1 %>EnEditor">
+          </div>
+        </div>
+      </div>
+      <input type="text" class="admin__hidden-input pastEventsContentEn" name="pastEventsContent<%= i + 1 %>En" id="pastEventsContent<%= i + 1 %>En">
+    </div>
+    <div class="admin__btn-group">
+      <a class="admin__btn pastEventsContentDeleteBtn" name="pastEventsContent<%= i + 1 %>DeleteBtn" id="pastEventsContent<%= i + 1 %>DeleteBtn">Kustuta</a>
+      <a class="admin__btn pastEventsContentDeleteBtn" name="pastEventsContent<%= i + 1 %>RestoreBtn" id="pastEventsContent<%= i + 1 %>RestoreBtn">Taasta</a>
+      <button class="admin__btn pastEventsContentBtn" type="submit" name="pastEventsContent<%= i + 1 %>Btn" id="pastEventsContent<%= i + 1 %>Btn">Salvesta</button>
+    </div>
+    </div>
+  </form>
+  <% } %>
+  <a class="admin__btn" name="pastEventsContentAddBtn" id="pastEventsContentAddBtn">+ Lisa Sündmus +</a>
+
+<%- include('partials/footer') -%>

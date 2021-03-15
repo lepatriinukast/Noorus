@@ -186,6 +186,13 @@ const reqData = async (templateName, language) => {
       },
       staticImages: await compiler("static_images", models.ImageModel)
     };
+  } else if (templateName === "admin-archive") {
+    return {
+      pageInfo: {
+        appName: routeInfo.appName.est
+      },
+      staticImages: await compiler("static_images", models.ImageModel)
+    };
   }
 };
 

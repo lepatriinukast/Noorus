@@ -30,137 +30,81 @@
     </div>
   </div>
   <div class="admin__btn-group">
-    <button class="admin__btn" type="submit" name="button" id="homeImagesBtn">Salvesta</button>
+    <button class="admin__btn" type="submit" name="homeImagesBtn" id="homeImagesBtn">Salvesta</button>
   </div>
 </form>
 
-  <form action="/api/home/main %>" method="post" enctype="application/x-www-form-urlencoded" class="admin__form" id="homeMain">
-        <h3 class="admin__heading admin__heading--secondary">Suur tekst</h3>
-      <div class="admin__form-field">
-        <h3 class="admin__heading admin__heading--tertiary">Pealkiri</h3>
-        <div class="admin__input-group">
-          <div class="admin__input-item">
-            <h3 class="admin__heading admin__heading--quarternary">EST</h3>
-            <div class="admin__input admin__input--bold">
-              <div class="textInput">
-              </div>
-            </div>
-          </div>
-          <div class="admin__input-item">
-            <h3 class="admin__heading admin__heading--quarternary">EN</h3>
-            <div class="admin__input admin__input--bold">
-              <div class="textInput">
-              </div>
-            </div>
-          </div>
-        </div>
-        <h3 class="admin__heading admin__heading--tertiary">Sisu</h3>
-        <div class="admin__input-group">
-          <div class="admin__input-item">
-            <h3 class="admin__heading admin__heading--quarternary">EST</h3>
-            <div class="admin__input admin__input--bold">
-              <div class="textInput">
-              </div>
-            </div>
-          </div>
-          <div class="admin__input-item">
-            <h3 class="admin__heading admin__heading--quarternary">EN</h3>
-            <div class="admin__input admin__input--bold">
-              <div class="textInput">
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="admin__btn-group">
-          <button class="admin__btn" type="submit" name="button" id="homeMainBtn">Salvesta</button>
-        </div>
-        </div>
-  </form>
+<form action="/api/home/main %>" method="post" enctype="application/x-www-form-urlencoded" class="admin__form" id="homeMain">
+  <h3 class="admin__heading admin__heading--secondary">Suur tekst</h3>
+  <div class="admin__form-field">
+    <h3 class="admin__heading admin__heading--tertiary">Pealkiri</h3>
+    <div class="admin__input-group">
+      <div class="admin__input-item">
+        <h3 class="admin__heading admin__heading--quarternary">EST</h3>
+        <input type="text" class="admin__input admin__input--bold" name="homeMainHeadingEst" id="homeMainHeadingEst">
+      </div>
+      <div class="admin__input-item">
+        <h3 class="admin__heading admin__heading--quarternary">EN</h3>
+        <input type="text" class="admin__input admin__input--bold" name="homeMainHeadingEn" id="homeMainHeadingEn">
+      </div>
+    </div>
+    <h3 class="admin__heading admin__heading--tertiary">Sisu</h3>
+    <div class="admin__input-group">
+      <div class="admin__input-item">
+        <h3 class="admin__heading admin__heading--quarternary">EST</h3>
+        <input type="text" class="admin__input admin__input--bold" name="homeMainContentEst" id="homeMainContentEst">
+      </div>
+      <div class="admin__input-item">
+        <h3 class="admin__heading admin__heading--quarternary">EN</h3>
+        <input type="text" class="admin__input admin__input--bold" name="homeMainContentEn" id="homeMainContentEn">
+      </div>
+    </div>
+    <div class="admin__btn-group">
+      <button class="admin__btn" type="submit" name="homeMainBtn" id="homeMainBtn">Salvesta</button>
+    </div>
+  </div>
+</form>
 
-  <form action="/api/home/main %>" method="post" enctype="application/x-www-form-urlencoded" class="admin__form" id="homeSections1">
-        <h3 class="admin__heading admin__heading--secondary">Sektsioon 1</h3>
-      <div class="admin__form-field">
-        <h3 class="admin__heading admin__heading--tertiary">Pealkiri</h3>
-        <div class="admin__input-group">
-          <div class="admin__input-item">
-            <h3 class="admin__heading admin__heading--quarternary">EST</h3>
-            <div class="admin__input admin__input--bold">
-              <div class="textInput">
-              </div>
-            </div>
-          </div>
-          <div class="admin__input-item">
-            <h3 class="admin__heading admin__heading--quarternary">EN</h3>
-            <div class="admin__input admin__input--bold">
-              <div class="textInput">
-              </div>
-            </div>
-          </div>
-        </div>
-        <h3 class="admin__heading admin__heading--tertiary">Sisu</h3>
-        <div class="admin__input-group">
-          <div class="admin__input-item">
-            <h3 class="admin__heading admin__heading--quarternary">EST</h3>
-            <div class="admin__input admin__input--bold">
-              <div class="textInput">
-              </div>
-            </div>
-          </div>
-          <div class="admin__input-item">
-            <h3 class="admin__heading admin__heading--quarternary">EN</h3>
-            <div class="admin__input admin__input--bold">
-              <div class="textInput">
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="admin__btn-group">
-          <button class="admin__btn" type="submit" name="button" id="homeSections2Btn">Salvesta</button>
-        </div>
-        </div>
-  </form>
+<% for (var i = 0; i < 2; i++) { %>
 
-  <form action="/api/home/sections/1 %>" method="post" enctype="application/x-www-form-urlencoded" class="admin__form" id="homeSections2">
-        <h3 class="admin__heading admin__heading--secondary">Sektsioon 2</h3>
-      <div class="admin__form-field">
-        <h3 class="admin__heading admin__heading--tertiary">Pealkiri</h3>
-        <div class="admin__input-group">
-          <div class="admin__input-item">
-            <h3 class="admin__heading admin__heading--quarternary">EST</h3>
-            <div class="admin__input admin__input--bold">
-              <div class="textInput">
-              </div>
-            </div>
-          </div>
-          <div class="admin__input-item">
-            <h3 class="admin__heading admin__heading--quarternary">EN</h3>
-            <div class="admin__input admin__input--bold">
-              <div class="textInput">
-              </div>
-            </div>
-          </div>
-        </div>
-        <h3 class="admin__heading admin__heading--tertiary">Sisu</h3>
-        <div class="admin__input-group">
-          <div class="admin__input-item">
-            <h3 class="admin__heading admin__heading--quarternary">EST</h3>
-            <div class="admin__input admin__input--bold">
-              <div class="textInput">
-              </div>
-            </div>
-          </div>
-          <div class="admin__input-item">
-            <h3 class="admin__heading admin__heading--quarternary">EN</h3>
-            <div class="admin__input admin__input--bold">
-              <div class="textInput">
-              </div>
-            </div>
+<form action="/api/home/sections/<%= i + 1 %>" method="post" enctype="application/x-www-form-urlencoded" class="admin__form" id="homeSection<%= i + 1 %>">
+  <h3 class="admin__heading admin__heading--secondary">Sektsioon <%= i + 1 %></h3>
+  <div class="admin__form-field">
+    <h3 class="admin__heading admin__heading--tertiary">Pealkiri</h3>
+    <div class="admin__input-group">
+      <div class="admin__input-item">
+        <h3 class="admin__heading admin__heading--quarternary">EST</h3>
+        <input type="text" class="admin__input admin__input--bold homeHeadingEst" name="homeHeading<%= i + 1 %>Est" id="homeHeading<%= i + 1 %>Est">
+      </div>
+      <div class="admin__input-item">
+        <h3 class="admin__heading admin__heading--quarternary">EN</h3>
+        <input type="text" class="admin__input admin__input--bold homeHeadingEn" name="homeHeading<%= i + 1 %>En" id="homeHeading<%= i + 1 %>En">
+      </div>
+    </div>
+    <h3 class="admin__heading admin__heading--tertiary">Sisu</h3>
+    <div class="admin__input-group">
+      <div class="admin__input-item">
+        <h3 class="admin__heading admin__heading--quarternary">EST</h3>
+        <div class="admin__editor">
+          <div class="editor homeSectionEstEditor" name="homeSection<%= i + 1 %>EstEditor" id="homeSection<%= i + 1 %>EstEditor">
           </div>
         </div>
-        <div class="admin__btn-group">
-          <button class="admin__btn" type="submit" name="button" id="homeSections2Btn">Salvesta</button>
+        <input type="text" class="admin__hidden-input homeSectionEst" name="homeSection<%= i + 1 %>Est" id="homeSection<%= i + 1 %>Est">
+      </div>
+      <div class="admin__input-item">
+        <h3 class="admin__heading admin__heading--quarternary">EN</h3>
+        <div class="admin__editor">
+          <div class="editor homeSectionEnEditor" name="homeSection<%= i + 1 %>EnEditor" id="homeSection<%= i + 1 %>EnEditor">
+          </div>
         </div>
-        </div>
-  </form>
+        <input type="text" class="admin__hidden-input homeSectionEn" name="homeSection<%= i + 1 %>En" id="homeSection<%= i + 1 %>En">
+      </div>
+    </div>
+    <div class="admin__btn-group">
+      <button class="admin__btn homeSectionBtn" type="submit" name="homeSection<%= i + 1 %>Btn" id="homeSection<%= i + 1 %>Btn">Salvesta</button>
+    </div>
+  </div>
+</form>
+<% } %>
 
 <%- include('partials/footer') -%>
