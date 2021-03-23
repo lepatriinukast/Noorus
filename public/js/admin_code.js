@@ -147,7 +147,7 @@ if (loginBtn !== null) {
 
     event.preventDefault();
 
-    // call the logout function
+    // call the login function
 
     sessionLogin();
   });
@@ -191,7 +191,7 @@ function sessionLogin() {
 
   // open the XMLHttpRequest and specify the method (POST), destination route on the server (upload/login), and whether the call takes place asynchronously (true);
 
-  xhr.open("POST", "/upload/login", true);
+  xhr.open("POST", "/api/session", true);
 
   // manually set a request header, so that the server knows what type of data to expect
 
@@ -211,7 +211,7 @@ function sessionLogin() {
 
         // redirect to the admin page
 
-        window.location.href = "/admin";
+        window.location.href = "/admin/home";
 
         // if the server response is "wrong credentials", display an error message
 
@@ -252,7 +252,7 @@ function sessionLogout() {
 
   // open the XMLHttpRequest and specify the method (POST), destination route on the server (upload/logout), and whether the call takes place asynchronously (true);
 
-  xhr.open("POST", "/upload/logout", true);
+  xhr.open("DELETE", "/api/session", true);
 
   // manually set a request header, so that the server knows what type of data to expect
 

@@ -1,7 +1,7 @@
 /* jshint esversion: 8 */
 
 // This module contains some of the raw hardcoded data that will be rendered on the webpage.
-// Each piece of data in this module has two versions however- Estonian and English.
+// Each piece of data in this module has two versions- Estonian and English.
 // The module gives basic structure to this data.
 
 const routeInfo = {
@@ -51,11 +51,11 @@ const routeInfo = {
     hrefs: {
       links: {
         est: ["", "koorist", "sundmused", "kontakt", "pood"],
-        en: ["en", "/en/about", "en/events", "en/contact", "en/shop"]
+        en: ["en", "en/about", "en/events", "en/contact", "en/shop"]
       },
       dropdown: {
         est: ["koorist#liikmed", "koorist#dirigendid", "koorist#ajalugu", "koorist#meedia", "koorist#toetajad"],
-        en: ["about#members", "about#conductors", "about#history", "about#media", "about#sponsors"]
+        en: ["en/about#members", "en/about#conductors", "en/about#history", "en/about#media", "en/about#sponsors"]
       },
       changeLanguage: {
         home: {
@@ -110,10 +110,22 @@ const routeInfo = {
       est: ["pood", "Kokku", "Telli"],
       en: ["en/shop", "Total", "Order"]
     },
-    login: {
-      est: [],
-      en: []
-    }
+    contactSuccess: {
+      est: ["Andmed edastatud!", "Täname registreerimast! Võtame teiega ühendust esimesel võimalusel.", "kontakt", "Tagasi"],
+      en: ["The message has been sent!", "Thank you for your registration! We will be contacting you shortly.", "en/contact", "Back"]
+    },
+    contactFailure: {
+      est: ["Midagi läks sassi!", "Registreerimine ebaõnnestus. Palun proovige uuesti.", "kontakt", "Tagasi"],
+      en: ["Something went wrong!", "Registration was unsuccessful. Please try again.", "en/contact", "Back"]
+    },
+    orderSuccess: {
+      est: ["Teie tellimus on edastatud!", "Täname tellimuse eest! Võtame teiega ühendust esimesel võimalusel.", "pood", "Tagasi"],
+      en: ["Your order has been submitted!", "Thank you for the order! We will be contacting you shortly.", "en/shop", "Back"]
+    },
+    orderFailure: {
+      est: ["Midagi läks sassi!", "Tellimuse esitamine ebaõnnestus. Palun proovige uuesti!", "pood", "Tagasi"],
+      en: ["Something went wrong!", "The order could not be processed. Please try again!", "en/shop", "Back"]
+    },
   },
 };
 

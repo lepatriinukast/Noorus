@@ -8,7 +8,7 @@
 
 // This module needs access to the following files to work:
 
-const queryDB = require("./queryDB");
+const query = require("./../database/query");
 const models = require("./models");
 
 
@@ -23,7 +23,7 @@ const compiler = async (tableName, Model, language) => {
 
   // Query the specified table name for results.
 
-  const result = await queryDB(tableName);
+  const result = await query(tableName);
 
 // Create an empty array, which will be used as a container for similarily structured javascript objects containing data from the database.
 

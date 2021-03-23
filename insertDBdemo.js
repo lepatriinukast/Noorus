@@ -1,13 +1,18 @@
 // insert default values into database
 
-var con = require("./reqData/dbConnection");
+var con = require("./database/connection");
 
+const bcrypt = require('bcrypt');
+const saltRounds = 12;
+const password = "lauldaonLahe";
 
-  var sql = "INSERT INTO miscellaneous (name) VALUES ?";
-  var values = [
-    ["contact_form_heading"], ["order_form_heading"]
-  ];
-  con.query(sql, [values], function(err, result) {
-    if (err) throw err;
-    console.log("Inserted into database");
-  });
+bcrypt.genSalt(saltRounds, function(err, salt) {
+  bcrypt.hash(password, salt, function(err, hash) {
+    var sql = "INSERT INTO users (user, password) VALUES ('segakoorNoorus', '"+ hash +"');";
+    con.query(sql, function(err, result) {
+      if (err) throw err;
+      console.log("Inserted into database");
+    });
+
+   });
+});

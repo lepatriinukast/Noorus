@@ -6,11 +6,11 @@
 
 // Require the connection object from a custom module.
 
-var con = require("./DBConnection.js");
+var con = require("./connection.js");
 
 // This function returns a promise, which will resolve into an array containing all data in a specified database table.
 
-const queryDatabase = (tableName) => {
+const query = (tableName) => {
   let promise = new Promise((resolve, reject) => {
     con.query(`SELECT * FROM ${tableName} ORDER BY id`, (err, result) => {
       if (err) {
@@ -25,4 +25,4 @@ const queryDatabase = (tableName) => {
 
 // Export the function.
 
-module.exports = queryDatabase;
+module.exports = query;

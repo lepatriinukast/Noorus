@@ -1,6 +1,6 @@
-<%- include('partials/head', {data: data}); -%>
-<%- include('partials/admin-nav', {data: data}); -%>
-<%- include('partials/admin-popup', {data: data}); -%>
+<%- include('../partials/head', {data: data}); -%>
+<%- include('../partials/admin-nav', {data: data}); -%>
+<%- include('../partials/admin-popup', {data: data}); -%>
 
 <h1 class="admin__heading admin__heading--primary">Avaleht</h1>
 <form action="/api/home/images" method="post" enctype="multipart/form-data" class="admin__form" id="homeImages">
@@ -107,4 +107,4 @@
 </form>
 <% } %>
 
-<%- include('partials/footer') -%>
+<%- include('../partials/footer') -%>

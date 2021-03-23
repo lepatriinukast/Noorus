@@ -1,11 +1,12 @@
 <%- include('partials/head', {data: data}); -%>
 <%- include('partials/admin-popup') -%>
+
 <body class="login">
   <div class="login__input-group">
-    <form action="/upload/login" method="post" class="form" name="login" id="login">
+    <form action="/api/session" method="post" class="form" name="login" id="login">
       <img class="login__logo" src="<%= data.staticImages[1].url %>" alt="">
         <div class="form__field">
-          <input type="text" class="form__input" id="username" name="username" placeholder="Kasutajanimi" required aria-label="Kasutajanimi">
+          <input type="text" class="form__input" id="user" name="user" placeholder="Kasutajanimi" required aria-label="Kasutajanimi">
         </div>
         <div class="form__field u-margin-bottom-small">
           <input type="password" class="form__input" id="password" name="password" placeholder="Parool" required aria-label="Parool">
@@ -17,4 +18,5 @@
     </form>
   </div>
 </body>
+
 <%- include('partials/footer') -%>

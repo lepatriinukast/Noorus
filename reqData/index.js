@@ -61,11 +61,11 @@ const reqData = async (templateName, language) => {
       staticImages: await compiler("static_images", models.ImageModel),
       intros: await compiler("intros", models.TextModel, language),
       membersGrid: await compiler("members_grid", models.TextWithHeadingModel, language),
-      membersSegments: await compiler("members_segments", models.TextWithHeadingModel, language),
+      membersSections: await compiler("members_sections", models.TextWithHeadingModel, language),
       conductorsImages: await compiler("conductors_images", models.ImageModel),
-      conductorsSegments: await compiler("conductors_segments", models.TextWithHeadingModel, language),
-      historySegments: await compiler("history_segments", models.TextWithHeadingModel, language),
-      mediaSegments: await compiler("media_segments", models.TextWithHeadingModel, language),
+      conductorsSections: await compiler("conductors_sections", models.TextWithHeadingModel, language),
+      historySections: await compiler("history_sections", models.TextWithHeadingModel, language),
+      mediaSections: await compiler("media_sections", models.TextWithHeadingModel, language),
       iframes: await compiler("iframes", models.mediaItemModel),
       sponsorsLogos: await compiler("sponsors_logos", models.imageLinkModel),
       pageInfo: getPageInfo(templateName, language)
@@ -187,6 +187,45 @@ const reqData = async (templateName, language) => {
       staticImages: await compiler("static_images", models.ImageModel)
     };
   } else if (templateName === "admin-archive") {
+    return {
+      pageInfo: {
+        appName: routeInfo.appName.est
+      },
+      staticImages: await compiler("static_images", models.ImageModel)
+    };
+  } else if (templateName === "contact-success") {
+    return {
+      pageInfo: {
+        appName: routeInfo.appName[language],
+        miscellaneous: routeInfo.miscellaneous.contactSuccess[language]
+      },
+      staticImages: await compiler("static_images", models.ImageModel)
+    };
+  } else if (templateName === "contact-failure") {
+    return {
+      pageInfo: {
+        appName: routeInfo.appName[language],
+        miscellaneous: routeInfo.miscellaneous.contactFailure[language]
+      },
+      staticImages: await compiler("static_images", models.ImageModel)
+    };
+  } else if (templateName === "order-success") {
+    return {
+      pageInfo: {
+        appName: routeInfo.appName[language],
+        miscellaneous: routeInfo.miscellaneous.orderSuccess[language]
+      },
+      staticImages: await compiler("static_images", models.ImageModel)
+    };
+  } else if (templateName === "order-failure") {
+    return {
+      pageInfo: {
+        appName: routeInfo.appName[language],
+        miscellaneous: routeInfo.miscellaneous.orderFailure[language]
+      },
+      staticImages: await compiler("static_images", models.ImageModel)
+    };
+  } else if (templateName === "error") {
     return {
       pageInfo: {
         appName: routeInfo.appName.est

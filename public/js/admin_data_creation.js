@@ -399,7 +399,7 @@ function createTelliData() {
 function createLoginData() {
 
   var credentials = {
-    username: document.getElementById("username").value,
+    user: document.getElementById("user").value,
     password: document.getElementById("password").value
   };
 

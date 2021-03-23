@@ -1,41 +1,22 @@
 /* jshint esversion: 8 */
 
+// Call the config method of the object returned by the dotenv module.
+// This will provide access to the usage of environmental variables stored in the .env file.
+
+require('dotenv').config();
 
 // require node modules
 
-require('dotenv').config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
 
 const multer = require("multer");
 const nodemailer = require("nodemailer");
-const session = require("express-session");
-const bcrypt = require('bcrypt');
-const saltRounds = 12;
-
-
-// require the custom modules
-
-const con = require("./reqData/DBConnection");
-const models = require("./reqData/models");
-const queryDB = require("./reqData/queryDB");
-const reqData = require("./reqData");
 
 // setup express back-end framework
 
 const app = express();
-
-//configure a session
-
-app.use(session({
-  secret: process.env.SESSION_SECRET,
-  resave: true,
-  saveUninitialized: false,
-  cookie: {
-    maxAge: 1000 * 60 * 60 * 24 // 86400000 1 day
-  }
-}));
 
 // setup body-parser for creating routes and getting data from the client-side
 
@@ -77,188 +58,17 @@ const updateDatabase = async (sql, values) => {
   });
 };
 
+const api = require("./api");
+const admin = require("./routes/admin");
+const pages = require("./routes/pages");
 
-// PAGE ROUTES
-
-
-
-// Estonian routes
-
-app.get("/", async (req, res) => {
-  const data = await reqData("home", "est");
-  res.render("home", {
-    data: data
-  });
-});
-
-app.get("/koorist", async (req, res) => {
-  const data = await reqData("about", "est");
-  res.render("about", {
-    data: data
-  });
-});
-
-app.get("/sundmused", async (req, res) => {
-  const data = await reqData("events", "est");
-  res.render("events", {
-    data: data
-  });
-});
-
-app.get("/kontakt", async (req, res) => {
-  const data = await reqData("contact", "est");
-  res.render("contact", {
-    data: data
-  });
-});
-
-app.get("/pood", async (req, res) => {
-  const data = await reqData("shop", "est");
-  res.render("shop", {
-    data: data
-  });
-});
-
-app.get("/telli", async (req, res) => {
-  const data = await reqData("order", "est");
-  res.render("order", {
-    data: data
-  });
-
-});
-// English routes
-
-app.get("/en", async (req, res) => {
-  const data = await reqData("home", "en");
-  res.render("home", {
-    data: data
-  });
-});
-
-app.get("/en/about", async (req, res) => {
-  const data = await reqData("about", "en");
-  res.render("about", {
-    data: data
-  });
-});
-
-app.get("/en/events", async (req, res) => {
-  const data = await reqData("events", "en");
-  res.render("events", {
-    data: data
-  });
-});
-
-app.get("/en/contact", async (req, res) => {
-  const data = await reqData("contact", "en");
-  res.render("contact", {
-    data: data
-  });
-});
-
-app.get("/en/shop", async (req, res) => {
-  const data = await reqData("shop", "en");
-  res.render("shop", {
-    data: data
-  });
-});
-
-app.get("/en/order", async (req, res) => {
-  const data = await reqData("order", "en");
-  res.render("order", {
-    data: data
-  });
-});
+app.use("/api", api);
+app.use("/admin", admin);
+app.use("/", pages);
 
 
-// LOGIN ROUTE
-
-app.get("/login", async (req, res) => {
-  const data = await reqData("login");
-  res.render("login", {
-    data: data
-  });
-});
 
 
-// ADMIN ROUTES
-
-app.get("/admin/home", async (req, res) => {
-  const data = await reqData("admin-home");
-  res.render("admin-home", {
-    data: data
-  });
-});
-
-app.get("/admin/about", async (req, res) => {
-  const data = await reqData("admin-about");
-  res.render("admin-about", {
-    data: data
-  });
-});
-
-app.get("/admin/members", async (req, res) => {
-  const data = await reqData("admin-members");
-  res.render("admin-members", {
-    data: data
-  });
-});
-
-app.get("/admin/conductors", async (req, res) => {
-  const data = await reqData("admin-conductors");
-  res.render("admin-conductors", {
-    data: data
-  });
-});
-
-app.get("/admin/history", async (req, res) => {
-  const data = await reqData("admin-history");
-  res.render("admin-history", {
-    data: data
-  });
-});
-
-app.get("/admin/media", async (req, res) => {
-  const data = await reqData("admin-media");
-  res.render("admin-media", {
-    data: data
-  });
-});
-
-app.get("/admin/sponsors", async (req, res) => {
-  const data = await reqData("admin-sponsors");
-  res.render("admin-sponsors", {
-    data: data
-  });
-});
-
-app.get("/admin/events", async (req, res) => {
-  const data = await reqData("admin-events");
-  res.render("admin-events", {
-    data: data
-  });
-});
-
-app.get("/admin/contact", async (req, res) => {
-  const data = await reqData("admin-contact");
-  res.render("admin-contact", {
-    data: data
-  });
-});
-
-app.get("/admin/shop", async (req, res) => {
-  const data = await reqData("admin-shop");
-  res.render("admin-shop", {
-    data: data
-  });
-});
-
-app.get("/admin/archive", async (req, res) => {
-  const data = await reqData("admin-archive");
-  res.render("admin-archive", {
-    data: data
-  });
-});
 
 
 
