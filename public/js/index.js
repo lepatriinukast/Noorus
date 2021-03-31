@@ -1,6 +1,8 @@
 /* jshint esversion: 8 */
 
 import {quillArray} from "./quill.js";
-import {listenEvents} from "./listenEvents.js";
+import {onPageLoad} from "./onPageLoad.js";
 
-listenEvents();
+
+
+onPageLoad(document.documentElement);

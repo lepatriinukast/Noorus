@@ -20,13 +20,26 @@ router.use(session);
 
 const reqData = require("./../reqData");
 
+// All the routes in this module have a page type of "admin", which will be passed into the data enquiry functions.
+
+const pageType = "admin";
+
 // In every admin route, there will first be a check for a session cookie which indicates that the user is logged in.
 // If the cookie exists, the required page will be rendered.
 // If there is no cookie, the user will be redirected to the login page.
+// The route /admin will redirect to the /admin/home page.
+
+router.get("/", async (req, res) => {
+  if (req.session.loggedIn === true) {
+  res.redirect("/admin/home");
+} else {
+  res.redirect("/login");
+}
+});
 
 router.get("/home", async (req, res) => {
   if (req.session.loggedIn === true) {
-  const data = await reqData("admin-home");
+  const data = await reqData("admin-home", pageType);
   res.render("admin/admin-home", {
     data: data
   });
@@ -37,10 +50,10 @@ router.get("/home", async (req, res) => {
 
 router.get("/about", async (req, res) => {
   if (req.session.loggedIn === true) {
-  const data = await reqData("admin-about");
+  const data = await reqData("admin-about", pageType);
   res.render("admin/admin-about", {
+    data: data
   });
-  data: data
 } else {
   res.redirect("/login");
 }
@@ -48,7 +61,7 @@ router.get("/about", async (req, res) => {
 
 router.get("/members", async (req, res) => {
   if (req.session.loggedIn === true) {
-  const data = await reqData("admin-members");
+  const data = await reqData("admin-members", pageType);
   res.render("admin/admin-members", {
     data: data
   });
@@ -59,7 +72,7 @@ router.get("/members", async (req, res) => {
 
 router.get("/conductors", async (req, res) => {
   if (req.session.loggedIn === true) {
-  const data = await reqData("admin-conductors");
+  const data = await reqData("admin-conductors", pageType);
   res.render("admin/admin-conductors", {
     data: data
   });
@@ -70,7 +83,7 @@ router.get("/conductors", async (req, res) => {
 
 router.get("/history", async (req, res) => {
   if (req.session.loggedIn === true) {
-  const data = await reqData("admin-history");
+  const data = await reqData("admin-history", pageType);
   res.render("admin/admin-history", {
     data: data
   });
@@ -81,7 +94,7 @@ router.get("/history", async (req, res) => {
 
 router.get("/media", async (req, res) => {
   if (req.session.loggedIn === true) {
-  const data = await reqData("admin-media");
+  const data = await reqData("admin-media", pageType);
   res.render("admin/admin-media", {
     data: data
   });
@@ -92,7 +105,7 @@ router.get("/media", async (req, res) => {
 
 router.get("/sponsors", async (req, res) => {
   if (req.session.loggedIn === true) {
-  const data = await reqData("admin-sponsors");
+  const data = await reqData("admin-sponsors", pageType);
   res.render("admin/admin-sponsors", {
     data: data
   });
@@ -103,7 +116,7 @@ router.get("/sponsors", async (req, res) => {
 
 router.get("/events", async (req, res) => {
   if (req.session.loggedIn === true) {
-  const data = await reqData("admin-events");
+  const data = await reqData("admin-events", pageType);
   res.render("admin/admin-events", {
     data: data
   });
@@ -114,7 +127,7 @@ router.get("/events", async (req, res) => {
 
 router.get("/contact", async (req, res) => {
   if (req.session.loggedIn === true) {
-  const data = await reqData("admin-contact");
+  const data = await reqData("admin-contact", pageType);
   res.render("admin/admin-contact", {
     data: data
   });
@@ -125,7 +138,7 @@ router.get("/contact", async (req, res) => {
 
 router.get("/shop", async (req, res) => {
   if (req.session.loggedIn === true) {
-  const data = await reqData("admin-shop");
+  const data = await reqData("admin-shop", pageType);
   res.render("admin/admin-shop", {
     data: data
   });
@@ -136,7 +149,7 @@ router.get("/shop", async (req, res) => {
 
 router.get("/archive", async (req, res) => {
   if (req.session.loggedIn === true) {
-  const data = await reqData("admin-archive");
+  const data = await reqData("admin-archive", pageType);
   res.render("admin/admin-archive", {
     data: data
   });

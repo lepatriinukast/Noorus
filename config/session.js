@@ -1,5 +1,8 @@
 /* jshint esversion: 8 */
 
+// This module sets up a session cookie.
+// This cookie is available and mutable from anywhere in the app.
+
 // Require the express session module.
 
 const expressSession = require("express-session");

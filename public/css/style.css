@@ -447,14 +447,14 @@ body {
   .form__hidden-checkbox {
     opacity: 0; }
 
-.hidden-menu {
+.hamburger-menu {
   position: absolute;
   top: 6rem;
   width: 100%;
   background-color: #5F045F;
   z-index: 3;
   box-shadow: 0 2px 5px rgba(26, 26, 26, 0.5); }
-  .hidden-menu__list {
+  .hamburger-menu__list {
     list-style: none;
     display: flex;
     flex-direction: column;
@@ -462,29 +462,29 @@ body {
     align-items: center;
     height: 100%; }
     @media screen and (max-width: 18.75em) {
-      .hidden-menu__list {
+      .hamburger-menu__list {
         align-items: flex-start;
         padding-left: 5rem; } }
-  .hidden-menu__item {
+  .hamburger-menu__item {
     display: inline-block;
     padding: 2rem 0;
     transition-property: transform;
     transition-duration: 0.5s; }
     @media screen and (max-height: 10.625em) {
-      .hidden-menu__item {
+      .hamburger-menu__item {
         padding: 0; } }
-    .hidden-menu__item:active, .hidden-menu__item:hover {
+    .hamburger-menu__item:active, .hamburger-menu__item:hover {
       transform: scale(1.1); }
     @media (hover: hover) {
-      .hidden-menu__item:hover .dropdown--hidden {
+      .hamburger-menu__item:hover .dropdown--hidden {
         visibility: visible;
         opacity: 1; } }
-  .hidden-menu__link:link, .hidden-menu__link:visited {
+  .hamburger-menu__link:link, .hamburger-menu__link:visited {
     text-decoration: none;
     font-size: 1.6rem;
     font-weight: 700;
     color: #FFFFFF; }
-  .hidden-menu__link:active, .hidden-menu__link:hover {
+  .hamburger-menu__link:active, .hamburger-menu__link:hover {
     transform: scale(1.1); }
 
 .iframe {
@@ -797,12 +797,12 @@ body {
     margin-top: 3rem; }
   .admin__icon {
     height: 7rem;
-    margin-bottom: 0;
+    margin-top: 2rem;
     background-color: #E0E0E0;
     transition-property: transform, outline;
     transition-duration: 0.5s; }
     .admin__icon:hover {
-      transform: scale(4);
+      transform: scale(4.4);
       outline: 2px rgba(26, 26, 26, 0.8) solid;
       outline-offset: 1px;
       z-index: 3; }

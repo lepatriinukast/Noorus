@@ -12,7 +12,7 @@ var con = require("./connection.js");
 
 const query = (tableName) => {
   let promise = new Promise((resolve, reject) => {
-    con.query(`SELECT * FROM ${tableName} ORDER BY id`, (err, result) => {
+    con.query(`SELECT * FROM ${tableName} ORDER BY timestamp`, (err, result) => {
       if (err) {
         reject(err);
       } else {

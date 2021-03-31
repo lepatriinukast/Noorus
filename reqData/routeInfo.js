@@ -5,6 +5,10 @@
 // The module gives basic structure to this data.
 
 const routeInfo = {
+  languageAttribute: {
+    est: "et",
+    en: "en"
+  },
   appName: {
     est: "Segakoor Noorus ",
     en: "Mixed Choir Noorus"
@@ -33,7 +37,15 @@ const routeInfo = {
     order: {
       est: "Telli",
       en: "Order"
-    }
+    },
+    success: {
+      est: "Edu",
+      en: "Success"
+    },
+    failure: {
+      est: "Tõrge",
+      en: "Failure"
+    },
   },
   buttonText: {
     est: "Loe edasi",

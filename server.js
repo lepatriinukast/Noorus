@@ -8,8 +8,8 @@ require('dotenv').config();
 // require node modules
 
 const express = require("express");
-const bodyParser = require("body-parser");
 const ejs = require("ejs");
+const bodyParser = require("body-parser");
 
 const multer = require("multer");
 const nodemailer = require("nodemailer");
@@ -50,21 +50,15 @@ const storage = multer.diskStorage({
   }
 });
 
-// an asynchronous function for updating the database
-
-const updateDatabase = async (sql, values) => {
-  con.query(sql, values, (err, result) => {
-    if (err) throw err;
-  });
-};
-
 const api = require("./api");
 const admin = require("./routes/admin");
+const messages = require("./routes/messages");
 const pages = require("./routes/pages");
 
 app.use("/api", api);
 app.use("/admin", admin);
 app.use("/", pages);
+app.use("/", messages);
 
 
 

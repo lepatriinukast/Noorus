@@ -3,7 +3,7 @@
 <%- include('../partials/admin-popup', {data: data}); -%>
 
 <h1 class="admin__heading admin__heading--primary">Avaleht</h1>
-<form action="/api/home/images" method="post" enctype="multipart/form-data" class="admin__form" id="homeImages">
+<form action="/api/home/images" data-method="PUT" enctype="multipart/form-data" class="admin__form" name="homeImages" id="homeImages">
   <h3 class="admin__heading admin__heading--secondary">Pildid</h3>
   <div class="admin__img-group">
 
@@ -11,22 +11,22 @@
       <h3 class="admin__heading admin__heading--tertiary">Päiseikoon</h3>
       <input type="file" name="favicon" id="favicon" class="admin__hidden-input file">
       <label for="favicon" class="admin__small-btn" id="faviconLabel">Vali fail</label>
-      <p class="admin__input-placeholder" id="faviconPlaceholder"><%= data.staticImages[1].filename %></p>
-      <img class="admin__icon" src="/img/Lendutõus.jpg" id="faviconIcon" alt="Päiseikoon">
+      <p class="admin__placeholder" id="faviconPlaceholder"><%= data.staticImages[1].filename %></p>
+      <img class="admin__icon" src="<%= data.staticImages[0].url %>" id="faviconIcon" alt="Päiseikoon">
     </div>
     <div class="admin__input__group">
       <h3 class="admin__heading admin__heading--tertiary">Logo</h3>
       <input type="file" name="logo" id="logo" class="admin__hidden-input file">
       <label for="logo" class="admin__small-btn" id="logoLabel">Vali fail</label>
-      <p class="admin__input-placeholder" id="logoPlaceholder"><%= data.staticImages[1].filename %></p>
-      <img class="admin__icon" src="/img/Lendutõus.jpg" id="logoIcon" alt="Logo">
+      <p class="admin__placeholder" id="logoPlaceholder"><%= data.staticImages[1].filename %></p>
+      <img class="admin__icon" src="<%= data.staticImages[1].url %>" id="logoIcon" alt="Logo">
     </div>
     <div class="admin__input__group">
       <h3 class="admin__heading admin__heading--tertiary">Taustapilt</h3>
       <input type="file" name="homeBackgroundImg" id="homeBackgroundImg" class="admin__hidden-input file">
       <label for="homeBackgroundImg" class="admin__small-btn" id="homeBackgroundImgLabel">Vali fail</label>
-      <p class="admin__input-placeholder" id="homeBackgroundImgPlaceholder"><%= data.staticImages[1].filename %></p>
-      <img class="admin__icon" src="/img/Lendutõus.jpg" id="homeBackgroundImgIcon" alt="Taustapilt">
+      <p class="admin__placeholder" id="homeBackgroundImgPlaceholder"><%= data.staticImages[1].filename %></p>
+      <img class="admin__icon" src="<%= data.staticImages[2].url %>" id="homeBackgroundImgIcon" alt="Taustapilt">
     </div>
   </div>
   <div class="admin__btn-group">
@@ -34,7 +34,7 @@
   </div>
 </form>
 
-<form action="/api/home/main %>" method="post" enctype="application/x-www-form-urlencoded" class="admin__form" id="homeMain">
+<form action="/api/home/main" data-method="PUT" enctype="multipart/form-data" class="admin__form" id="homeMain">
   <h3 class="admin__heading admin__heading--secondary">Suur tekst</h3>
   <div class="admin__form-field">
     <h3 class="admin__heading admin__heading--tertiary">Pealkiri</h3>
@@ -67,7 +67,7 @@
 
 <% for (var i = 0; i < 2; i++) { %>
 
-<form action="/api/home/sections/<%= i + 1 %>" method="post" enctype="application/x-www-form-urlencoded" class="admin__form" id="homeSection<%= i + 1 %>">
+<form action="/api/home/sections/<%= i + 1 %>" data-method="PUT" enctype="multipart/form-data" class="admin__form" id="homeSection<%= i + 1 %>">
   <h3 class="admin__heading admin__heading--secondary">Sektsioon <%= i + 1 %></h3>
   <div class="admin__form-field">
     <h3 class="admin__heading admin__heading--tertiary">Pealkiri</h3>

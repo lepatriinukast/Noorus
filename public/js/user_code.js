@@ -6,10 +6,6 @@
 // GET THE RELEVANT DOM ELEMENTS
 
 
-// hamburger button and hidden menu (for smaller screens)
-
-var menuButton = document.getElementById("menu-button");
-var hiddenMenu = document.getElementById("hidden-menu");
 
 // dropdown buttons and menus
 
@@ -31,9 +27,8 @@ var popupButton = document.getElementById("popup-button");
 
 // arrays of dynamic elements on the "pood" page
 
-var linkBtnArray = document.querySelectorAll(".linkBtn");
-var orderBtnArray = document.querySelectorAll(".orderBtn");
-var textBoxArray = document.querySelectorAll(".textBox");
+
+
 
 // buttons and dynamic elements on the "telli" page
 
@@ -51,240 +46,6 @@ var orderForm = document.getElementById("orderForm");
 var contactForm = document.getElementById("contactForm");
 var orderFormEn = document.getElementById("orderFormEn");
 var contactFormEn = document.getElementById("contactFormEn");
-
-
-
-
-// TOGGLE DROPDOWN MENUS
-
-
-
-
-// make the dropdown menu visible
-
-
-function toggleHiddenMenu() {
-  if (hiddenMenu !== null) {
-    hiddenMenu.classList.toggle("show");
-    hiddenMenu.classList.toggle("hide");
-  }
-}
-
-
-// remove the dropdown menu
-
-
-function removeHiddenMenu() {
-  if (hiddenMenu !== null) {
-    hiddenMenu.classList.remove("show");
-    hiddenMenu.classList.add("hide");
-  }
-}
-
-
-
-
-// PREVENT SCROLLING WHEN POPUP IS VISIBLE
-
-
-
-
-// listen to scroll events
-
-
-window.addEventListener("scroll", noScroll);
-
-
-// function that stops the user from scrolling when the popup is on
-
-
-function noScroll() {
-  if (popup !== null) {
-    if (popup.classList.contains("show")) {
-      window.scrollTo(0, 0);
-    }
-  }
-}
-
-
-
-
-// TOGGLE THE POPUP
-
-
-
-
-// make the popup visible
-
-
-function addPopup() {
-  if (popup !== null) {
-    popup.classList.add("show");
-    popup.classList.remove("hide");
-  }
-}
-
-
-// remove the popup
-
-
-function removePopup() {
-  if (popup !== null) {
-    popup.classList.remove("show");
-    popup.classList.add("hide");
-  }
-
-
-  // remove the "success" and "failure" popups
-
-
-  if (successPopup !== null) {
-    successPopup.classList.remove("show");
-    successPopup.classList.add("hide");
-  }
-
-  if (failurePopup !== null) {
-    failurePopup.classList.remove("show");
-    failurePopup.classList.add("hide");
-  }
-}
-
-
-
-
-// MAKE THE DROPDOWN MENU VISIBLE
-
-
-
-// toggle the dropdown menu
-
-
-function toggleDropdownMenuHeader() {
-  if (dropdownMenuHeader !== null) {
-    dropdownMenuHeader.classList.toggle("show");
-    dropdownMenuHeader.classList.toggle("hide");
-  }
-}
-
-
-// remove the dropdown menu
-
-
-function removeDropdownMenuHeader() {
-  if (dropdownMenuHeader !== null) {
-    dropdownMenuHeader.classList.remove("show");
-    dropdownMenuHeader.classList.add("hide");
-  }
-}
-
-
-// toggle the hidden dropdown menu
-
-
-function toggleDropdownMenuHidden() {
-  if (dropdownMenuHidden !== null) {
-    dropdownMenuHidden.classList.toggle("show");
-    dropdownMenuHidden.classList.toggle("hide");
-    dropdownButtonHidden.classList.toggle("rotate");
-  }
-}
-
-
-// remove the hidden dropdown menu
-
-
-function removeDropdownMenuHidden() {
-  if (dropdownMenuHidden !== null) {
-    dropdownMenuHidden.classList.remove("show");
-    dropdownMenuHidden.classList.add("hide");
-    dropdownButtonHidden.classList.remove("rotate");
-  }
-}
-
-function toggleDropdownMenuFooter() {
-  if (dropdownMenuFooter !== null) {
-    dropdownMenuFooter.classList.toggle("show");
-    dropdownMenuFooter.classList.toggle("hide");
-  }
-}
-
-
-// remove the dropdown (dropup?) menu from the footer
-
-
-function removeDropdownMenuFooter() {
-  if (dropdownMenuFooter !== null) {
-    dropdownMenuFooter.classList.remove("show");
-    dropdownMenuFooter.classList.add("hide");
-  }
-}
-
-
-
-
-// LISTEN TO CLICK, TOUCH OR KEYPRESS (NOT TAB) TO ACTIVATE DIFFERENT FUNCTIONS
-
-
-
-
-//Call the above function on click, touch or keypress (not Tab)
-
-document.addEventListener("click", listenEvents);
-document.addEventListener("touchend", listenEvents);
-document.addEventListener("keydown", function(event) {
-  if (event.key === "Escape") {
-    listenEvents(event);
-  }
-});
-
-
-// function that activates some of the above functions depending on what was clicked and closes all hidden menus and popups if the click target is not relevant
-
-
-function listenEvents(event) {
-
-  if (popup !== null && popup.classList.contains("show")) {
-    if (event.target.parentNode !== popupForm && event.target !== popupForm || event.target === popupButton) {
-      removePopup();
-    }
-  } else if (successPopup !== null && successPopup.classList.contains("show")) {
-    removePopup();
-  } else if (failurePopup !== null && failurePopup.classList.contains("show")) {
-    removePopup();
-  } else if (hiddenMenu !== null) {
-    if (event.target === menuButton) {
-      event.preventDefault();
-      toggleHiddenMenu();
-      removeDropdownMenuHeader();
-      removeDropdownMenuHidden();
-      removeDropdownMenuFooter();
-    } else if (event.target === dropdownButtonHeader || event.target === dropdownIconHeader) {
-      event.preventDefault();
-      removeHiddenMenu();
-      toggleDropdownMenuHeader();
-      removeDropdownMenuHidden();
-      removeDropdownMenuFooter();
-    } else if (event.target === dropdownButtonHidden || event.target === dropdownIconHidden) {
-      event.preventDefault();
-      removeDropdownMenuHeader();
-      toggleDropdownMenuHidden();
-      removeDropdownMenuFooter();
-    } else if (event.target === dropdownButtonFooter || event.target === dropdownIconFooter) {
-      event.preventDefault();
-      removeHiddenMenu();
-      toggleDropdownMenuFooter();
-      removeDropdownMenuHidden();
-      removeDropdownMenuHeader();
-    } else {
-      removeHiddenMenu();
-      removeDropdownMenuHeader();
-      removeDropdownMenuHidden();
-      removeDropdownMenuFooter();
-    }
-  }
-}
-
-
 
 
 // JS CODE FOR THE "POOD" AND "TELLI" PAGES
@@ -316,37 +77,7 @@ for (var i = 0; i < priceArray.length; i++) {
 }
 
 
-//listen to clicks and touches on the "show more" buttons on the "pood" page
 
-
-for (var i = 0; i < linkBtnArray.length; i++) {
-  linkBtnArray[i].addEventListener("click", function(event) {
-    showContents(event);
-  });
-}
-
-for (var i = 0; i < linkBtnArray.length; i++) {
-  linkBtnArray[i].addEventListener("touchend", function(event) {
-    event.preventDefault();
-    showContents(event);
-  });
-}
-
-
-// listen to clicks and touches on the "order" buttons on the "pood" page
-
-
-for (var i = 0; i < orderBtnArray.length; i++) {
-  orderBtnArray[i].addEventListener("click", function(event) {
-    redirectToCustom(event);
-  });
-}
-
-for (var i = 0; i < orderBtnArray.length; i++) {
-  orderBtnArray[i].addEventListener("touchend", function(event) {
-    redirectToCustom(event);
-  });
-}
 
 
 // listen to clicks and touches on the number buttons on the "telli" page
@@ -382,7 +113,6 @@ for (var i = 0; i < numberBtnMinusArray.length; i++) {
 
 
 // listen to changes on the number inputs on the "telli" page
-// (because we pass the iterator into a function, we use the "let" keyword)
 
 
 for (let i = 0; i < itemCountArray.length; i++) {
@@ -457,141 +187,8 @@ if (contactFormEn !== null) {
 }
 
 
-// when the "pood" page loads, check if any textbox elements are overflown
 
 
-if (textBoxArray.length !== 0) {
-  for (var i = 0; i < textBoxArray.length; i++) {
-    checkIfOverflown(textBoxArray[i]);
-  }
-}
-
-
-// check the same thing whenever the browser viewport size changes
-
-
-if (textBoxArray.length !== 0) {
-  window.addEventListener("resize", function(event) {
-    for (var i = 0; i < textBoxArray.length; i++) {
-      checkIfOverflown(textBoxArray[i]);
-    }
-  });
-}
-
-
-// function that checks whether the element is vertically overflown
-
-
-function checkIfOverflown(element) {
-
-  // check if the provided element is overflown
-
-  if (element.scrollHeight > element.clientHeight) {
-
-    // if yes, obtain its id attribute
-
-    var id = element.id;
-
-    // get the id number from the end of the id
-
-    var idNumber = id.slice(7);
-
-    // use this id number to get a corresponding link button on the page
-
-    var linkBtn = document.getElementById("linkBtn" + idNumber);
-
-    // display this link button by removing the "delete" class from its classlist
-
-    linkBtn.classList.remove("delete");
-  }
-
-}
-
-
-// function for showing the overflown contents of an item on the "pood" page
-
-
-function showContents(event) {
-
-  // later we need to change the button texts, for which we need to know
-  // if we are on the estonian or english version of the "pood" page
-
-  //for this, get the current url
-
-  var currentUrl = window.location.href;
-
-  // get the id of the element that triggered the event
-
-  var id = event.target.id;
-
-  // the id has a number at the end
-
-  var idNumber = id.slice(7);
-
-  // get the corresponding text-box element using this obtained number
-
-  var textBox = document.getElementById("textBox" + idNumber);
-
-  // check if this text-box has a class of "low-fixed-height"
-
-  if (textBox.classList.contains("low-fixed-height")) {
-
-    // if yes, remove this class
-
-    textBox.classList.remove("low-fixed-height");
-
-    // add the class "high-fixed-height"
-
-    textBox.classList.add("high-fixed-height");
-
-    // check if the url has the string "pood" in it (which means that we are on the estonian version of the page)
-
-    if (currentUrl.indexOf("pood") !== -1) {
-
-      // change the innerHTML of the button that triggered the event (so that it says "Näita vähem")
-
-      event.target.innerHTML = "Näita vähem...";
-
-      // else check if the url contains the string "shop" (which corresponds to the english version of the page)
-
-    } else if (currentUrl.indexOf("shop") !== -1) {
-
-      // change the innerHTML of the button that triggered the event (so that it says "Show less")
-
-      event.target.innerHTML = "Show less...";
-    }
-
-    // else check if the text-box element has a class of "high-fixed-height"
-
-  } else if (textBox.classList.contains("high-fixed-height")) {
-
-    // if yes, remove this class
-
-    textBox.classList.remove("high-fixed-height");
-
-    // add the class "low-fixed-height"
-
-    textBox.classList.add("low-fixed-height");
-
-    // again check if we are on the estonian version of the page
-
-    if (currentUrl.indexOf("pood") !== -1) {
-
-      // change the innerHTML of the button that triggered the event back to what it originally was
-
-      event.target.innerHTML = "Loe edasi...";
-
-      // else check again if we are on the english version of the page
-
-    } else if (currentUrl.indexOf("shop") !== -1) {
-
-      // change the innerHTML of the button that triggered the event back to what it originally was
-
-      event.target.innerHTML = "Read more...";
-    }
-
-  }
-}
 
 
 // function for redirecting to a route with a custom parameter

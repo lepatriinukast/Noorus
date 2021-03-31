@@ -10,10 +10,14 @@ const router = express.Router();
 // Require all the submodules, where the API endpoints are located.
 
 const session = require("./session");
+const home = require("./home");
+const about = require("./about");
 
 // Attach all those endpoints to the router object.
 
 router.use("/session", session);
+router.use("/home", home);
+router.use("/about", about);
 
 // Export the router to the server file.
 
