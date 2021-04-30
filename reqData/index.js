@@ -1,4 +1,4 @@
-/* jshint esversion: 8 */
+ /* jshint esversion: 8 */
 
 // This module is the last step between getting content from the database
 // and sending it to the server to be rendered inside a route.
@@ -18,103 +18,85 @@
 const routeInfo = require("./routeInfo");
 const models = require("./models");
 const compiler = require("./compiler");
+const getPageInfo = require("./getPageInfo");
 
-
-// This function creates a boilerplate-
-// a block of code that is the same regardless of the route.
-
-const getPageInfo = (templateName, pageType, language) => {
-    return {
-      pageType: pageType,
-      languageAttribute: routeInfo.languageAttribute[language],
-      appName: routeInfo.appName[language],
-      pageTitle: routeInfo.pageTitles[templateName][language],
-      buttonText: routeInfo.buttonText[language],
-      navigation: {
-        linkTexts: routeInfo.navigation.linkTexts[language],
-        ariaLabels: routeInfo.navigation.ariaLabels[language],
-        hrefs: {
-          links: routeInfo.navigation.hrefs.links[language],
-          dropdown: routeInfo.navigation.hrefs.dropdown[language],
-          changeLanguage: routeInfo.navigation.hrefs.changeLanguage[templateName][language],
-        }
-      },
-      miscellaneous: routeInfo.miscellaneous[templateName][language]
-    };
-};
 
 // The function that is returned by the module creates a different data object for each template.
 
-const reqData = async (templateName, pageType, language) => {
+const reqData = async (templateName, language) => {
 
   if (templateName === "home") {
     return {
-      aboutSubheadings: await compiler("about_subheadings", models.TextModel, language),
       staticImages: await compiler("static_images", models.ImageModel),
-      homeText: await compiler("home_text", models.TextWithHeadingModel, language),
+      staticSections: await compiler("static_sections", models.SectionModel),
       eventsImages: await compiler("events_images", models.ImageModel),
-      eventsContent: await compiler("events_content", models.TextWithHeadingModel, language),
-      pastEventsContent: await compiler("past_events_content", models.TextWithHeadingModel, language),
-      pageInfo: getPageInfo(templateName, pageType, language)
+      eventsContent: await compiler("events_content", models.SectionModel),
+      archiveContent: await compiler("archive_content", models.SectionModel),
+      pageInfo: getPageInfo(templateName, language),
+      language: language
     };
   } else if (templateName === "about") {
     return {
-      aboutSubheadings: await compiler("about_subheadings", models.TextModel, language),
       staticImages: await compiler("static_images", models.ImageModel),
-      intros: await compiler("intros", models.TextModel, language),
-      membersGrid: await compiler("members_grid", models.TextWithHeadingModel, language),
-      membersSections: await compiler("members_sections", models.TextWithHeadingModel, language),
+      staticSections: await compiler("static_sections", models.SectionModel),
+      intros: await compiler("intros", models.TextModel),
+      membersGrid: await compiler("members_grid", models.SectionModel),
+      membersSections: await compiler("members_sections", models.SectionModel),
       conductorsImages: await compiler("conductors_images", models.ImageModel),
-      conductorsSections: await compiler("conductors_sections", models.TextWithHeadingModel, language),
-      historySections: await compiler("history_sections", models.TextWithHeadingModel, language),
-      mediaSections: await compiler("media_sections", models.TextWithHeadingModel, language),
-      iframes: await compiler("iframes", models.mediaItemModel),
-      sponsorsLogos: await compiler("sponsors_logos", models.imageLinkModel),
-      pageInfo: getPageInfo(templateName, pageType, language)
+      conductorsSections: await compiler("conductors_sections", models.SectionModel),
+      historySections: await compiler("history_sections", models.SectionModel),
+      mediaSections: await compiler("media_sections", models.SectionModel),
+      iframes: await compiler("iframes", models.MediaItemModel),
+      sponsorsLogos: await compiler("sponsors_logos", models.ImageLinkModel),
+      pageInfo: getPageInfo(templateName, language),
+      language: language
     };
   } else if (templateName === "events") {
     return {
-      aboutSubheadings: await compiler("about_subheadings", models.TextModel, language),
       staticImages: await compiler("static_images", models.ImageModel),
-      intros: await compiler("intros", models.TextModel, language),
-      aboutMembersGrid: await compiler("members_grid", models.TextWithHeadingModel, language),
+      intros: await compiler("intros", models.TextModel),
+      aboutMembersGrid: await compiler("members_grid", models.SectionModel),
       eventsImages: await compiler("events_images", models.ImageModel),
-      eventsContent: await compiler("events_content", models.TextWithHeadingModel, language),
-      pastEventsImages: await compiler("past_events_images", models.ImageModel),
-      pastEventsContent: await compiler("past_events_content", models.TextWithHeadingModel, language),
-      pageInfo: getPageInfo(templateName, pageType, language)
+      eventsContent: await compiler("events_content", models.SectionModel),
+      archiveImages: await compiler("archive_images", models.ImageModel),
+      archiveContent: await compiler("archive_content", models.SectionModel),
+      pageInfo: getPageInfo(templateName, language),
+      language: language
     };
   } else if (templateName === "contact") {
     return {
-      aboutSubheadings: await compiler("about_subheadings", models.TextModel, language),
       staticImages: await compiler("static_images", models.ImageModel),
-      intros: await compiler("intros", models.TextModel, language),
-      contactSections: await compiler("contact_sections", models.TextWithHeadingModel, language),
-      contactForm: await compiler("contact_form", models.FormFieldModel, language),
-      pageInfo: getPageInfo(templateName, pageType, language)
+      intros: await compiler("intros", models.TextModel),
+      contactSections: await compiler("contact_sections", models.SectionModel),
+      contactForm: await compiler("contact_form", models.FormFieldModel),
+      miscellaneous: await compiler("miscellaneous", models.TextModel),
+      pageInfo: getPageInfo(templateName, language),
+      language: language
     };
   } else if (templateName === "shop") {
     return {
-      aboutSubheadings: await compiler("about_subheadings", models.TextModel, language),
       staticImages: await compiler("static_images", models.ImageModel),
-      intros: await compiler("intros", models.TextModel, language),
-      shopItems: await compiler("shop_items", models.TextWithHeadingModel, language),
-      pageInfo: getPageInfo(templateName, pageType, language),
+      intros: await compiler("intros", models.TextModel),
+      shopItems: await compiler("shop_items", models.ShopItemModel),
+      shopImages: await compiler("shop_images", models.ImageModel),
+      pageInfo: getPageInfo(templateName, language),
       language: language,
     };
   } else if (templateName === "order") {
     return {
-      aboutSubheadings: await compiler("about_subheadings", models.TextModel, language),
       staticImages: await compiler("static_images", models.ImageModel),
-      intros: await compiler("intros", models.TextModel, language),
-      shopItems: await compiler("shop_items", models.TextWithHeadingModel, language),
-      orderForm: await compiler("order_form", models.FormFieldModel, language),
-      pageInfo: getPageInfo(templateName, pageType, language),
+      intros: await compiler("intros", models.TextModel),
+      shopItems: await compiler("shop_items", models.ShopItemModel),
+      orderForm: await compiler("order_form", models.FormFieldModel),
+      miscellaneous: await compiler("miscellaneous", models.TextModel),
+      pageInfo: getPageInfo(templateName, language),
+      language: language
     };
   } else if (templateName === "login") {
     return {
       staticImages: await compiler("static_images", models.ImageModel),
       pageInfo: {
+        pageType: "login",
         appName: routeInfo.appName.est,
         pageTitle: "Sisselogimine"
       }
@@ -127,7 +109,8 @@ const reqData = async (templateName, pageType, language) => {
         appName: routeInfo.appName.est,
         pageTitle: "Admin/Avaleht"
       },
-      staticImages: await compiler("static_images", models.ImageModel)
+      staticImages: await compiler("static_images", models.ImageModel),
+      staticSections: await compiler("static_sections", models.SectionModel),
     };
   } else if (templateName === "admin-about") {
     return {
@@ -137,7 +120,8 @@ const reqData = async (templateName, pageType, language) => {
         appName: routeInfo.appName.est,
         pageTitle: "Admin/Koorist"
       },
-      staticImages: await compiler("static_images", models.ImageModel)
+      staticImages: await compiler("static_images", models.ImageModel),
+      staticSections: await compiler("static_sections", models.SectionModel)
     };
   } else if (templateName === "admin-members") {
     return {
@@ -147,7 +131,10 @@ const reqData = async (templateName, pageType, language) => {
         appName: routeInfo.appName.est,
         pageTitle: "Admin/Liikmed"
       },
-      staticImages: await compiler("static_images", models.ImageModel)
+      staticImages: await compiler("static_images", models.ImageModel),
+      intros: await compiler("intros", models.TextModel),
+      membersGrid: await compiler("members_grid", models.SectionModel),
+      membersSections: await compiler("members_sections", models.SectionModel)
     };
   } else if (templateName === "admin-conductors") {
     return {
@@ -157,7 +144,10 @@ const reqData = async (templateName, pageType, language) => {
         appName: routeInfo.appName.est,
         pageTitle: "Admin/Dirigendid"
       },
-      staticImages: await compiler("static_images", models.ImageModel)
+      staticImages: await compiler("static_images", models.ImageModel),
+      intros: await compiler("intros", models.TextModel),
+      conductorsImages: await compiler("conductors_images", models.ImageModel),
+      conductorsSections: await compiler("conductors_sections", models.SectionModel),
     };
   } else if (templateName === "admin-history") {
     return {
@@ -167,7 +157,9 @@ const reqData = async (templateName, pageType, language) => {
         appName: routeInfo.appName.est,
         pageTitle: "Admin/Ajalugu"
       },
-      staticImages: await compiler("static_images", models.ImageModel)
+      staticImages: await compiler("static_images", models.ImageModel),
+      intros: await compiler("intros", models.TextModel),
+      historySections: await compiler("history_sections", models.SectionModel),
     };
   } else if (templateName === "admin-media") {
     return {
@@ -177,7 +169,10 @@ const reqData = async (templateName, pageType, language) => {
         appName: routeInfo.appName.est,
         pageTitle: "Admin/Meedia"
       },
-      staticImages: await compiler("static_images", models.ImageModel)
+      staticImages: await compiler("static_images", models.ImageModel),
+      intros: await compiler("intros", models.TextModel),
+      iframes: await compiler("iframes", models.MediaItemModel),
+      mediaSections: await compiler("media_sections", models.SectionModel),
     };
   } else if (templateName === "admin-sponsors") {
     return {
@@ -187,7 +182,9 @@ const reqData = async (templateName, pageType, language) => {
         appName: routeInfo.appName.est,
         pageTitle: "Admin/Toetajad"
       },
-      staticImages: await compiler("static_images", models.ImageModel)
+      staticImages: await compiler("static_images", models.ImageModel),
+      intros: await compiler("intros", models.TextModel),
+      sponsorsLogos: await compiler("sponsors_logos", models.ImageLinkModel)
     };
   } else if (templateName === "admin-events") {
     return {
@@ -197,7 +194,10 @@ const reqData = async (templateName, pageType, language) => {
         appName: routeInfo.appName.est,
         pageTitle: "Admin/Sündmused"
       },
-      staticImages: await compiler("static_images", models.ImageModel)
+      staticImages: await compiler("static_images", models.ImageModel),
+      intros: await compiler("intros", models.TextModel),
+      eventsImages: await compiler("events_images", models.ImageModel),
+      eventsContent: await compiler("events_content", models.SectionModel),
     };
   } else if (templateName === "admin-contact") {
     return {
@@ -207,7 +207,11 @@ const reqData = async (templateName, pageType, language) => {
         appName: routeInfo.appName.est,
         pageTitle: "Admin/Kontakt"
       },
-      staticImages: await compiler("static_images", models.ImageModel)
+      staticImages: await compiler("static_images", models.ImageModel),
+      intros: await compiler("intros", models.TextModel),
+      contactSections: await compiler("contact_sections", models.SectionModel),
+      contactForm: await compiler("contact_form", models.FormFieldModel),
+      miscellaneous: await compiler("miscellaneous", models.TextModel)
     };
   } else if (templateName === "admin-shop") {
     return {
@@ -217,7 +221,25 @@ const reqData = async (templateName, pageType, language) => {
         appName: routeInfo.appName.est,
         pageTitle: "Admin/Pood"
       },
-      staticImages: await compiler("static_images", models.ImageModel)
+      staticImages: await compiler("static_images", models.ImageModel),
+      intros: await compiler("intros", models.TextModel),
+      shopImages: await compiler("shop_images", models.ImageModel),
+      shopItems: await compiler("shop_items", models.ShopItemModel),
+      orderForm: await compiler("order_form", models.FormFieldModel),
+      miscellaneous: await compiler("miscellaneous", models.TextModel)
+    };
+  } else if (templateName === "admin-order") {
+    return {
+      pageInfo: {
+        pageType: "admin",
+        languageAttribute: "est",
+        appName: routeInfo.appName.est,
+        pageTitle: "Admin/Telli"
+      },
+      staticImages: await compiler("static_images", models.ImageModel),
+      intros: await compiler("intros", models.TextModel),
+      orderForm: await compiler("order_form", models.FormFieldModel),
+      miscellaneous: await compiler("miscellaneous", models.TextModel)
     };
   } else if (templateName === "admin-archive") {
     return {
@@ -227,47 +249,37 @@ const reqData = async (templateName, pageType, language) => {
         appName: routeInfo.appName.est,
         pageTitle: "Admin/Arhiiv"
       },
-      staticImages: await compiler("static_images", models.ImageModel)
+      staticImages: await compiler("static_images", models.ImageModel),
+      intros: await compiler("intros", models.TextModel),
+      archiveImages: await compiler("archive_images", models.ImageModel),
+      archiveContent: await compiler("archive_content", models.SectionModel),
     };
-  } else if (templateName === "contact-success") {
+  } else if (templateName === "success") {
     return {
       pageInfo: {
+        pageType: "message",
+        languageAttribute: routeInfo.languageAttribute[language],
         appName: routeInfo.appName[language],
         pageTitle: routeInfo.pageTitles.success[language],
-        miscellaneous: routeInfo.miscellaneous.contactSuccess[language]
+        miscellaneous: routeInfo.miscellaneous.success[language]
       },
       staticImages: await compiler("static_images", models.ImageModel)
     };
-  } else if (templateName === "contact-failure") {
+  } else if (templateName === "failure") {
     return {
       pageInfo: {
+        pageType: "message",
+        languageAttribute: routeInfo.languageAttribute[language],
         appName: routeInfo.appName[language],
         pageTitle: routeInfo.pageTitles.failure[language],
-        miscellaneous: routeInfo.miscellaneous.contactFailure[language]
+        miscellaneous: routeInfo.miscellaneous.failure[language]
       },
       staticImages: await compiler("static_images", models.ImageModel)
     };
-  } else if (templateName === "order-success") {
+  }  else if (templateName === "error") {
     return {
       pageInfo: {
-        appName: routeInfo.appName[language],
-        pageTitle: routeInfo.pageTitles.success[language],
-        miscellaneous: routeInfo.miscellaneous.orderSuccess[language]
-      },
-      staticImages: await compiler("static_images", models.ImageModel)
-    };
-  } else if (templateName === "order-failure") {
-    return {
-      pageInfo: {
-        appName: routeInfo.appName[language],
-        pageTitle: routeInfo.pageTitles.failure[language],
-        miscellaneous: routeInfo.miscellaneous.orderFailure[language]
-      },
-      staticImages: await compiler("static_images", models.ImageModel)
-    };
-  } else if (templateName === "error") {
-    return {
-      pageInfo: {
+        pageType: "message",
         appName: routeInfo.appName.est,
         pageTitle: "404",
       },

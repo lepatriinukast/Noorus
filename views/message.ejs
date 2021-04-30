@@ -1,13 +1,13 @@
 <%- include('partials/head', {data: data}); -%>
 
 <body>
-<div class="message">
-  <h2 class="heading--secondary heading--purple"><%= data.pageInfo.miscellaneous[0] %></h2>
-  <div class="message__content-box">
-    <p class="paragraph--large paragraph--purple u-margin-bottom-big"><%= data.pageInfo.miscellaneous[1] %></p>
-    <a href="/<%= data.pageInfo.miscellaneous[2] %>" class="btn btn--main btn--dark"><%= data.pageInfo.miscellaneous[3] %></a>
+<main class="message centered">
+  <div class="message__container">
+    <h2 class="heading heading--secondary"><%= data.pageInfo.miscellaneous[data.page][0] %></h2>
+      <p class="text"><strong><%= data.pageInfo.miscellaneous[data.page][1] %></strong></p>
+      <a href="/<%= data.pageInfo.miscellaneous[data.page][2] %>" class="btn btn--main"><%= data.pageInfo.miscellaneous[data.page][3] %></a>
   </div>
-</div>
+</main>
 </body>
 
 <%- include('partials/footer'); -%>

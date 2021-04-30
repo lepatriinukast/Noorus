@@ -12,7 +12,6 @@ const ejs = require("ejs");
 const bodyParser = require("body-parser");
 
 const multer = require("multer");
-const nodemailer = require("nodemailer");
 
 // setup express back-end framework
 
@@ -28,27 +27,6 @@ app.use(bodyParser.urlencoded({
 
 app.set('view engine', 'ejs');
 app.use(express.static("public"));
-
-// setup an email transporter
-
-const transporter = nodemailer.createTransport({
-  service: process.env.NODEMAILER_SERVICE,
-  auth: {
-    user: process.env.NODEMAILER_USER,
-    pass: process.env.NODEMAILER_PASSWORD
-  }
-});
-
-// setup multer storage engine for picture uploads
-
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "./public/img");
-  },
-  filename: (req, file, cb) => {
-    cb(null, file.originalname);
-  }
-});
 
 const api = require("./api");
 const admin = require("./routes/admin");

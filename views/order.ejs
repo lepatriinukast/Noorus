@@ -1,70 +1,83 @@
 <%- include('partials/head', {data: data}); -%>
 <%- include('partials/navigation', {data: data}); -%>
-<div class="shop__container">
-  <h2 class="heading--secondary heading--purple u-margin-bottom-big"><%= data.pageInfo.PageTitle %></h2>
 
+<main class="order">
 
-  <% if (data.intros[10].content) { %>
-  <div class="order__content">
-    <div>
-      <%- data.intros[10].content %>
+  <section class="section">
+
+    <div class="container">
+      <h2 class="heading heading--secondary"><%= data.pageInfo.pageTitle %></h2>
+      <% if (data.intros[9][data.language]) { %>
+      <div class="content">
+        <div>
+          <%- data.intros[9][data.language] %>
+        </div>
+      </div>
+      <% } %>
     </div>
-  </div>
-  <% } %>
 
 
-  <form action="/upload/telli/email" method="post" name="orderForm" id="orderForm">
+
+  <form action="/api/forms/order" class="section" name="submitOrder" id="submitOrder">
     <% if (data.shopItems.length) { %>
-    <div class="form">
-      <div class="shop__order-form">
-          <% for (var i = 0; i < data.shopItems.length; i++) { %>
-            <div class="shop__link-box">
-              <a class="paragraph--large link link--purple" href="/<%= data.pageInfo.miscellaneous[0] %>/#contentBox<%= i + 1 %>"><%= data.shopItems[i].heading %></a>
-            </div>
-          <div class="shop__input-box">
-            <a class="link numberBtnMinus" id="numberBtnMinus<%= a + 1 %>" href="#"><i class="fas fa-minus-circle form__number-btn"></i></a>
-            <input class="form__input form__number-input itemCount" type="number" min="0" step="1" max="99" name="itemCount<%= a + 1 %>" id="itemCount<%= a + 1 %>" data-price="<%= poodData[a].toode.price %>"
-              data-heading="<%= data.shopItems[i].heading %>" <% if (data.number == (i + 1))  {%> value="1" <% } else {%> value="0" <% }%>>
-            <a class="link numberBtnPlus" id="numberBtnPlus<%= a + 1 %>" href="#"><i class="fas fa-plus-circle form__number-btn"></i></a>
-          </div>
-          <div class="shop__link-box">
-            <p class="paragraph--large paragraph--grey price" data-price="<%= data.shopItems[i].price %>" id="price<%= i + 1 %>"><%= data.shopItems[i].price %> €</p>
-          </div>
-          <% } %>
+
+    <div class="order__grid">
+      <% for (var i = 0; i < data.shopItems.length; i++) { %>
+      <div class="order__box">
+        <a class="link" href="/<%= data.pageInfo.miscellaneous[0] %>/#container<%= i + 1 %>"><strong><%= data.shopItems[i].heading[data.language] %></strong></a>
       </div>
-      <div class="shop__sum-box">
-        <h2 class="heading--tertiary heading--purple" id="sum"><%= data.pageInfo.miscellaneous[1] %>: 0 €</h2>
-        <input class="form__hidden-checkbox" type="checkbox" name="hiddenCheckbox" id="hiddenCheckbox" required oninvalid="this.setCustomValidity('<%= data.pageInfo.miscellaneous[2] %>')" oninput="setCustomValidity('')" aria-hidden>
-        <input type="hidden" name="hiddenSum" id="hiddenSum" value="0">
+      <div class="order__box">
+        <a class="link numberBtn minusBtn" id="minusBtn<%= i + 1 %>" href="#"><i class="fas fa-minus-circle form__number-btn"></i></a>
+        <input class="form__input form__number-input itemCount" type="number" min="0" step="1" max="99" name="<%= data.shopItems[i].heading[data.language] %>" id="itemCount<%= i + 1 %>" data-price="<%= data.shopItems[i].price %>"
+          data-heading="<%= data.shopItems[i].heading[data.language] %>" <% if (data.selected == (i + 1)) { %> value="1" <% } else {%> value="0" <% }%>>
+        <a class="link numberBtn plusBtn" id="plusBtn<%= i + 1 %>" href="#"><i class="fas fa-plus-circle form__number-btn"></i></a>
       </div>
+      <div class="order__box">
+        <p class="text"><strong class="greyout"><span class="price" data-price="<%= data.shopItems[i].price %>" id="price<%= i + 1 %>"><%= data.shopItems[i].price %></span> €</strong></p>
+        <input class="form__hidden-input" type="number" name="<%= data.pageInfo.miscellaneous[3] %>" id="hiddenPrice" value="<%= data.shopItems[i].price %>" aria-hidden>
+      </div>
+      <% } %>
+    </div>
+    <div class="order__box">
+      <h2 class="heading heading--tertiary"><%= data.pageInfo.miscellaneous[1] %>: <span id="sum">0</span> €</h2>
+      <input class="form__hidden-input" type="number" name="<%= data.pageInfo.miscellaneous[4] %>" id="hiddenSum" min="1" required oninvalid="this.setCustomValidity('<%= data.pageInfo.miscellaneous[5] %>')" oninput="setCustomValidity('')" aria-hidden>
     </div>
     <% } %>
+
     <% if (data.orderForm.length) { %>
     <div class="form">
-      <% if (data.miscellaneous[1].content) { %>
-      <h3 class="heading--tertiary heading--purple"><%= data.miscellaneous[1].content %></h3>
+      <% if (data.miscellaneous[1][data.language]) { %>
+      <h3 class="heading heading--tertiary"><%= data.miscellaneous[1][data.language] %></h3>
       <% } %>
-      <div class="form__column">
+      <div class="form__body">
         <% for (var i = 0; i < data.orderForm.length; i++) { %>
         <div class="form__field">
-          <p class="paragraph--small paragraph--purple paragraph--inline u-margin-right-small"><%= data.orderForm[i].checked %></p>
-          <% if (data.orderForm[i].textArea === "*") { %>
-          <textarea class="form__input form__text-area orderField" id="orderField<%= i + 1 %>" name="orderField<%= i + 1 %>" rows="1" placeholder="<%= data.orderForm[i].content %>" <% if (data.orderForm[i].checked === "*") { %> required
-            <% } %> aria-label="<%= data.orderForm[i].content %>"></textarea>
-          <% }  else { %>
-          <input type="text" class="form__input orderField" id="orderField<%= i + 1 %>" name="orderField<%= i + 1 %>" placeholder="<%= data.orderForm[i].content %>" <% if (data.orderForm[i].checked === "*") { %> required <% } %>
-            aria-label="<%= data.orderForm[i].content %>">
+          <span class="text"><% if (data.orderForm[i].required === "on") { %> * <% } else { %> &nbsp <% }%> </span>
+          <% if (data.orderForm[i].expandable === "on") { %>
+          <textarea class="form__input form__text-area orderFormField" id="orderFormField<%= i + 1 %>" name="<%= data.orderForm[i][data.language] %>" rows="1" placeholder="<%= data.orderForm[i][data.language] %>" <% if (data.orderForm[i].required === "on") { %>
+            required <% } %> aria-label="<%= data.orderForm[i].content %>"></textarea>
+          <% } else { %>
+          <input type="text" class="form__input orderFormField" id="orderFormField<%= i + 1 %>" name="<%= data.orderForm[i][data.language] %>" placeholder="<%= data.orderForm[i][data.language] %>" <% if (data.orderForm[i].required === "on") { %> required <% } %>
+            aria-label="<%= data.orderForm[i][data.language] %>">
           <% } %>
         </div>
         <% } %>
       </div>
-      <button class="btn btn--main btn--dark" type="submit" name="submitBtn"><%= data.pageInfo.miscellaneous[2] %></button>
-      <% if (data.miscellaneous[2].content) { %>
-      <p class="paragraph--small paragraph--purple u-margin-top-big"><%= data.miscellaneous[2].content %></p>
-      <% } %>
+      <button class="btn btn--main" type="submit" name="submitContactBtn"><%= data.pageInfo.miscellaneous[2] %></button>
     </div>
-    <% } %>
+
   </form>
-</div>
+
+    <% if (data.miscellaneous[2][data.language]) { %>
+    <p class="text"><%= data.miscellaneous[2][data.language] %></p>
+    <% } %>
+
+  </section>
+  <% } %>
+
+
+</main>
+
+
 <%- include('partials/footnav', {data: data}); -%>
 <%- include('partials/footer'); -%>

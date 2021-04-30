@@ -7,6 +7,10 @@
 const express = require('express');
 const router = express.Router();
 
+// Require the custom upload object which will be used as middleware in routes.
+
+const upload = require("./../apiFunctions/multerUploads");
+
 // Require the bcrypt module for hashing passwords and specify the number of saltrounds (mutations of the hashed password).
 
 const bcrypt = require('bcrypt');
@@ -24,22 +28,23 @@ const session = require("./../config/session");
 
 router.use(session);
 
+
+
+
 // Handle the API calls to the session route.
 
 router.route("/")
 
+
 // Create a login session with a post request.
 
-.post(async (req, res) => {
+.post(upload().text, async (req, res) => {
 
-  // Get the client-inputted data and convert it into a js object.
-
-  var data = JSON.parse(req.body.data);
 
   // Extract the inputted username and password from the data.
 
-  var user = data.user;
-  var password = data.password;
+  const user = req.body.user;
+  const password = req.body.password;
 
   // Query the database for the username and password hash.
 
@@ -47,13 +52,17 @@ router.route("/")
 
     // Obtain the username and hash from the database.
 
-    var loadedUser = result[0].user;
-    var hash = result[0].password;
+    const loadedUser = result[0].user;
+    const hash = result[0].password;
 
     // Use bcrypt to compare the inputted password with the hash obtained from the database.
     // If they match, the comparison variable will automatically be set to true.
 
     bcrypt.compare(password, hash, function(err, comparison) {
+
+      // If there is an error in the comparison, throw an error.
+
+      if (err) throw err;
 
       // Check if the credentials in the database match those posted from the client-side.
 
@@ -74,6 +83,7 @@ router.route("/")
       }
     });
 })
+
 
 // Handle the logout from the admin page with a delete request.
 

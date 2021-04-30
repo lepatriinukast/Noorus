@@ -1,54 +1,72 @@
 <%- include('partials/head', {data: data}); -%>
 <%- include('partials/navigation', {data: data}); -%>
-<div class="contact">
-  <h2 class="heading--secondary heading--purple u-margin-bottom-big"><%= data.pageInfo.PageTitle %></h2>
-  <div class="contact__text-box">
-    <% if (data.intros[8].content) { %>
-    <div class="contact__content">
-      <div>
-        <%- data.intros[8].content %>
-      </div>
-    </div>
-    <% } %>
-    <% for (var i = 0; i < data.contactSections.length; i++) { %>
-    <div class="contact__segment">
-      <% if (data.contactSections[i].heading) { %>
-      <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= data.contactSections[i].heading %></h3>
-      <% } %>
-      <% if (data.contactSections[i].content) { %>
-      <div class="contact__content">
+
+
+<main class="contact">
+
+
+  <section class="section">
+
+    <div class="container">
+      <h2 class="heading heading--secondary"><%= data.pageInfo.pageTitle %></h2>
+      <% if (data.intros[7][data.language]) { %>
+      <div class="content">
         <div>
-          <%- data.contactSections[i].content %>
+          <%- data.intros[7][data.language] %>
+        </div>
+      </div>
+      <% } %>
+    </div>
+
+    <% for (var i = 0; i < data.contactSections.length; i++) { %>
+    <div class="container">
+      <% if (data.contactSections[i].heading[data.language]) { %>
+      <h3 class="heading heading--tertiary"><%= data.contactSections[i].heading[data.language] %></h3>
+      <% } %>
+      <% if (data.contactSections[i].content[data.language]) { %>
+      <div class="content">
+        <div>
+          <%- data.contactSections[i].content[data.language] %>
         </div>
       </div>
       <% } %>
     </div>
     <% } %>
-  </div>
+
+  </section>
+
   <% if (data.contactForm.length) { %>
-  <div class="contact__text-box">
-    <form action="/upload/kontakt/email" method="post" class="form" name="contactForm" id="contactForm">
-      <% if (data.miscellaneous[0].content) { %>
-      <h3 class="heading--tertiary heading--purple u-margin-bottom-small"><%= data.miscellaneous[0].content %></h3>
+  <section class="section">
+
+    <form action="/api/forms/contact" class="form" name="form" id="form">
+
+      <% if (data.miscellaneous[0][data.language]) { %>
+      <h3 class="heading heading--tertiary"><%= data.miscellaneous[0][data.language] %></h3>
       <% } %>
-      <div class="form__column">
+
+      <div class="form__body">
         <% for (var i = 0; i < data.contactForm.length; i++) { %>
         <div class="form__field">
-          <p class="paragraph--small paragraph--purple paragraph--inline u-margin-right-small"><%= data.contactForm[i].checked %></p>
-          <% if (data.contactForm[i].textArea === "*") { %>
-          <textarea class="form__input form__text-area contactFormField" id="contactFormField<%= i + 1 %>" name="contactFormField<%= i + 1 %>" rows="1" placeholder="<%= data.contactForm[i].content %>"
-            <% if (data.contactForm[i].checked === "*") { %> required <% } %> aria-label="<%= data.contactForm[i].content %>"></textarea>
-          <% }  else { %>
-          <input type="text" class="form__input contactFormField" id="contactFormField<%= i + 1 %>" name="contactFormField<%= i + 1 %>" placeholder="<%= data.contactForm[i].content %>" <% if (data.contactForm[i].checked === "*") { %>
-            required <% } %> aria-label="<%= data.contactForm[i].content %>">
+          <span class="text"><% if (data.contactForm[i].required === "on") { %> * <% } else { %> &nbsp <% }%> </span>
+          <% if (data.contactForm[i].expandable === "on") { %>
+          <textarea class="form__input form__text-area contactFormField" id="contactFormField<%= i + 1 %>" name="<%= data.contactForm[i][data.language] %>" rows="1" placeholder="<%= data.contactForm[i][data.language] %>"
+            <% if (data.contactForm[i].required === "on") { %> required <% } %> aria-label="<%= data.contactForm[i].content %>"></textarea>
+          <% } else { %>
+          <input type="text" class="form__input contactFormField" id="contactFormField<%= i + 1 %>" name="<%= data.contactForm[i][data.language] %>" placeholder="<%= data.contactForm[i][data.language] %>" <% if (data.contactForm[i].required === "on") { %>
+            required <% } %> aria-label="<%= data.contactForm[i][data.language] %>">
           <% } %>
         </div>
         <% } %>
+
       </div>
-      <button class="btn btn--main btn--dark u-margin-top-small" type="submit" name="submitContactBtn"><%= data.pageInfo.miscellaneous[0] %></button>
+
+      <button class="btn btn--main" type="submit" name="submitContactBtn" data-action="POST"><%= data.pageInfo.miscellaneous[0] %></button>
     </form>
-  </div>
+
+  </section>
+
   <% } %>
-</div>
+
+</main>
 <%- include('partials/footnav', {data: data}); -%>
 <%- include('partials/footer'); -%>

@@ -12,14 +12,12 @@ const query = require("./../database/query");
 const models = require("./models");
 
 
-// The function takes in three arguments: Firstly the table name, where the desired data is located,
-// secondly a constructor function from the models module
-// and lastly a string that specifies the language for the object that is returned.
-// If the object's structure doesn't depend on language, this argument is ignored.
+// The function takes in two arguments: Firstly the table name, where the desired data is located,
+// and secondly a constructor function from the models module.
 
 // This function also needs to be asynchronous, because it needs to wait for the database to finish sending the data.
 
-const compiler = async (tableName, Model, language) => {
+const compiler = async (tableName, Model) => {
 
   // Query the specified table name for results.
 
@@ -34,7 +32,7 @@ const compiler = async (tableName, Model, language) => {
   // Finally, push all these objects into the empty container array.
 
   for (let i = 0; i < result.length; i++) {
-    container[i] = new Model(result, i, language);
+    container[i] = new Model(result, i);
   }
 
   // Return the data in an array.

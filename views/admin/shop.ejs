@@ -1,0 +1,88 @@
+<%- include('../partials/head', {data: data}); -%>
+<%- include('../partials/admin-nav', {data: data}); -%>
+<%- include('../partials/admin-popup', {data: data}); -%>
+
+<h1 class="admin__heading admin__heading--primary">Pood</h1>
+<form action="/api/shop/intro" enctype="multipart/form-data" class="admin__form" id="shopIntro">
+  <h3 class="admin__heading admin__heading--secondary">Sissejuhatav tekst</h3>
+
+    <div class="admin__form-field">
+      <h3 class="admin__heading admin__heading--tertiary">Sisu</h3>
+      <div class="admin__input-group">
+        <div class="admin__input-item">
+          <h3 class="admin__heading admin__heading--quarternary">EST</h3>
+          <div class="admin__editor">
+            <div class="editor" name="shopIntroEstEditor" id="shopIntroEstEditor"><%- data.intros[8].est %></div>
+          </div>
+            <input type="text" class="admin__hidden-input" name="shopIntroEst" id="shopIntroEst">
+        </div>
+        <div class="admin__input-item">
+          <h3 class="admin__heading admin__heading--quarternary">EN</h3>
+          <div class="admin__editor">
+            <div class="editor" name="shopIntroEnEditor" id="shopIntroEnEditor"><%- data.intros[8].en %></div>
+          </div>
+            <input type="text" class="admin__hidden-input" name="shopIntroEn" id="shopIntroEn">
+        </div>
+      </div>
+      <div class="admin__btn-group">
+        <button class="admin__btn" type="submit" name="shopIntroBtn" id="shopIntroBtn">Salvesta</button>
+      </div>
+      </div>
+</form>
+
+<% for (var i = 0; i < data.shopItems.length; i++) { %>
+
+<form action="/api/shop/items/<%= i + 1 %>" enctype="multipart/form-data" class="admin__form" id="shopItems<%= i + 1 %>">
+  <h3 class="admin__heading admin__heading--secondary">Toode <%= i + 1 %></h3>
+  <div class="admin__img-group">
+    <div class="admin__input__group">
+      <h3 class="admin__heading admin__heading--tertiary">Pilt</h3>
+      <input type="file" name="shopImg<%= i + 1 %>" id="shopImg<%= i + 1 %>" class="admin__hidden-input file">
+      <label for="shopImg<%= i + 1 %>" class="admin__small-btn" id="shopImg<%= i + 1 %>Label">Vali fail</label>
+      <p class="admin__input-placeholder" id="shopImg<%= i + 1 %>Placeholder"><%= data.shopImages[i].filename %></p>
+      <img class="admin__icon" src="<%= data.shopImages[i].url %>" id="shopImg<%= i + 1 %>Icon" alt="Toote pilt">
+    </div>
+  </div>
+  <div class="admin__form-field">
+    <h3 class="admin__heading admin__heading--tertiary">Nimetus</h3>
+    <div class="admin__input-group">
+      <div class="admin__input-item">
+        <h3 class="admin__heading admin__heading--quarternary">EST</h3>
+        <input type="text" class="admin__input admin__input--bold shopItemHeadingEst" name="shopItem<%= i + 1 %>HeadingEst" id="shopItem<%= i + 1 %>HeadingEst" value="<%= data.shopItems[i].heading.est %>">
+      </div>
+      <div class="admin__input-item">
+        <h3 class="admin__heading admin__heading--quarternary">EN</h3>
+      <input type="text" class="admin__input admin__input--bold shopItemHeadingEn" name="shopItem<%= i + 1 %>HeadingEn" id="shopItem<%= i + 1 %>HeadingEn" value="<%= data.shopItems[i].heading.en %>">
+    </div>
+    </div>
+    <div class="admin__input-item">
+      <h3 class="admin__heading admin__heading--quarternary">HIND (€)</h3>
+      <input type="number" required class="admin__input shopItemPrice" name="shopItem<%= i + 1 %>Price" id="shopItem<%= i + 1 %>Price" value="<%= data.shopItems[i].price %>">
+    </div>
+    <h3 class="admin__heading admin__heading--tertiary">Kirjeldus</h3>
+    <div class="admin__input-group">
+      <div class="admin__input-item">
+        <h3 class="admin__heading admin__heading--quarternary">EST</h3>
+        <div class="admin__editor">
+          <div class="editor shopItemEstEditor" name="shopItem<%= i + 1 %>EstEditor" id="shopItem<%= i + 1 %>EstEditor"><%- data.shopItems[i].content.est %></div>
+        </div>
+          <input type="text" class="admin__hidden-input shopItemEst" name="shopItem<%= i + 1 %>Est" id="shopItem<%= i + 1 %>Est">
+      </div>
+      <div class="admin__input-item">
+        <h3 class="admin__heading admin__heading--quarternary">EN</h3>
+        <div class="admin__editor">
+          <div class="editor shopItemEnEditor" name="shopItem<%= i + 1 %>EnEditor" id="shopItem<%= i + 1 %>EnEditor"><%- data.shopItems[i].content.en %></div>
+        </div>
+      </div>
+      <input type="text" class="admin__hidden-input shopItemEn" name="shopItem<%= i + 1 %>En" id="shopItem<%= i + 1 %>En">
+    </div>
+    <div class="admin__btn-group">
+      <a class="admin__btn deleteBtn shopItemDeleteBtn" data-action="/api/shop/items/<%= i + 1 %>" name="shopItem<%= i + 1 %>DeleteBtn" id="shopItem<%= i + 1 %>DeleteBtn">Kustuta</a>
+      <button class="admin__btn shopItemBtn" type="submit" name="shopItem<%= i + 1 %>Btn" id="shopItem<%= i + 1 %>Btn">Salvesta</button>
+    </div>
+    </div>
+  </form>
+  <% } %>
+  <a class="admin__btn addBtn" data-action="/api/shop/content" name="shopItemAddBtn" id="shopItemAddBtn">+ Lisa Toode +</a>
+
+<%- include('../partials/footer') -%>

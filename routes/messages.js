@@ -18,57 +18,33 @@ router.get("/login", async (req, res) => {
 
 // MESSAGE PAGE ROUTES
 
-router.get("/kontakt/edu", async (req, res) => {
-  const data = await reqData("contact-success", "est");
+router.get("/edu", async (req, res) => {
+  const data = await reqData("success", "est");
+  data.page = req.query.page;
   res.render("message", {
     data: data
   });
 });
 
-router.get("/contact/success", async (req, res) => {
-  const data = await reqData("contact-success", "en");
+router.get("/torge", async (req, res) => {
+  const data = await reqData("failure", "est");
+  data.page = req.query.page;
   res.render("message", {
     data: data
   });
 });
 
-router.get("/kontakt/torge", async (req, res) => {
-  const data = await reqData("contact-failure", "est");
+router.get("/en/success", async (req, res) => {
+  const data = await reqData("success", "en");
+  data.page = req.query.page;
   res.render("message", {
     data: data
   });
 });
 
-router.get("/contact/failure", async (req, res) => {
-  const data = await reqData("contact-failure", "en");
-  res.render("message", {
-    data: data
-  });
-});
-
-router.get("/telli/edu", async (req, res) => {
-  const data = await reqData("order-success", "est");
-  res.render("message", {
-    data: data
-  });
-});
-
-router.get("/order/success", async (req, res) => {
-  const data = await reqData("order-success", "en");
-  res.render("message", {
-    data: data
-  });
-});
-
-router.get("/telli/torge", async (req, res) => {
-  const data = await reqData("order-failure", "est");
-  res.render("message", {
-    data: data
-  });
-});
-
-router.get("/order/failure", async (req, res) => {
-  const data = await reqData("order-failure", "en");
+router.get("/en/failure", async (req, res) => {
+  const data = await reqData("failure", "en");
+  data.page = req.query.page;
   res.render("message", {
     data: data
   });

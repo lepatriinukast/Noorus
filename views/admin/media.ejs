@@ -1,0 +1,103 @@
+<%- include('../partials/head', {data: data}); -%>
+<%- include('../partials/admin-nav', {data: data}); -%>
+<%- include('../partials/admin-popup', {data: data}); -%>
+
+<h1 class="admin__heading admin__heading--primary">Meedia</h1>
+<form action="/api/media/intro" enctype="multipart/form-data" class="admin__form" id="mediaIntro">
+  <h3 class="admin__heading admin__heading--secondary">Sissejuhatav tekst</h3>
+
+  <<div class="admin__form-field">
+    <h3 class="admin__heading admin__heading--tertiary">Sisu</h3>
+    <div class="admin__input-group">
+      <div class="admin__input-item">
+        <h3 class="admin__heading admin__heading--quarternary">EST</h3>
+        <div class="admin__editor">
+          <div class="editor" name="mediaIntroEstEditor" id="mediaIntroEstEditor"><%- data.intros[3].est %></div>
+        </div>
+        <input type="text" class="admin__hidden-input" name="mediaIntroEst" id="mediaIntroEst">
+      </div>
+      <div class="admin__input-item">
+        <h3 class="admin__heading admin__heading--quarternary">EN</h3>
+        <div class="admin__editor">
+          <div class="editor" name="mediaIntroEnEditor" id="mediaIntroEnEditor"><%- data.intros[3].en %></div>
+        </div>
+        <input type="text" class="admin__hidden-input" name="mediaIntroEn" id="mediaIntroEn">
+      </div>
+    </div>
+    <div class="admin__btn-group">
+      <button class="admin__btn" type="submit" name="mediaIntroBtn" id="mediaIntroBtn">Salvesta</button>
+    </div>
+    </div>
+</form>
+
+
+<form action="/api/media/iframes" enctype="multipart/form-data" class="admin__form" id="iframes">
+  <h3 class="admin__heading admin__heading--secondary">Manustamislingid</h3>
+
+  <div class="admin__form-field">
+    <% for (var i = 0; i < data.iframes.length; i++) { %>
+    <h3 class="admin__heading admin__heading--tertiary">Manustamislink <%= i + 1 %></h3>
+    <div class="admin__input-group">
+      <div class="admin__input-item">
+        <input type="text" class="admin__input iframeLink" name="iframe<%= i + 1 %>Link" id="iframe<%= i + 1 %>Link" value="<%- data.iframes[i].link %>">
+      </div>
+    </div>
+    <div class="admin__input-group">
+      <a class="admin__small-btn deleteBtn iframeDeleteBtn" id="iframe<%= i + 1 %>DeleteBtn" data-action="/api/media/iframes/<%= i + 1 %>" name="iframe<%= i + 1 %>DeleteBtn">Kustuta</a>
+    </div>
+    <% } %>
+    <div class="admin__btn-group">
+      <a class="admin__small-btn addBtn" data-action="/api/media/iframes" name="iframesAddBtn" id="iframesAddBtn">+ Lisa manustamislink +</a>
+    </div>
+    <div class="admin__btn-group">
+      <button class="admin__btn" name="iframesBtn" type="submit" id="iframesBtn">Salvesta</button>
+    </div>
+  </div>
+</form>
+
+
+
+
+<% for (var i = 0; i < data.mediaSections.length; i++) { %>
+
+<form action="/api/media/sections/<%= i + 1 %>" enctype="multipart/form-data" class="admin__form" id="mediaSection<%= i + 1 %>">
+  <h3 class="admin__heading admin__heading--secondary">Sektsioon <%= i + 1 %></h3>
+  <div class="admin__form-field">
+    <h3 class="admin__heading admin__heading--tertiary">Pealkiri</h3>
+    <div class="admin__input-group">
+      <div class="admin__input-item">
+        <h3 class="admin__heading admin__heading--quarternary">EST</h3>
+        <input type="text" class="admin__input admin__input--bold mediaHeadingEst" name="mediaHeading<%= i + 1 %>Est" id="mediaHeading<%= i + 1 %>Est" value="<%= data.mediaSections[i].heading.est %>">
+      </div>
+      <div class="admin__input-item">
+        <h3 class="admin__heading admin__heading--quarternary">EN</h3>
+        <input type="text" class="admin__input admin__input--bold mediaHeadingEn" name="mediaHeading<%= i + 1 %>En" id="mediaHeading<%= i + 1 %>En" value="<%= data.mediaSections[i].heading.en %>">
+      </div>
+    </div>
+    <h3 class="admin__heading admin__heading--tertiary">Sisu</h3>
+    <div class="admin__input-group">
+      <div class="admin__input-item">
+        <h3 class="admin__heading admin__heading--quarternary">EST</h3>
+        <div class="admin__editor">
+          <div class="editor mediaSectionEstEditor" name="mediaSection<%= i + 1 %>EstEditor" id="mediaSection<%= i + 1 %>EstEditor"><%- data.mediaSections[i].content.est %></div>
+        </div>
+        <input type="text" class="admin__hidden-input mediaSectionEst" name="mediaSection<%= i + 1 %>Est" id="mediaSection<%= i + 1 %>Est">
+      </div>
+      <div class="admin__input-item">
+        <h3 class="admin__heading admin__heading--quarternary">EN</h3>
+        <div class="admin__editor">
+          <div class="editor mediaSectionEnEditor" name="mediaSection<%= i + 1 %>EnEditor" id="mediaSection<%= i + 1 %>EnEditor"><%- data.mediaSections[i].content.en %></div>
+        </div>
+      </div>
+      <input type="text" class="admin__hidden-input mediaSectionEn" name="mediaSection<%= i + 1 %>En" id="mediaSection<%= i + 1 %>En">
+    </div>
+    <div class="admin__btn-group">
+      <a class="admin__btn deleteBtn mediaSectionDeleteBtn" data-action="/api/media/sections/<%= i + 1 %>" name="mediaSection<%= i + 1 %>DeleteBtn" id="mediaSection<%= i + 1 %>DeleteBtn">Kustuta</a>
+      <button class="admin__btn mediaSectionBtn" type="submit" name="mediaSection<%= i + 1 %>Btn" id="mediaSection<%= i + 1 %>Btn">Salvesta</button>
+    </div>
+  </div>
+</form>
+<% } %>
+<a class="admin__btn addBtn" data-action="/api/media/sections" name="mediaSectionAddBtn" id="mediaSectionAddBtn">+ Lisa Sektsioon +</a>
+
+<%- include('../partials/footer') -%>

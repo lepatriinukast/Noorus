@@ -9,21 +9,28 @@ const router = express.Router();
 
 // Require the custom upload object which will be used as middleware in routes.
 
-const upload = require("./../routingFunctions/multerUploads");
+const upload = require("./../apiFunctions/multerUploads");
 
-// Require the custom functions that handle different requests.
+// Require the API controller that handles different requests.
 
-const updateImages = require("./../routingFunctions/updateImages");
-const updateText = require("./../routingFunctions/updateText");
+const apiController = require("./../apiFunctions/apiController");
 
-// Require the fields object containing data about inputs which upload files using the routes in this module.
+// Require the function that obtains the input fields necessary for file uploading.
 
-const fields = require("./../routingFunctions/fields").about;
+const getFields = require("./../apiFunctions/getFields");
+
+// Use the function to get a fitting fields object.
+
+const fields = getFields("about");
+
+
+
 
 // Handle the requests to the api/about route.
 // This route represents the intro section on the about page.
 
 router.route("/")
+
 
   // Update the intro section on the about page.
 
@@ -36,18 +43,23 @@ router.route("/")
     // this is used to locate the relevant entry in the database table.
     // The function is asynchronous, so the await keyword has to be used.
 
-    await updateImages(req.files, "static_images", 3);
+    if (req.files) {
 
-    // Call the function that updates text.
-    // The function is asynchronous, so the await keyword has to be used.
+      await apiController.update.staticImages(req.files, "static_images", 3);
+    }
 
-    await updateText(req.body, "intros");
+    // Multer makes the user-inputted data available in the req.body variable.
+    // Pass that into the function that updates the database along with the name of the database table.
+    // Also add an index number to locate the correct entry in the database.
+    // The function is asynchronous so use the await keyword.
+
+    await apiController.update.section(req.body, "static_sections", 3);
 
     // Send a response back to the browser.
 
     res.send("OK!");
   });
 
-  // Export the router to the server file.
+// Export the router to the server file.
 
-  module.exports = router;
+module.exports = router;

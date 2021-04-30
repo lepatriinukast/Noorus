@@ -2,17 +2,6 @@
 
 // This module exports models for creating javascript objects populated with content coming from a database table.
 
-
-// A function that filters out language-specific properties from a database entry.
-
-const chooseLanguage = (result, iterator, language, heading) => {
-  if (heading) {
-    return result[iterator][`heading_${language}`];
-  } else {
-    return result[iterator][language];
-  }
-};
-
 // The exportable object, which contains constructor functions for making javascript objects from database entries.
 
 const models = {
@@ -37,18 +26,25 @@ const models = {
 
   // A constructor for creating a model of a single text element.
 
-  TextModel: function (result, iterator, language) {
+  TextModel: function (result, iterator) {
     if (result) {
-      this.content = chooseLanguage(result, iterator, language, false);
+      this.est = result[iterator].est;
+      this.en = result[iterator].en;
     }
   },
 
   // A constructor for creating a model of a single text element with a separate heading.
 
-  TextWithHeadingModel: function (result, iterator, language) {
+  SectionModel: function (result, iterator) {
     if (result) {
-      this.heading = chooseLanguage(result, iterator, language, true);
-      this.content = chooseLanguage(result, iterator, language, false);
+      this.heading = {
+        est: result[iterator].heading_est,
+        en: result[iterator].heading_en
+      };
+      this.content = {
+        est: result[iterator].est,
+        en: result[iterator].en
+      };
     }
   },
 
@@ -73,9 +69,10 @@ const models = {
 
   // A constructor for creating a model of a single form field.
 
-  FormFieldModel: function (result, iterator, language) {
+  FormFieldModel: function (result, iterator) {
     if (result) {
-      this.content = chooseLanguage(result, iterator, language, false);
+      this.est = result[iterator].est;
+      this.en = result[iterator].en;
       this.required = result[iterator].required;
       this.expandable = result[iterator].expandable;
     }
@@ -93,11 +90,19 @@ const models = {
 
   ShopItemModel: function (result, iterator) {
     if (result) {
-      this.heading = chooseLanguage(result, iterator, language, true);
-      this.content = chooseLanguage(result, iterator, language, false);
+      this.heading = {
+        est: result[iterator].heading_est,
+        en: result[iterator].heading_en
+      };
+      this.content = {
+        est: result[iterator].est,
+        en: result[iterator].en
+      };
+      this.price = result[iterator].price;
     }
   }
 };
+
 
 // Export the object.
 

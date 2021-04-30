@@ -1,27 +1,33 @@
 <%- include('partials/head', {data: data}); -%>
 <%- include('partials/navigation', {data: data}); -%>
+
 <main class="events">
-  <section class="events__section">
-      <h2 class="heading--secondary heading--purple u-margin-bottom-big"><%= data.pageInfo.PageTitle %></h2>
-      <% if (data.intros[6].content) { %>
-      <div class="events__content">
+
+
+  <section class="section">
+
+    <div class="container">
+      <h2 class="heading heading--secondary"><%= data.pageInfo.pageTitle %></h2>
+      <% if (data.intros[5][data.language]) { %>
+      <div class="content">
         <div>
-          <%- data.intros[6].content %>
+          <%- data.intros[5][data.language] %>
         </div>
       </div>
       <% } %>
+    </div>
+
     <% for (var i = 0; i < data.eventsContent.length; i++) { %>
-    <div class="events__segment" id="<%= i + 1 %>">
-      <img src="<% if (data.eventsImages[i].url) { %>
+    <div class="container" id="<%= i + 1 %>">
+      <img class="events__img" src="<% if (data.eventsImages[i].url) { %>
         <%= data.eventsImages[i].url %>
-        <% } else { %> /img/logoga-pilt.jpg <% } %>"
-         alt="<%= data.pageInfo.miscellaneous[0] +" " + (i + 1) %>" class="events__img">
+        <% } else { %> /img/logoga-pilt.jpg <% } %>" alt="<%= data.pageInfo.miscellaneous[0] +" " + (i + 1) %>">
       <div class="events__text-box">
-        <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= data.eventsContent[i].heading %></h3>
-        <% if (data.eventsContent[i].content) { %>
-        <div class="events__content">
+        <h3 class="heading heading--tertiary"><%= data.eventsContent[i].heading[data.language] %></h3>
+        <% if (data.eventsContent[i].content[data.language]) { %>
+        <div class="content">
           <div>
-            <%- data.eventsContent[i].content %>
+            <%- data.eventsContent[i].content[data.language] %>
           </div>
         </div>
         <% } %>
@@ -29,35 +35,43 @@
     </div>
     <% } %>
   </section>
-  <% if (data.pastEventsContent.length) { %>
-  <section class="past-events__section">
-      <h2 class="heading--secondary heading--purple u-margin-bottom-big"><%= data.pageInfo.miscellaneous[1] %></h2>
-      <% if (data.intros[7].content) { %>
-      <div class="past-events__content">
+
+
+  <% if (data.archiveContent.length) { %>
+  <section class="section">
+
+    <div class="container">
+      <h2 class="heading heading--secondary"><%= data.pageInfo.miscellaneous[1] %></h2>
+      <% if (data.intros[7][data.language]) { %>
+      <div class="content">
         <div>
-          <%- data.intros[7].content %>
+          <%- data.intros[7][data.language] %>
         </div>
       </div>
       <% } %>
-    <% for (var i = 0; i < data.pastEventsContent.length; i++) { %>
-    <div class="past-events__segment" id="<%= i + 1 %>">
-      <img src="<% if (data.pastEventsImages[i].url) { %>
-        <%= data.pastEventsImages[i].url %>
-        <% } else { %> /img/logoga-pilt.jpg <% } %>"
-         alt="<%= data.pageInfo.miscellaneous[2] + " " + (i + 1) %>" class="events__img events__img--past">
-      <div class="past-events__text-box">
-        <h3 class="heading--tertiary heading--purple u-margin-bottom-big"><%= data.pastEventsContent[i].heading %></h3>
-        <% if (data.pastEventsContent[i].content) { %>
-        <div class="past-events__content">
+    </div>
+
+    <% for (var i = 0; i < data.archiveContent.length; i++) { %>
+    <div class="container" id="<%= i + 1 %>">
+      <img src="<% if (data.archiveImages[i].url) { %>
+        <%= data.archiveImages[i].url %>
+        <% } else { %> /img/logoga-pilt.jpg <% } %>" alt="<%= data.pageInfo.miscellaneous[2] + " " + (i + 1) %>" class="events__img events__img--past">
+      <div class="events__text-box">
+        <h3 class="heading heading--tertiary"><%= data.archiveContent[i].heading[data.language] %></h3>
+        <% if (data.archiveContent[i].content[data.language]) { %>
+        <div class="content">
           <div>
-            <%- data.pastEventsContent[i].content %>
+            <%- data.archiveContent[i].content[data.language] %>
           </div>
         </div>
         <% } %>
       </div>
     </div>
+
     <% } %>
   </section>
+
+
   <% } %>
 </main>
 <%- include('partials/footnav', {data: data}); -%>

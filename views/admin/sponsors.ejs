@@ -1,0 +1,63 @@
+<%- include('../partials/head', {data: data}); -%>
+<%- include('../partials/admin-nav', {data: data}); -%>
+<%- include('../partials/admin-popup', {data: data}); -%>
+
+<h1 class="admin__heading admin__heading--primary">Toetajad</h1>
+<form action="/api/sponsors/intro" enctype="multipart/form-data" class="admin__form" id="sponsorsIntro">
+  <h3 class="admin__heading admin__heading--secondary">Sissejuhatav tekst</h3>
+
+  <div class="admin__form-field">
+    <h3 class="admin__heading admin__heading--tertiary">Sisu</h3>
+    <div class="admin__input-group">
+      <div class="admin__input-item">
+        <h3 class="admin__heading admin__heading--quarternary">EST</h3>
+        <div class="admin__editor">
+          <div class="editor" name="sponsorsIntroEstEditor" id="sponsorsIntroEstEditor"><%- data.intros[4].est %></div>
+        </div>
+        <input type="text" class="admin__hidden-input" name="sponsorsIntroEst" id="sponsorsIntroEst">
+      </div>
+      <div class="admin__input-item">
+        <h3 class="admin__heading admin__heading--quarternary">EN</h3>
+        <div class="admin__editor">
+          <div class="editor" name="sponsorsIntroEnEditor" id="sponsorsIntroEnEditor"><%- data.intros[4].en %></div>
+        </div>
+        <input type="text" class="admin__hidden-input" name="sponsorsIntroEn" id="sponsorsIntroEn">
+      </div>
+    </div>
+    <div class="admin__btn-group">
+      <button class="admin__btn" type="submit" name="sponsorsIntroBtn" id="sponsorsIntroBtn">Salvesta</button>
+    </div>
+  </div>
+</form>
+
+<form action="/api/sponsors/logos" enctype="multipart/form-data" class="admin__form" id="sponsorsLogos">
+  <h3 class="admin__heading admin__heading--secondary">Lingid</h3>
+  <% for (var i = 0; i < data.sponsorsLogos.length; i++) { %>
+    <div class="admin__img-group">
+      <div class="admin__input__group">
+    <h3 class="admin__heading admin__heading--tertiary">Logo <%= i + 1 %></h3>
+      <input type="file" name="sponsorsImg<%= i + 1 %>" id="sponsorsImg<%= i + 1 %>" class="admin__hidden-input file">
+      <label for="sponsorsImg<%= i + 1 %>" class="admin__small-btn" id="sponsorsImg<%= i + 1 %>Label">Vali fail</label>
+      <p class="admin__input-placeholder" id="sponsorsImg<%= i + 1 %>Placeholder"><%= data.sponsorsLogos[i].filename %></p>
+      <img class="admin__icon" src="<%= data.sponsorsLogos[i].url %>" id="sponsorsImg<%= i + 1 %>Icon" alt="Toetaja logo">
+    </div>
+  </div>
+  <div class="admin__form-field">
+    <div class="admin__input-group">
+      <div class="admin__input-item">
+        <h3 class="admin__heading admin__heading--quarternary">LINK</h3>
+        <input type="text" class="admin__input sponsorsLink" name="sponsors<%= i + 1 %>Link" id="sponsors<%= i + 1 %>Link" value="<%= data.sponsorsLogos[i].link %>">
+      </div>
+    </div>
+    <a class="admin__small-btn deleteBtn sponsorsDeleteBtn" data-action="/api/sponsors/logos/<%= i + 1 %>" id="sponsors<%= i + 1 %>DeleteBtn" name="sponsors<%= i + 1 %>DeleteBtn">Kustuta</a>
+    <% } %>
+    <div class="admin__btn-group">
+      <a class="admin__small-btn addBtn" data-action="/api/sponsors/logos" name="sponsorsAddBtn" id="sponsorsAddBtn">+ Lisa logo +</a>
+    </div>
+    <div class="admin__btn-group">
+      <button class="admin__btn" name="sponsorsBtn" type="submit" id="sponsorsBtn">Salvesta</button>
+    </div>
+  </div>
+</form>
+
+<%- include('../partials/footer') -%>

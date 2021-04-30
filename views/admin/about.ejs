@@ -1,0 +1,55 @@
+<%- include('../partials/head', {data: data}); -%>
+<%- include('../partials/admin-nav', {data: data}); -%>
+<%- include('../partials/admin-popup', {data: data}); -%>
+
+<main class="admin">
+
+<h1 class="admin__heading admin__heading--primary">Koorist</h1>
+<form action="/api/about" enctype="multipart/form-data" class="admin__form" id="about">
+  <div class="admin__img-group">
+    <div class="admin__input__group">
+      <h3 class="admin__heading admin__heading--tertiary">Taustapilt</h3>
+      <input type="file" name="aboutBackgroundImg" id="aboutBackgroundImg" class="admin__hidden-input file">
+      <label for="aboutBackgroundImg" id="aboutBackgroundImgLabel" class="admin__small-btn">Vali fail</label>
+      <p id="aboutBackgroundImgPlaceholder" class="admin__input-placeholder"><%= data.staticImages[1].filename %></p>
+      <img src="<%= data.staticImages[3].url %>" alt="Taustapilt" id="aboutBackgroundImgIcon" class="admin__icon">
+    </div>
+  </div>
+    <div class="admin__form-field">
+      <h3 class="admin__heading admin__heading--tertiary">Pealkiri</h3>
+      <div class="admin__input-group">
+        <div class="admin__input-item">
+          <h3 class="admin__heading admin__heading--quarternary">EST</h3>
+          <input type="text" class="admin__input admin__input--bold introHeadingEst" name="introHeadingEst" id="introHeadingEst" value="<%= data.staticSections[3].heading.est %>">
+        </div>
+        <div class="admin__input-item">
+          <h3 class="admin__heading admin__heading--quarternary">EN</h3>
+          <input type="text" class="admin__input admin__input--bold introHeadingEn" name="introHeadingEn" id="introHeadingEn" value="<%= data.staticSections[3].heading.en %>">
+        </div>
+      </div>
+      <h3 class="admin__heading admin__heading--tertiary">Sisu</h3>
+      <div class="admin__input-group">
+        <div class="admin__input-item">
+          <h3 class="admin__heading admin__heading--quarternary">EST</h3>
+          <div class="admin__editor">
+            <div class="editor" name="introSectionEstEditor" id="introSectionEstEditor"><%- data.staticSections[3].content.est %></div>
+          </div>
+          <input type="text" class="admin__hidden-input" name="introSectionEst" id="introSectionEst">
+        </div>
+        <div class="admin__input-item">
+          <h3 class="admin__heading admin__heading--quarternary">EN</h3>
+          <div class="admin__editor">
+            <div class="editor" name="introSectionEnEditor" id="introSectionEnEditor"><%- data.staticSections[3].content.en %></div>
+          </div>
+        </div>
+        <input type="text" class="admin__hidden-input" name="introSectionEn" id="introSectionEn">
+      </div>
+      <div class="admin__btn-group">
+        <button class="admin__btn" type="submit" name="aboutBtn" id="aboutBtn">Salvesta</button>
+      </div>
+      </div>
+</form>
+
+</main>
+
+<%- include('../partials/footer') -%>

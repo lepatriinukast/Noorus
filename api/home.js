@@ -9,21 +9,28 @@ const router = express.Router();
 
 // Require the custom upload object which will be used as middleware in routes.
 
-const upload = require("./../routingFunctions/multerUploads");
+const upload = require("./../apiFunctions/multerUploads");
 
 // Require the custom functions that handle different requests.
 
-const updateImages = require("./../routingFunctions/updateImages");
-const updateSection = require("./../routingFunctions/updateSection");
+const apiController = require("./../apiFunctions/apiController");
 
-// Require the fields object containing data about inputs which upload files using the routes in this module.
+// Require the function that obtains the input fields necessary for file uploading.
 
-const fields = require("./../routingFunctions/fields").home;
+const getFields = require("./../apiFunctions/getFields");
+
+// Use the function to get a fitting fields object.
+
+const fields = getFields("home");
+
+
+
 
 // Handle the requests to the api/home/images route.
 // This route represents the images on the home page.
 
 router.route("/images")
+
 
   // Replace an image or several on the homepage by uploading new ones.
 
@@ -34,17 +41,24 @@ router.route("/images")
     // and the database name which needs to be updated.
     // The function is asynchronous, so the await keyword has to be used.
 
-    await updateImages(req.files, "static_images");
+    if (req.files) {
+
+      await apiController.update.staticImages(req.files, "static_images");
+    }
 
     // Send a response back to the browser.
 
     res.send("OK!");
   });
 
+
+
+
 // Handle the requests to the api/home/main route.
 // This route represents the main (header) part on the home page.
 
 router.route("/main")
+
 
   // Update the main (header) part of the home page.
 
@@ -54,17 +68,21 @@ router.route("/main")
     // Pass that into the function that updates the database along with the name of the database table.
     // The function is asynchronous so use the await keyword.
 
-    await updateSection(req.body, "home_text");
+    await apiController.update.section(req.body, "static_sections");
 
     // Send a response back to the browser.
 
     res.send("OK!");
   });
 
+
+
+
 // Handle the requests to the routes beginning with api/home/sections and ending with the custom parameter of id.
 // These routes represent the text sections on the home page.
 
 router.route("/sections/:id")
+
 
   // Update the main section of the home page.
 
@@ -73,10 +91,12 @@ router.route("/sections/:id")
     // Multer makes the user-inputted data available in the req.body variable.
     // Pass that into the function that updates the database along with the name of the database table.
     // This route updates the section specified in the custom parameter id.
-    // Thos custom parameter also indicates the position in which the relevant section can be found in the database table.
+    // This custom parameter also indicates the position in which the relevant section can be found in the database table.
+    // Normally 1 should be deducted from the parameter, because js is 0-based,
+    // but in this case the relevant entries actually start from position 1 not 0 in the database.
     // The function is asynchronous so use the await keyword.
 
-    await updateSection(req.body, "home_text", req.params.id);
+    await apiController.update.section(req.body, "static_sections", req.params.id);
 
     // Send a response back to the browser.
 

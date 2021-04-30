@@ -5,6 +5,7 @@
 // The module gives basic structure to this data.
 
 const routeInfo = {
+
   languageAttribute: {
     est: "et",
     en: "en"
@@ -12,6 +13,10 @@ const routeInfo = {
   appName: {
     est: "Segakoor Noorus ",
     en: "Mixed Choir Noorus"
+  },
+  aboutSubheadings: {
+    est: ["Koorist", "Liikmed", "Dirigendid", "Ajalugu", "Meedia", "Toetajad"],
+    en: ["About us", "Members", "Conductors", "History", "Media", "Sponsors"]
   },
   pageTitles: {
     home: {
@@ -119,26 +124,30 @@ const routeInfo = {
       en: ["Read more...", "Order here"]
     },
     order: {
-      est: ["pood", "Kokku", "Telli"],
-      en: ["en/shop", "Total", "Order"]
+      est: ["pood", "Kokku", "Telli", "hind", "Koguhind", "Palun valige toode"],
+      en: ["en/shop", "Total", "Order", "price", "Total price", "Please select a product"]
     },
-    contactSuccess: {
-      est: ["Andmed edastatud!", "Täname registreerimast! Võtame teiega ühendust esimesel võimalusel.", "kontakt", "Tagasi"],
-      en: ["The message has been sent!", "Thank you for your registration! We will be contacting you shortly.", "en/contact", "Back"]
+    success: {
+      est: {
+        contact: ["Andmed edastatud!", "Täname registreerimast! Võtame teiega ühendust esimesel võimalusel.", "kontakt", "Tagasi"],
+        order: ["Teie tellimus on edastatud!", "Täname tellimuse eest! Võtame teiega ühendust esimesel võimalusel.", "pood", "Tagasi"]
+      },
+      en: {
+        contact: ["The message has been sent!", "Thank you for your registration! We will be contacting you shortly.", "en/contact", "Back"],
+        order: ["Your order has been submitted!", "Thank you for the order! We will be contacting you shortly.", "en/shop", "Back"]
+      }
     },
-    contactFailure: {
-      est: ["Midagi läks sassi!", "Registreerimine ebaõnnestus. Palun proovige uuesti.", "kontakt", "Tagasi"],
-      en: ["Something went wrong!", "Registration was unsuccessful. Please try again.", "en/contact", "Back"]
-    },
-    orderSuccess: {
-      est: ["Teie tellimus on edastatud!", "Täname tellimuse eest! Võtame teiega ühendust esimesel võimalusel.", "pood", "Tagasi"],
-      en: ["Your order has been submitted!", "Thank you for the order! We will be contacting you shortly.", "en/shop", "Back"]
-    },
-    orderFailure: {
-      est: ["Midagi läks sassi!", "Tellimuse esitamine ebaõnnestus. Palun proovige uuesti!", "pood", "Tagasi"],
-      en: ["Something went wrong!", "The order could not be processed. Please try again!", "en/shop", "Back"]
-    },
-  },
+    failure: {
+      est: {
+        contact: ["Midagi läks sassi!", "Registreerimine ebaõnnestus. Palun proovige uuesti.", "kontakt", "Tagasi"],
+        order: ["Midagi läks sassi!", "Tellimuse esitamine ebaõnnestus. Palun proovige uuesti!", "pood", "Tagasi"]
+      },
+      en: {
+        contact: ["Something went wrong!", "Registration was unsuccessful. Please try again.", "en/contact", "Back"],
+        order: ["Something went wrong!", "The order could not be processed. Please try again!", "en/shop", "Back"]
+      }
+    }
+  }
 };
 
 // Export the object.
