@@ -1,0 +1,45 @@
+<%- include('../partials/head', {data: data}); -%>
+<%- include('../partials/headnav', {data: data}); -%>
+<%- include('../partials/hamburgernav', {data: data}); -%>
+
+
+<main class="shop">
+
+
+  <section class="section">
+
+    <div class="container">
+      <h2 class="heading heading--secondary u-margin"><%= data.pageInfo.pageTitle %></h2>
+      <div class="content">
+          <%- data.intros[8][data.language] %>
+      </div>
+    </div>
+
+    <% for (var i = 0; i < data.shopItems.length; i++) { %>
+    <div class="shop__container" id="<%= data.pageInfo.miscellaneous[0] + (i + 1) %>">
+      <div class="shop__img" style="background-image: url('<%= data.shopImages[i].url %>');">
+      </div>
+      <div class="shop__text-container">
+        <div class="shop__text-box low-fixed-height textBox" id="textBox<%= i + 1 %>">
+          <h3 class="heading heading--tertiary u-margin"><%= data.shopItems[i].heading[data.language] %></h3>
+            <div class="content">
+                <%- data.shopItems[i].content[data.language] %>
+            </div>
+        </div>
+          <a class="delete linkBtn shop__link" id="linkBtn<%= i + 1 %>" href="#<%= data.pageInfo.miscellaneous[0] + (i + 1) %>"><%= data.pageInfo.miscellaneous[1] %></a>
+        <div class="shop__btn-box">
+          <span class="heading heading--tertiary"><strong><%= data.shopItems[i].price %> €</strong></span>
+          <a class="btn btn--main orderBtn" id="orderBtn<%= i + 1 %>"><%= data.pageInfo.miscellaneous[2] %></a>
+        </div>
+      </div>
+    </div>
+    <% } %>
+
+  </section>
+
+
+</main>
+
+
+<%- include('../partials/footnav', {data: data}); -%>
+<%- include('../partials/footer'); -%>

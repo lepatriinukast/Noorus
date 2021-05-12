@@ -1,19 +1,20 @@
  /* jshint esversion: 8 */
 
-// This module is the last step between getting content from the database
-// and sending it to the server to be rendered inside a route.
+ // This file is the main file of the reqData module,
+ // which is a middleware between getting content from the database
+ // and sending it to the server to be rendered inside a route.
 
-// It has access to both the database data via the compiler module
+// This file has access to both the database data via the compiler and models modules
 // and the raw language-specific data from the routeInfo module.
 
 // This module compiles both into a large container object.
 // Each template will get its own container object.
 
 // Inside a route one can specify the template and the language
-// and in return get a corresponding container object, which can be rendered on the page.
+// and in return get a corresponding container object which can be rendered on the page.
 
 
-// This module needs access to the following modules:
+// Require all submodules:
 
 const routeInfo = require("./routeInfo");
 const models = require("./models");
@@ -22,6 +23,7 @@ const getPageInfo = require("./getPageInfo");
 
 
 // The function that is returned by the module creates a different data object for each template.
+// The getPageInfo module is used for generating some boilerplate data for the public routes.
 
 const reqData = async (templateName, language) => {
 

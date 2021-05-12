@@ -9,6 +9,6 @@
 import {load} from "./load.js";
 import "./quill.js";
 
-// Call the load function, which will run appropriate code depending on the attributes of the loaded page's root element.
+// Call the load function, which will run appropriate code depending on the attributes of the loaded page's body element.
 
-load(document.documentElement);
+load(document.querySelector("body"));

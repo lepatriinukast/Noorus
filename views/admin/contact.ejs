@@ -1,125 +1,136 @@
 <%- include('../partials/head', {data: data}); -%>
-<%- include('../partials/admin-nav', {data: data}); -%>
-<%- include('../partials/admin-popup', {data: data}); -%>
+<%- include('../partials/adminnav', {data: data}); -%>
+<%- include('../partials/popup', {data: data}); -%>
 
-<h1 class="admin__heading admin__heading--primary">Kontakt</h1>
-<form action="/api/contact/intro" enctype="multipart/form-data" class="admin__form" id="contactIntro">
-  <h3 class="admin__heading admin__heading--secondary">Sissejuhatav tekst</h3>
 
-  <div class="admin__form-field">
-    <div class="admin__input-group">
+<h1 class="admin-heading admin-heading--primary">Kontakt</h1>
+
+<form class="admin__form" action="/api/contact/intro">
+
+  <h3 class="admin-heading admin-heading--secondary">Sissejuhatav tekst</h3>
+  <div class="admin__input-group">
+    <div class="column-container">
       <div class="admin__input-item">
-        <h3 class="admin__heading admin__heading--quarternary">EST</h3>
+        <h3 class="admin-heading admin-heading--quarternary">EST</h3>
         <div class="admin__editor">
-          <div class="editor" name="contactIntroEstEditor" id="contactIntroEstEditor"><%- data.intros[7].en %></div>
+          <div class="editor" id="contactIntroEstEditor"><%- data.intros[7].en %></div>
         </div>
-        <input type="text" class="admin__hidden-input" name="contactIntroEst" id="contactIntroEst">
+        <input class="admin__hidden-input" id="contactIntroEst" name="contactIntroEst" type="text">
       </div>
       <div class="admin__input-item">
-        <h3 class="admin__heading admin__heading--quarternary">EN</h3>
+        <h3 class="admin-heading admin-heading--quarternary">EN</h3>
         <div class="admin__editor">
-          <div class="editor" name="contactIntroEnEditor" id="contactIntroEnEditor"><%- data.intros[7].en %></div>
+          <div class="editor" id="contactIntroEnEditor"><%- data.intros[7].en %></div>
         </div>
-        <input type="text" class="admin__hidden-input" name="contactIntroEn" id="contactIntroEn">
+        <input class="admin__hidden-input" id="contactIntroEn" name="contactIntroEn" type="text">
       </div>
     </div>
-    <div class="admin__btn-group">
-      <button class="admin__btn" type="submit" name="contactIntroBtn" id="contactIntroBtn">Salvesta</button>
+    <div class="column-container">
+      <button class="btn btn--admin btn--admin--large" type="submit">Salvesta</button>
     </div>
   </div>
+
 </form>
 
 <% for (var i = 0; i < data.contactSections.length; i++) { %>
 
-<form action="/api/contact/sections/<%= i + 1 %>" enctype="multipart/form-data" class="admin__form" id="contactSection<%= i + 1 %>">
-  <h3 class="admin__heading admin__heading--secondary">Sektsioon <%= i + 1 %></h3>
-  <div class="admin__form-field">
-    <h3 class="admin__heading admin__heading--tertiary">Pealkiri</h3>
-    <div class="admin__input-group">
+<form class="admin__form" action="/api/contact/sections/<%= i + 1 %>">
+
+  <h3 class="admin-heading admin-heading--secondary">Sektsioon <%= i + 1 %></h3>
+  <div class="admin__input-group">
+    <h3 class="admin-heading admin-heading--tertiary">Pealkiri</h3>
+    <div class="column-container">
       <div class="admin__input-item">
-        <h3 class="admin__heading admin__heading--quarternary">EST</h3>
-        <input type="text" class="admin__input admin__input--bold contactHeadingEst" name="contactHeading<%= i + 1 %>Est" id="contactHeading<%= i + 1 %>Est" value="<%= data.contactSections[i].heading.est %>">
+        <h3 class="admin-heading admin-heading--quarternary">EST</h3>
+        <input class="admin__input admin__input--bold" name="contactHeading<%= i + 1 %>Est" type="text" value="<%= data.contactSections[i].heading.est %>">
       </div>
       <div class="admin__input-item">
-        <h3 class="admin__heading admin__heading--quarternary">EN</h3>
-        <input type="text" class="admin__input admin__input--bold contactHeadingEn" name="contactHeading<%= i + 1 %>En" id="contactHeading<%= i + 1 %>En" value="<%= data.contactSections[i].heading.en %>">
-      </div>
-    </div>
-    <h3 class="admin__heading admin__heading--tertiary">Sisu</h3>
-    <div class="admin__input-group">
-      <div class="admin__input-item">
-        <h3 class="admin__heading admin__heading--quarternary">EST</h3>
-        <div class="admin__editor">
-          <div class="editor contactSectionEstEditor" name="contactSection<%= i + 1 %>EstEditor" id="contactSection<%= i + 1 %>EstEditor"><%- data.contactSections[i].content.est %></div>
-        </div>
-        <input type="text" class="admin__hidden-input contactSectionEst" name="contactSection<%= i + 1 %>Est" id="contactSection<%= i + 1 %>Est">
-      </div>
-      <div class="admin__input-item">
-        <h3 class="admin__heading admin__heading--quarternary">EN</h3>
-        <div class="admin__editor">
-          <div class="editor contactSectionEnEditor" name="contactSection<%= i + 1 %>EnEditor" id="contactSection<%= i + 1 %>EnEditor"><%- data.contactSections[i].content.en %></div>
-        </div>
-        <input type="text" class="admin__hidden-input contactSectionEn" name="contactSection<%= i + 1 %>En" id="contactSection<%= i + 1 %>En">
+        <h3 class="admin-heading admin-heading--quarternary">EN</h3>
+        <input class="admin__input admin__input--bold" name="contactHeading<%= i + 1 %>En" type="text" value="<%= data.contactSections[i].heading.en %>">
       </div>
     </div>
-    <div class="admin__btn-group">
-      <a class="admin__btn deleteBtn contactSectionDeleteBtn" data-action="/api/contact/sections/<%= i + 1 %>" name="contactSection<%= i + 1 %>DeleteBtn" id="contactSection<%= i + 1 %>DeleteBtn">Kustuta</a>
-      <button class="admin__btn contactSectionBtn" type="submit" name="contactSection<%= i + 1 %>Btn" id="contactSection<%= i + 1 %>Btn">Salvesta</button>
+    <h3 class="admin-heading admin-heading--tertiary">Sisu</h3>
+    <div class="column-container">
+      <div class="admin__input-item">
+        <h3 class="admin-heading admin-heading--quarternary">EST</h3>
+        <div class="admin__editor">
+          <div class="editor" id="contactSection<%= i + 1 %>EstEditor"><%- data.contactSections[i].content.est %></div>
+        </div>
+        <input class="admin__hidden-input" id="contactSection<%= i + 1 %>Est" name="contactSection<%= i + 1 %>Est" type="text">
+      </div>
+      <div class="admin__input-item">
+        <h3 class="admin-heading admin-heading--quarternary">EN</h3>
+        <div class="admin__editor">
+          <div class="editor" id="contactSection<%= i + 1 %>EnEditor"><%- data.contactSections[i].content.en %></div>
+        </div>
+        <input class="admin__hidden-input" id="contactSection<%= i + 1 %>En" name="contactSection<%= i + 1 %>En" type="text">
+      </div>
+    </div>
+    <div class="column-container">
+      <a class="btn btn--admin btn--admin--large deleteBtn" data-action="/api/contact/sections/<%= i + 1 %>">Kustuta</a>
+      <button class="btn btn--admin btn--admin--large" type="submit">Salvesta</button>
     </div>
   </div>
+
 </form>
+
 <% } %>
-<a class="admin__btn addBtn" data-action="/api/contact/sections" name="contactSectionAddBtn" id="contactSectionAddBtn">+ Lisa Sektsioon +</a>
 
-<form action="/api/contact/form" enctype="multipart/form-data" class="admin__form" id="contactForm">
-  <h3 class="admin__heading admin__heading--secondary">Ankeet</h3>
+<a class="btn btn--admin btn--admin--large addBtn" data-action="/api/contact/sections" name="contactSectionAddBtn" id="contactSectionAddBtn">+ Lisa Sektsioon +</a>
 
-  <div class="admin__form-field">
-    <h3 class="admin__heading admin__heading--tertiary">Pealkiri</h3>
-    <div class="admin__input-group">
+<form class="admin__form" action="/api/contact/form">
+
+  <h3 class="admin-heading admin-heading--secondary">Ankeet</h3>
+  <div class="admin__input-group">
+    <h3 class="admin-heading admin-heading--tertiary">Pealkiri</h3>
+    <div class="column-container">
       <div class="admin__input-item">
-        <h3 class="admin__heading admin__heading--quarternary">EST</h3>
-        <input type="text" class="admin__input admin__input--bold" name="contactFormHeadingEst" id="contactFormHeadingEst" value="<%= data.miscellaneous[0].est %>">
+        <h3 class="admin-heading admin-heading--quarternary">EST</h3>
+        <input class="admin__input admin__input--bold" name="contactFormHeadingEst" type="text" value="<%= data.miscellaneous[0].est %>">
       </div>
       <div class="admin__input-item">
-        <h3 class="admin__heading admin__heading--quarternary">EN</h3>
-        <input type="text" class="admin__input admin__input--bold" name="contactFormHeadingEn" id="contactFormHeadingEn" value="<%= data.miscellaneous[0].en %>">
+        <h3 class="admin-heading admin-heading--quarternary">EN</h3>
+        <input class="admin__input admin__input--bold" name="contactFormHeadingEn" type="text" value="<%= data.miscellaneous[0].en %>">
       </div>
-    </div>
-    <hr class="admin__line">
-    <% for (var i = 0; i < data.contactForm.length; i++) { %>
-    <h3 class="admin__heading admin__heading--tertiary">Väli <%= i + 1 %></h3>
-    <div class="admin__input-group">
-      <div class="admin__input-item">
-        <h3 class="admin__heading admin__heading--quarternary">EST</h3>
-        <input type="text" class="admin__input admin__input--bold contactFormFieldEst" name="contactFormField<%= i + 1 %>Est" id="contactFormField<%= i + 1 %>Est" value="<%= data.contactForm[i].est %>">
-      </div>
-      <div class="admin__input-item">
-        <h3 class="admin__heading admin__heading--quarternary">EN</h3>
-        <input type="text" class="admin__input admin__input--bold contactFormFieldEn" name="contactFormField<%= i + 1 %>En" id="contactFormField<%= i + 1 %>En" value="<%= data.contactForm[i].en %>">
-      </div>
-    </div>
-    <div class="admin__input-group">
-      <div class="admin__input-item">
-        <h3 class="admin__heading admin__heading--quarternary">KOHUSTUSLIK</h3>
-        <input class="admin__checkbox contactFormFieldRequired" type="checkbox" id="contactFormField<%= i + 1 %>Required" name="contactFormField<%= i + 1 %>Required" <% if (data.contactForm[i].required == "on") {%> checked<% } %>>
-      </div>
-      <div class="admin__input-item">
-        <h3 class="admin__heading admin__heading--quarternary">SUURENEV</h3>
-        <input class="admin__checkbox contactFormFieldExpandable" type="checkbox" id="contactFormField<%= i + 1 %>Expandable" name="contactFormField<%= i + 1 %>Expandable" <% if (data.contactForm[i].expandable == "on") {%> checked<% } %>>
-      </div>
-    </div>
-    <div class="admin__input-group">
-      <a class="admin__small-btn deleteBtn contactFormFieldDeleteBtn" data-action="/api/contact/form/<%= i + 1 %>" id="contactFormField<%= i + 1 %>DeleteBtn" name="contactFormField<%= i + 1 %>DeleteBtn">Kustuta</a>
-    </div>
-    <% } %>
-    <div class="admin__btn-group">
-      <a class="admin__small-btn addBtn" data-action="/api/contact/form" name="contactFormFieldAddBtn" id="contactFormFieldAddBtn">+ Lisa väli +</a>
-    </div>
-    <div class="admin__btn-group">
-      <button class="admin__btn" name="contactFormFieldBtn" type="submit" id="contactFormFieldBtn">Salvesta</button>
     </div>
   </div>
+  <hr>
+  <% for (var i = 0; i < data.contactForm.length; i++) { %>
+  <div class="admin__input-group">
+    <h3 class="admin-heading admin-heading--tertiary">Väli <%= i + 1 %></h3>
+    <div class="column-container">
+      <div class="admin__input-item">
+        <h3 class="admin-heading admin-heading--quarternary">EST</h3>
+        <input class="admin__input admin__input--bold" name="contactFormField<%= i + 1 %>Est" type="text" value="<%= data.contactForm[i].est %>">
+      </div>
+      <div class="admin__input-item">
+        <h3 class="admin-heading admin-heading--quarternary">EN</h3>
+        <input class="admin__input admin__input--bold" name="contactFormField<%= i + 1 %>En" type="text" value="<%= data.contactForm[i].en %>">
+      </div>
+    </div>
+    <div class="column-container">
+      <div class="admin__input-item">
+        <h3 class="admin-heading admin-heading--quarternary">KOHUSTUSLIK</h3>
+        <input class="admin__checkbox" name="contactFormField<%= i + 1 %>Required" type="checkbox" <% if (data.contactForm[i].required == "on") {%> checked<% } %>>
+      </div>
+      <div class="admin__input-item">
+        <h3 class="admin-heading admin-heading--quarternary">SUURENEV</h3>
+        <input class="admin__checkbox" name="contactFormField<%= i + 1 %>Expandable" type="checkbox" <% if (data.contactForm[i].expandable == "on") {%> checked<% } %>>
+      </div>
+    </div>
+    <div class="column-container">
+      <a class="btn btn--admin btn--admin--small deleteBtn" data-action="/api/contact/form/<%= i + 1 %>">Kustuta</a>
+    </div>
+  </div>
+  <% } %>
+  <div class="column-container">
+    <a class="btn btn--admin btn--admin--small addBtn" data-action="/api/contact/form">+ Lisa väli +</a>
+  </div>
+  <div class="column-container">
+    <button class="btn btn--admin btn--admin--large" type="submit">Salvesta</button>
+  </div>
+
 </form>
+
 
 <%- include('../partials/footer') -%>

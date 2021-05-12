@@ -1,6 +1,2 @@
 node_modules
-public/sass
-DBDemos
-createTableDBdemo.js
-insertDBdemo.js
 .env

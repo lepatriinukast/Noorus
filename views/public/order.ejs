@@ -1,0 +1,79 @@
+<%- include('../partials/head', {data: data}); -%>
+<%- include('../partials/headnav', {data: data}); -%>
+<%- include('../partials/hamburgernav', {data: data}); -%>
+
+
+<main class="order">
+
+
+  <section class="section">
+
+    <div class="container">
+      <h2 class="heading heading--secondary u-margin"><%= data.pageInfo.pageTitle %></h2>
+      <div class="content">
+        <%- data.intros[9][data.language] %>
+      </div>
+    </div>
+
+    <form class="section" action="/api/forms/order">
+
+      <div class="order__grid">
+        <% for (let i = 0; i < data.shopItems.length; i++) { %>
+        <div class="order__box">
+          <strong><a href="/<%= data.pageInfo.miscellaneous[0] + (i + 1) %>"><strong><%= data.shopItems[i].heading[data.language] %></strong></a></strong>
+        </div>
+        <div class="order__box">
+          <a class="signBtn" id="minusBtn<%= i + 1 %>">
+            <i class="form__sign-btn fas fa-minus-circle"></i>
+          </a>
+          <input class="form__input form__number-input itemCount" id="itemCount<%= i + 1 %>" name="<%= data.shopItems[i].heading[data.language] %>" type="number" min="0" max="99" step="1" <% if (data.selected == (i + 1)) { %> value="1" <% } else { %>
+            value="0" <% } %>>
+          <a class="signBtn" id="plusBtn<%= i + 1 %>">
+            <i class="form__sign-btn fas fa-plus-circle"></i>
+          </a>
+        </div>
+        <div class="order__box">
+          <p><strong class="greyout"><span class="price" id="price<%= i + 1 %>"><%= data.shopItems[i].price %></span>€</strong></p>
+          <input class="form__hidden-input" id="hiddenPrice<%= i + 1 %>" name="<%= data.pageInfo.miscellaneous[3] %>" type="number" value="<%= data.shopItems[i].price %>" aria-hidden>
+        </div>
+        <% } %>
+      </div>
+      <div class="order__box">
+        <h2 class="heading heading--tertiary"><%= data.pageInfo.miscellaneous[1] %>: <span id="sum">0</span> €</h2>
+        <input class="form__hidden-input" id="hiddenSum" name="<%= data.pageInfo.miscellaneous[4] %>" type="number" min="1" required oninvalid="this.setCustomValidity('<%= data.pageInfo.miscellaneous[5] %>')" oninput="setCustomValidity('')"
+          aria-hidden>
+      </div>
+
+      <div class="form">
+        <h3 class="heading heading--tertiary"><%= data.miscellaneous[1][data.language] %></h3>
+        <div class="form__input-group">
+          <% for (let i = 0; i < data.orderForm.length; i++) { %>
+          <div class="form__field">
+            <span><% if (data.orderForm[i].required === "on") { %> * <% } else { %> &nbsp <% }%> </span><% if (data.orderForm[i].expandable === "on") { %>
+            <textarea class="form__input form__text-area" name="<%= data.orderForm[i][data.language] %>" rows="1" placeholder="<%= data.orderForm[i][data.language] %>" <% if (data.orderForm[i].required === "on") { %> required <% } %>
+              aria-label="<%= data.orderForm[i].content %>">
+             </textarea>
+            <% } else { %>
+            <input class="form__input" name="<%= data.orderForm[i][data.language] %>" type="text" placeholder="<%= data.orderForm[i][data.language] %>" <% if (data.orderForm[i].required === "on") { %> required <% } %>
+              aria-label="<%= data.orderForm[i][data.language] %>">
+            <% } %>
+          </div>
+          <% } %>
+        </div>
+        <button class="btn btn--main" type="submit"><%= data.pageInfo.miscellaneous[2] %></button>
+      </div>
+
+    </form>
+
+    <div class="container">
+      <p><%- data.miscellaneous[2][data.language] %></p>
+    </div>
+
+  </section>
+
+
+</main>
+
+
+<%- include('../partials/footnav', {data: data}); -%>
+<%- include('../partials/footer'); -%>

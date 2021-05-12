@@ -1,0 +1,106 @@
+// TYPOGRAPHY
+
+// Typography for the whole app.
+
+body {
+  font-family: $font-primary;
+  font-size: 1.6rem;
+}
+
+// Typography by page type.
+
+.admin {
+  color: $color-grey-dark;
+}
+
+.login,
+.message,
+.public {
+  color: $color-primary-dark;
+}
+
+// Styles for common elements.
+
+a {
+  &,
+  &:link,
+  &:visited {
+    color: inherit;
+  }
+}
+
+ul {
+  list-style: none;
+}
+
+li {
+  padding: 0.5rem 0;
+}
+
+input, textarea {
+  font-family: $font-primary;
+  font-size: 1.4rem;
+  color: $color-grey-dark;
+}
+
+button {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+// Public page headings.
+
+.heading {
+  @media screen and (max-height: 30em) {
+    margin: 0.5rem 0;
+  }
+
+  &--primary {
+    font-size: 7.2rem;
+    @media screen and (max-height: 30em) {
+      font-size: 5rem;
+    }
+    @media screen and (max-width: 18.75em) and (max-height: 13.75em) {
+      font-size: 3rem;
+    }
+  }
+
+  &--secondary {
+    font-size: 4.2rem;
+    @media screen and (max-width: 18.75em) and (max-height: 13.75em) {
+      font-size: 2.8rem;
+    }
+  }
+
+  &--tertiary {
+    font-size: 2.2rem;
+    @media screen and (max-width: 18.75em) and (max-height: 13.75em) {
+      font-size: 2rem;
+    }
+  }
+}
+
+// Admin page headings.
+
+.admin-heading {
+
+  &--primary {
+    margin: 4rem 0;
+    font-size: 4rem;
+  }
+
+  &--secondary {
+    margin: 2rem 0;
+    font-size: 3rem;
+  }
+
+  &--tertiary {
+    margin: 2rem 0;
+    font-size: 2rem;
+  }
+
+  &--quarternary {
+    margin: 1rem 0;
+    font-size: 1.2rem;
+  }
+}

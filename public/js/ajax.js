@@ -5,11 +5,7 @@
 
 // Import the dependencies.
 
-import {
-  addEditorListeners,
-  createSuccessMessage,
-  createFailureMessage
-} from "./admin.js";
+import {addEditorListeners, createSuccessMessage, createFailureMessage} from "./admin.js";
 
 // Create the export object.
 
@@ -142,6 +138,7 @@ export const ajax = {
   // Send a post request.
 
   post(event) {
+
 
     // Prevent the default action from happening on the button click.
 
@@ -299,7 +296,7 @@ export const ajax = {
 
         } else if (this.response === "wrong credentials") {
 
-          document.getElementById("wrongText").classList.remove("delete");
+          document.getElementById("wrongText").classList.remove("hide");
         }
 
         // If there is another problem with the login, create a failure message.

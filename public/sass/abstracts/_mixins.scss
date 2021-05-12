@@ -1,0 +1,19 @@
+// MIXINS
+
+// Centers an absolutely positioned element.
+
+@mixin absCenter {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+// Adds default box- or text-shadow.
+
+@mixin boxShadow {
+  box-shadow: 0 2px 5px rgba($color-grey-dark, .5);
+}
+@mixin textShadow {
+  text-shadow: 0 2px 5px rgba($color-grey-dark, .5);
+}

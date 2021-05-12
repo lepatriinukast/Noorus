@@ -1,0 +1,27 @@
+<%- include('../partials/head', {data: data}); -%>
+<%- include('../partials/popup') -%>
+
+<main class="login">
+
+
+  <div class="message__container">
+    <form class="form" action="/api/session">
+      <img class="message__logo" src="<%= data.staticImages[1].url %>">
+      <div class="form__body">
+        <div class="form__field">
+          <input class="form__input" name="user" type="text" required placeholder="Kasutajanimi" aria-label="Kasutajanimi">
+        </div>
+        <div class="form__field">
+          <input class="form__input" name="password" type="password" required placeholder="Parool" aria-label="Parool">
+        </div>
+      </div>
+      <p class="hide red" id="wrongText">Vale kasutajanimi või parool!</p>
+      <button class="btn btn--main" type="submit">Logi sisse</button>
+    </form>
+  </div>
+
+
+</main>
+
+
+<%- include('../partials/footer') -%>

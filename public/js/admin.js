@@ -133,15 +133,15 @@ export const changePreview = (event) => {
 
   if (event.target.type === "file") {
 
-    // Using the id of the input that triggered the function, get the corresponding placeholder and display image from the DOM.
+    // Using the id of the input that triggered the function, get the corresponding label (it is not the <label> element) and preview image from the DOM.
 
-    const placeholder = document.getElementById(event.target.id + "Placeholder");
-    const icon = document.getElementById(event.target.id + "Icon");
+    const label = document.getElementById(event.target.id + "Label");
+    const preview = document.getElementById(event.target.id + "Preview");
 
     // Change the label and preview image if a new file has been selected for upload.
 
-    placeholder.innerHTML = event.target.files[0].name;
-    icon.src = URL.createObjectURL(event.target.files[0]);
+    label.innerHTML = event.target.files[0].name;
+    preview.src = URL.createObjectURL(event.target.files[0]);
   }
 };
 

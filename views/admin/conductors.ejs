@@ -1,84 +1,94 @@
 <%- include('../partials/head', {data: data}); -%>
-<%- include('../partials/admin-nav', {data: data}); -%>
-<%- include('../partials/admin-popup', {data: data}); -%>
+<%- include('../partials/adminnav', {data: data}); -%>
+<%- include('../partials/popup', {data: data}); -%>
 
-<h1 class="admin__heading admin__heading--primary">Dirigendid</h1>
-  <form action="/api/conductors/intro" enctype="multipart/form-data" class="admin__form" id="conductorsIntro">
-    <h3 class="admin__heading admin__heading--secondary">Sissejuhatav tekst</h3>
 
-      <div class="admin__form-field">
-        <h3 class="admin__heading admin__heading--tertiary">Sisu</h3>
-        <div class="admin__input-group">
-          <div class="admin__input-item">
-            <h3 class="admin__heading admin__heading--quarternary">EST</h3>
-            <div class="admin__editor">
-              <div class="editor" name="conductorsIntroEstEditor" id="conductorsIntroEstEditor"><%- data.intros[1].est %></div>
-            </div>
-              <input type="text" class="admin__hidden-input" name="conductorsIntroEst" id="conductorsIntroEst">
-          </div>
-          <div class="admin__input-item">
-            <h3 class="admin__heading admin__heading--quarternary">EN</h3>
-            <div class="admin__editor">
-              <div class="editor" name="conductorsIntroEnEditor" id="conductorsIntroEnEditor"><%- data.intros[1].en %></div>
-            </div>
-              <input type="text" class="admin__hidden-input" name="conductorsIntroEn" id="conductorsIntroEn">
-          </div>
-        </div>
-        <div class="admin__btn-group">
-          <button class="admin__btn" type="submit" name="conductorsIntroBtn" id="conductorsIntroBtn">Salvesta</button>
-        </div>
-        </div>
-  </form>
+<h1 class="admin-heading admin-heading--primary">Dirigendid</h1>
 
-  <% for (var i = 0; i < data.conductorsSections.length; i++) { %>
-
-<form action="/api/conductors/sections/<%= i + 1 %>" enctype="multipart/form-data" class="admin__form" id="conductorsSection<%= i + 1 %>">
-  <h3 class="admin__heading admin__heading--secondary">Dirigent <%= i + 1 %></h3>
-  <div class="admin__img-group">
-    <div class="admin__input__group">
-      <h3 class="admin__heading admin__heading--tertiary">Portree</h3>
-      <input type="file" name="conductorsImg<%= i + 1 %>" id="conductorsImg<%= i + 1 %>" class="admin__hidden-input file">
-      <label for="conductorsImg<%= i + 1 %>" class="admin__small-btn" id="conductorsImg<%= i + 1 %>Label">Vali fail</label>
-      <p class="admin__input-placeholder" id="conductorsImg<%= i + 1 %>Placeholder"><%= data.conductorsImages[i].filename %></p>
-      <img class="admin__icon" src="<%= data.conductorsImages[i].url %>" id="conductorsImg<%= i + 1 %>Icon" alt="Dirigendi portree">
-    </div>
-  </div>
-<div class="admin__form-field">
-  <h3 class="admin__heading admin__heading--tertiary">Nimi</h3>
+<form class="admin__form" action="/api/conductors/intro">
+  <h3 class="admin-heading admin-heading--secondary">Sissejuhatav tekst</h3>
   <div class="admin__input-group">
-    <div class="admin__input-item">
-      <h3 class="admin__heading admin__heading--quarternary">EST</h3>
-        <input type="text" class="admin__input admin__input--bold conductorsHeadingEst" name="conductorsHeading<%= i + 1 %>Est" id="conductorsHeading<%= i + 1 %>Est" value="<%= data.conductorsSections[i].heading.est %>">
-    </div>
-    <div class="admin__input-item">
-      <h3 class="admin__heading admin__heading--quarternary">EN</h3>
-        <input type="text" class="admin__input admin__input--bold conductorsHeadingEn" name="conductorsHeading<%= i + 1 %>En" id="conductorsHeading<%= i + 1 %>En" value="<%= data.conductorsSections[i].heading.en %>">
-    </div>
-  </div>
-  <h3 class="admin__heading admin__heading--tertiary">Sisu</h3>
-  <div class="admin__input-group">
-    <div class="admin__input-item">
-      <h3 class="admin__heading admin__heading--quarternary">EST</h3>
-      <div class="admin__editor">
-        <div class="editor conductorsSectionEstEditor" name="conductorsSection<%= i + 1 %>EstEditor" id="conductorsSection<%= i + 1 %>EstEditor"><%- data.conductorsSections[i].content.est %></div>
+    <h3 class="admin-heading admin-heading--tertiary">Sisu</h3>
+    <div class="column-container">
+      <div class="admin__input-item">
+        <h3 class="admin-heading admin-heading--quarternary">EST</h3>
+        <div class="admin__editor">
+          <div class="editor" id="conductorsIntroEstEditor"><%- data.intros[1].est %></div>
+        </div>
+        <input class="admin__hidden-input" id="conductorsIntroEst" name="conductorsIntroEst" type="text">
       </div>
-      <input type="text" class="admin__hidden-input conductorsSectionEst" name="conductorsSection<%= i + 1 %>Est" id="conductorsSection<%= i + 1 %>Est">
-    </div>
-    <div class="admin__input-item">
-      <h3 class="admin__heading admin__heading--quarternary">EN</h3>
-      <div class="admin__editor">
-        <div class="editor conductorsSectionEnEditor" name="conductorsSection<%= i + 1 %>EnEditor" id="conductorsSection<%= i + 1 %>EnEditor"><%- data.conductorsSections[i].content.en %></div>
+      <div class="admin__input-item">
+        <h3 class="admin-heading admin-heading--quarternary">EN</h3>
+        <div class="admin__editor">
+          <div class="editor" id="conductorsIntroEnEditor"><%- data.intros[1].en %></div>
+        </div>
+        <input class="admin__hidden-input" id="conductorsIntroEn" name="conductorsIntroEn" type="text">
       </div>
-      <input type="text" class="admin__hidden-input conductorsSectionEn" name="conductorsSection<%= i + 1 %>En" id="conductorsSection<%= i + 1 %>En">
+    </div>
+    <div class="column-container">
+      <button class="btn btn--admin btn--admin--large" type="submit">Salvesta</button>
     </div>
   </div>
-  <div class="admin__btn-group">
-    <a class="admin__btn deleteBtn conductorsSectionDeleteBtn" data-action="/api/conductors/sections/<%= i + 1 %>" name="conductorsSection<%= i + 1 %>DeleteBtn" id="conductorsSection<%= i + 1 %>DeleteBtn">Kustuta</a>
-    <button class="admin__btn conductorsSectionBtn" type="submit" name="conductorsSection<%= i + 1 %>Btn" id="conductorsSection<%= i + 1 %>Btn">Salvesta</button>
-  </div>
-  </div>
+
 </form>
+
+<% for (var i = 0; i < data.conductorsSections.length; i++) { %>
+
+<form class="admin__form" action="/api/conductors/sections/<%= i + 1 %>">
+
+  <div class="admin__input-group">
+    <h3 class="admin-heading admin-heading--secondary">Dirigent <%= i + 1 %></h3>
+    <div class="column-container">
+      <div class="admin__input__item">
+        <h3 class="admin-heading admin-heading--tertiary">Portree</h3>
+        <input class="admin__hidden-input" id="conductorsImg<%= i + 1 %>" name="conductorsImg<%= i + 1 %>" type="file">
+        <label class="btn btn--admin btn--admin--small" for="conductorsImg<%= i + 1 %>">Vali fail</label>
+        <p class="admin__label" id="conductorsImg<%= i + 1 %>Label"><%= data.conductorsImages[i].filename %></p>
+        <img class="admin__preview" id="conductorsImg<%= i + 1 %>Preview" src="<%= data.conductorsImages[i].url %>" alt="Dirigendi portree">
+      </div>
+    </div>
+  </div>
+  <hr>
+  <div class="admin__input-group">
+    <h3 class="admin-heading admin-heading--tertiary">Nimi</h3>
+    <div class="column-container">
+      <div class="admin__input-item">
+        <h3 class="admin-heading admin-heading--quarternary">EST</h3>
+        <input class="admin__input admin__input--bold" name="conductorsHeading<%= i + 1 %>Est" type="text" value="<%= data.conductorsSections[i].heading.est %>">
+      </div>
+      <div class="admin__input-item">
+        <h3 class="admin-heading admin-heading--quarternary">EN</h3>
+        <input class="admin__input admin__input--bold" name="conductorsHeading<%= i + 1 %>En" type="text" value="<%= data.conductorsSections[i].heading.en %>">
+      </div>
+    </div>
+    <h3 class="admin-heading admin-heading--tertiary">Sisu</h3>
+    <div class="column-container">
+      <div class="admin__input-item">
+        <h3 class="admin-heading admin-heading--quarternary">EST</h3>
+        <div class="admin__editor">
+          <div class="editor" id="conductorsSection<%= i + 1 %>EstEditor"><%- data.conductorsSections[i].content.est %></div>
+        </div>
+        <input class="admin__hidden-input" id="conductorsSection<%= i + 1 %>Est" name="conductorsSection<%= i + 1 %>Est" type="text">
+      </div>
+      <div class="admin__input-item">
+        <h3 class="admin-heading admin-heading--quarternary">EN</h3>
+        <div class="admin__editor">
+          <div class="editor" id="conductorsSection<%= i + 1 %>EnEditor"><%- data.conductorsSections[i].content.en %></div>
+        </div>
+        <input class="admin__hidden-input" id="conductorsSection<%= i + 1 %>En" name="conductorsSection<%= i + 1 %>En" type="text">
+      </div>
+    </div>
+    <div class="column-container">
+      <a class="btn btn--admin btn--admin--large deleteBtn" data-action="/api/conductors/sections/<%= i + 1 %>">Kustuta</a>
+      <button class="btn btn--admin btn--admin--large" type="submit">Salvesta</button>
+    </div>
+  </div>
+
+</form>
+
 <% } %>
-<a class="admin__btn addBtn" data-action="/api/conductors/sections" name="conductorsSectionAddBtn" id="conductorsSectionAddBtn">+ Lisa dirigent +</a>
+
+<a class="btn btn--admin btn--admin--large addBtn" data-action="/api/conductors/sections">+ Lisa dirigent +</a>
+
 
 <%- include('../partials/footer') -%>

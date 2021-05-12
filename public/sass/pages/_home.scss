@@ -1,0 +1,41 @@
+// STYLES FOR THE HOME PAGE
+
+.home {
+  &__item {
+    transition-property: transform, color;
+    transition-duration: 0.5s;
+    padding: 2rem 4rem;
+
+    &:active,
+    &:hover {
+      transform: scale(1.1);
+      color: $color-primary-light;
+    }
+
+    &:active .heading,
+    &:active .home__icon,
+    &:hover .heading,
+    &:hover .home__icon {
+      color: $color-primary-light;
+    }
+  }
+
+  &__icon {
+    transition-property: color;
+    transition-duration: 0.5s;
+    margin-bottom: 2rem;
+    font-size: 4rem;
+    color: $color-primary-dark;
+  }
+
+  &__link {
+    &,
+    &:link,
+    &:visited {
+      transition-property: color;
+      transition-duration: 0.5s;
+      text-decoration: none;
+      color: $color-primary-dark;
+    }
+  }
+}

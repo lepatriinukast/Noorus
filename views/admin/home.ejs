@@ -1,109 +1,119 @@
 <%- include('../partials/head', {data: data}); -%>
-<%- include('../partials/admin-nav', {data: data}); -%>
-<%- include('../partials/admin-popup', {data: data}); -%>
+<%- include('../partials/adminnav', {data: data}); -%>
+<%- include('../partials/popup', {data: data}); -%>
 
-<h1 class="admin__heading admin__heading--primary">Avaleht</h1>
-<form action="/api/home/images" enctype="multipart/form-data" class="admin__form" name="homeImages" id="homeImages">
-  <h3 class="admin__heading admin__heading--secondary">Pildid</h3>
-  <div class="admin__img-group">
 
-    <div class="admin__input__group">
-      <h3 class="admin__heading admin__heading--tertiary">Päiseikoon</h3>
-      <input type="file" name="favicon" id="favicon" class="admin__hidden-input file">
-      <label for="favicon" class="admin__small-btn" id="faviconLabel">Vali fail</label>
-      <p class="admin__placeholder" id="faviconPlaceholder"><%= data.staticImages[0].filename %></p>
-      <img class="admin__icon" src="<%= data.staticImages[0].url %>" id="faviconIcon" alt="Päiseikoon">
+<h1 class="admin-heading admin-heading--primary">Avaleht</h1>
+
+<form class="admin__form" action="/api/home/images">
+
+  <h3 class="admin-heading admin-heading--secondary">Pildid</h3>
+  <div class="column-container">
+    <div class="admin__input-item">
+      <h3 class="admin-heading admin-heading--tertiary">Päiseikoon</h3>
+      <input class="admin__hidden-input" id="favicon" name="favicon" type="file">
+      <label class="btn btn--admin btn--admin--small" for="favicon">Vali fail</label>
+      <p class="admin__label" id="faviconLabel"><%= data.staticImages[0].filename %></p>
+      <img class="admin__preview" id="faviconPreview" src="<%= data.staticImages[0].url %>" alt="Päiseikoon">
     </div>
-    <div class="admin__input__group">
-      <h3 class="admin__heading admin__heading--tertiary">Logo</h3>
-      <input type="file" name="logo" id="logo" class="admin__hidden-input file">
-      <label for="logo" class="admin__small-btn" id="logoLabel">Vali fail</label>
-      <p class="admin__placeholder" id="logoPlaceholder"><%= data.staticImages[1].filename %></p>
-      <img class="admin__icon" src="<%= data.staticImages[1].url %>" id="logoIcon" alt="Logo">
+    <div class="admin__input-item">
+      <h3 class="admin-heading admin-heading--tertiary">Logo</h3>
+      <input class="admin__hidden-input" id="logo" name="logo" type="file">
+      <label class="btn btn--admin btn--admin--small" id="logoSelect" for="logo">Vali fail</label>
+      <p class="admin__label" id="logoLabel"><%= data.staticImages[1].filename %></p>
+      <img class="admin__preview" id="logoPreview" src="<%= data.staticImages[1].url %>" alt="Logo">
     </div>
-    <div class="admin__input__group">
-      <h3 class="admin__heading admin__heading--tertiary">Taustapilt</h3>
-      <input type="file" name="homeBackgroundImg" id="homeBackgroundImg" class="admin__hidden-input file">
-      <label for="homeBackgroundImg" class="admin__small-btn" id="homeBackgroundImgLabel">Vali fail</label>
-      <p class="admin__placeholder" id="homeBackgroundImgPlaceholder"><%= data.staticImages[2].filename %></p>
-      <img class="admin__icon" src="<%= data.staticImages[2].url %>" id="homeBackgroundImgIcon" alt="Taustapilt">
+    <div class="admin__input-item">
+      <h3 class="admin-heading admin-heading--tertiary">Taustapilt</h3>
+      <input class="admin__hidden-input" id="homeBackgroundImg" name="homeBackgroundImg" type="file">
+      <label class="btn btn--admin btn--admin--small" id="homeBackgroundImgSelect" for="homeBackgroundImg">Vali fail</label>
+      <p class="admin__label" id="homeBackgroundImgLabel"><%= data.staticImages[2].filename %></p>
+      <img class="admin__preview" id="homeBackgroundImgPreview" src="<%= data.staticImages[2].url %>" alt="Taustapilt">
     </div>
   </div>
-  <div class="admin__btn-group">
-    <button class="admin__btn" type="submit" name="homeImagesBtn" id="homeImagesBtn">Salvesta</button>
+  <div class="column-container">
+    <button class="btn btn--admin btn--admin--large" type="submit">Salvesta</button>
   </div>
+
 </form>
 
-<form action="/api/home/main" enctype="multipart/form-data" class="admin__form" id="homeMain">
-  <h3 class="admin__heading admin__heading--secondary">Suur tekst</h3>
-  <div class="admin__form-field">
-    <h3 class="admin__heading admin__heading--tertiary">Pealkiri</h3>
-    <div class="admin__input-group">
+
+<form class="admin__form" action="/api/home/main">
+
+  <h3 class="admin-heading admin-heading--secondary">Suur tekst</h3>
+  <div class="admin__input-group">
+    <h3 class="admin-heading admin-heading--tertiary">Pealkiri</h3>
+    <div class="column-container">
       <div class="admin__input-item">
-        <h3 class="admin__heading admin__heading--quarternary">EST</h3>
-        <input type="text" class="admin__input admin__input--bold" name="homeMainHeadingEst" id="homeMainHeadingEst" value="<%= data.staticSections[0].heading.est %>">
+        <h3 class="admin-heading admin-heading--quarternary">EST</h3>
+        <input class="admin__input admin__input--bold" name="homeMainHeadingEst" type="text" value="<%= data.staticSections[0].heading.est %>">
       </div>
       <div class="admin__input-item">
-        <h3 class="admin__heading admin__heading--quarternary">EN</h3>
-        <input type="text" class="admin__input admin__input--bold" name="homeMainHeadingEn" id="homeMainHeadingEn" value="<%= data.staticSections[0].heading.en %>">
-      </div>
-    </div>
-    <h3 class="admin__heading admin__heading--tertiary">Sisu</h3>
-    <div class="admin__input-group">
-      <div class="admin__input-item">
-        <h3 class="admin__heading admin__heading--quarternary">EST</h3>
-        <input type="text" class="admin__input admin__input--bold" name="homeMainContentEst" id="homeMainContentEst" value="<%= data.staticSections[0].content.est %>">
-      </div>
-      <div class="admin__input-item">
-        <h3 class="admin__heading admin__heading--quarternary">EN</h3>
-        <input type="text" class="admin__input admin__input--bold" name="homeMainContentEn" id="homeMainContentEn" value="<%= data.staticSections[0].content.en %>">
+        <h3 class="admin-heading admin-heading--quarternary">EN</h3>
+        <input class="admin__input admin__input--bold" name="homeMainHeadingEn" type="text" value="<%= data.staticSections[0].heading.en %>">
       </div>
     </div>
-    <div class="admin__btn-group">
-      <button class="admin__btn" type="submit" name="homeMainBtn" id="homeMainBtn">Salvesta</button>
+    <h3 class="admin-heading admin-heading--tertiary">Sisu</h3>
+    <div class="column-container">
+      <div class="admin__input-item">
+        <h3 class="admin-heading admin-heading--quarternary">EST</h3>
+        <input class="admin__input admin__input--bold" name="homeMainContentEst" type="text" value="<%= data.staticSections[0].content.est %>">
+      </div>
+      <div class="admin__input-item">
+        <h3 class="admin-heading admin-heading--quarternary">EN</h3>
+        <input class="admin__input admin__input--bold" name="homeMainContentEn" type="text" value="<%= data.staticSections[0].content.en %>">
+      </div>
+    </div>
+    <div class="column-container">
+      <button class="btn btn--admin btn--admin--large" type="submit">Salvesta</button>
     </div>
   </div>
+
 </form>
 
 <% for (var i = 0; i < 2; i++) { %>
 
-<form action="/api/home/sections/<%= i + 1 %>" enctype="multipart/form-data" class="admin__form" id="homeSection<%= i + 1 %>">
-  <h3 class="admin__heading admin__heading--secondary">Sektsioon <%= i + 1 %></h3>
-  <div class="admin__form-field">
-    <h3 class="admin__heading admin__heading--tertiary">Pealkiri</h3>
-    <div class="admin__input-group">
+<form class="admin__form" action="/api/home/sections/<%= i + 1 %>">
+
+  <h3 class="admin-heading admin-heading--secondary">Sektsioon <%= i + 1 %></h3>
+  <div class="admin__input-group">
+    <h3 class="admin-heading admin-heading--tertiary">Pealkiri</h3>
+    <div class="column-container">
       <div class="admin__input-item">
-        <h3 class="admin__heading admin__heading--quarternary">EST</h3>
-        <input type="text" class="admin__input admin__input--bold homeHeadingEst" name="homeHeading<%= i + 1 %>Est" id="homeHeading<%= i + 1 %>Est" value="<%= data.staticSections[i + 1].heading.est %>">
+        <h3 class="admin-heading admin-heading--quarternary">EST</h3>
+        <input class="admin__input admin__input--bold" name="homeHeading<%= i + 1 %>Est" type="text" value="<%= data.staticSections[i + 1].heading.est %>">
       </div>
       <div class="admin__input-item">
-        <h3 class="admin__heading admin__heading--quarternary">EN</h3>
-        <input type="text" class="admin__input admin__input--bold homeHeadingEn" name="homeHeading<%= i + 1 %>En" id="homeHeading<%= i + 1 %>En" value="<%= data.staticSections[i + 1].heading.en %>">
+        <h3 class="admin-heading admin-heading--quarternary">EN</h3>
+        <input class="admin__input admin__input--bold" name="homeHeading<%= i + 1 %>En" type="text" value="<%= data.staticSections[i + 1].heading.en %>">
       </div>
     </div>
-    <h3 class="admin__heading admin__heading--tertiary">Sisu</h3>
-    <div class="admin__input-group">
+    <h3 class="admin-heading admin-heading--tertiary">Sisu</h3>
+    <div class="column-container">
       <div class="admin__input-item">
-        <h3 class="admin__heading admin__heading--quarternary">EST</h3>
+        <h3 class="admin-heading admin-heading--quarternary">EST</h3>
         <div class="admin__editor">
-          <div class="editor homeSectionEstEditor" name="homeSection<%= i + 1 %>EstEditor" id="homeSection<%= i + 1 %>EstEditor"><%- data.staticSections[i + 1].content.est %></div>
+          <div class="editor" id="homeSection<%= i + 1 %>EstEditor"><%- data.staticSections[i + 1].content.est %></div>
         </div>
-        <input type="text" class="admin__hidden-input homeSectionEst" name="homeSection<%= i + 1 %>Est" id="homeSection<%= i + 1 %>Est">
+        <input class="admin__hidden-input" id="homeSection<%= i + 1 %>Est" name="homeSection<%= i + 1 %>Est" type="text">
       </div>
       <div class="admin__input-item">
-        <h3 class="admin__heading admin__heading--quarternary">EN</h3>
+        <h3 class="admin-heading admin-heading--quarternary">EN</h3>
         <div class="admin__editor">
-          <div class="editor homeSectionEnEditor" name="homeSection<%= i + 1 %>EnEditor" id="homeSection<%= i + 1 %>EnEditor"><%- data.staticSections[i + 1].content.en %>
+          <div class="editor" id="homeSection<%= i + 1 %>EnEditor"><%- data.staticSections[i + 1].content.en %>
           </div>
         </div>
-        <input type="text" class="admin__hidden-input homeSectionEn" name="homeSection<%= i + 1 %>En" id="homeSection<%= i + 1 %>En">
+        <input class="admin__hidden-input" id="homeSection<%= i + 1 %>En" name="homeSection<%= i + 1 %>En" type="text">
       </div>
     </div>
-    <div class="admin__btn-group">
-      <button class="admin__btn homeSectionBtn" type="submit" name="homeSection<%= i + 1 %>Btn" id="homeSection<%= i + 1 %>Btn">Salvesta</button>
+    <div class="column-container">
+      <button class="btn btn--admin btn--admin--large" type="submit">Salvesta</button>
     </div>
   </div>
+
 </form>
+
 <% } %>
+
 
 <%- include('../partials/footer') -%>

@@ -1,0 +1,23 @@
+// STYLES FOR THE HEADER.
+
+.header {
+  position: relative;
+  margin-top: -6rem;
+  height: 65rem;
+  height: 100vh;
+  background-position: 50% 35%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-image: linear-gradient(rgba($color-white, .6), rgba($color-white, .6)), url("../img/noorus1.jpg");
+
+  &__heading-box {
+    position: absolute;
+    top: 47%;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    @media screen and (max-height: 25em) {
+      top: 45%;
+    }
+  }
+}

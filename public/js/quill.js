@@ -17,7 +17,7 @@
       let quill = new Quill(containerArray[i], {
       modules: {
         toolbar: [
-          ['bold', 'italic', 'underline', 'link'],
+          ['bold', 'italic', 'underline', 'link', { 'list': 'bullet' }]
         ]
       },
       theme: 'snow'  // or 'bubble'

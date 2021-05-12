@@ -1,0 +1,106 @@
+// NAVIGATION BAR ON THE HEADER OF THE PUBLIC PAGES
+
+// Styles for the whole navigation bar.
+
+.headnav {
+  @include boxShadow;
+  position: relative;
+  z-index: 2;
+  justify-content: space-between;
+  align-items: center;
+  display: flex;
+  height: 6rem;
+  padding: 0 2.5rem;
+  background-color: $color-primary-dark;
+
+  // Item groups.
+
+  &__list {
+    flex: 0 0 42%;
+    justify-content: space-around;
+    display: flex;
+
+    &--left {
+      @media screen and (max-width: 69.375em) {
+        display: none;
+      }
+    }
+  }
+
+  // Navigation items.
+
+  &__item {
+    transition-property: transform;
+    transition-duration: 0.5s;
+
+    &:active,
+    &:hover {
+      transform: scale(1.1);
+    }
+
+    &--hamburger {
+      display: none;
+      @media screen and (max-width: 69.375em) {
+        flex: 0 0 40%;
+        justify-content: center;
+        display: flex;
+      }
+    }
+
+    &--expandable {
+      &:hover .dropdown {
+        @media screen and (hover: hover) {
+          visibility: visible;
+          opacity: 1;
+        }
+      }
+
+      span {
+        position: relative;
+        margin-left: 1rem;
+        color: $color-white;
+        @media screen and (max-width: 26.875em) {
+          font-size: 2rem;
+        }
+      }
+    }
+
+    &--social {
+      @media screen and (max-width: 53.75em) {
+        display: none;
+      }
+    }
+  }
+
+  // Links.
+
+  &__link {
+    &,
+    &:link,
+    &:visited {
+      margin: auto;
+      font-weight: bold;
+      text-decoration: none;
+      color: $color-white;
+    }
+  }
+
+  // Logo in the middle of the navigation bar.
+
+  &__logo {
+    width: 4rem;
+  }
+
+  // Social media icons on the right.
+
+  &__icon {
+    font-size: 2.2rem;
+    font-weight: normal;
+  }
+
+  // Language button on the right.
+
+  &__language-btn {
+    font-size: 1.2rem;
+  }
+}

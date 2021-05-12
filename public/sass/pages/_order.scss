@@ -1,0 +1,22 @@
+// STYLES FOR THE ORDER PAGE
+
+.order {
+
+  &__grid {
+    grid-template-columns: 1fr 1fr 1fr;
+    max-width: 50rem;
+    display: grid;
+    margin: auto;
+    @media screen and (max-width: 62.5em) {
+      width: 30rem;
+    }
+  }
+
+  &__box {
+    align-items: center;
+    justify-content: center;
+    flex-wrap: nowrap;
+    display: flex;
+    margin: 2rem;
+  }
+}

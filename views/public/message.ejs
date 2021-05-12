@@ -1,0 +1,11 @@
+<%- include('../partials/head', {data: data}); -%>
+
+
+  <div class="message__container">
+    <h2 class="heading heading--secondary u-margin"><%= data.pageInfo.miscellaneous[data.page][0] %></h2>
+      <p class="u-margin"><strong><%= data.pageInfo.miscellaneous[data.page][1] %></strong></p>
+      <a class="btn btn--main" href="/<%= data.pageInfo.miscellaneous[data.page][2] %>"><%= data.pageInfo.miscellaneous[data.page][3] %></a>
+  </div>
+
+
+<%- include('../partials/footer'); -%>

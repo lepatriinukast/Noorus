@@ -1,0 +1,50 @@
+// STYLES THAT APPLY TO THE WHOLE APP.
+
+// Common universal reset for easier development.
+
+*,
+*::after,
+*::before {
+  margin: 0;
+  box-sizing: inherit;
+  padding: 0;
+}
+
+// Changes the selection style.
+
+::selection {
+  background-color: $color-primary-light;
+  color: $color-white;
+}
+
+// Changes the focus style.
+
+:focus {
+  outline-color: blue;
+  outline-width: thick;
+}
+
+// Reset of measurement units: 1rem = 10px; element size = content + padding + border.
+
+html {
+  box-sizing: border-box;
+  font-size: 62.5%;
+  @media screen and (max-width: 26.875em), (max-height: 25em) {
+    font-size: 50%;
+  }
+  @media screen and (max-width: 21.875em) {
+    font-size: 40%;
+  }
+}
+
+// Default background by page type.
+
+.login
+.message,
+.public {
+  background-color: $color-white;
+}
+
+.admin {
+  background-color: $color-grey-light;
+}

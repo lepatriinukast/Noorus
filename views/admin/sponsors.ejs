@@ -1,63 +1,70 @@
 <%- include('../partials/head', {data: data}); -%>
-<%- include('../partials/admin-nav', {data: data}); -%>
-<%- include('../partials/admin-popup', {data: data}); -%>
+<%- include('../partials/adminnav', {data: data}); -%>
+<%- include('../partials/popup', {data: data}); -%>
 
-<h1 class="admin__heading admin__heading--primary">Toetajad</h1>
-<form action="/api/sponsors/intro" enctype="multipart/form-data" class="admin__form" id="sponsorsIntro">
-  <h3 class="admin__heading admin__heading--secondary">Sissejuhatav tekst</h3>
 
-  <div class="admin__form-field">
-    <h3 class="admin__heading admin__heading--tertiary">Sisu</h3>
-    <div class="admin__input-group">
+<h1 class="admin-heading admin-heading--primary">Toetajad</h1>
+
+<form class="admin__form" action="/api/sponsors/intro">
+
+  <h3 class="admin-heading admin-heading--secondary">Sissejuhatav tekst</h3>
+  <div class="admin__input-group">
+    <h3 class="admin-heading admin-heading--tertiary">Sisu</h3>
+    <div class="column-container">
       <div class="admin__input-item">
-        <h3 class="admin__heading admin__heading--quarternary">EST</h3>
+        <h3 class="admin-heading admin-heading--quarternary">EST</h3>
         <div class="admin__editor">
-          <div class="editor" name="sponsorsIntroEstEditor" id="sponsorsIntroEstEditor"><%- data.intros[4].est %></div>
+          <div class="editor" id="sponsorsIntroEstEditor"><%- data.intros[4].est %></div>
         </div>
-        <input type="text" class="admin__hidden-input" name="sponsorsIntroEst" id="sponsorsIntroEst">
+        <input class="admin__hidden-input" id="sponsorsIntroEst" name="sponsorsIntroEst" type="text">
       </div>
       <div class="admin__input-item">
-        <h3 class="admin__heading admin__heading--quarternary">EN</h3>
+        <h3 class="admin-heading admin-heading--quarternary">EN</h3>
         <div class="admin__editor">
-          <div class="editor" name="sponsorsIntroEnEditor" id="sponsorsIntroEnEditor"><%- data.intros[4].en %></div>
+          <div class="editor" id="sponsorsIntroEnEditor"><%- data.intros[4].en %></div>
         </div>
-        <input type="text" class="admin__hidden-input" name="sponsorsIntroEn" id="sponsorsIntroEn">
+        <input class="admin__hidden-input" id="sponsorsIntroEn" name="sponsorsIntroEn" type="text">
       </div>
     </div>
-    <div class="admin__btn-group">
-      <button class="admin__btn" type="submit" name="sponsorsIntroBtn" id="sponsorsIntroBtn">Salvesta</button>
+    <div class="column-container">
+      <button class="btn btn--admin btn--admin--large" type="submit">Salvesta</button>
     </div>
   </div>
+
 </form>
 
-<form action="/api/sponsors/logos" enctype="multipart/form-data" class="admin__form" id="sponsorsLogos">
-  <h3 class="admin__heading admin__heading--secondary">Lingid</h3>
+
+<form class="admin__form" action="/api/sponsors/logos">
+
+  <h3 class="admin-heading admin-heading--secondary">Lingid</h3>
   <% for (var i = 0; i < data.sponsorsLogos.length; i++) { %>
-    <div class="admin__img-group">
-      <div class="admin__input__group">
-    <h3 class="admin__heading admin__heading--tertiary">Logo <%= i + 1 %></h3>
-      <input type="file" name="sponsorsImg<%= i + 1 %>" id="sponsorsImg<%= i + 1 %>" class="admin__hidden-input file">
-      <label for="sponsorsImg<%= i + 1 %>" class="admin__small-btn" id="sponsorsImg<%= i + 1 %>Label">Vali fail</label>
-      <p class="admin__input-placeholder" id="sponsorsImg<%= i + 1 %>Placeholder"><%= data.sponsorsLogos[i].filename %></p>
-      <img class="admin__icon" src="<%= data.sponsorsLogos[i].url %>" id="sponsorsImg<%= i + 1 %>Icon" alt="Toetaja logo">
-    </div>
-  </div>
-  <div class="admin__form-field">
-    <div class="admin__input-group">
-      <div class="admin__input-item">
-        <h3 class="admin__heading admin__heading--quarternary">LINK</h3>
-        <input type="text" class="admin__input sponsorsLink" name="sponsors<%= i + 1 %>Link" id="sponsors<%= i + 1 %>Link" value="<%= data.sponsorsLogos[i].link %>">
+  <div class="admin__input-group">
+    <div class="column-container">
+      <div class="admin__input__item">
+        <h3 class="admin-heading admin-heading--tertiary">Logo <%= i + 1 %></h3>
+        <input class="admin__hidden-input" id="sponsorsImg<%= i + 1 %>" name="sponsorsImg<%= i + 1 %>" type="file">
+        <label class="btn btn--admin btn--admin--small" for="sponsorsImg<%= i + 1 %>">Vali fail</label>
+        <p class="admin__label" id="sponsorsImg<%= i + 1 %>Label"><%= data.sponsorsLogos[i].filename %></p>
+        <img class="admin__preview" id="sponsorsImg<%= i + 1 %>Preview" src="<%= data.sponsorsLogos[i].url %>" alt="Toetaja logo">
       </div>
     </div>
-    <a class="admin__small-btn deleteBtn sponsorsDeleteBtn" data-action="/api/sponsors/logos/<%= i + 1 %>" id="sponsors<%= i + 1 %>DeleteBtn" name="sponsors<%= i + 1 %>DeleteBtn">Kustuta</a>
-    <% } %>
-    <div class="admin__btn-group">
-      <a class="admin__small-btn addBtn" data-action="/api/sponsors/logos" name="sponsorsAddBtn" id="sponsorsAddBtn">+ Lisa logo +</a>
+    <div class="column-container">
+      <div class="admin__input-item">
+        <h3 class="admin-heading admin-heading--quarternary">LINK</h3>
+        <input class="admin__input" name="sponsors<%= i + 1 %>Link" type="text" value="<%= data.sponsorsLogos[i].link %>">
+      </div>
     </div>
-    <div class="admin__btn-group">
-      <button class="admin__btn" name="sponsorsBtn" type="submit" id="sponsorsBtn">Salvesta</button>
-    </div>
+    <a class="btn btn--admin btn--admin--small deleteBtn" data-action="/api/sponsors/logos/<%= i + 1 %>">Kustuta</a>
   </div>
+  <% } %>
+  <div class="column-container">
+    <a class="btn btn--admin btn--admin--small addBtn" data-action="/api/sponsors/logos">+ Lisa logo +</a>
+  </div>
+  <div class="column-container">
+    <button class="btn btn--admin btn--admin--large" type="submit">Salvesta</button>
+  </div>
+
 </form>
+
 
 <%- include('../partials/footer') -%>

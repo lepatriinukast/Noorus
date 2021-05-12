@@ -1,84 +1,93 @@
 <%- include('../partials/head', {data: data}); -%>
-<%- include('../partials/admin-nav', {data: data}); -%>
-<%- include('../partials/admin-popup', {data: data}); -%>
+<%- include('../partials/adminnav', {data: data}); -%>
+<%- include('../partials/popup', {data: data}); -%>
 
-<h1 class="admin__heading admin__heading--primary">Möödunud sündmused</h1>
 
-  <form action="/api/archive/intro" enctype="multipart/form-data" class="admin__form" id="archiveIntro">
-    <h3 class="admin__heading admin__heading--secondary">Sissejuhatav tekst</h3>
+<h1 class="admin-heading admin-heading--primary">Möödunud sündmused</h1>
 
-      <div class="admin__form-field">
-        <div class="admin__input-group">
-          <div class="admin__input-item">
-            <h3 class="admin__heading admin__heading--quarternary">EST</h3>
-            <div class="admin__editor">
-              <div class="editor" name="archiveIntroEstEditor" id="archiveIntroEstEditor"><%- data.intros[6].est %></div>
-            </div>
-            <input type="text" class="admin__hidden-input" name="archiveIntroEst" id="archiveIntroEst">
-            <h3 class="admin__heading admin__heading--quarternary">EN</h3>
-          </div>
-            <div class="admin__input-item">
-            <div class="admin__editor">
-              <div class="editor" name="archiveIntroEnEditor" id="archiveIntroEnEditor"><%- data.intros[6].en %></div>
-            </div>
-            <input type="text" class="admin__hidden-input" name="archiveIntroEn" id="archiveIntroEn">
-          </div>
-        </div>
-        <div class="admin__btn-group">
-          <button class="admin__btn" type="submit" name="archiveIntroBtn" id="archiveIntroBtn">Salvesta</button>
-        </div>
-        </div>
-  </form>
+<form class="admin__form" action="/api/archive/intro">
 
-  <% for (var i = 0; i < data.archiveContent.length; i++) { %>
-
-<form action="/api/archive/content/<%= i + 1 %>" enctype="multipart/form-data"class="admin__form" id="archiveContent<%= i + 1 %>">
-  <h3 class="admin__heading admin__heading--secondary">Sündmus <%= i + 1 %></h3>
-  <div class="admin__form-field">
-    <div class="admin__img-group">
-      <div class="admin__input__group">
-        <h3 class="admin__heading admin__heading--tertiary">Plakat</h3>
-        <input type="file" name="archiveImg<%= i + 1 %>" id="archiveImg<%= i + 1 %>" class="admin__hidden-input file">
-        <label for="archiveImg<%= i + 1 %>" class="admin__small-btn" id="archiveImg<%= i + 1 %>Label">Vali fail</label>
-        <p class="admin__input-placeholder" id="archiveImg<%= i + 1 %>Placeholder"><%= data.archiveImages[i].filename %></p>
-        <img class="admin__icon" src="<%= data.archiveImages[i].url %>" id="archiveImg<%= i + 1 %>Icon" alt="Sündmuse plakat">
-      </div>
-    </div>
-    <h3 class="admin__heading admin__heading--tertiary">Pealkiri</h3>
-    <div class="admin__input-group">
+  <h3 class="admin-heading admin-heading--secondary">Sissejuhatav tekst</h3>
+  <div class="admin__input-group">
+    <div class="column-container">
       <div class="admin__input-item">
-        <h3 class="admin__heading admin__heading--quarternary">EST</h3>
-        <input type="text" class="admin__input admin__input--bold archiveHeadingEst" name="archiveHeading<%= i + 1 %>Est" id="archiveHeading<%= i + 1 %>Est" value="<%= data.archiveContent[i].heading.est %>">
-      </div>
-      <div class="admin__input-item">
-        <h3 class="admin__heading admin__heading--quarternary">EN</h3>
-      <input type="text" class="admin__input admin__input--bold archiveHeadingEn" name="archiveHeading<%= i + 1 %>En" id="archiveHeading<%= i + 1 %>En" value="<%= data.archiveContent[i].heading.en %>">
-      </div>
-    </div>
-    <h3 class="admin__heading admin__heading--tertiary">Sisu</h3>
-    <div class="admin__input-group">
-      <div class="admin__input-item">
-        <h3 class="admin__heading admin__heading--quarternary">EST</h3>
+        <h3 class="admin-heading admin-heading--quarternary">EST</h3>
         <div class="admin__editor">
-          <div class="editor archiveContentEstEditor" name="archiveContent<%= i + 1 %>EstEditor" id="archiveContent<%= i + 1 %>EstEditor"><%- data.archiveContent[i].content.est %></div>
+          <div class="editor" id="archiveIntroEstEditor"><%- data.intros[6].est %></div>
         </div>
-          <input type="text" class="admin__hidden-input archiveContentEst" name="archiveContent<%= i + 1 %>Est" id="archiveContent<%= i + 1 %>Est">
+        <input class="admin__hidden-input" id="archiveIntroEst" name="archiveIntroEst" type="text">
       </div>
       <div class="admin__input-item">
-        <h3 class="admin__heading admin__heading--quarternary">EN</h3>
+        <h3 class="admin-heading admin-heading--quarternary">EN</h3>
         <div class="admin__editor">
-          <div class="editor archiveContentEnEditor" name="eventContent<%= i + 1 %>EnEditor" id="archiveContent<%= i + 1 %>EnEditor"><%- data.archiveContent[i].content.en %></div>
+          <div class="editor" id="archiveIntroEnEditor"><%- data.intros[6].en %></div>
+        </div>
+        <input class="admin__hidden-input" id="archiveIntroEn" name="archiveIntroEn" type="text">
+      </div>
+    </div>
+    <div class="column-container">
+      <button class="btn btn--admin btn--admin--large" type="submit">Salvesta</button>
+    </div>
+  </div>
+
+</form>
+
+<% for (var i = 0; i < data.archiveContent.length; i++) { %>
+
+<form class="admin__form" action="/api/archive/content/<%= i + 1 %>">
+
+  <h3 class="admin-heading admin-heading--secondary">Sündmus <%= i + 1 %></h3>
+  <div class="admin__input-group">
+    <div class="column-container">
+      <div class="admin__input-item">
+        <h3 class="admin-heading admin-heading--tertiary">Plakat</h3>
+        <input class="admin__hidden-input" id="archiveImg<%= i + 1 %>" name="archiveImg<%= i + 1 %>" type="file">
+        <label class="btn btn--admin btn--admin--small" for="archiveImg<%= i + 1 %>">Vali fail</label>
+        <p class="admin__label" id="archiveImg<%= i + 1 %>Label"><%= data.archiveImages[i].filename %></p>
+        <img class="admin__preview" id="archiveImg<%= i + 1 %>Preview" src="<%= data.archiveImages[i].url %>" alt="Sündmuse plakat">
+      </div>
+    </div>
+  </div>
+  <hr>
+  <div class="admin__input-group">
+    <h3 class="admin-heading admin-heading--tertiary">Pealkiri</h3>
+    <div class="column-container">
+      <div class="admin__input-item">
+        <h3 class="admin-heading admin-heading--quarternary">EST</h3>
+        <input class="admin__input admin__input--bold" name="archiveHeading<%= i + 1 %>Est" type="text" value="<%= data.archiveContent[i].heading.est %>">
+      </div>
+      <div class="admin__input-item">
+        <h3 class="admin-heading admin-heading--quarternary">EN</h3>
+        <input class="admin__input admin__input--bold" name="archiveHeading<%= i + 1 %>En" type="text" value="<%= data.archiveContent[i].heading.en %>">
+      </div>
+    </div>
+    <h3 class="admin-heading admin-heading--tertiary">Sisu</h3>
+    <div class="column-container">
+      <div class="admin__input-item">
+        <h3 class="admin-heading admin-heading--quarternary">EST</h3>
+        <div class="admin__editor">
+          <div class="editor" id="archiveContent<%= i + 1 %>EstEditor"><%- data.archiveContent[i].content.est %></div>
+        </div>
+        <input class="admin__hidden-input" id="archiveContent<%= i + 1 %>Est" name="archiveContent<%= i + 1 %>Est" type="text">
+      </div>
+      <div class="admin__input-item">
+        <h3 class="admin-heading admin-heading--quarternary">EN</h3>
+        <div class="admin__editor">
+          <div class="editor" id="archiveContent<%= i + 1 %>EnEditor"><%- data.archiveContent[i].content.en %></div>
         </div>
       </div>
-      <input type="text" class="admin__hidden-input archiveContentEn" name="archiveContent<%= i + 1 %>En" id="archiveContent<%= i + 1 %>En">
+      <input class="admin__hidden-input" id="archiveContent<%= i + 1 %>En" name="archiveContent<%= i + 1 %>En" type="text">
     </div>
-    <div class="admin__btn-group">
-      <a class="admin__btn deleteBtn archiveContentDeleteBtn" data-action="/api/archive/content/<%= i + 1 %>" name="archiveContent<%= i + 1 %>DeleteBtn" id="archiveContent<%= i + 1 %>DeleteBtn">Kustuta</a>
-      <a class="admin__btn restoreBtn archiveContentRestoreBtn" data-action="/api/archive/content/<%= i + 1 %>" name="archiveContent<%= i + 1 %>RestoreBtn" id="archiveContent<%= i + 1 %>RestoreBtn">Taasta</a>
-      <button class="admin__btn archiveContentBtn" type="submit" name="archiveContent<%= i + 1 %>Btn" id="archiveContent<%= i + 1 %>Btn">Salvesta</button>
+    <div class="column-container">
+      <button class="btn btn--admin btn--admin--large" type="submit">Salvesta</button>
+      <a class="btn btn--admin btn--admin--large restoreBtn" data-action="/api/archive/content/<%= i + 1 %>">Taasta</a>
+      <a class="btn btn--admin btn--admin--large deleteBtn" data-action="/api/archive/content/<%= i + 1 %>">Kustuta</a>
     </div>
-    </div>
-  </form>
-  <% } %>
+  </div>
+
+</form>
+
+<% } %>
+
 
 <%- include('../partials/footer') -%>

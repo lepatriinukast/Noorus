@@ -1,0 +1,34 @@
+// THE MAIN SCSS FILE
+
+// Here are all style imports from scss partial files.
+// This file is then written into a css stylesheet.
+
+@import "abstracts/mixins.scss";
+@import "abstracts/variables.scss";
+
+@import "base/base.scss";
+@import "base/layouts.scss";
+@import "base/typography.scss";
+@import "base/utilities.scss";
+
+@import "components/adminnav.scss";
+@import "components/buttons.scss";
+@import "components/card.scss";
+@import "components/dropdown.scss";
+@import "components/footnav.scss";
+@import "components/form.scss";
+@import "components/hamburgernav.scss";
+@import "components/header.scss";
+@import "components/headnav.scss";
+@import "components/iframe.scss";
+@import "components/logo.scss";
+@import "components/popup.scss";
+@import "components/sidenav.scss";
+
+@import "pages/about.scss";
+@import "pages/admin.scss";
+@import "pages/events.scss";
+@import "pages/home.scss";
+@import "pages/message.scss";
+@import "pages/order.scss";
+@import "pages/shop.scss";

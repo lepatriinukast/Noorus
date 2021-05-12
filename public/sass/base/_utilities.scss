@@ -1,0 +1,61 @@
+// UTILITY CLASSES
+
+// Class that adds margin to the bottom of an element.
+
+.u-margin {
+  margin-bottom: 2rem;
+}
+
+// Classes that delete, hide or show an element.
+
+.delete {
+  display: none !important;
+  margin: 0 !important;
+}
+
+.hide {
+  visibility: hidden;
+  animation-name: fadeOut;
+  animation-duration: 0.5s;
+  transition-property: visibility;
+  transition-duration: 0s;
+  transition-delay: 0.5s;
+}
+
+.show {
+  display: block;
+  visibility: visible !important;
+  opacity: 1 !important;
+  animation-name: fadeIn;
+  animation-duration: 0.5s;
+}
+
+// Classes that change the appearance of an element.
+
+.rotate {
+  transform: scale(1.1) rotateZ(-90deg) !important;
+  transition-property: transform;
+  transition-duration: 0.5s;
+}
+
+.greyout {
+  color: $color-grey-light !important;
+}
+
+.red {
+  color: red;
+}
+
+// Classes that change the size of the text-boxes on the shop page.
+
+.low-fixed-height {
+  transition-property: max-height;
+  transition-duration: 0.5s;
+  max-height: 15rem;
+}
+
+.high-fixed-height {
+  transition-property: max-height;
+  transition-duration: 0.5s;
+  max-height: 200rem;
+}

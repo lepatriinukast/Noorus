@@ -1,0 +1,23 @@
+// STYLES FOR THE EVENTS PAGE
+
+.events {
+  &__img {
+    @include boxShadow;
+    width: 60rem;
+    @media screen and (max-width: 56.25em) {
+      width: 90%;
+    }
+
+    &--past {
+      filter: grayscale(100%);
+    }
+  }
+
+  &__text-box {
+    margin: 2rem auto;
+    width: 80rem;
+    @media screen and (max-width: 56.25em) {
+      width: 90%;
+    }
+  }
+}

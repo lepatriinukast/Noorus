@@ -1,114 +1,121 @@
 <%- include('../partials/head', {data: data}); -%>
-<%- include('../partials/admin-nav', {data: data}); -%>
-<%- include('../partials/admin-popup', {data: data}); -%>
+<%- include('../partials/adminnav', {data: data}); -%>
+<%- include('../partials/popup', {data: data}); -%>
 
-<h1 class="admin__heading admin__heading--primary">Telli</h1>
-<form action="/api/order/intro" enctype="multipart/form-data" class="admin__form" id="orderIntro">
-  <h3 class="admin__heading admin__heading--secondary">Sissejuhatav tekst</h3>
 
-    <div class="admin__form-field">
-      <h3 class="admin__heading admin__heading--tertiary">Sisu</h3>
-      <div class="admin__input-group">
-        <div class="admin__input-item">
-          <h3 class="admin__heading admin__heading--quarternary">EST</h3>
-          <div class="admin__editor">
-            <div class="editor" name="orderIntroEstEditor" id="orderIntroEstEditor"><%- data.intros[9].est %></div>
-          </div>
-            <input type="text" class="admin__hidden-input" name="orderIntroEst" id="orderIntroEst">
+<h1 class="admin-heading admin-heading--primary">Telli</h1>
+
+<form class="admin__form" action="/api/order/intro">
+
+  <h3 class="admin-heading admin-heading--secondary">Sissejuhatav tekst</h3>
+  <div class="admin__input-group">
+    <h3 class="admin-heading admin-heading--tertiary">Sisu</h3>
+    <div class="column-container">
+      <div class="admin__input-item">
+        <h3 class="admin-heading admin-heading--quarternary">EST</h3>
+        <div class="admin__editor">
+          <div class="editor" id="orderIntroEstEditor"><%- data.intros[9].est %></div>
         </div>
-        <div class="admin__input-item">
-          <h3 class="admin__heading admin__heading--quarternary">EN</h3>
-          <div class="admin__editor">
-            <div class="editor" name="orderIntroEnEditor" id="orderIntroEnEditor"><%- data.intros[9].en %></div>
-          </div>
-            <input type="text" class="admin__hidden-input" name="orderIntroEn" id="orderIntroEn">
+        <input class="admin__hidden-input" id="orderIntroEst" name="orderIntroEst" type="text">
+      </div>
+      <div class="admin__input-item">
+        <h3 class="admin-heading admin-heading--quarternary">EN</h3>
+        <div class="admin__editor">
+          <div class="editor" id="orderIntroEnEditor"><%- data.intros[9].en %></div>
         </div>
+        <input class="admin__hidden-input" id="orderIntroEn" name="orderIntroEn" type="text">
       </div>
-      <div class="admin__btn-group">
-        <button class="admin__btn" type="submit" name="orderIntroBtn" id="orderIntroBtn">Salvesta</button>
-      </div>
-      </div>
+    </div>
+    <div class="column-container">
+      <button class="btn btn--admin btn--admin--large" type="submit">Salvesta</button>
+    </div>
+  </div>
+
 </form>
 
-  <form action="/api/order/form" enctype="multipart/form-data" class="admin__form" id="orderForm">
-    <h3 class="admin__heading admin__heading--secondary">Ankeet</h3>
 
-    <div class="admin__form-field">
-      <h3 class="admin__heading admin__heading--tertiary">Pealkiri</h3>
-      <div class="admin__input-group">
-        <div class="admin__input-item">
-          <h3 class="admin__heading admin__heading--quarternary">EST</h3>
-          <input type="text" class="admin__input admin__input--bold" name="orderFormHeadingEst" id="orderFormHeadingEst" value="<%= data.miscellaneous[1].est %>">
-        </div>
-        <div class="admin__input-item">
-          <h3 class="admin__heading admin__heading--quarternary">EN</h3>
-          <input type="text" class="admin__input admin__input--bold" name="orderFormHeadingEn" id="orderFormHeadingEn" value="<%= data.miscellaneous[1].en %>">
-        </div>
+<form class="admin__form" action="/api/order/form">
+
+  <h3 class="admin-heading admin-heading--secondary">Ankeet</h3>
+  <div class="admin__input-group">
+    <h3 class="admin-heading admin-heading--tertiary">Pealkiri</h3>
+    <div class="column-container">
+      <div class="admin__input-item">
+        <h3 class="admin-heading admin-heading--quarternary">EST</h3>
+        <input class="admin__input admin__input--bold" name="orderFormHeadingEst" type="text" value="<%= data.miscellaneous[1].est %>">
       </div>
-      <hr class="admin__line">
-
-      <% for (var i = 0; i < data.orderForm.length; i++) { %>
-
-      <h3 class="admin__heading admin__heading--tertiary">Väli <%= i + 1 %></h3>
-      <div class="admin__input-group">
-        <div class="admin__input-item">
-          <h3 class="admin__heading admin__heading--quarternary">EST</h3>
-          <input type="text" class="admin__input admin__input--bold orderFormFieldEst" name="orderFormField<%= i + 1 %>Est" id="orderFormField<%= i + 1 %>Est" value="<%= data.orderForm[i].est %>">
-        </div>
-        <div class="admin__input-item">
-          <h3 class="admin__heading admin__heading--quarternary">EN</h3>
-          <input type="text" class="admin__input admin__input--bold orderFormFieldEn" name="orderFormField<%= i + 1 %>En" id="orderFormField<%= i + 1 %>En" value="<%= data.orderForm[i].en %>">
-        </div>
-        </div>
-        <div class="admin__input-group">
-          <div class="admin__input-item">
-            <h3 class="admin__heading admin__heading--quarternary">KOHUSTUSLIK</h3>
-            <input class="admin__checkbox orderFormFieldRequired" type="checkbox" id="orderFormField<%= i + 1 %>Required" name="orderFormField<%= i + 1 %>Required" <% if (data.orderForm[i].required == "on") {%> checked<% } %>>
-          </div>
-          <div class="admin__input-item">
-            <h3 class="admin__heading admin__heading--quarternary">SUURENEV</h3>
-            <input class="admin__checkbox orderFormFieldExpandable" type="checkbox" id="orderFormField<%= i + 1 %>Expandable" name="orderFormField<%= i + 1 %>Expandable" <% if (data.orderForm[i].expandable == "on") {%> checked<% } %>>
-          </div>
-        </div>
-        <div class="admin__input-group">
-          <a class="admin__small-btn deleteBtn orderFormFieldDeleteBtn" data-action="/api/order/form/<%= i + 1 %>" id="orderFormField<%= i + 1 %>DeleteBtn" name="orderFormField<%= i + 1 %>DeleteBtn">Kustuta</a>
-        </div>
-        <% } %>
-        <div class="admin__btn-group">
-          <a class="admin__small-btn addBtn" data-action="/api/order/form" name="orderFormFieldAddBtn" id="orderFormFieldAddBtn">+ Lisa väli +</a>
-        </div>
-        <div class="admin__btn-group">
-          <button class="admin__btn" data-action="/api/order/form" name="orderFormFieldBtn" type="submit" id="orderFormFieldBtn">Salvesta</button>
-        </div>
+      <div class="admin__input-item">
+        <h3 class="admin-heading admin-heading--quarternary">EN</h3>
+        <input class="admin__input admin__input--bold" name="orderFormHeadingEn" type="text" value="<%= data.miscellaneous[1].en %>">
       </div>
-  </form>
+    </div>
+  </div>
+  <hr>
+  <% for (var i = 0; i < data.orderForm.length; i++) { %>
+  <div class="admin__input-group">
+    <h3 class="admin-heading admin-heading--tertiary">Väli <%= i + 1 %></h3>
+    <div class="column-container">
+      <div class="admin__input-item">
+        <h3 class="admin-heading admin-heading--quarternary">EST</h3>
+        <input class="admin__input admin__input--bold" name="orderFormField<%= i + 1 %>Est" type="text" value="<%= data.orderForm[i].est %>">
+      </div>
+      <div class="admin__input-item">
+        <h3 class="admin-heading admin-heading--quarternary">EN</h3>
+        <input class="admin__input admin__input--bold" name="orderFormField<%= i + 1 %>En" type="text" value="<%= data.orderForm[i].en %>">
+      </div>
+    </div>
+    <div class="column-container">
+      <div class="admin__input-item">
+        <h3 class="admin-heading admin-heading--quarternary">KOHUSTUSLIK</h3>
+        <input class="admin__checkbox" name="orderFormField<%= i + 1 %>Required" type="checkbox" <% if (data.orderForm[i].required == "on") {%> checked<% } %>>
+      </div>
+      <div class="admin__input-item">
+        <h3 class="admin-heading admin-heading--quarternary">SUURENEV</h3>
+        <input class="admin__checkbox" name="orderFormField<%= i + 1 %>Expandable" type="checkbox" <% if (data.orderForm[i].expandable == "on") {%> checked<% } %>>
+      </div>
+    </div>
+    <div class="column-container">
+      <a class="btn btn--admin btn--admin--small deleteBtn" data-action="/api/order/form/<%= i + 1 %>">Kustuta</a>
+    </div>
+  </div>
+  <% } %>
+  <div class="column-container">
+    <a class="btn btn--admin btn--admin--small addBtn" data-action="/api/order/form">+ Lisa väli +</a>
+  </div>
+  <div class="column-container">
+    <button class="btn btn--admin btn--admin--large" type="submit">Salvesta</button>
+  </div>
 
-  <form action="/api/order/postscript" enctype="multipart/form-data" class="admin__form" id="orderPostscript">
-    <h3 class="admin__heading admin__heading--secondary">Postskript</h3>
+</form>
 
-      <div class="admin__form-field">
-        <h3 class="admin__heading admin__heading--tertiary">Sisu</h3>
-        <div class="admin__input-group">
-          <div class="admin__input-item">
-            <h3 class="admin__heading admin__heading--quarternary">EST</h3>
-            <div class="admin__editor">
-              <div class="editor" name="orderPostscriptEstEditor" id="orderPostscriptEstEditor"><%- data.miscellaneous[2].est %></div>
-            </div>
-              <input type="text" class="admin__hidden-input" name="orderPostscriptEst" id="orderPostscriptEst">
-          </div>
-          <div class="admin__input-item">
-            <h3 class="admin__heading admin__heading--quarternary">EN</h3>
-            <div class="admin__editor">
-              <div class="editor" name="orderPostscriptEnEditor" id="orderPostscriptEnEditor"><%- data.miscellaneous[2].en %></div>
-            </div>
-              <input type="text" class="admin__hidden-input" name="orderPostscriptEn" id="orderPostscriptEn">
-          </div>
+
+<form class="admin__form" action="/api/order/postscript">
+
+  <h3 class="admin-heading admin-heading--secondary">Postskript</h3>
+  <div class="admin__input-group">
+    <h3 class="admin-heading admin-heading--tertiary">Sisu</h3>
+    <div class="column-container">
+      <div class="admin__input-item">
+        <h3 class="admin-heading admin-heading--quarternary">EST</h3>
+        <div class="admin__editor">
+          <div class="editor" id="orderPostscriptEstEditor"><%- data.miscellaneous[2].est %></div>
         </div>
-        <div class="admin__btn-group">
-          <button class="admin__btn" type="submit" name="orderPostscriptBtn" id="orderPostscriptBtn">Salvesta</button>
+        <input class="admin__hidden-input" id="orderPostscriptEst" name="orderPostscriptEst" type="text">
+      </div>
+      <div class="admin__input-item">
+        <h3 class="admin-heading admin-heading--quarternary">EN</h3>
+        <div class="admin__editor">
+          <div class="editor" id="orderPostscriptEnEditor"><%- data.miscellaneous[2].en %></div>
         </div>
-        </div>
-  </form>
+        <input class="admin__hidden-input" id="orderPostscriptEn" name="orderPostscriptEn" type="text">
+      </div>
+    </div>
+    <div class="column-container">
+      <button class="btn btn--admin btn--admin--large" type="submit">Salvesta</button>
+    </div>
+  </div>
+
+</form>
 
 
 <%- include('../partials/footer') -%>

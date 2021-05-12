@@ -35,7 +35,7 @@ export const changeCount = (element) => {
 // The event could have been triggered by the button or its child element.
 // Get the id attribute of the button.
 
-  const id = element.closest(".numberBtn").id;
+  const id = element.closest(".signBtn").id;
 
 // The id has information on whether the button represents a plus or a minus sign.
 // Handle the plus sign.
@@ -98,25 +98,25 @@ export const validateCount = (element) => {
 
 export const changePrice = (element) => {
 
-  // Use the id of the item count to get a corresponding price element.
+  // Utilise the id of the item count to get a corresponding price element.
 
   const price = document.getElementById("price" + element.id.slice(9));
 
-  // The price for one item is stored in a data-attribute of this element.
+  // The price for one item is stored in a hidden-input which can be accessed by utilising the id of the item count.
 
-  const initialPrice = price.dataset.price;
+  const initialPrice = document.getElementById("hiddenPrice" + element.id.slice(9));
 
   // If the item count is 0, show the price for one item, but add the greyout effect.
 
   if (element.value == 0) {
-    price.innerHTML = initialPrice;
+    price.innerHTML = initialPrice.value;
     addGreyout(price);
 
     // Elsewise, display a new price, which is the initial price multiplied by the item count.
     // Make sure that the price doesn't have a greyout effect.
 
   } else {
-    price.innerHTML = (initialPrice * element.value);
+    price.innerHTML = (initialPrice.value * element.value);
     removeGreyout(price);
   }
 };

@@ -1,22 +1,20 @@
 <nav class="footnav">
   <ul class="footnav__list">
-    <li class="footnav__item">
-      <a href="/<%= data.pageInfo.navigation.hrefs.links[0] %>" class="footnav__link"><%= data.pageInfo.navigation.linkTexts[0] %></a>
-      <a href="" class="btn btn--menu" id="dropdownButtonFooter">
-        <i class="fas fa-caret-up btn__icon" id="dropdownIconFooter"></i>
-      </a>
-      <div class="dropdown dropdown--footer hide" id="dropdownMenuFooter">
-        <ul class="dropdown__list">
-          <li class="dropdown__item"><a href="/<%= data.pageInfo.navigation.hrefs.dropdown[0] %>" class="dropdown__link"><%= data.pageInfo.aboutSubheadings[1] %> %></a></li>
-          <li class="dropdown__item"><a href="/<%= data.pageInfo.navigation.hrefs.dropdown[1] %>" class="dropdown__link"><%= data.pageInfo.aboutSubheadings[2] %> %></a></li>
-          <li class="dropdown__item"><a href="/<%= data.pageInfo.navigation.hrefs.dropdown[2] %>" class="dropdown__link"><%= data.pageInfo.aboutSubheadings[3] %> %></a></li>
-          <li class="dropdown__item"><a href="/<%= data.pageInfo.navigation.hrefs.dropdown[3] %>" class="dropdown__link"><%= data.pageInfo.aboutSubheadings[4] %> %></a></li>
-          <li class="dropdown__item"><a href="/<%= data.pageInfo.navigation.hrefs.dropdown[4] %>" class="dropdown__link"><%= data.pageInfo.aboutSubheadings[5] %> %></a></li>
-        </ul>
-      </div>
+    <li class="footnav__item footnav__item--expandable">
+      <a class="footnav__link" href="/<%= data.pageInfo.navigation.hrefs.links[1] %>"><%= data.pageInfo.navigation.linkTexts[0] %></a>
+    <span aria-label ="<%= data.pageInfo.navigation.ariaLabels[0] %>" >
+      <i class="fas fa-caret-up" id="dropdownButtonFooter"></i>
+    </span>
+      <%- include('dropdown', {data: data, className: "dropdown--footer", id: "dropdownMenuFooter"}); -%>
     </li>
-    <li class="footnav__item"><a href="/<%= data.pageInfo.navigation.hrefs.links[1] %>" class="footnav__link"><%= data.pageInfo.navigation.linkTexts[1] %></a></li>
-    <li class="footnav__item"><a href="/<%= data.pageInfo.navigation.hrefs.links[2] %>" class="footnav__link"><%= data.pageInfo.navigation.linkTexts[2] %></a></li>
-    <li class="footnav__item"><a href="/<%= data.pageInfo.navigation.hrefs.links[3] %>" class="footnav__link"><%= data.pageInfo.navigation.linkTexts[3] %></a></li>
+    <li class="footnav__item">
+      <a class="footnav__link" href="/<%= data.pageInfo.navigation.hrefs.links[2] %>"><%= data.pageInfo.navigation.linkTexts[1] %></a>
+    </li>
+    <li class="footnav__item">
+      <a class="footnav__link" href="/<%= data.pageInfo.navigation.hrefs.links[3] %>"><%= data.pageInfo.navigation.linkTexts[2] %></a>
+    </li>
+    <li class="footnav__item">
+      <a class="footnav__link" href="/<%= data.pageInfo.navigation.hrefs.links[4] %>"><%= data.pageInfo.navigation.linkTexts[3] %></a>
+    </li>
   </ul>
 </nav>

@@ -1,0 +1,146 @@
+// STYLES FOR THE ADMIN PAGES
+
+// Styles for the whole page.
+
+.admin {
+  margin: 3rem 21rem;
+  text-align: center;
+
+  // Fixed box for the logout button.
+
+  &__fixed-box {
+    position: fixed;
+    z-index: 2;
+    top: 6rem;
+    right: 2rem;
+  }
+
+  // Forms.
+
+  &__form {
+    // padding: 3rem;
+  }
+
+  // Container for multi-line input groups.
+
+  &__input-group {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    padding: 2rem;
+  }
+
+  // Container for an input and its companion elements.
+
+  &__input-item {
+    flex: 0 0 30rem;
+  }
+
+  // Extra styling for the quill text editor.
+
+  &__editor {
+    margin: 2rem;
+    border: none;
+    width: 30rem;
+    background-color: white;
+    color: $color-primary-dark;
+
+    &:focus {
+      outline: none;
+      border: 2px $color-primary-light solid;
+    }
+
+    &:focus:invalid {
+      outline: none;
+      border: 2px #E91E63 solid;
+    }
+
+    &--bold {
+      font-weight: bold;
+    }
+
+    ul {
+      list-style: none;
+    }
+  }
+
+  // Inputs that are not quill editors, but mimic the appearance.
+
+  &__input {
+    overflow-y: auto;
+    outline: none;
+    margin: 2rem;
+    width: 30rem;
+    border: none;
+    padding: 12px 15px;
+    background-color: white;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 13px;
+    font-weight: 200;
+    line-height: 1.42;
+    text-align: left;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    tab-size: 4;
+    -moz-tab-size: 4;
+    color: $color-primary-dark;
+
+    &--bold {
+      font-weight: bold;
+    }
+  }
+
+  // Checkbox-type inputs.
+
+  &__checkbox {
+    @include boxShadow;
+    margin: 0.7rem auto;
+    width: 1.8rem;
+    height: 1.8rem;
+  }
+
+  // Hidden inputs.
+
+  &__hidden-input {
+    position: relative;
+    opacity: 0;
+    width: 0.1px;
+    height: 0.1px;
+
+    &:focus + .btn {
+      outline: 2px blue solid;
+    }
+  }
+
+  // Image preview.
+
+  &__preview {
+    z-index: 1;
+    transition-property: transform, outline;
+    transition-duration: 0.5s;
+    margin: 2rem 0;
+    height: 7rem;
+    background-color: $color-grey-light;
+
+    &:hover {
+      transform: scale(4.5);
+      outline: 2px rgba($color-grey-dark, 0.8) solid;
+      outline-offset: 1px;
+    }
+  }
+
+  // Image filename.
+
+  &__label {
+    font-size: 1.2rem;
+  }
+
+  // Horizontal rule
+
+  hr {
+    margin: auto;
+    height: 2px;
+    width: 80%;
+  }
+}

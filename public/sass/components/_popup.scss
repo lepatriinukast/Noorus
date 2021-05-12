@@ -1,0 +1,26 @@
+// STYLES FOR THE POPUP ON LOGIN AND ADMIN PAGES
+
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba($color-grey-dark, 0.7);
+  backdrop-filter: blur(1px);
+
+  &__message {
+    @include absCenter;
+    @include boxShadow;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    display: flex;
+    border-radius: 10px;
+    width: 40rem;
+    padding: 2rem;
+    background-color: $color-grey-light;
+    text-align: center;
+  }
+}

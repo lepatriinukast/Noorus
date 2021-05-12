@@ -1,114 +1,124 @@
 <%- include('../partials/head', {data: data}); -%>
-<%- include('../partials/admin-nav', {data: data}); -%>
-<%- include('../partials/admin-popup', {data: data}); -%>
+<%- include('../partials/adminnav', {data: data}); -%>
+<%- include('../partials/popup', {data: data}); -%>
 
-<h1 class="admin__heading admin__heading--primary">Liikmed</h1>
-<form action="/api/members/intro" enctype="multipart/form-data" class="admin__form" id="membersIntro">
-  <h3 class="admin__heading admin__heading--secondary">Sissejuhatav tekst</h3>
 
-    <div class="admin__form-field">
-      <h3 class="admin__heading admin__heading--tertiary">Sisu</h3>
-      <div class="admin__input-group">
-        <div class="admin__input-item">
-          <h3 class="admin__heading admin__heading--quarternary">EST</h3>
-          <div class="admin__editor">
-            <div class="editor" name="membersIntroEstEditor" id="membersIntroEstEditor"><%- data.intros[0].est %></div>
-          </div>
-            <input type="text" class="admin__hidden-input" name="membersIntroEst" id="membersIntroEst">
+<h1 class="admin-heading admin-heading--primary">Liikmed</h1>
+
+<form class="admin__form" action="/api/members/intro">
+
+  <h3 class="admin-heading admin-heading--secondary">Sissejuhatav tekst</h3>
+  <div class="admin__input-group">
+    <h3 class="admin-heading admin-heading--tertiary">Sisu</h3>
+    <div class="column-container">
+      <div class="admin__input-item">
+        <h3 class="admin-heading admin-heading--quarternary">EST</h3>
+        <div class="admin__editor">
+          <div class="editor" id="membersIntroEstEditor"><%- data.intros[0].est %></div>
         </div>
-        <div class="admin__input-item">
-          <h3 class="admin__heading admin__heading--quarternary">EN</h3>
-          <div class="admin__editor">
-            <div class="editor" name="membersIntroEnEditor" id="membersIntroEnEditor"><%- data.intros[0].en %></div>
-          </div>
-            <input type="text" class="admin__hidden-input" name="membersIntroEn" id="membersIntroEn">
+        <input class="admin__hidden-input" id="membersIntroEst" name="membersIntroEst" type="text">
+      </div>
+      <div class="admin__input-item">
+        <h3 class="admin-heading admin-heading--quarternary">EN</h3>
+        <div class="admin__editor">
+          <div class="editor" id="membersIntroEnEditor"><%- data.intros[0].en %></div>
         </div>
+        <input class="admin__hidden-input" id="membersIntroEn" name="membersIntroEn" type="text">
       </div>
-      <div class="admin__btn-group">
-        <button class="admin__btn" type="submit" name="membersIntroBtn" id="membersIntroBtn">Salvesta</button>
-      </div>
-      </div>
+    </div>
+    <div class="column-container">
+      <button class="btn btn--admin btn--admin--large" type="submit">Salvesta</button>
+    </div>
+  </div>
+
 </form>
 
 <% for (var i = 0; i < 4; i++) { %>
 
-  <form action="/api/members/grid/<%= i + 1 %>" data-method="PUT" enctype="multipart/form-data" class="admin__form" id="membersGrid<%= i + 1 %>">
-        <h3 class="admin__heading admin__heading--secondary">Häälerühm <%= i + 1 %></h3>
-      <div class="admin__form-field">
-        <h3 class="admin__heading admin__heading--tertiary">Pealkiri</h3>
-        <div class="admin__input-group">
-          <div class="admin__input-item">
-            <h3 class="admin__heading admin__heading--quarternary">EST</h3>
-            <input type="text" class="admin__input admin__input--bold membersGridHeadingEst" name="membersGridHeading<%= i + 1 %>Est" id="membersGridHeading<%= i + 1 %>Est" value="<%= data.membersGrid[i].heading.est %>">
-          </div>
-          <div class="admin__input-item">
-            <h3 class="admin__heading admin__heading--quarternary">EN</h3>
-            <input type="text" class="admin__input admin__input--bold membersGridHeadingEn" name="membersGridHeading<%= i + 1 %>En" id="membersGridHeading<%= i + 1 %>En" value="<%= data.membersGrid[i].heading.en %>">
-          </div>
+<form class="admin__form" action="/api/members/grid/<%= i + 1 %>">
+
+  <h3 class="admin-heading admin-heading--secondary">Häälerühm <%= i + 1 %></h3>
+  <div class="admin__input-group">
+    <h3 class="admin-heading admin-heading--tertiary">Pealkiri</h3>
+    <div class="column-container">
+      <div class="admin__input-item">
+        <h3 class="admin-heading admin-heading--quarternary">EST</h3>
+        <input class="admin__input admin__input--bold" name="membersGridHeading<%= i + 1 %>Est" type="text" value="<%= data.membersGrid[i].heading.est %>">
+      </div>
+      <div class="admin__input-item">
+        <h3 class="admin-heading admin-heading--quarternary">EN</h3>
+        <input class="admin__input admin__input--bold" name="membersGridHeading<%= i + 1 %>En" type="text" value="<%= data.membersGrid[i].heading.en %>">
+      </div>
+    </div>
+    <h3 class="admin-heading admin-heading--tertiary">Sisu</h3>
+    <div class="column-container">
+      <div class="admin__input-item">
+        <h3 class="admin-heading admin-heading--quarternary">EST</h3>
+        <div class="admin__editor">
+          <div class="editor" id="membersGrid<%= i + 1 %>EstEditor"><%- data.membersGrid[i].content.est %></div>
         </div>
-        <h3 class="admin__heading admin__heading--tertiary">Sisu</h3>
-        <div class="admin__input-group">
-          <div class="admin__input-item">
-            <h3 class="admin__heading admin__heading--quarternary">EST</h3>
-            <div class="admin__editor">
-              <div class="editor membersGridEstEditor" name="membersGrid<%= i + 1 %>EstEditor" id="membersGrid<%= i + 1 %>EstEditor"><%- data.membersGrid[i].content.est %></div>
-            </div>
-            <input type="text" class="admin__hidden-input membersGridEst" name="membersGrid<%= i + 1 %>Est" id="membersGrid<%= i + 1 %>Est">
-          </div>
-          <div class="admin__input-item">
-            <h3 class="admin__heading admin__heading--quarternary">EN</h3>
-            <div class="admin__editor">
-              <div class="editor membersGridEnEditor" name="membersGrid<%= i + 1 %>EnEditor" id="membersGrid<%= i + 1 %>EnEditor"><%- data.membersGrid[i].content.en %></div>
-            </div>
-            <input type="text" class="admin__hidden-input membersGridEn" name="membersGrid<%= i + 1 %>En" id="membersGrid<%= i + 1 %>En">
-          </div>
+        <input class="admin__hidden-input" id="membersGrid<%= i + 1 %>Est" name="membersGrid<%= i + 1 %>Est" type="text">
+      </div>
+      <div class="admin__input-item">
+        <h3 class="admin-heading admin-heading--quarternary">EN</h3>
+        <div class="admin__editor">
+          <div class="editor" id="membersGrid<%= i + 1 %>EnEditor"><%- data.membersGrid[i].content.en %></div>
         </div>
-        <button class="admin__btn" type="submit" name="button" id="membersGrid<%= i + 1 %>Btn">Salvesta</button>
-        </div>
-  </form>
+        <input class="admin__hidden-input membersGridEn" id="membersGrid<%= i + 1 %>En" name="membersGrid<%= i + 1 %>En" type="text">
+      </div>
+    </div>
+    <button class="btn btn--admin btn--admin--large" type="submit">Salvesta</button>
+  </div>
+
+</form>
+
 <% } %>
 
 <% for (var i = 0; i < data.membersSections.length; i++) { %>
 
-  <form action="/api/members/sections/<%= i + 1 %>" enctype="multipart/form-data" class="admin__form" id="membersSection<%= i + 1 %>">
-        <h3 class="admin__heading admin__heading--secondary">Sektsioon <%= i + 1 %></h3>
+<form class="admin__form" action="/api/members/sections/<%= i + 1 %>">
 
-        <div class="admin__form-field">
-          <h3 class="admin__heading admin__heading--tertiary">Pealkiri</h3>
-          <div class="admin__input-group">
-            <div class="admin__input-item">
-              <h3 class="admin__heading admin__heading--quarternary">EST</h3>
-              <input type="text" class="admin__input admin__input--bold membersHeadingEst" name="membersHeading<%= i + 1 %>Est" id="membersHeading<%= i + 1 %>Est" value="<%= data.membersSections[i].heading.est %>">
-            </div>
-            <div class="admin__input-item">
-              <h3 class="admin__heading admin__heading--quarternary">EN</h3>
-            <input type="text" class="admin__input admin__input--bold membersHeadingEn" name="membersHeading<%= i + 1 %>En" id="membersHeading<%= i + 1 %>En" value="<%= data.membersSections[i].heading.en %>">
-          </div>
-          </div>
-          <h3 class="admin__heading admin__heading--tertiary">Sisu</h3>
-          <div class="admin__input-group">
-            <div class="admin__input-item">
-              <h3 class="admin__heading admin__heading--quarternary">EST</h3>
-              <div class="admin__editor">
-                <div class="editor membersSectionEstEditor" name="membersSection<%= i + 1 %>EstEditor" id="membersSection<%= i + 1 %>EstEditor"><%- data.membersSections[i].content.est %></div>
-              </div>
-                <input type="text" class="admin__hidden-input membersSectionEst" name="membersSection<%= i + 1 %>Est" id="membersSection<%= i + 1 %>Est">
-            </div>
-            <div class="admin__input-item">
-              <h3 class="admin__heading admin__heading--quarternary">EN</h3>
-              <div class="admin__editor">
-                <div class="editor membersSectionEnEditor" name="membersSection<%= i + 1 %>EnEditor" id="membersSection<%= i + 1 %>EnEditor"><%- data.membersSections[i].content.en %></div>
-              </div>
-            </div>
-            <input type="text" class="admin__hidden-input membersSectionEn" name="membersSection<%= i + 1 %>En" id="membersSection<%= i + 1 %>En">
-          </div>
-          <div class="admin__btn-group">
-            <a class="admin__btn deleteBtn membersSectionDeleteBtn" data-action="/api/members/sections/<%= i + 1 %>" name="membersSection<%= i + 1 %>DeleteBtn" id="membersSection<%= i + 1 %>DeleteBtn">Kustuta</a>
-            <button class="admin__btn membersSectionBtn" type="submit" name="membersSection<%= i + 1 %>Btn" id="membersSection<%= i + 1 %>Btn">Salvesta</button>
-          </div>
-          </div>
-        </form>
-        <% } %>
-        <a class="admin__btn addBtn" data-action="/api/members/sections" name="membersSectionAddBtn" id="membersSectionAddBtn">+ Lisa Sektsioon +</a>
+  <h3 class="admin-heading admin-heading--secondary">Sektsioon <%= i + 1 %></h3>
+  <div class="admin__input-group">
+    <h3 class="admin-heading admin-heading--tertiary">Pealkiri</h3>
+    <div class="column-container">
+      <div class="admin__input-item">
+        <h3 class="admin-heading admin-heading--quarternary">EST</h3>
+        <input class="admin__input admin__input--bold" name="membersHeading<%= i + 1 %>Est" type="text" value="<%= data.membersSections[i].heading.est %>">
+      </div>
+      <div class="admin__input-item">
+        <h3 class="admin-heading admin-heading--quarternary">EN</h3>
+        <input class="admin__input admin__input--bold" name="membersHeading<%= i + 1 %>En" type="text" value="<%= data.membersSections[i].heading.en %>">
+      </div>
+    </div>
+    <h3 class="admin-heading admin-heading--tertiary">Sisu</h3>
+    <div class="column-container">
+      <div class="admin__input-item">
+        <h3 class="admin-heading admin-heading--quarternary">EST</h3>
+        <div class="admin__editor">
+          <div class="editor" id="membersSection<%= i + 1 %>EstEditor"><%- data.membersSections[i].content.est %></div>
+        </div>
+        <input class="admin__hidden-input" id="membersSection<%= i + 1 %>Est" name="membersSection<%= i + 1 %>Est" type="text">
+      </div>
+      <div class="admin__input-item">
+        <h3 class="admin-heading admin-heading--quarternary">EN</h3>
+        <div class="admin__editor">
+          <div class="editor" id="membersSection<%= i + 1 %>EnEditor"><%- data.membersSections[i].content.en %></div>
+        </div>
+      </div>
+      <input class="admin__hidden-input" id="membersSection<%= i + 1 %>En" name="membersSection<%= i + 1 %>En" type="text">
+    </div>
+    <div class="column-container">
+      <a class="btn btn--admin btn--admin--large deleteBtn" data-action="/api/members/sections/<%= i + 1 %>">Kustuta</a>
+      <button class="btn btn--admin btn--admin--large" type="submit">Salvesta</button>
+    </div>
+  </div>
+
+</form>
+
+<% } %>
+
+<a class="btn btn--admin btn--admin--large addBtn" data-action="/api/members/sections">+ Lisa Sektsioon +</a>
+
 
 <%- include('../partials/footer') -%>

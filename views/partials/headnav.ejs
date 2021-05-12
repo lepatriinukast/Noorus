@@ -1,0 +1,45 @@
+<nav class="headnav">
+  <ul class="headnav__list headnav__list--left">
+    <li class="headnav__item headnav__item--expandable">
+      <a class="headnav__link" href="/<%= data.pageInfo.navigation.hrefs.links[1] %>"><%= data.pageInfo.navigation.linkTexts[0] %></a>
+    <span aria-label="<%= data.pageInfo.navigation.ariaLabels[0] %>">
+      <i class="fas fa-caret-down" id="dropdownButtonHeader"></i>
+    </span>
+      <%- include('dropdown', {data: data, className: "dropdown--header", id: "dropdownMenuHeader"}); -%>
+    </li>
+    <li class="headnav__item">
+      <a class="headnav__link" href="/<%= data.pageInfo.navigation.hrefs.links[2] %>"><%= data.pageInfo.navigation.linkTexts[1] %></a>
+    </li>
+    <li class="headnav__item">
+      <a class="headnav__link" href="/<%= data.pageInfo.navigation.hrefs.links[3] %>"><%= data.pageInfo.navigation.linkTexts[2] %></a>
+    </li>
+    <li class="headnav__item">
+      <a class="headnav__link" href="/<%= data.pageInfo.navigation.hrefs.links[4] %>"><%= data.pageInfo.navigation.linkTexts[3] %></a>
+    </li>
+  </ul>
+  <div class="headnav__item headnav__item--hamburger">
+    <a class="headnav__link" aria-label="<%= data.pageInfo.navigation.ariaLabels[1] %>">
+      <i class="headnav__icon fas fa-bars" id="hamburgerButton"></i>
+    </a>
+  </div>
+  <div class="headnav__item">
+    <a class="headnav__link" href="/<%= data.pageInfo.navigation.hrefs.links[0] %>" aria-label="<%= data.pageInfo.navigation.ariaLabels[2] %>">
+      <img class="headnav__logo" src="/img/logo-vaike.png" alt="Väike logo">
+    </a>
+  </div>
+  <ul class="headnav__list">
+    <li class="headnav__item headnav__item--social">
+      <a class="headnav__link" href="https://www.facebook.com/segakoorNoorus/" aria-label="<%= data.pageInfo.navigation.ariaLabels[3] %>">
+        <i class="headnav__icon fab fa-instagram"></i>
+      </a>
+    </li>
+    <li class="headnav__item headnav__item--social">
+      <a class="headnav__link" href="https://www.instagram.com/segakoornoorus/" aria-label="<%= data.pageInfo.navigation.ariaLabels[4] %>">
+        <i class="headnav__icon fab fa-facebook-f"></i>
+      </a>
+    </li>
+    <li class="headnav__item">
+      <a class="headnav__link headnav__language-btn" href="/<%= data.pageInfo.navigation.hrefs.changeLanguage %>" aria-label="<%= data.pageInfo.navigation.ariaLabels[5] %>"><%= data.pageInfo.navigation.linkTexts[4] %></a>
+    </li>
+  </ul>
+</nav>

@@ -9,7 +9,7 @@
 import {addEditorListeners, changePreview, createDeleteMessage, removeMessage} from "./admin.js";
 import {ajax} from "./ajax.js";
 import {calculateSum, changeCount, changePrice, removeGreyout, validateCount} from "./order.js";
-import {handler} from "./public.js";
+import {deleteEmptyContent, handler} from "./public.js";
 import {checkOverflow, deleteLinkBtn, displayLinkBtn, redirectToCustom, toggleContent} from "./shop.js";
 
 // Export the function.
@@ -56,6 +56,10 @@ const pageTypes = {
      // and respond with making an ajax request to the server.
 
     window.addEventListener("submit", ajax.submit);
+
+    // Call the function which removes elements without valid content from the page.
+
+    deleteEmptyContent();
   },
 
   // Method to be called when an admin page is loaded.
@@ -115,9 +119,9 @@ const pageTypes = {
 
   login() {
 
-    // Listen for the submit event on the login form, and initialize the login process.
+    // Listen for the submit event on the login page, and initialize the login process.
 
-    document.getElementById("login").addEventListener("submit", ajax.login);
+    window.addEventListener("submit", ajax.login);
   },
 
 
@@ -204,7 +208,7 @@ const pageTypes = {
   // If the click or touch occured on one of the number buttons, change the value of the corresponding item count input.
 
     window.addEventListener("click", (event) => {
-      if (event.target.classList.contains("numberBtn") || event.target.parentNode.classList.contains("numberBtn")) {
+      if (event.target.classList.contains("signBtn") || event.target.parentNode.classList.contains("signBtn")) {
         event.preventDefault();
         changeCount(event.target);
         calculateSum();
@@ -212,7 +216,7 @@ const pageTypes = {
     });
 
     window.addEventListener("touch", (event) => {
-      if (event.target.classList.contains("numberBtn") || event.target.parentNode.classList.contains("numberBtn")) {
+      if (event.target.classList.contains("signBtn") || event.target.parentNode.classList.contains("signBtn")) {
         event.preventDefault();
         changeCount(event.target);
         calculateSum();

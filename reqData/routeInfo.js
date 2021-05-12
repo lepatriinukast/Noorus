@@ -104,28 +104,28 @@ const routeInfo = {
   },
   miscellaneous: {
     home: {
-      est: ["Segakoor Nooruse Logo", "sundmused#moodunud"],
-      en: ["Logo of Mixed Choir Noorus", "events#past"]
+      est: ["Segakoor Nooruse Logo", "sundmused#sundmus", "sundmused#moodunud"],
+      en: ["Logo of Mixed Choir Noorus", "en/events#event", "en/events#past"]
     },
     about: {
       est: ["liikmed", "dirigendid", "ajalugu", "meedia", "toetajad", "Segakoor Noorus"],
       en: ["members", "conductors", "history", "media", "sponsors", "Mixed Choir Noorus"]
     },
     events: {
-      est: ["Sündmus", "Möödunud sündmused", "Möödunud sündmus"],
-      en: ["Event", "Past events", "Past event"]
+      est: ["sundmus", "Plakat", "moodunud", "Möödunud sündmused"],
+      en: ["event", "Poster", "past", "Past events"]
     },
     contact: {
       est: ["Saada"],
       en: ["Send"]
     },
     shop: {
-      est: ["Loe edasi...", "Telli siit"],
-      en: ["Read more...", "Order here"]
+      est: ["toode", "Loe edasi...", "Telli siit"],
+      en: ["item", "Read more...", "Order here"]
     },
     order: {
-      est: ["pood", "Kokku", "Telli", "hind", "Koguhind", "Palun valige toode"],
-      en: ["en/shop", "Total", "Order", "price", "Total price", "Please select a product"]
+      est: ["pood#toode", "Kokku", "Telli", "hind", "Koguhind", "Palun valige toode"],
+      en: ["en/shop#item", "Total", "Order", "price", "Total price", "Please select a product"]
     },
     success: {
       est: {

@@ -1,0 +1,15 @@
+// LOGO ON THE HOME PAGE HEADER.
+
+.logo {
+  position: absolute;
+  z-index: 1;
+  top: 7rem;
+  left: 1rem;
+
+  &__img {
+    height: 10rem;
+    @media screen and (max-width: 69.375em) {
+      height: 7rem;
+    }
+  }
+}

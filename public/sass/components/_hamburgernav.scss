@@ -1,0 +1,77 @@
+// HIDDEN MENU THAT APPEARS WHEN A HAMBURGER BUTTON IS CLICKED ON SMALLER SCREENS
+
+// Styles for the whole navigation bar.
+
+.hamburgernav {
+  @include boxShadow;
+  position: absolute;
+  top: 6rem;
+  z-index: 3;
+  width: 100%;
+  background-color: $color-primary-light;
+
+  // Group of clickable items.
+
+  &__list {
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    display: flex;
+    @media screen and (max-width: 18.75em) {
+      align-items: flex-start;
+      padding-left: 5rem;
+    }
+  }
+
+  // Navigation items.
+
+  &__item {
+    display: inline-block;
+    padding: 2rem 0;
+    transition-property: transform;
+    transition-duration: 0.5s;
+    @media screen and (max-height: 10.625em) {
+      padding: 0;
+    }
+
+    &:active,
+    &:hover {
+      transform: scale(1.1);
+    }
+
+    &--expandable {
+      &:hover .dropdown {
+        @media screen and (hover: hover) {
+          visibility: visible;
+          opacity: 1;
+        }
+      }
+
+      span {
+        position: relative;
+        margin-left: 1rem;
+        color: $color-white;
+        @media screen and (max-width: 26.875em) {
+          font-size: 2rem;
+        }
+      }
+    }
+  }
+
+  // Navigation links.
+
+  &__link {
+    &:link,
+    &:visited {
+      text-decoration: none;
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: $color-white;
+    }
+
+    &:active,
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
+}

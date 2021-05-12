@@ -1,0 +1,105 @@
+// STYLES FOR FORM ELEMENTS.
+
+// Styles for forms.
+
+.form {
+
+  // Input wrapper.
+
+  &__input-group {
+    padding: 1rem 0;
+  }
+
+  // Input plus label.
+
+  &__field {
+    justify-content: center;
+    align-items: center;
+    flex-wrap: nowrap;
+    display: flex;
+    margin: auto;
+    padding: 1rem 0;
+
+    span {
+      width: 2.5rem;
+    }
+  }
+
+  // Regular text inputs.
+
+  &__input {
+    border: none;
+    width: 35rem;
+    height: 3.5rem;
+    padding: 0 1.2rem;
+    background-color: $color-grey-light;
+    @media screen and (max-width: 18.75em) {
+      width: 22rem;
+    }
+
+    &:focus {
+      outline: none;
+      border-bottom: 2px $color-primary-light solid;
+    }
+
+    &:focus:invalid {
+      border-bottom: 2px #E91E63 solid;
+      outline: none;
+    }
+  }
+
+  // Text-areas.
+
+  &__text-area {
+    transition-property: height;
+    transition-duration: 0.5s;
+    resize: none;
+    padding-top: 0.9rem;
+
+    &:focus {
+      height: 6rem;
+    }
+  }
+
+  // Number inputs.
+
+  &__number-input {
+    -moz-appearance: textfield;
+    width: 5.5rem !important;
+
+    &::-webkit-inner-spin-button,
+    &::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+    }
+    @media screen and (max-width: 62.5em) {
+      width: 7rem !important;
+    }
+  }
+
+  // Plus/minus buttons.
+
+  &__sign-btn {
+    transition-property: transform, color;
+    transition-duration: 0.5s;
+    margin: 0 1rem;
+    font-size: 2rem;
+    color: $color-primary-dark;
+    @media screen and (max-width: 62.5em) {
+      display: none !important;
+    }
+
+    &:active,
+    &:hover {
+      transform: scale(1.2);
+      color: $color-primary-light;
+    }
+  }
+
+  // Hidden inputs.
+
+  &__hidden-input {
+    position: absolute;
+    z-index: -100;
+    opacity: 0;
+  }
+}

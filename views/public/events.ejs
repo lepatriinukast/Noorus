@@ -1,0 +1,62 @@
+<%- include('../partials/head', {data: data}); -%>
+<%- include('../partials/headnav', {data: data}); -%>
+<%- include('../partials/hamburgernav', {data: data}); -%>
+
+
+<main class="events">
+
+
+  <section class="section">
+
+    <div class="container">
+      <h2 class="heading heading--secondary u-margin"><%= data.pageInfo.pageTitle %></h2>
+      <div class="content">
+        <%- data.intros[5][data.language] %>
+      </div>
+    </div>
+
+    <% for (let i = 0; i < data.eventsContent.length; i++) { %>
+    <div class="container" id="<%= data.pageInfo.miscellaneous[0] + (i + 1) %>">
+      <img class="events__img" <% if (data.eventsImages[i].url) { %> src="<%= data.eventsImages[i].url %>" <% } else { %> src="/img/logoga-pilt.jpg" <% } %> alt="<%= data.pageInfo.miscellaneous[1] %>">
+      <div class="events__text-box">
+        <h3 class="heading heading--tertiary"><%= data.eventsContent[i].heading[data.language] %></h3>
+        <div class="content">
+          <%- data.eventsContent[i].content[data.language] %>
+        </div>
+      </div>
+    </div>
+    <% } %>
+
+  </section>
+
+
+  <section class="section">
+
+    <div class="container" id="<%= data.pageInfo.miscellaneous[2] %>">
+      <h2 class="heading heading--secondary u-margin"><%= data.pageInfo.miscellaneous[3] %></h2>
+      <div class="content">
+        <%- data.intros[7][data.language] %>
+      </div>
+    </div>
+
+    <% for (let i = 0; i < data.archiveContent.length; i++) { %>
+    <div class="container">
+      <img class="events__img events__img--past" <% if (data.archiveImages[i].url) { %> src="
+        <%= data.archiveImages[i].url %>" <% } else { %> src="/img/logoga-pilt.jpg" <% } %> alt="<%= data.pageInfo.miscellaneous[1] %>">
+      <div class="events__text-box">
+        <h3 class="heading heading--tertiary u-margin"><%= data.archiveContent[i].heading[data.language] %></h3>
+        <div class="content">
+          <%- data.archiveContent[i].content[data.language] %>
+        </div>
+      </div>
+    </div>
+    <% } %>
+
+  </section>
+
+
+</main>
+
+
+<%- include('../partials/footnav', {data: data}); -%>
+<%- include('../partials/footer'); -%>

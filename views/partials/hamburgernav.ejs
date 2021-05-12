@@ -1,0 +1,20 @@
+<nav class="hamburgernav hide" id="hamburgerMenu">
+  <ul class="hamburgernav__list">
+    <li class="hamburgernav__item hamburgernav__item--expandable">
+      <a class="hamburgernav__link" href="/<%= data.pageInfo.navigation.hrefs.links[1] %>"><%= data.pageInfo.navigation.linkTexts[0] %></a>
+      <span aria-label="<%= data.pageInfo.navigation.ariaLabels[0] %>">
+        <i class="fas fa-caret-down" id="dropdownButtonHamburger"></i>
+      </span>
+      <%- include('dropdown', {data: data, className: "dropdown--hamburger", id: "dropdownMenuHamburger"}); -%>
+    </li>
+    <li class="hamburgernav__item">
+      <a class="hamburgernav__link" href="/<%= data.pageInfo.navigation.hrefs.links[2] %>"><%= data.pageInfo.navigation.linkTexts[1] %></a>
+    </li>
+    <li class="hamburgernav__item">
+      <a class="hamburgernav__link" href="/<%= data.pageInfo.navigation.hrefs.links[3] %>"><%= data.pageInfo.navigation.linkTexts[2] %></a>
+    </li>
+    <li class="hamburgernav__item">
+      <a class="hamburgernav__link" href="/<%= data.pageInfo.navigation.hrefs.links[4] %>"><%= data.pageInfo.navigation.linkTexts[3] %></a>
+    </li>
+  </ul>
+</nav>

@@ -165,6 +165,6 @@ router.get("/archive", async (req, res) => {
 }
 });
 
-// Export the modified router object.
+// Export the router object.
 
 module.exports = router;

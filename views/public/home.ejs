@@ -1,0 +1,105 @@
+<%- include('../partials/head', {data: data}); -%>
+<%- include('../partials/headnav', {data: data}); -%>
+<%- include('../partials/hamburgernav', {data: data}); -%>
+
+
+<div class="logo">
+  <img class="logo__img" src="<%= data.staticImages[1].url %>" alt="<%= data.pageInfo.miscellaneous[0] %>">
+</div>
+
+<header class="header" style="background-image: linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6)), url('<%= data.staticImages[2].url %>')">
+
+<% if (data.staticSections[0].heading[data.language] || data.staticSections[0].content[data.language]) { %>
+  <div class="header__heading-box">
+    <h1 class="heading heading--primary u-margin"><%= data.staticSections[0].heading[data.language] %></h1>
+    <p class="u-margin"><strong><%= data.staticSections[0].content[data.language] %></strong></p>
+    <a class="btn btn--main" href="/<%= data.pageInfo.navigation.hrefs[1] %>"><%= data.pageInfo.buttonText %></a>
+  </div>
+  <% } %>
+
+</header>
+
+
+<main>
+
+
+  <section class="section">
+
+    <div class="column-container">
+
+      <div class="home__item">
+        <a class="home__link" href="/<%= data.pageInfo.navigation.hrefs.dropdown[0] %>">
+          <i class="home__icon fas fa-music"></i>
+          <h3 class="heading heading--tertiary"><%= data.pageInfo.aboutSubheadings[1] %></h3>
+        </a>
+      </div>
+
+      <div class="home__item">
+        <a class="home__link" href="/<%= data.pageInfo.navigation.hrefs.links[4] %>">
+          <i class="home__icon fas fa-shopping-cart"></i>
+          <h3 class="heading heading--tertiary"><%= data.pageInfo.navigation.linkTexts[3] %></h3>
+        </a>
+      </div>
+
+      <div class="home__item">
+        <a class="home__link" href="/<%= data.pageInfo.navigation.hrefs.links[3] %>">
+          <i class="home__icon fas fa-envelope"></i>
+          <h3 class="heading heading--tertiary"><%= data.pageInfo.navigation.linkTexts[2] %></h3>
+        </a>
+      </div>
+    </div>
+
+  </section>
+
+
+<% if (data.eventsContent.length) { %>
+
+  <section class="section">
+
+    <div class="container">
+      <h2 class="heading heading--secondary u-margin"><%= data.staticSections[1].heading[data.language] %></h2>
+      <div class="content">
+        <%- data.staticSections[1].content[data.language] %>
+      </div>
+    </div>
+
+    <div class="column-container">
+      <% for (let i = 0; i < data.eventsContent.length && i < 3; i++) { %>
+      <div class="card">
+        <div class="card__upper" <% if (data.eventsImages[i].url) { %> style="background-image: url( <%= data.eventsImages[i].url %>); <% } %>">
+        </div>
+        <div class="card__lower">
+          <h3 class="heading heading--tertiary u-margin"><%= data.eventsContent[i].heading[data.language] %></h3>
+          <a class="btn btn--main" href="/<%= data.pageInfo.miscellaneous[1] + (i + 1) %>"><%= data.pageInfo.buttonText %></a>
+        </div>
+      </div>
+      <% } %>
+    </div>
+
+  </section>
+
+<% } %>
+
+
+<% if (data.archiveContent.length) { %>
+
+  <section class="section">
+
+    <div class="container">
+      <h2 class="heading heading--secondary u-margin"><%= data.staticSections[2].heading[data.language] %></h2>
+      <div class="content u-margin">
+        <%- data.staticSections[2].content[data.language] %>
+      </div>
+      <a class="btn btn--main" href="/<%= data.pageInfo.miscellaneous[2] %>"><%= data.pageInfo.buttonText %></a>
+    </div>
+
+  </section>
+
+<% } %>
+
+
+</main>
+
+
+<%- include('../partials/footnav', {data: data}); -%>
+<%- include('../partials/footer'); -%>
