@@ -1,3 +1,15 @@
+@keyframes fadeIn {
+  from {
+    opacity: 0; }
+  to {
+    opacity: 1; } }
+
+@keyframes fadeOut {
+  from {
+    opacity: 1; }
+  to {
+    opacity: 0; } }
+
 *,
 *::after,
 *::before {
@@ -46,7 +58,7 @@ main {
       width: 100%; } }
 
 .column-container {
-  justify-content: space-around;
+  justify-content: center;
   flex-wrap: wrap;
   display: flex; }
 
@@ -169,6 +181,43 @@ button {
   top: 50%;
   left: 2rem;
   transform: translateY(-50%); }
+  @media screen and (max-width: 40.625em) {
+    .adminnav {
+      top: 50%;
+      left: 0;
+      z-index: 3;
+      width: 100vw;
+      height: 100vh;
+      background-color: inherit; } }
+  .adminnav__fixed-box {
+    position: fixed;
+    z-index: 2;
+    top: 6rem;
+    right: 2rem;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    display: flex; }
+    @media screen and (max-width: 40.625em) {
+      .adminnav__fixed-box {
+        top: 0;
+        left: 0;
+        flex-direction: row;
+        width: 100%;
+        padding: 2rem;
+        background-color: #1A1A1A; } }
+    @media screen and (max-width: 40.625em) {
+      .adminnav__fixed-box a {
+        box-shadow: none; } }
+    @media screen and (max-width: 40.625em) {
+      .adminnav__fixed-box a:active, .adminnav__fixed-box a:hover {
+        background-color: #1A1A1A; } }
+  @media screen and (max-width: 40.625em) {
+    .adminnav__list {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%); } }
   .adminnav__item {
     transition-property: background-color, box-shadow;
     transition-duration: 0.5s;
@@ -188,6 +237,15 @@ button {
     font-weight: bold;
     text-decoration: none;
     color: #1A1A1A; }
+  .adminnav__hamburger-btn {
+    display: none !important;
+    margin: 0 2rem;
+    color: #FFFFFF; }
+    @media screen and (max-width: 40.625em) {
+      .adminnav__hamburger-btn {
+        display: inline-block !important; } }
+  .adminnav__icon {
+    font-size: 2.2rem; }
 
 .btn, .btn:link, .btn:visited {
   box-shadow: 0 2px 5px rgba(26, 26, 26, 0.5);
@@ -670,11 +728,9 @@ button {
 .admin {
   margin: 3rem 21rem;
   text-align: center; }
-  .admin__fixed-box {
-    position: fixed;
-    z-index: 2;
-    top: 6rem;
-    right: 2rem; }
+  @media screen and (max-width: 40.625em) {
+    .admin {
+      margin: 18rem 0; } }
   .admin__input-group {
     flex-direction: column;
     justify-content: center;

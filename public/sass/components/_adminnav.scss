@@ -7,11 +7,55 @@
   top: 50%;
   left: 2rem;
   transform: translateY(-50%);
+  @media screen and (max-width: 40.625em) {
+    top: 50%;
+    left: 0;
+    z-index: 3;
+    width: 100vw;
+    height: 100vh;
+    background-color: inherit;
+  }
+
+  // Fixed box for the buttons on the right.
+
+  &__fixed-box {
+    position: fixed;
+    z-index: 2;
+    top: 6rem;
+    right: 2rem;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    @media screen and (max-width: 40.625em) {
+      top: 0;
+      left: 0;
+      flex-direction: row;
+      width: 100%;
+      padding: 2rem;
+      background-color: $color-grey-dark;
+    }
+
+    a {
+      @media screen and (max-width: 40.625em) {
+        box-shadow: none;
+      }
+
+      &:active,
+      &:hover {
+        @media screen and (max-width: 40.625em) {
+          background-color: $color-grey-dark;
+        }
+      }
+    }
+  }
 
   // Group of clickable items.
 
   &__list {
-
+    @media screen and (max-width: 40.625em) {
+      @include absCenter;
+    }
   }
 
   // Navigation items.
@@ -44,5 +88,20 @@
     font-weight: bold;
     text-decoration: none;
     color: $color-grey-dark;
+  }
+
+  // Hamburger menu button on smaller screens.
+
+  &__hamburger-btn {
+    display: none !important;
+    margin: 0 2rem;
+    color: $color-white;
+    @media screen and (max-width: 40.625em) {
+      display: inline-block !important;
+    }
+  }
+
+  &__icon {
+   font-size: 2.2rem;
   }
 }

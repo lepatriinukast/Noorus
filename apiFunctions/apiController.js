@@ -157,11 +157,12 @@ const apiController = {
         // where the name column matches the name of the key that is currently being looped over.
         // Then it will update the url column of this entry by replacing its contents with the new url.
 
-        let sql = `UPDATE ${tableName} SET url = '${url}' WHERE name = '${keys[i]}'`;
+        let sql = `UPDATE ${tableName} SET url = ? WHERE name = '${keys[i]}'`;
 
         // Update the database using the sql text created above. Await for its completion, then continue with the loop.
+        // Question marks in the sql text will be replaced in the update function by the data stored in above variables.
 
-        await update(sql);
+        await update(sql, [url]);
       }
     },
 
@@ -211,11 +212,12 @@ const apiController = {
 
         // The sql text will update the corresponding entry in the provided database table.
 
-        let sql = `UPDATE ${tableName} SET url = '${url}' WHERE id = '${id}'`;
+        let sql = `UPDATE ${tableName} SET url = ? WHERE id = '${id}'`;
 
         // Update the database using the sql text created above. Await for its completion and then continue with the loop.
+        // Question marks in the sql text will be replaced in the update function by the data stored in above variables.
 
-        await update(sql);
+        await update(sql, [url]);
       }
     },
 
@@ -278,11 +280,12 @@ const apiController = {
           // Create the sql text for updating the database.
           // The sql text will update the corresponding entry in the provided database table.
 
-          let sql = `UPDATE ${tableName} SET url = '${url}', link = '${link}' WHERE id = '${id}'`;
+          let sql = `UPDATE ${tableName} SET url = ?, link = ? WHERE id = '${id}'`;
 
           // Update the database using the sql text created above. Await for its completion, then continue with the loop.
+          // Question marks in the sql text will be replaced in the update function by the data stored in above variables.
 
-          await update(sql);
+          await update(sql, [url, link]);
 
           // If no file is selected, only update the link property.
 
@@ -290,11 +293,12 @@ const apiController = {
 
           // Create the sql text for updating the link property in the database.
 
-          let sql = `UPDATE ${tableName} SET link = '${link}' WHERE id = '${id}'`;
+          let sql = `UPDATE ${tableName} SET link = ? WHERE id = '${id}'`;
 
           // Update the database using the sql text created above. Await for its completion, then continue with the loop.
+          // Question marks in the sql text will be replaced in the update function by the data stored in above variables.
 
-          await update(sql);
+          await update(sql, [link]);
         }
       }
     },
@@ -330,11 +334,12 @@ const apiController = {
 
       // Use the obtained information to create a sql text updating the database.
 
-      const sql = `UPDATE ${tableName} SET est = '${est}', en = '${en}' WHERE id = '${id}'`;
+      const sql = `UPDATE ${tableName} SET est = ?, en = ? WHERE id = '${id}'`;
 
       // Use the sql text to update the database.
+      // Question marks in the sql text will be replaced in the update function by the data stored in above variables.
 
-      update(sql);
+      update(sql, [est, en]);
 
     },
 
@@ -372,11 +377,12 @@ const apiController = {
 
       // Use the obtained information to create a sql text updating the database.
 
-      const sql = `UPDATE ${tableName} SET heading_est = '${headingEst}', heading_en = '${headingEn}', est = '${est}', en = '${en}' WHERE id = '${id}'`;
+      const sql = `UPDATE ${tableName} SET heading_est = ?, heading_en = ?, est = ?, en = ? WHERE id = '${id}'`;
 
       // Use the sql text to update the database.
+      // Question marks in the sql text will be replaced in the update function by the data stored in above variables.
 
-      update(sql);
+      update(sql, [headingEst, headingEn, est, en]);
     },
 
 
@@ -402,11 +408,12 @@ const apiController = {
       // but the name property of this entry can be constructed from the name of the provided database table.
       // Create the sql text to update the database.
 
-      const sql = `UPDATE miscellaneous SET est = '${heading.est}', en = '${heading.en}' WHERE name = '${tableName}_heading'`;
+      const sql = `UPDATE miscellaneous SET est = ?, en = ? WHERE name = '${tableName}_heading'`;
 
       // Update the database.
+      // Question marks in the sql text will be replaced in the update function by the data stored in above variables.
 
-      update(sql);
+      update(sql, [est, en]);
 
       // Now query the provided database table for entries.
 
@@ -462,11 +469,12 @@ const apiController = {
 
         // Create the sql text to update the correct database entry.
 
-        let sql = `UPDATE ${tableName} SET est = '${est}', en = '${en}', required = '${required}', expandable = '${expandable}' WHERE id = '${id}'`;
+        let sql = `UPDATE ${tableName} SET est = ?, en = ?, required = ?, expandable = ? WHERE id = '${id}'`;
 
         // Update the database. Await for its completion, then continue with the loop.
+        // Question marks in the sql text will be replaced in the update function by the data stored in above variables.
 
-        await update(sql);
+        await update(sql, [est, en, required, expandable]);
       }
     },
 
@@ -497,11 +505,12 @@ const apiController = {
 
         // Use the obtained information to create a sql text updating the database.
 
-        const sql = `UPDATE ${tableName} SET link = '${link}' WHERE id = '${id}'`;
+        const sql = `UPDATE ${tableName} SET link = ? WHERE id = '${id}'`;
 
         // Use the sql text to update the database. Wait for the function to complete, then continue with the loop.
+        // Question marks in the sql text will be replaced in the update function by the data stored in above variables.
 
-        await update(sql);
+        await update(sql, [link]);
       }
     },
 
@@ -521,8 +530,6 @@ const apiController = {
 
       const keys = Object.keys(body);
 
-      console.log(keys);
-
       // Get the value of each property by using the obtained keys.
 
       const headingEst = body[keys[0]];
@@ -541,11 +548,12 @@ const apiController = {
 
       // Use the obtained information to create a sql text updating the database.
 
-      const sql = `UPDATE ${tableName} SET heading_est = '${headingEst}', heading_en = '${headingEn}', est = '${est}', en = '${en}', price = '${price}' WHERE id = '${id}'`;
+      const sql = `UPDATE ${tableName} SET heading_est = ?, heading_en = ?, est = ?, en = ?, price = ? WHERE id = '${id}'`;
 
       // Use the sql text to update the database.
+      // Question marks in the sql text will be replaced in the update function by the data stored in above variables.
 
-      update(sql);
+      update(sql, [headingEst, headingEn, est, en, price]);
     }
   }
 };

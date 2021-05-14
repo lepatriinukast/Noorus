@@ -6,7 +6,7 @@
 
 // Import the dependencies.
 
-import {addEditorListeners, changePreview, createDeleteMessage, removeMessage} from "./admin.js";
+import {addEditorListeners, adjustAdminMenu, changePreview, createDeleteMessage, removeMessages, toggleAdminMenu} from "./admin.js";
 import {ajax} from "./ajax.js";
 import {calculateSum, changeCount, changePrice, removeGreyout, validateCount} from "./order.js";
 import {deleteEmptyContent, handler} from "./public.js";
@@ -73,8 +73,10 @@ const pageTypes = {
     // Listen to clicks, touches and keystrokes on the page and depending on event target call the appropriate function.
 
     window.addEventListener("click", (event) => {
-      removeMessage();
-      if (event.target.classList.contains("addBtn")) {
+      removeMessages();
+      if (event.target === document.getElementById("hamburgerButton") || event.target === document.getElementById("hamburgerButton").parentNode ) {
+        toggleAdminMenu();
+      } else if (event.target.classList.contains("addBtn")) {
         ajax.post(event);
       } else if (event.target.classList.contains("restoreBtn")) {
         ajax.restore(event);
@@ -86,8 +88,10 @@ const pageTypes = {
     });
 
     window.addEventListener("touchend", (event) => {
-      removeMessage();
-      if (event.target.classList.contains("addBtn")) {
+      removeMessages();
+      if (event.target === document.getElementById("hamburgerButton") || event.target === document.getElementById("hamburgerButton").parentNode ) {
+        toggleAdminMenu();
+      } else if (event.target.classList.contains("addBtn")) {
         ajax.post(event);
       } else if (event.target.classList.contains("restoreBtn")) {
         ajax.restore(event);
@@ -100,7 +104,7 @@ const pageTypes = {
 
     window.addEventListener("keydown", () => {
       if (event.key !== "Tab") {
-        removeMessage();
+        removeMessages();
       }
     });
 
@@ -112,6 +116,14 @@ const pageTypes = {
     // Call the function that adds event listeners to all quill editors.
 
     addEditorListeners();
+
+    // Check if the the viewport size matches the media query in the css code for the navigation menu.
+    // Depending on the result, adjust the visibility of the navigation menu.
+    // Call the function on page load and every time the viewport changes.
+
+    adjustAdminMenu();
+
+    window.addEventListener("resize", adjustAdminMenu);
   },
 
 

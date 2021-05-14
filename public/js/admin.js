@@ -41,7 +41,7 @@ document.getElementById("failureBtn").focus();
 };
 
 
-//Export a function for displaying the message "Are you sure you want to delete this?"
+// Export a function for displaying the message "Are you sure you want to delete this?"
 
 export const createDeleteMessage = (event) => {
 
@@ -76,17 +76,43 @@ export const createDeleteMessage = (event) => {
 };
 
 
-// Function for removing popup messages.
+// Export a function for toggling the visibility of the navigation menu on smaller screens.
 
-export const removeMessage = () => {
+export const toggleAdminMenu = () => {
+  document.getElementById("adminMenu").classList.toggle("show");
+  document.getElementById("adminMenu").classList.toggle("hide");
+};
 
-  // Remove any displayed popup using utility classes.
+
+// Export a function for removing popup messages.
+
+export const removeMessages = () => {
+
+  // Remove any displayed popup or toggled menu using utility classes.
 
   for (var i = 0; i < document.querySelectorAll(".show").length; i++) {
-    let popup = document.querySelectorAll(".show")[i];
-    popup.classList.remove("show");
-    popup.classList.add("hide");
+    let message = document.querySelectorAll(".show")[i];
+    message.classList.remove("show");
+    message.classList.add("hide");
   }
+};
+
+
+// Export a function that adds the "hide" class to the navigation menu if the viewport is small enough.
+// If it is larger than specified in the css media query, make sure that the "hide" class does not exist.
+
+export const adjustAdminMenu = () => {
+
+  if (window.matchMedia('(max-width: 40.625em)').matches) {
+    if (!document.getElementById("adminMenu").classList.contains("hide")) {
+      document.getElementById("adminMenu").classList.add("hide");
+    }
+  } else {
+    if (document.getElementById("adminMenu").classList.contains("hide")) {
+      document.getElementById("adminMenu").classList.remove("hide");
+    }
+  }
+
 };
 
 

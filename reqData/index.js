@@ -120,7 +120,8 @@ const reqData = async (templateName, language) => {
         pageType: "admin",
         languageAttribute: "est",
         appName: routeInfo.appName.est,
-        pageTitle: "Admin/Koorist"
+        pageTitle: "Admin/Koorist",
+        href: ""
       },
       staticImages: await compiler("static_images", models.ImageModel),
       staticSections: await compiler("static_sections", models.SectionModel)
@@ -131,7 +132,8 @@ const reqData = async (templateName, language) => {
         pageType: "admin",
         languageAttribute: "est",
         appName: routeInfo.appName.est,
-        pageTitle: "Admin/Liikmed"
+        pageTitle: "Admin/Liikmed",
+        href: "koorist"
       },
       staticImages: await compiler("static_images", models.ImageModel),
       intros: await compiler("intros", models.TextModel),
@@ -144,7 +146,8 @@ const reqData = async (templateName, language) => {
         pageType: "admin",
         languageAttribute: "est",
         appName: routeInfo.appName.est,
-        pageTitle: "Admin/Dirigendid"
+        pageTitle: "Admin/Dirigendid",
+        href: "koorist#dirigendid"
       },
       staticImages: await compiler("static_images", models.ImageModel),
       intros: await compiler("intros", models.TextModel),
@@ -157,7 +160,8 @@ const reqData = async (templateName, language) => {
         pageType: "admin",
         languageAttribute: "est",
         appName: routeInfo.appName.est,
-        pageTitle: "Admin/Ajalugu"
+        pageTitle: "Admin/Ajalugu",
+        href: "koorist#ajalugu"
       },
       staticImages: await compiler("static_images", models.ImageModel),
       intros: await compiler("intros", models.TextModel),
@@ -169,7 +173,8 @@ const reqData = async (templateName, language) => {
         pageType: "admin",
         languageAttribute: "est",
         appName: routeInfo.appName.est,
-        pageTitle: "Admin/Meedia"
+        pageTitle: "Admin/Meedia",
+        href: "koorist#meedia"
       },
       staticImages: await compiler("static_images", models.ImageModel),
       intros: await compiler("intros", models.TextModel),
@@ -182,7 +187,8 @@ const reqData = async (templateName, language) => {
         pageType: "admin",
         languageAttribute: "est",
         appName: routeInfo.appName.est,
-        pageTitle: "Admin/Toetajad"
+        pageTitle: "Admin/Toetajad",
+        href: "koorist#toetajad"
       },
       staticImages: await compiler("static_images", models.ImageModel),
       intros: await compiler("intros", models.TextModel),
@@ -194,7 +200,8 @@ const reqData = async (templateName, language) => {
         pageType: "admin",
         languageAttribute: "est",
         appName: routeInfo.appName.est,
-        pageTitle: "Admin/Sündmused"
+        pageTitle: "Admin/Sündmused",
+        href: "sundmused"
       },
       staticImages: await compiler("static_images", models.ImageModel),
       intros: await compiler("intros", models.TextModel),
@@ -207,7 +214,8 @@ const reqData = async (templateName, language) => {
         pageType: "admin",
         languageAttribute: "est",
         appName: routeInfo.appName.est,
-        pageTitle: "Admin/Kontakt"
+        pageTitle: "Admin/Kontakt",
+        href: "kontakt"
       },
       staticImages: await compiler("static_images", models.ImageModel),
       intros: await compiler("intros", models.TextModel),
@@ -220,8 +228,9 @@ const reqData = async (templateName, language) => {
       pageInfo: {
         pageType: "admin",
         languageAttribute: "est",
+        pageTitle: "Admin/Pood",
         appName: routeInfo.appName.est,
-        pageTitle: "Admin/Pood"
+        href: "pood"
       },
       staticImages: await compiler("static_images", models.ImageModel),
       intros: await compiler("intros", models.TextModel),
@@ -236,7 +245,8 @@ const reqData = async (templateName, language) => {
         pageType: "admin",
         languageAttribute: "est",
         appName: routeInfo.appName.est,
-        pageTitle: "Admin/Telli"
+        pageTitle: "Admin/Telli",
+        href: "telli"
       },
       staticImages: await compiler("static_images", models.ImageModel),
       intros: await compiler("intros", models.TextModel),
@@ -249,7 +259,8 @@ const reqData = async (templateName, language) => {
         pageType: "admin",
         languageAttribute: "est",
         appName: routeInfo.appName.est,
-        pageTitle: "Admin/Arhiiv"
+        pageTitle: "Admin/Arhiiv",
+        href: "sundmused#moodunud"
       },
       staticImages: await compiler("static_images", models.ImageModel),
       intros: await compiler("intros", models.TextModel),

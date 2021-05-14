@@ -5,20 +5,8 @@
 .admin {
   margin: 3rem 21rem;
   text-align: center;
-
-  // Fixed box for the logout button.
-
-  &__fixed-box {
-    position: fixed;
-    z-index: 2;
-    top: 6rem;
-    right: 2rem;
-  }
-
-  // Forms.
-
-  &__form {
-    // padding: 3rem;
+  @media screen and (max-width: 40.625em) {
+  margin: 18rem 0;
   }
 
   // Container for multi-line input groups.
