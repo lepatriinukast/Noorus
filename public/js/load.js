@@ -10,7 +10,6 @@ import {
   addEditorListeners,
   adjustAdminMenu,
   changePreview,
-  checkSavedStatus,
   createDeleteMessage,
   removeMessages,
   toggleAdminMenu
@@ -113,10 +112,8 @@ const pageTypes = {
         ajax.archive(event);
       } else if (event.target.classList.contains("dataDeleteBtn")) {
         createDeleteMessage(event);
-      } else if (event.target === document.getElementById("relocationBtn") ||
-        event.target === document.getElementById("logoutBtn") ||
-        event.target.classList.contains("adminnav__link")) {
-        checkSavedStatus(event);
+      } else if (event.target === document.getElementById("logoutBtn")) {
+        ajax.logout(event);
       }
     });
 
@@ -132,10 +129,8 @@ const pageTypes = {
         ajax.archive(event);
       } else if (event.target.classList.contains("dataDeleteBtn")) {
         createDeleteMessage(event);
-      } else if (event.target === document.getElementById("relocationBtn") ||
-        event.target === document.getElementById("logoutBtn") ||
-        event.target.classList.contains("adminnav__link")) {
-        checkSavedStatus(event);
+      } else if (event.target === document.getElementById("logoutBtn")) {
+        ajax.logout(event);
       }
     });
 

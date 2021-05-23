@@ -13,43 +13,6 @@ import {
 // MESSAGES:
 
 
-// Export a function which checks for unsaved changes on the admin page on leaving the page.
-// If this is the case, a warning message will be displayed, if not, the intended action will take place.
-
-export const checkSavedStatus = (event) => {
-
-  // Prevent the user from leaving the page.
-
-  event.preventDefault();
-
-  // Check if there are any unsaved data on the page.
-
-  if (document.querySelectorAll(".unsaved").length) {
-
-    // Create a warning message.
-
-    createWarningMessage(event);
-
-    // If there is no unsaved data, the next action depends on the event target.
-    // This function can be triggered by either of the two buttons on the top right of the admin page,
-    // or the navigation links on the left side of the admin page.
-
-  } else if (event.target === document.getElementById("relocationBtn") || event.target.classList.contains("adminnav__link")) {
-
-    // Redirect to the specified page.
-
-    window.location.href = event.target.href;
-
-  } else if (event.target === document.getElementById("logoutBtn")) {
-
-    // Commence a logout process.
-
-    ajax.logout(event);
-
-  }
-};
-
-
 // Export a function for displaying a failure message.
 
 export const createFailureMessage = () => {
@@ -102,48 +65,6 @@ export const createSuccessMessage = () => {
   document.getElementById("successPopup").classList.remove("hide");
   document.getElementById("successPopup").classList.add("show");
 
-};
-
-// A function for displaying a warning message.
-
-const createWarningMessage = (event) => {
-
-  // Make the warning message popup visible on the screen using utility classes
-
-  document.getElementById("warningPopup").classList.remove("hide");
-  document.getElementById("warningPopup").classList.add("show");
-
-  // Capture the current event into a variable in order to use it inside another event listener.
-
-  const firstEvent = event;
-
-  // Add an event listener to the "Yes" button on the delete popup and pass in the previous event as an argument.
-
-  document.getElementById("warningYesBtn").addEventListener("click", () => {
-
-      // The action on button click depends on which button was clicked.
-      // This function can be triggered by either of the buttons on the top right of the admin page.
-
-      if (firstEvent.target === document.getElementById("relocationBtn") || firstEvent.target.classList.contains("adminnav__link")) {
-
-        // When the "Yes" button is clicked, relocate to the chosen page.
-
-        window.location.href = firstEvent.target.href;
-
-      } else if (firstEvent.target === document.getElementById("logoutBtn")) {
-
-        // When the "Yes" button is clicked, commence a logout process.
-
-        ajax.logout(firstEvent);
-      }
-    },
-
-    // Below is the options object of the event handler, which removes the event listener after it has run once,
-    // otherwise the event listeners would just pile up when the containing function is run multiple times.
-
-    {
-      once: true
-    });
 };
 
 
