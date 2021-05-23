@@ -16,14 +16,14 @@
         <div class="admin__editor">
           <div class="editor" id="sponsorsIntroEstEditor"><%- data.intros[4].est %></div>
         </div>
-        <input class="admin__hidden-input" id="sponsorsIntroEst" name="sponsorsIntroEst" type="text">
+        <input class="admin__hidden-input" id="sponsorsIntroEst" name="sponsorsIntroEst" type="text" value="<%= data.intros[4].est %>">
       </div>
       <div class="admin__input-item">
         <h3 class="admin-heading admin-heading--quarternary">EN</h3>
         <div class="admin__editor">
           <div class="editor" id="sponsorsIntroEnEditor"><%- data.intros[4].en %></div>
         </div>
-        <input class="admin__hidden-input" id="sponsorsIntroEn" name="sponsorsIntroEn" type="text">
+        <input class="admin__hidden-input" id="sponsorsIntroEn" name="sponsorsIntroEn" type="text" value="<%= data.intros[4].en %>">
       </div>
     </div>
     <div class="column-container">
@@ -37,11 +37,15 @@
 <form class="admin__form" action="/api/sponsors/logos">
 
   <h3 class="admin-heading admin-heading--secondary">Lingid</h3>
+
+  <div class="dataGroup" id="sponsorsLogos">
+
   <% for (var i = 0; i < data.sponsorsLogos.length; i++) { %>
-  <div class="admin__input-group">
+
+  <div class="admin__input-group dataElement">
     <div class="column-container">
       <div class="admin__input__item">
-        <h3 class="admin-heading admin-heading--tertiary">Logo <%= i + 1 %></h3>
+        <h3 class="admin-heading admin-heading--tertiary u-margin">Logo <%= i + 1 %></h3>
         <input class="admin__hidden-input" id="sponsorsImg<%= i + 1 %>" name="sponsorsImg<%= i + 1 %>" type="file">
         <label class="btn btn--admin btn--admin--small" for="sponsorsImg<%= i + 1 %>">Vali fail</label>
         <p class="admin__label" id="sponsorsImg<%= i + 1 %>Label"><%= data.sponsorsLogos[i].filename %></p>
@@ -54,11 +58,15 @@
         <input class="admin__input" name="sponsors<%= i + 1 %>Link" type="text" value="<%= data.sponsorsLogos[i].link %>">
       </div>
     </div>
-    <a class="btn btn--admin btn--admin--small deleteBtn" data-action="/api/sponsors/logos/<%= i + 1 %>">Kustuta</a>
+    <a class="btn btn--admin btn--admin--small dataDeleteBtn" data-index="<%= i + 1 %>" data-action="/api/sponsors/logos/<%= i + 1 %>" tabindex="0">Kustuta</a>
   </div>
+
   <% } %>
+
+</div>
+
   <div class="column-container">
-    <a class="btn btn--admin btn--admin--small addBtn" data-action="/api/sponsors/logos">+ Lisa logo +</a>
+    <a class="btn btn--admin btn--admin--small dataAddBtn" data-for="sponsorsLogos" data-action="/api/sponsors/logos" tabindex="0">+ Lisa logo +</a>
   </div>
   <div class="column-container">
     <button class="btn btn--admin btn--admin--large" type="submit">Salvesta</button>

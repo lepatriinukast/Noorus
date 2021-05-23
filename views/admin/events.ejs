@@ -5,6 +5,8 @@
 
 <h1 class="admin-heading admin-heading--primary">Sündmused</h1>
 
+<h4 class="admin-heading admin-heading--quarternary">Sündmused kuvatakse kodulehel tagurpidises järjekorras ehk kõigepealt viimasena lisatu.</h4>
+
 <form class="admin__form" action="/api/events/intro">
 
   <h3 class="admin-heading admin-heading--secondary">Sissejuhatav tekst</h3>
@@ -15,14 +17,14 @@
         <div class="admin__editor">
           <div class="editor" id="eventsIntroEstEditor"><%- data.intros[5].est %></div>
         </div>
-        <input class="admin__hidden-input" id="eventsIntroEst" name="eventsIntroEst" type="text">
+        <input class="admin__hidden-input" id="eventsIntroEst" name="eventsIntroEst" type="text" value="<%= data.intros[5].est %>">
       </div>
       <div class="admin__input-item">
         <h3 class="admin-heading admin-heading--quarternary">EN</h3>
         <div class="admin__editor">
           <div class="editor" id="eventsIntroEnEditor"><%- data.intros[5].en %></div>
         </div>
-        <input class="admin__hidden-input" id="eventsIntroEn" name="eventsIntroEn" type="text">
+        <input class="admin__hidden-input" id="eventsIntroEn" name="eventsIntroEn" type="text" value="<%= data.intros[5].en %>">
       </div>
     </div>
     <div class="column-container">
@@ -31,15 +33,17 @@
   </div>
 </form>
 
+<div class="dataGroup" id="eventsContent">
+
 <% for (var i = 0; i < data.eventsContent.length; i++) { %>
 
-<form class="admin__form" action="/api/events/content/<%= i + 1 %>">
+<form class="admin__form dataElement" data-action="/api/events/content/<%= i + 1 %>" action="/api/events/content/<%= i + 1 %>">
 
   <h3 class="admin-heading admin-heading--secondary">Sündmus <%= i + 1 %></h3>
   <div class="admin__input-group">
     <div class="column-container">
       <div class="admin__input-item">
-        <h3 class="admin-heading admin-heading--tertiary">Plakat</h3>
+        <h3 class="admin-heading admin-heading--tertiary u-margin">Plakat</h3>
         <input class="admin__hidden-input" id="eventsImg<%= i + 1 %>" name="eventsImg<%= i + 1 %>" type="file">
         <label class="btn btn--admin btn--admin--small" for="eventsImg<%= i + 1 %>">Vali fail</label>
         <p class="admin__label" id="eventsImg<%= i + 1 %>Label"><%= data.eventsImages[i].filename %></p>
@@ -67,7 +71,7 @@
         <div class="admin__editor">
           <div class="editor" id="eventsContent<%= i + 1 %>EstEditor"><%- data.eventsContent[i].content.est %></div>
         </div>
-        <input class="admin__hidden-input" id="eventsContent<%= i + 1 %>Est" name="eventsContent<%= i + 1 %>Est" type="text">
+        <input class="admin__hidden-input" id="eventsContent<%= i + 1 %>Est" name="eventsContent<%= i + 1 %>Est" type="text" value="<%= data.eventsContent[i].content.est %>">
       </div>
       <div class="admin__input-item">
         <h3 class="admin-heading admin-heading--quarternary">EN</h3>
@@ -75,11 +79,12 @@
           <div class="editor" id="eventsContent<%= i + 1 %>EnEditor"><%- data.eventsContent[i].content.en %></div>
         </div>
       </div>
-      <input class="admin__hidden-input" id="eventsContent<%= i + 1 %>En" name="eventsContent<%= i + 1 %>En" type="text">
+      <input class="admin__hidden-input" id="eventsContent<%= i + 1 %>En" name="eventsContent<%= i + 1 %>En" type="text" value="<%= data.eventsContent[i].content.en %>">
     </div>
     <div class="column-container">
-      <a class="btn btn--admin btn--admin--large deleteBtn" data-action="/api/events/content/<%= i + 1 %>">Arhiveeri</a>
       <button class="btn btn--admin btn--admin--large" type="submit">Salvesta</button>
+      <a class="btn btn--admin btn--admin--large dataArchiveBtn" data-index="<%= i + 1 %>" data-action="/api/events/content/<%= i + 1 %>" tabindex="0">Arhiveeri</a>
+      <a class="btn btn--admin btn--admin--large dataDeleteBtn" data-index="<%= i + 1 %>" data-action="/api/events/content/<%= i + 1 %>" tabindex="0">Kustuta</a>
     </div>
   </div>
 
@@ -87,7 +92,9 @@
 
 <% } %>
 
-<a class="btn btn--admin btn--admin--large addBtn" data-action="/api/events/content">+ Lisa Sündmus +</a>
+</div>
+
+<a class="btn btn--admin btn--admin--large dataAddBtn" data-for="eventsContent" data-action="/api/events/content" tabindex="0">+ Lisa Sündmus +</a>
 
 
 <%- include('../partials/footer') -%>

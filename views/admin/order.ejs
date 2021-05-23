@@ -16,14 +16,14 @@
         <div class="admin__editor">
           <div class="editor" id="orderIntroEstEditor"><%- data.intros[9].est %></div>
         </div>
-        <input class="admin__hidden-input" id="orderIntroEst" name="orderIntroEst" type="text">
+        <input class="admin__hidden-input" id="orderIntroEst" name="orderIntroEst" type="text" value="<%= data.intros[9].est %>">
       </div>
       <div class="admin__input-item">
         <h3 class="admin-heading admin-heading--quarternary">EN</h3>
         <div class="admin__editor">
           <div class="editor" id="orderIntroEnEditor"><%- data.intros[9].en %></div>
         </div>
-        <input class="admin__hidden-input" id="orderIntroEn" name="orderIntroEn" type="text">
+        <input class="admin__hidden-input" id="orderIntroEn" name="orderIntroEn" type="text" value="<%= data.intros[9].en %>">
       </div>
     </div>
     <div class="column-container">
@@ -51,8 +51,12 @@
     </div>
   </div>
   <hr>
+
+  <div class="dataGroup" id="orderForm">
+
   <% for (var i = 0; i < data.orderForm.length; i++) { %>
-  <div class="admin__input-group">
+
+  <div class="admin__input-group dataElement">
     <h3 class="admin-heading admin-heading--tertiary">Väli <%= i + 1 %></h3>
     <div class="column-container">
       <div class="admin__input-item">
@@ -75,12 +79,16 @@
       </div>
     </div>
     <div class="column-container">
-      <a class="btn btn--admin btn--admin--small deleteBtn" data-action="/api/order/form/<%= i + 1 %>">Kustuta</a>
+      <a class="btn btn--admin btn--admin--small dataDeleteBtn" data-index="<%= i + 1 %>" data-action="/api/order/form/<%= i + 1 %>" tabindex="0">Kustuta</a>
     </div>
   </div>
+
   <% } %>
+
+</div>
+
   <div class="column-container">
-    <a class="btn btn--admin btn--admin--small addBtn" data-action="/api/order/form">+ Lisa väli +</a>
+    <a class="btn btn--admin btn--admin--small dataAddBtn" data-for="orderForm" data-action="/api/order/form" tabindex="0">+ Lisa väli +</a>
   </div>
   <div class="column-container">
     <button class="btn btn--admin btn--admin--large" type="submit">Salvesta</button>
@@ -100,14 +108,14 @@
         <div class="admin__editor">
           <div class="editor" id="orderPostscriptEstEditor"><%- data.miscellaneous[2].est %></div>
         </div>
-        <input class="admin__hidden-input" id="orderPostscriptEst" name="orderPostscriptEst" type="text">
+        <input class="admin__hidden-input" id="orderPostscriptEst" name="orderPostscriptEst" type="text" value="<%= data.miscellaneous[2].est %>">
       </div>
       <div class="admin__input-item">
         <h3 class="admin-heading admin-heading--quarternary">EN</h3>
         <div class="admin__editor">
           <div class="editor" id="orderPostscriptEnEditor"><%- data.miscellaneous[2].en %></div>
         </div>
-        <input class="admin__hidden-input" id="orderPostscriptEn" name="orderPostscriptEn" type="text">
+        <input class="admin__hidden-input" id="orderPostscriptEn" name="orderPostscriptEn" type="text" value="<%= data.miscellaneous[2].en %>">
       </div>
     </div>
     <div class="column-container">

@@ -413,7 +413,7 @@ const apiController = {
       // Update the database.
       // Question marks in the sql text will be replaced in the update function by the data stored in above variables.
 
-      update(sql, [est, en]);
+      update(sql, [heading.est, heading.en]);
 
       // Now query the provided database table for entries.
 
@@ -452,6 +452,7 @@ const apiController = {
 
         // This number can be converted to a js index and used on the database results.
         // To do that make this number 0-based.
+
         let index = number - 1;
 
         // Use the index to get a corresponding entry from the database table.

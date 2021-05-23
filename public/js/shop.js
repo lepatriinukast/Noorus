@@ -11,6 +11,20 @@ export const checkOverflow = (element) => {
 };
 
 
+// Export a function which deletes a link button from the shop page.
+
+export const deleteLinkBtn = (element) => {
+
+  // Using the id of the provided container element, get the corresponding link button.
+
+  const linkBtn = document.getElementById("linkBtn" + element.id.slice(7));
+
+  // Delete the link button from the page by adding a utility class.
+
+  linkBtn.classList.add("delete");
+};
+
+
 // Export a function that displays a link button on the shop page.
 
 export const displayLinkBtn = (element) => {
@@ -25,17 +39,32 @@ export const displayLinkBtn = (element) => {
 };
 
 
-// Export a function which deletes a link button from the shop page.
+// Export a function which redirects the user to the order page, with a proper query string in the url.
 
-export const deleteLinkBtn = (element) => {
+export const redirectToCustom = (event) => {
 
-  // Using the id of the provided container element, get the corresponding link button.
+  // Prevent the default action from happening on the button click.
 
-  const linkBtn = document.getElementById("linkBtn" + element.id.slice(7));
+  event.preventDefault();
 
-  // Delete the link button from the page by adding a utility class.
+  // Get the index number of the selected shop item from its id.
 
-  linkBtn.classList.add("delete");
+  const index = event.target.id.slice(8);
+
+  // Check the current url.
+  // Redirect to the order page taking account the language of the page.
+  // Include the index number in a query string.
+
+  // The Estonian route.
+
+  if (window.location.href.indexOf("pood") != -1) {
+    window.location.href = "/telli?selected=" + index;
+
+    // The English route.
+
+  } else if (window.location.href.indexOf("shop") != -1) {
+    window.location.href = "/en/order?selected=" + index;
+  }
 };
 
 
@@ -90,33 +119,4 @@ export const toggleContent = (event) => {
   // Display the changed button text.
 
   event.target.innerHTML = btnText;
-};
-
-
-// Export a function which redirects the user to the order page, with a proper query string in the url.
-
-export const redirectToCustom = (event) => {
-
-  // Prevent the default action from happening on the button click.
-
-  event.preventDefault();
-
-  // Get the index number of the selected shop item from its id.
-
-  const index = event.target.id.slice(8);
-
-  // Check the current url.
-  // Redirect to the order page taking account the language of the page.
-  // Include the index number in a query string.
-
-  // The Estonian route.
-
-  if (window.location.href.indexOf("pood") != -1) {
-    window.location.href = "/telli?selected=" + index;
-
-    // The English route.
-
-  } else if (window.location.href.indexOf("shop") != -1) {
-    window.location.href = "/en/order?selected=" + index;
-  }
 };

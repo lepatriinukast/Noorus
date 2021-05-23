@@ -23,12 +23,12 @@
           <strong><a href="/<%= data.pageInfo.miscellaneous[0] + (i + 1) %>"><strong><%= data.shopItems[i].heading[data.language] %></strong></a></strong>
         </div>
         <div class="order__box">
-          <a class="signBtn" id="minusBtn<%= i + 1 %>">
+          <a class="signBtn" id="minusBtn<%= i + 1 %>" tabindex="0">
             <i class="form__sign-btn fas fa-minus-circle"></i>
           </a>
           <input class="form__input form__number-input itemCount" id="itemCount<%= i + 1 %>" name="<%= data.shopItems[i].heading[data.language] %>" type="number" min="0" max="99" step="1" <% if (data.selected == (i + 1)) { %> value="1" <% } else { %>
             value="0" <% } %>>
-          <a class="signBtn" id="plusBtn<%= i + 1 %>">
+          <a class="signBtn" id="plusBtn<%= i + 1 %>" tabindex="0">
             <i class="form__sign-btn fas fa-plus-circle"></i>
           </a>
         </div>
@@ -44,15 +44,13 @@
           aria-hidden>
       </div>
 
-      <div class="form">
-        <h3 class="heading heading--tertiary"><%= data.miscellaneous[1][data.language] %></h3>
+      <div class="form order__form">
+        <h3 class="heading heading--tertiary u-margin"><%= data.miscellaneous[1][data.language] %></h3>
         <div class="form__input-group">
           <% for (let i = 0; i < data.orderForm.length; i++) { %>
           <div class="form__field">
             <span><% if (data.orderForm[i].required === "on") { %> * <% } else { %> &nbsp <% }%> </span><% if (data.orderForm[i].expandable === "on") { %>
-            <textarea class="form__input form__text-area" name="<%= data.orderForm[i][data.language] %>" rows="1" placeholder="<%= data.orderForm[i][data.language] %>" <% if (data.orderForm[i].required === "on") { %> required <% } %>
-              aria-label="<%= data.orderForm[i].content %>">
-             </textarea>
+            <textarea class="form__input form__text-area" name="<%= data.orderForm[i][data.language] %>" rows="1" placeholder="<%= data.orderForm[i][data.language] %>" <% if (data.orderForm[i].required === "on") { %> required <% } %> aria-label="<%= data.orderForm[i].content %>"></textarea>
             <% } else { %>
             <input class="form__input" name="<%= data.orderForm[i][data.language] %>" type="text" placeholder="<%= data.orderForm[i][data.language] %>" <% if (data.orderForm[i].required === "on") { %> required <% } %>
               aria-label="<%= data.orderForm[i][data.language] %>">

@@ -15,17 +15,53 @@ export const addGreyout = (element) => {
 };
 
 
-// Export a function that removes the grayout class on the price elements.
+// Export a function which calculates and displays the total cost of the selected shop items.
 
-export const removeGreyout = (element) => {
+export const calculateSum = () => {
 
-  // Remove the class from the parent of the provided element to cover both the price and the eur sign.
+  // Get an array of all the price elements on the page.
 
-  if (element.parentNode.classList.contains("greyout")) {
-    element.parentNode.classList.remove("greyout");
+  const priceList = document.querySelectorAll(".price");
+
+  // Create an empty array that will be populated by selected price elements.
+
+  const selected = [];
+
+  // Loop through the array of price elements and check for the classlist of their parent nodes.
+  // If the greyout class is missing, it means that the corresponding price element is selected.
+  // Get the inner HTML of the selected prices, convert it to a number and push it to the empty array.
+
+  for (let i = 0; i < priceList.length; i++) {
+    if (!priceList[i].parentNode.classList.contains("greyout")) {
+      selected.push(Number(priceList[i].innerHTML));
+    }
+  }
+
+  // If there are any selected prices, loop through them and calculate their sum.
+
+  if (selected.length > 0) {
+    const sum = selected.reduce(function(a,b) {
+      return a + b;
+    });
+
+    // Display the sum.
+
+    document.getElementById("sum").innerHTML = sum;
+
+    // Set the value of the corresponding hidden input to be equal to the sum.
+
+    document.getElementById("hiddenSum").value = sum;
+  } else {
+
+    // If there are no selected prices, display 0 as the total sum.
+
+    document.getElementById("sum").innerHTML = 0;
+
+   // Set the value of the corresponding hidden input to be an empty string.
+
+    document.getElementById("hiddenSum").value = "";
   }
 };
-
 
 
 // Export a function which changes the item count when a plus or minus button is clicked.
@@ -72,27 +108,6 @@ export const changeCount = (element) => {
 };
 
 
-// Export a function, which converts the item count value into an accepted one,
-// in case the inputted value is invalid.
-
-export const validateCount = (element) => {
-
-  // Check the inputted item count value
-  // and if it is outside the allowed range, convert it back to a valid number.
-  // Also make sure that the number is an integer.
-
-  if (element.value) {
-    if (element.value < 0) {
-      element.value = 0;
-    } else if (element.value > 99) {
-      element.value = 99;
-    } else {
-      element.value = parseInt(element.value);
-    }
-  }
-};
-
-
 // Export a function which changes the displayed price,
 // when the item count is changed.
 
@@ -122,50 +137,34 @@ export const changePrice = (element) => {
 };
 
 
-// Export a function which calculates and displays the total cost of the selected shop items.
+// Export a function that removes the grayout class on the price elements.
 
-export const calculateSum = () => {
+export const removeGreyout = (element) => {
 
-  // Get an array of all the price elements on the page.
+  // Remove the class from the parent of the provided element to cover both the price and the eur sign.
 
-  const priceList = document.querySelectorAll(".price");
-
-  // Create an empty array that will be populated by selected price elements.
-
-  const selected = [];
-
-  // Loop through the array of price elements and check for the classlist of their parent nodes.
-  // If the greyout class is missing, it means that the corresponding price element is selected.
-  // Get the inner HTML of the selected prices, convert it to a number and push it to the empty array.
-
-  for (let i = 0; i < priceList.length; i++) {
-    if (!priceList[i].parentNode.classList.contains("greyout")) {
-      selected.push(Number(priceList[i].innerHTML));
-    }
+  if (element.parentNode.classList.contains("greyout")) {
+    element.parentNode.classList.remove("greyout");
   }
+};
 
-  // If there are any selected prices, loop through them and calculate their sum.
 
-  if (selected.length > 0) {
-    const sum = selected.reduce(function(a,b) {
-      return a + b;
-    });
+// Export a function, which converts the item count value into an accepted one,
+// in case the inputted value is invalid.
 
-    // Display the sum.
+export const validateCount = (element) => {
 
-    document.getElementById("sum").innerHTML = sum;
+  // Check the inputted item count value
+  // and if it is outside the allowed range, convert it back to a valid number.
+  // Also make sure that the number is an integer.
 
-    // Set the value of the corresponding hidden input to be equal to the sum.
-
-    document.getElementById("hiddenSum").value = sum;
-  } else {
-
-    // If there are no selected prices, display 0 as the total sum.
-
-    document.getElementById("sum").innerHTML = 0;
-
-   // Set the value of the corresponding hidden input to be an empty string.
-
-    document.getElementById("hiddenSum").value = "";
+  if (element.value) {
+    if (element.value < 0) {
+      element.value = 0;
+    } else if (element.value > 99) {
+      element.value = 99;
+    } else {
+      element.value = parseInt(element.value);
+    }
   }
 };

@@ -28,16 +28,15 @@
 
   &--hamburger {
     top: 0;
-    left: 57%;
+    left: 56%;
     background-color: $color-primary-dark;
-    @media screen and (max-width: 56.25em) {
+    @media screen and (max-width: 67.5em) {
       left: 60%;
     }
-    @media screen and (max-width: 35.625em) {
+    @media screen and (max-width: 36.25em) {
       left: 65%;
     }
     @media screen and (max-width: 18.75em) {
-      top: -1rem;
       left: 50%;
     }
   }
@@ -47,7 +46,7 @@
   &__item {
     transition-property: transform;
     transition-duration: 0.5s;
-    margin: 2.5rem 3.5rem;
+    margin: 1.5rem 3.5rem;
 
     &:active,
     &:hover {

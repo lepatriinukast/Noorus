@@ -2,17 +2,8 @@
   <div class="popup__message">
     <h3 class="admin-heading admin-heading--secondary">Kas oled kindel?</h3>
     <div class="column-container">
-      <button class="btn btn--admin btn--admin--large" id="deleteYesBtn">Salvesta</button>
-      <button class="btn btn--admin btn--admin--large" id="deleteNoBtn">Loobu</button>
-    </div>
-  </div>
-</div>
-
-<div class="popup hide" id="successPopup">
-  <div class="popup__message">
-    <h3 class="admin-heading admin-heading--secondary">Muudatused salvestatud!</h3>
-    <div class="column-container">
-      <button class="btn btn--admin btn--admin--large" id="successBtn">OK</button>
+      <a class="btn btn--admin btn--admin--large" id="deleteYesBtn" tabindex="0">Salvesta</a>
+      <a class="btn btn--admin btn--admin--large" id="deleteNoBtn" tabindex="0">Loobu</a>
     </div>
   </div>
 </div>
@@ -21,7 +12,26 @@
   <div class="popup__message">
     <h3 class="admin-heading admin-heading--secondary">Midagi läks sassi! Proovi uuesti!</h3>
     <div class="column-container">
-      <button class="btn btn--admin btn--admin--large" id="failureBtn">OK</button>
+      <a class="btn btn--admin btn--admin--large" id="failureBtn" tabindex="0">OK</a>
+    </div>
+  </div>
+</div>
+
+<div class="popup hide" id="successPopup">
+  <div class="popup__message">
+    <h3 class="admin-heading admin-heading--secondary">Muudatused salvestatud!</h3>
+    <div class="column-container">
+      <a class="btn btn--admin btn--admin--large" id="successBtn" tabindex="0">OK</a>
+    </div>
+  </div>
+</div>
+
+<div class="popup hide" id="warningPopup">
+  <div class="popup__message">
+    <h3 class="admin-heading admin-heading--secondary">Lahkuda ilma muudatusi salvestamata?</h3>
+    <div class="column-container">
+      <a class="btn btn--admin btn--admin--large" id="warningYesBtn" tabindex="0">Jah</a>
+      <a class="btn btn--admin btn--admin--large" id="warningNoBtn" tabindex="0">Ei</a>
     </div>
   </div>
 </div>

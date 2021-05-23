@@ -6,28 +6,57 @@
 
 // Import the dependencies.
 
-import {addEditorListeners, adjustAdminMenu, changePreview, createDeleteMessage, removeMessages, toggleAdminMenu} from "./admin.js";
-import {ajax} from "./ajax.js";
-import {calculateSum, changeCount, changePrice, removeGreyout, validateCount} from "./order.js";
-import {deleteEmptyContent, handler} from "./public.js";
-import {checkOverflow, deleteLinkBtn, displayLinkBtn, redirectToCustom, toggleContent} from "./shop.js";
+import {
+  addEditorListeners,
+  adjustAdminMenu,
+  changePreview,
+  checkSavedStatus,
+  createDeleteMessage,
+  removeMessages,
+  toggleAdminMenu
+} from "./admin.js";
+
+import {
+  ajax
+} from "./ajax.js";
+
+import {
+  calculateSum,
+  changeCount,
+  changePrice,
+  removeGreyout,
+  validateCount
+} from "./order.js";
+
+import {
+  deleteEmptyContent,
+  handler
+} from "./public.js";
+
+import {
+  checkOverflow,
+  deleteLinkBtn,
+  displayLinkBtn,
+  redirectToCustom,
+  toggleContent
+} from "./shop.js";
 
 // Export the function.
 
-export const load = (root) => {
+export const load = (body) => {
 
   // Call a different function depending on the classlist of the DOM root element.
 
-  if (root.classList.contains("public")) {
+  if (body.classList.contains("public")) {
     pageTypes.public();
-    if (root.classList.contains("shop")) {
+    if (body.classList.contains("shop")) {
       pageTypes.shop();
-    } else if (root.classList.contains("order")) {
+    } else if (body.classList.contains("order")) {
       pageTypes.order();
     }
-  } else if (root.classList.contains("admin")) {
+  } else if (body.classList.contains("admin")) {
     pageTypes.admin();
-  } else if (root.classList.contains("login")) {
+  } else if (body.classList.contains("login")) {
     pageTypes.login();
   }
 };
@@ -38,7 +67,7 @@ export const load = (root) => {
 const pageTypes = {
 
 
-// Method to be called when a public page is loaded.
+  // Method to be called when a public page is loaded.
 
   public() {
 
@@ -46,14 +75,14 @@ const pageTypes = {
 
     window.addEventListener("click", handler);
     window.addEventListener("touchend", handler);
-    window.addEventListener("keydown", function(event) {
-      if (event.key === "Escape") {
+    window.addEventListener("keydown", (event) => {
+      if (event.key !== "Tab") {
         handler(event);
       }
     });
 
     // Listen to form submits (there is one on the contact page and one on the order page)
-     // and respond with making an ajax request to the server.
+    // and respond with making an ajax request to the server.
 
     window.addEventListener("submit", ajax.submit);
 
@@ -74,44 +103,70 @@ const pageTypes = {
 
     window.addEventListener("click", (event) => {
       removeMessages();
-      if (event.target === document.getElementById("hamburgerButton") || event.target === document.getElementById("hamburgerButton").parentNode ) {
+      if (event.target === document.getElementById("hamburgerButton") || event.target === document.getElementById("hamburgerButton").parentNode) {
         toggleAdminMenu();
-      } else if (event.target.classList.contains("addBtn")) {
+      } else if (event.target.classList.contains("dataAddBtn")) {
         ajax.post(event);
-      } else if (event.target.classList.contains("restoreBtn")) {
+      } else if (event.target.classList.contains("dataRestoreBtn")) {
         ajax.restore(event);
-      } else if (event.target.classList.contains("deleteBtn")) {
+      } else if (event.target.classList.contains("dataArchiveBtn")) {
+        ajax.archive(event);
+      } else if (event.target.classList.contains("dataDeleteBtn")) {
         createDeleteMessage(event);
-      } else if (event.target === document.getElementById("logoutBtn")) {
-        ajax.logout(event);
+      } else if (event.target === document.getElementById("relocationBtn") ||
+        event.target === document.getElementById("logoutBtn") ||
+        event.target.classList.contains("adminnav__link")) {
+        checkSavedStatus(event);
       }
     });
 
     window.addEventListener("touchend", (event) => {
       removeMessages();
-      if (event.target === document.getElementById("hamburgerButton") || event.target === document.getElementById("hamburgerButton").parentNode ) {
+      if (event.target === document.getElementById("hamburgerButton") || event.target === document.getElementById("hamburgerButton").parentNode) {
         toggleAdminMenu();
-      } else if (event.target.classList.contains("addBtn")) {
+      } else if (event.target.classList.contains("dataAddBtn")) {
         ajax.post(event);
-      } else if (event.target.classList.contains("restoreBtn")) {
+      } else if (event.target.classList.contains("dataRestoreBtn")) {
         ajax.restore(event);
-      } else if (event.target.classList.contains("deleteBtn")) {
+      } else if (event.target.classList.contains("dataArchiveBtn")) {
+        ajax.archive(event);
+      } else if (event.target.classList.contains("dataDeleteBtn")) {
         createDeleteMessage(event);
-      } else if (event.target === document.getElementById("logoutBtn")) {
-        ajax.logout(event);
+      } else if (event.target === document.getElementById("relocationBtn") ||
+        event.target === document.getElementById("logoutBtn") ||
+        event.target.classList.contains("adminnav__link")) {
+        checkSavedStatus(event);
       }
     });
 
     window.addEventListener("keydown", () => {
       if (event.key !== "Tab") {
         removeMessages();
+        if (event.target === document.getElementById("hamburgerButton") || event.target === document.getElementById("hamburgerButton").parentNode) {
+          toggleAdminMenu();
+        }
       }
     });
 
-    // Add an event listener that reacts to all changes to the input elements.
-    // The callback function will work only on file inputs.
 
-    window.addEventListener("input", changePreview);
+    // Add an event listener that reacts to all changes to the input elements.
+    // The callback depends on the input type.
+
+    window.addEventListener("input", (event) => {
+
+      // For image inputs, change the preview element.
+
+      if (event.target.type === "file") {
+        changePreview(event);
+
+        // For text inputs, create an outline indicating unsaved changes.
+
+      } else if (event.target.type !== "hidden" || event.target.type !== "file") {
+        if (!event.target.classList.contains("unsaved")) {
+          event.target.classList.add("unsaved");
+        }
+      }
+    });
 
     // Call the function that adds event listeners to all quill editors.
 
@@ -151,7 +206,6 @@ const pageTypes = {
 
     for (let i = 0; i < textBoxArray.length; i++) {
       let overflow = checkOverflow(textBoxArray[i]);
-      console.log(overflow);
       if (overflow) {
         displayLinkBtn(textBoxArray[i]);
       } else {
@@ -184,7 +238,7 @@ const pageTypes = {
   },
 
 
-// Method to be called when an order page is loaded.
+  // Method to be called when an order page is loaded.
 
   order() {
 
@@ -217,7 +271,7 @@ const pageTypes = {
     calculateSum();
 
     // Listen to clicks and touches on the page.
-  // If the click or touch occured on one of the number buttons, change the value of the corresponding item count input.
+    // If the click or touch occured on one of the number buttons, change the value of the corresponding item count input.
 
     window.addEventListener("click", (event) => {
       if (event.target.classList.contains("signBtn") || event.target.parentNode.classList.contains("signBtn")) {

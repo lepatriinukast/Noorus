@@ -13,16 +13,16 @@
       <div class="admin__input-item">
         <h3 class="admin-heading admin-heading--quarternary">EST</h3>
         <div class="admin__editor">
-          <div class="editor" id="contactIntroEstEditor"><%- data.intros[7].en %></div>
+          <div class="editor" id="contactIntroEstEditor"><%- data.intros[7].est %></div>
         </div>
-        <input class="admin__hidden-input" id="contactIntroEst" name="contactIntroEst" type="text">
+        <input class="admin__hidden-input" id="contactIntroEst" name="contactIntroEst" type="text" value="<%= data.intros[7].est %>">
       </div>
       <div class="admin__input-item">
         <h3 class="admin-heading admin-heading--quarternary">EN</h3>
         <div class="admin__editor">
           <div class="editor" id="contactIntroEnEditor"><%- data.intros[7].en %></div>
         </div>
-        <input class="admin__hidden-input" id="contactIntroEn" name="contactIntroEn" type="text">
+        <input class="admin__hidden-input" id="contactIntroEn" name="contactIntroEn" type="text" value="<%= data.intros[7].en %>">
       </div>
     </div>
     <div class="column-container">
@@ -32,9 +32,11 @@
 
 </form>
 
+<div class="dataGroup" id="contactSections">
+
 <% for (var i = 0; i < data.contactSections.length; i++) { %>
 
-<form class="admin__form" action="/api/contact/sections/<%= i + 1 %>">
+<form class="admin__form dataElement" data-action="/api/contact/sections/<%= i + 1 %>" action ="/api/contact/sections/<%= i + 1 %>">
 
   <h3 class="admin-heading admin-heading--secondary">Sektsioon <%= i + 1 %></h3>
   <div class="admin__input-group">
@@ -56,19 +58,19 @@
         <div class="admin__editor">
           <div class="editor" id="contactSection<%= i + 1 %>EstEditor"><%- data.contactSections[i].content.est %></div>
         </div>
-        <input class="admin__hidden-input" id="contactSection<%= i + 1 %>Est" name="contactSection<%= i + 1 %>Est" type="text">
+        <input class="admin__hidden-input" id="contactSection<%= i + 1 %>Est" name="contactSection<%= i + 1 %>Est" type="text" value="<%= data.contactSections[i].content.est %>">
       </div>
       <div class="admin__input-item">
         <h3 class="admin-heading admin-heading--quarternary">EN</h3>
         <div class="admin__editor">
           <div class="editor" id="contactSection<%= i + 1 %>EnEditor"><%- data.contactSections[i].content.en %></div>
         </div>
-        <input class="admin__hidden-input" id="contactSection<%= i + 1 %>En" name="contactSection<%= i + 1 %>En" type="text">
+        <input class="admin__hidden-input" id="contactSection<%= i + 1 %>En" name="contactSection<%= i + 1 %>En" type="text" value="<%= data.contactSections[i].content.en %>">
       </div>
     </div>
     <div class="column-container">
-      <a class="btn btn--admin btn--admin--large deleteBtn" data-action="/api/contact/sections/<%= i + 1 %>">Kustuta</a>
       <button class="btn btn--admin btn--admin--large" type="submit">Salvesta</button>
+      <a class="btn btn--admin btn--admin--large dataDeleteBtn" data-index="<%= i + 1 %>" data-action="/api/contact/sections/<%= i + 1 %>" tabindex="0">Kustuta</a>
     </div>
   </div>
 
@@ -76,7 +78,10 @@
 
 <% } %>
 
-<a class="btn btn--admin btn--admin--large addBtn" data-action="/api/contact/sections" name="contactSectionAddBtn" id="contactSectionAddBtn">+ Lisa Sektsioon +</a>
+</div>
+
+<a class="btn btn--admin btn--admin--large dataAddBtn" data-for="contactSections" data-action="/api/contact/sections" tabindex="0">+ Lisa Sektsioon +</a>
+
 
 <form class="admin__form" action="/api/contact/form">
 
@@ -95,8 +100,12 @@
     </div>
   </div>
   <hr>
+
+  <div class="dataGroup" id="contactForm">
+
   <% for (var i = 0; i < data.contactForm.length; i++) { %>
-  <div class="admin__input-group">
+
+  <div class="admin__input-group dataElement">
     <h3 class="admin-heading admin-heading--tertiary">Väli <%= i + 1 %></h3>
     <div class="column-container">
       <div class="admin__input-item">
@@ -119,12 +128,16 @@
       </div>
     </div>
     <div class="column-container">
-      <a class="btn btn--admin btn--admin--small deleteBtn" data-action="/api/contact/form/<%= i + 1 %>">Kustuta</a>
+      <a class="btn btn--admin btn--admin--small dataDeleteBtn" data-index="<%= i + 1 %>" data-action="/api/contact/form/<%= i + 1 %>" tabindex="0">Kustuta</a>
     </div>
   </div>
+
   <% } %>
+
+  </div>
+
   <div class="column-container">
-    <a class="btn btn--admin btn--admin--small addBtn" data-action="/api/contact/form">+ Lisa väli +</a>
+    <a class="btn btn--admin btn--admin--small dataAddBtn" data-for="contactForm" data-action="/api/contact/form" tabindex="0">+ Lisa väli +</a>
   </div>
   <div class="column-container">
     <button class="btn btn--admin btn--admin--large" type="submit">Salvesta</button>

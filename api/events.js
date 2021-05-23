@@ -114,7 +114,7 @@ router.route("/content/:id")
 
   // Archive an event on the events page.
 
-  .delete(async (req, res) => {
+  .post(async (req, res) => {
 
     // Call the function that archives the specified entry from the specified database table.
     // This means that the particular entry is transferred to another database table, where archived entries are stored.
@@ -124,6 +124,23 @@ router.route("/content/:id")
 
     await apiController.archive("events_content", "archive_content", req.params.id - 1);
     await apiController.archive("events_images", "archive_images", req.params.id - 1);
+
+    // Send a response back to the browser.
+
+    res.send("OK!");
+  })
+
+  // Delete an event on the events page.
+
+  .delete(async (req, res) => {
+
+    // Call the function that deletes the specified entry from the specified database table.
+    // The index for locating the entry in the table can be found in the api endpoint.
+    // Also make this index 0-based.
+    // Call the function twice to delete entries from two different tables.
+
+    await apiController.delete("events_content", req.params.id - 1);
+    await apiController.delete("events_images", req.params.id - 1);
 
     // Send a response back to the browser.
 

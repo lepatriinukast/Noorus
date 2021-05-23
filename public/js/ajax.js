@@ -5,7 +5,14 @@
 
 // Import the dependencies.
 
-import {addEditorListeners, createSuccessMessage, createFailureMessage} from "./admin.js";
+import {
+  addEditorListeners,
+  addElement,
+  createSuccessMessage,
+  createFailureMessage,
+  deleteElement,
+  removeOutline
+} from "./admin.js";
 
 // Create the export object.
 
@@ -14,7 +21,7 @@ export const ajax = {
 
   // Send a get request.
 
-  get() {
+  get(event) {
 
     // Create a new XMLHttpRequest
 
@@ -32,50 +39,9 @@ export const ajax = {
 
       if (this.readyState == 4 && this.status == 200) {
 
-        // Store the response string into a variable.
-        // The response string contains HTML from the destination of the get request.
+        // Display the new element on the page.
 
-        var responseText = this.responseText;
-
-        // Setup a string parser.
-
-        var parser = new DOMParser();
-
-        // Use the parser to create a DOM tree from the response string.
-
-        var doc = parser.parseFromString(responseText, "text/html");
-
-        // Replace the body element of the page with the body element of the new HTML.
-
-        document.querySelector("body").innerHTML = doc.querySelector("body").innerHTML;
-
-        // Rerun the code that displays quill text editors:
-
-        // Get an array of the DOM elements that will serve as containers for the quill editors.
-
-        const containerArray = document.querySelectorAll('.editor');
-
-        // Loop through the array of container elements.
-
-        for (let i = 0; i < containerArray.length; i++) {
-
-          // For each item in the container array, create an instance of quill text editor
-          // (the code for this has been installed to the project from an outside source).
-          // Specify the icons on the toolbar and the appearance theme.
-
-          let quill = new Quill(containerArray[i], {
-            modules: {
-              toolbar: [
-                ['bold', 'italic', 'underline', 'link'],
-              ]
-            },
-            theme: 'snow' // or 'bubble'
-          });
-        }
-
-        // Add event listeners to the editors that don't already have them.
-
-        addEditorListeners();
+        addElement(this, event);
 
         // If something is wrong, create a failure message.
 
@@ -121,6 +87,9 @@ export const ajax = {
       if (xhr.readyState == 4 && xhr.status == 200) {
         createSuccessMessage();
 
+        // Remove the outline effect from the elements that were updated and saved.
+        removeOutline(event);
+
         // If not, create a failure message.
 
       } else if (xhr.status !== 200) {
@@ -157,10 +126,10 @@ export const ajax = {
 
     xhr.onreadystatechange = () => {
 
-      // If everything works, get the new version of the page and display it.
+      // If everything works, get the new version of the page and display new elements manually.
 
       if (xhr.readyState == 4 && xhr.status == 200) {
-        ajax.get();
+        ajax.get(event);
 
         // If not, create a failure message.
 
@@ -197,10 +166,10 @@ export const ajax = {
 
     xhr.onreadystatechange = () => {
 
-      // If everything works, get the new version of the page and display it.
+      // If everything works, delete the specified element manually from the page.
 
       if (xhr.readyState == 4 && xhr.status == 200) {
-        ajax.get();
+        deleteElement(event);
 
         // If not, create a failure message.
 
@@ -237,10 +206,10 @@ export const ajax = {
 
     xhr.onreadystatechange = () => {
 
-      // If everything works, get the new version of the page and display it.
+      // If everything works, delete the specified element manually from the page.
 
       if (xhr.readyState == 4 && xhr.status == 200) {
-        ajax.get();
+        deleteElement(event);
 
         // If not, create a failure message.
 
@@ -253,6 +222,45 @@ export const ajax = {
     // Send the data to the server.
 
     xhr.send("RESTORE");
+  },
+
+  // Send a post request which actually archives moves some data by moving it to another database table.
+
+  archive(event) {
+
+    // Prevent the default action from happening on the button click.
+
+    event.preventDefault();
+
+    // Instead create a new XMLHttpRequest object for transferring data to the server.
+
+    const xhr = new XMLHttpRequest();
+
+    // Open the XMLHttpRequest and specify the method, destination route on the server, and confirm that the call takes place asynchronously.
+    // The api endpoint can be obtained from the button that is the event target.
+
+    xhr.open("POST", event.target.dataset.action, true);
+
+    // Check if the request is ready.
+
+    xhr.onreadystatechange = () => {
+
+      // If everything works, delete the specified element manually from the page.
+
+      if (xhr.readyState == 4 && xhr.status == 200) {
+        deleteElement(event);
+
+        // If not, create a failure message.
+
+      } else if (xhr.status !== 200) {
+        console.log(xhr.response);
+        createFailureMessage();
+      }
+    };
+
+    // Send the data to the server.
+
+    xhr.send("ARCHIVE");
   },
 
 

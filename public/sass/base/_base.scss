@@ -20,9 +20,15 @@
 // Changes the focus style.
 
 :focus {
-  outline-color: blue;
-  outline-width: thick;
+  outline: none;
 }
+
+:focus-visible {
+    outline: groove 5px highlight;
+}
+
+
+
 
 // Reset of measurement units: 1rem = 10px; element size = content + padding + border.
 

@@ -6,17 +6,17 @@
   margin: 3rem 21rem;
   text-align: center;
   @media screen and (max-width: 40.625em) {
-  margin: 18rem 0;
+  margin: 18rem 0 0 0;
+  }
+
+  &__form {
+    padding: 2rem 0;
   }
 
   // Container for multi-line input groups.
 
   &__input-group {
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    display: flex;
-    padding: 2rem;
+    margin: 2rem;
   }
 
   // Container for an input and its companion elements.
@@ -96,8 +96,8 @@
     width: 0.1px;
     height: 0.1px;
 
-    &:focus + .btn {
-      outline: 2px blue solid;
+    &:focus-visible + label {
+      outline: groove 5px highlight;
     }
   }
 

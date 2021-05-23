@@ -3,11 +3,11 @@
 <%- include('../partials/hamburgernav', {data: data}); -%>
 
 
-<div class="logo">
-  <img class="logo__img" src="<%= data.staticImages[1].url %>" alt="<%= data.pageInfo.miscellaneous[0] %>">
-</div>
-
 <header class="header" style="background-image: linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6)), url('<%= data.staticImages[2].url %>')">
+
+  <div class="logo">
+    <img class="logo__img" src="<%= data.staticImages[1].url %>" alt="<%= data.pageInfo.miscellaneous[0] %>">
+  </div>
 
 <% if (data.staticSections[0].heading[data.language] || data.staticSections[0].content[data.language]) { %>
   <div class="header__heading-box">
@@ -20,7 +20,7 @@
 </header>
 
 
-<main>
+<main class="home">
 
 
   <section class="section">

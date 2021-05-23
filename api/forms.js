@@ -56,7 +56,7 @@ router.route("/contact")
     // Join the array of strings to create the body of the email.
 
     const mailOptions = {
-      from: 'joosep_trumm@hotmail.com',
+      from: 'noreply@example.com',
       to: 'joosep_trumm@hotmail.com',
       subject: 'Uus tellimus Nooruse kodulehelt',
       html: strings.join("")
@@ -141,7 +141,7 @@ router.route("/contact")
       // The e-mail body will be the joined strings array.
 
       const mailOptions = {
-        from: 'joosep_trumm@hotmail.com',
+        from: 'noreply@example.com',
         to: 'joosep_trumm@hotmail.com',
         subject: 'Uus tellimus Nooruse kodulehelt',
         html: strings.join("")

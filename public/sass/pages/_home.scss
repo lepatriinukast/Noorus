@@ -1,6 +1,8 @@
 // STYLES FOR THE HOME PAGE
 
 .home {
+  min-height: 0;
+
   &__item {
     transition-property: transform, color;
     transition-duration: 0.5s;

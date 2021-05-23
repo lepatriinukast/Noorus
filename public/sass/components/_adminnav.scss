@@ -32,7 +32,7 @@
       left: 0;
       flex-direction: row;
       width: 100%;
-      padding: 2rem;
+      padding: 2rem 2rem 0 2rem;
       background-color: $color-grey-dark;
     }
 
@@ -94,7 +94,7 @@
 
   &__hamburger-btn {
     display: none !important;
-    margin: 0 2rem;
+    margin: 0 2rem 1.5rem 2rem;
     color: $color-white;
     @media screen and (max-width: 40.625em) {
       display: inline-block !important;

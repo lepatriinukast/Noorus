@@ -16,14 +16,14 @@
         <div class="admin__editor">
           <div class="editor" id="membersIntroEstEditor"><%- data.intros[0].est %></div>
         </div>
-        <input class="admin__hidden-input" id="membersIntroEst" name="membersIntroEst" type="text">
+        <input class="admin__hidden-input" id="membersIntroEst" name="membersIntroEst" type="text" value="<%= data.intros[0].est %>">
       </div>
       <div class="admin__input-item">
         <h3 class="admin-heading admin-heading--quarternary">EN</h3>
         <div class="admin__editor">
           <div class="editor" id="membersIntroEnEditor"><%- data.intros[0].en %></div>
         </div>
-        <input class="admin__hidden-input" id="membersIntroEn" name="membersIntroEn" type="text">
+        <input class="admin__hidden-input" id="membersIntroEn" name="membersIntroEn" type="text" value="<%= data.intros[0].en %>">
       </div>
     </div>
     <div class="column-container">
@@ -57,14 +57,14 @@
         <div class="admin__editor">
           <div class="editor" id="membersGrid<%= i + 1 %>EstEditor"><%- data.membersGrid[i].content.est %></div>
         </div>
-        <input class="admin__hidden-input" id="membersGrid<%= i + 1 %>Est" name="membersGrid<%= i + 1 %>Est" type="text">
+        <input class="admin__hidden-input" id="membersGrid<%= i + 1 %>Est" name="membersGrid<%= i + 1 %>Est" type="text" value="<%= data.membersGrid[i].content.est %>">
       </div>
       <div class="admin__input-item">
         <h3 class="admin-heading admin-heading--quarternary">EN</h3>
         <div class="admin__editor">
           <div class="editor" id="membersGrid<%= i + 1 %>EnEditor"><%- data.membersGrid[i].content.en %></div>
         </div>
-        <input class="admin__hidden-input membersGridEn" id="membersGrid<%= i + 1 %>En" name="membersGrid<%= i + 1 %>En" type="text">
+        <input class="admin__hidden-input membersGridEn" id="membersGrid<%= i + 1 %>En" name="membersGrid<%= i + 1 %>En" type="text" value="<%= data.membersGrid[i].content.en %>">
       </div>
     </div>
     <button class="btn btn--admin btn--admin--large" type="submit">Salvesta</button>
@@ -74,9 +74,11 @@
 
 <% } %>
 
+<div class="dataGroup" id="membersSections">
+
 <% for (var i = 0; i < data.membersSections.length; i++) { %>
 
-<form class="admin__form" action="/api/members/sections/<%= i + 1 %>">
+<form class="admin__form dataElement" data-action="/api/members/sections/<%= i + 1 %>" action="/api/members/sections/<%= i + 1 %>">
 
   <h3 class="admin-heading admin-heading--secondary">Sektsioon <%= i + 1 %></h3>
   <div class="admin__input-group">
@@ -98,7 +100,7 @@
         <div class="admin__editor">
           <div class="editor" id="membersSection<%= i + 1 %>EstEditor"><%- data.membersSections[i].content.est %></div>
         </div>
-        <input class="admin__hidden-input" id="membersSection<%= i + 1 %>Est" name="membersSection<%= i + 1 %>Est" type="text">
+        <input class="admin__hidden-input" id="membersSection<%= i + 1 %>Est" name="membersSection<%= i + 1 %>Est" type="text" value="<%- data.membersSections[i].content.est %>">
       </div>
       <div class="admin__input-item">
         <h3 class="admin-heading admin-heading--quarternary">EN</h3>
@@ -106,11 +108,11 @@
           <div class="editor" id="membersSection<%= i + 1 %>EnEditor"><%- data.membersSections[i].content.en %></div>
         </div>
       </div>
-      <input class="admin__hidden-input" id="membersSection<%= i + 1 %>En" name="membersSection<%= i + 1 %>En" type="text">
+      <input class="admin__hidden-input" id="membersSection<%= i + 1 %>En" name="membersSection<%= i + 1 %>En" type="text" value="<%- data.membersSections[i].content.en %>">
     </div>
     <div class="column-container">
-      <a class="btn btn--admin btn--admin--large deleteBtn" data-action="/api/members/sections/<%= i + 1 %>">Kustuta</a>
       <button class="btn btn--admin btn--admin--large" type="submit">Salvesta</button>
+      <a class="btn btn--admin btn--admin--large dataDeleteBtn" data-index="<%= i + 1 %>" data-action="/api/members/sections/<%= i + 1 %>" tabindex="0">Kustuta</a>
     </div>
   </div>
 
@@ -118,7 +120,9 @@
 
 <% } %>
 
-<a class="btn btn--admin btn--admin--large addBtn" data-action="/api/members/sections">+ Lisa Sektsioon +</a>
+</div>
+
+<a class="btn btn--admin btn--admin--large dataAddBtn" data-for="membersSections" data-action="/api/members/sections" tabindex="0">+ Lisa Sektsioon +</a>
 
 
 <%- include('../partials/footer') -%>

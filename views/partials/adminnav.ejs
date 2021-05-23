@@ -1,10 +1,10 @@
 
   <div class="adminnav__fixed-box">
-      <a class="btn btn--admin btn--admin--large" id="logoutBtn">Logi välja</a>
-        <a class="adminnav__hamburger-btn" aria-label="Menüü">
+      <a class="btn btn--admin btn--admin--large" id="logoutBtn" tabindex="0">Logi välja</a>
+        <a class="adminnav__hamburger-btn" aria-label="Menüü" tabindex="0">
           <i class="adminnav__icon fas fa-bars" id="hamburgerButton"></i>
         </a>
-      <a class="btn btn--admin btn--admin--large" href="/<%= data.pageInfo.href %>">Kodulehele</a>
+      <a class="btn btn--admin btn--admin--large" id="relocationBtn" href="/<%= data.pageInfo.href %>">Kodulehele</a>
   </div>
   <nav class="adminnav" id="adminMenu">
     <ul class="adminnav__list">

@@ -121,7 +121,7 @@ const reqData = async (templateName, language) => {
         languageAttribute: "est",
         appName: routeInfo.appName.est,
         pageTitle: "Admin/Koorist",
-        href: ""
+        href: "koorist"
       },
       staticImages: await compiler("static_images", models.ImageModel),
       staticSections: await compiler("static_sections", models.SectionModel)
@@ -133,7 +133,7 @@ const reqData = async (templateName, language) => {
         languageAttribute: "est",
         appName: routeInfo.appName.est,
         pageTitle: "Admin/Liikmed",
-        href: "koorist"
+        href: "koorist#liikmed"
       },
       staticImages: await compiler("static_images", models.ImageModel),
       intros: await compiler("intros", models.TextModel),

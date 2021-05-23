@@ -4,6 +4,7 @@
 
 
 <main class="events">
+<% if (data.eventsContent.length || data.intros[5][data.language]) { %>
 
 
   <section class="section">
@@ -19,7 +20,7 @@
     <div class="container" id="<%= data.pageInfo.miscellaneous[0] + (i + 1) %>">
       <img class="events__img" <% if (data.eventsImages[i].url) { %> src="<%= data.eventsImages[i].url %>" <% } else { %> src="/img/logoga-pilt.jpg" <% } %> alt="<%= data.pageInfo.miscellaneous[1] %>">
       <div class="events__text-box">
-        <h3 class="heading heading--tertiary"><%= data.eventsContent[i].heading[data.language] %></h3>
+        <h3 class="heading heading--tertiary u-margin"><%= data.eventsContent[i].heading[data.language] %></h3>
         <div class="content">
           <%- data.eventsContent[i].content[data.language] %>
         </div>
@@ -29,6 +30,9 @@
 
   </section>
 
+  <% } %>
+
+  <% if (data.archiveContent.length) { %>
 
   <section class="section">
 
@@ -53,6 +57,8 @@
     <% } %>
 
   </section>
+
+  <% } %>
 
 
 </main>

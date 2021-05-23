@@ -32,6 +32,7 @@ router.get("/koorist", async (req, res) => {
 
 router.get("/sundmused", async (req, res) => {
   const data = await reqData("events", "est");
+  data.eventsContent = data.eventsContent.reverse();
   res.render("public/events", {
     data: data
   });
@@ -80,6 +81,7 @@ router.get("/en/about", async (req, res) => {
 
 router.get("/en/events", async (req, res) => {
   const data = await reqData("events", "en");
+  data.eventsContent = data.eventsContent.reverse();
   res.render("public/events", {
     data: data
   });

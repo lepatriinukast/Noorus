@@ -13,16 +13,16 @@
       <div class="admin__input-item">
         <h3 class="admin-heading admin-heading--quarternary">EST</h3>
         <div class="admin__editor">
-          <div class="editor" id="historyIntroEstEditor"><%- data.intros[2].en %></div>
+          <div class="editor" id="historyIntroEstEditor"><%- data.intros[2].est %></div>
         </div>
-        <input class="admin__hidden-input" id="historyIntroEst" name="historyIntroEst" type="text">
+        <input class="admin__hidden-input" id="historyIntroEst" name="historyIntroEst" type="text" value="<%= data.intros[2].est %>">
       </div>
       <div class="admin__input-item">
         <h3 class="admin-heading admin-heading--quarternary">EN</h3>
         <div class="admin__editor">
           <div class="editor" id="historyIntroEnEditor"><%- data.intros[2].en %></div>
         </div>
-        <input class="admin__hidden-input" id="historyIntroEn" name="historyIntroEn" type="text">
+        <input class="admin__hidden-input" id="historyIntroEn" name="historyIntroEn" type="text" value="<%= data.intros[2].en %>">
       </div>
     </div>
     <div class="column-container">
@@ -32,9 +32,11 @@
 
 </form>
 
+<div class="dataGroup" id="historySections">
+
   <% for (var i = 0; i < data.historySections.length; i++) { %>
 
-<form class="admin__form" action="/api/history/sections/<%= i + 1 %>">
+<form class="admin__form dataElement" data-action="/api/history/sections/<%= i + 1 %>" action="/api/history/sections/<%= i + 1 %>">
 
   <h3 class="admin-heading admin-heading--secondary">Sektsioon <%= i + 1 %></h3>
 <div class="admin__input-group">
@@ -56,7 +58,7 @@
       <div class="admin__editor">
         <div class="editor" id="historySection<%= i + 1 %>EstEditor"><%- data.historySections[i].content.est %></div>
       </div>
-        <input class="admin__hidden-input" id="historySection<%= i + 1 %>Est" name="historySection<%= i + 1 %>Est" type="text">
+        <input class="admin__hidden-input" id="historySection<%= i + 1 %>Est" name="historySection<%= i + 1 %>Est" type="text" value="<%= data.historySections[i].content.est %>">
     </div>
     <div class="admin__input-item">
       <h3 class="admin-heading admin-heading--quarternary">EN</h3>
@@ -64,11 +66,11 @@
         <div class="editor" id="historySection<%= i + 1 %>EnEditor"><%- data.historySections[i].content.en %></div>
       </div>
     </div>
-    <input class="admin__hidden-input" id="historySection<%= i + 1 %>En" name="historySection<%= i + 1 %>En" type="text">
+    <input class="admin__hidden-input" id="historySection<%= i + 1 %>En" name="historySection<%= i + 1 %>En" type="text" value="<%= data.historySections[i].content.en %>">
   </div>
   <div class="column-container">
-    <a class="btn btn--admin btn--admin--large deleteBtn" data-action="/api/history/sections/<%= i + 1 %>">Kustuta</a>
     <button class="btn btn--admin btn--admin--large" type="submit">Salvesta</button>
+    <a class="btn btn--admin btn--admin--large dataDeleteBtn" data-index="<%= i + 1 %>" data-action="/api/history/sections/<%= i + 1 %>" tabindex="0">Kustuta</a>
   </div>
   </div>
 
@@ -76,7 +78,9 @@
 
 <% } %>
 
-<a class="btn btn--admin btn--admin--large addBtn" data-action="/api/history/sections">+ Lisa Sektsioon +</a>
+</div>
+
+<a class="btn btn--admin btn--admin--large dataAddBtn" data-for="historySections" data-action="/api/history/sections" tabindex="0">+ Lisa Sektsioon +</a>
 
 
 <%- include('../partials/footer') -%>

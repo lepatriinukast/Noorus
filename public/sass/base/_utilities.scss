@@ -43,7 +43,12 @@
 }
 
 .red {
-  color: red;
+  color: red !important;
+}
+
+.unsaved {
+  background-color: bisque !important;
+  outline: 3px groove bisque !important;
 }
 
 // Classes that change the size of the text-boxes on the shop page.
@@ -51,7 +56,7 @@
 .low-fixed-height {
   transition-property: max-height;
   transition-duration: 0.5s;
-  max-height: 15rem;
+  max-height: 14.3rem;
 }
 
 .high-fixed-height {

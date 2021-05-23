@@ -3,7 +3,7 @@
     <li class="headnav__item headnav__item--expandable">
       <a class="headnav__link" href="/<%= data.pageInfo.navigation.hrefs.links[1] %>"><%= data.pageInfo.navigation.linkTexts[0] %></a>
     <span aria-label="<%= data.pageInfo.navigation.ariaLabels[0] %>">
-      <i class="fas fa-caret-down" id="dropdownButtonHeader"></i>
+      <i class="fas fa-caret-down" id="dropdownButtonHeader" tabindex="0"></i>
     </span>
       <%- include('dropdown', {data: data, className: "dropdown--header", id: "dropdownMenuHeader"}); -%>
     </li>
@@ -19,7 +19,7 @@
   </ul>
   <div class="headnav__item headnav__item--hamburger">
     <a class="headnav__link" aria-label="<%= data.pageInfo.navigation.ariaLabels[1] %>">
-      <i class="headnav__icon fas fa-bars" id="hamburgerButton"></i>
+      <i class="headnav__icon fas fa-bars" id="hamburgerButton" tabindex="0"></i>
     </a>
   </div>
   <div class="headnav__item">

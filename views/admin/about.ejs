@@ -9,7 +9,7 @@
 
   <div class="column-container">
     <div class="admin__input-group">
-      <h3 class="admin-heading admin-heading--tertiary">Taustapilt</h3>
+      <h3 class="admin-heading admin-heading--tertiary u-margin">Taustapilt</h3>
       <input class="admin__hidden-input" id="aboutBackgroundImg" name="aboutBackgroundImg" type="file">
       <label class="btn btn--admin btn--admin--small" for="aboutBackgroundImg">Vali fail</label>
       <p class="admin__label" id="aboutBackgroundImgLabel"><%= data.staticImages[1].filename %></p>
@@ -36,7 +36,7 @@
         <div class="admin__editor">
           <div class="editor" id="introSectionEstEditor"><%- data.staticSections[3].content.est %></div>
         </div>
-        <input class="admin__hidden-input" id="introSectionEst" name="introSectionEst" type="text">
+        <input class="admin__hidden-input" id="introSectionEst" name="introSectionEst" type="text" value="<%= data.staticSections[3].content.est %>">
       </div>
       <div class="admin__input-item">
         <h3 class="admin-heading admin-heading--quarternary">EN</h3>
@@ -44,7 +44,7 @@
           <div class="editor" id="introSectionEnEditor"><%- data.staticSections[3].content.en %></div>
         </div>
       </div>
-      <input class="admin__hidden-input" id="introSectionEn" name="introSectionEn" type="text">
+      <input class="admin__hidden-input" id="introSectionEn" name="introSectionEn" type="text" value="<%= data.staticSections[3].content.en %>">
     </div>
     <div class="column-container">
       <button class="btn btn--admin btn--admin--large" type="submit">Salvesta</button>
