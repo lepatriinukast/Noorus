@@ -48,6 +48,6 @@ app.use("/", messages);
 // Start listening on the port specified in the .env file.
 // During development use port 3000 instead.
 
-app.listen(3000, () => {
+app.listen(process.env.PORT, () => {
   console.log("Server is now running");
 });
