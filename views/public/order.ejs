@@ -26,21 +26,23 @@
           <a class="signBtn" id="minusBtn<%= i + 1 %>" tabindex="0">
             <i class="form__sign-btn fas fa-minus-circle"></i>
           </a>
-          <input class="form__input form__number-input itemCount" id="itemCount<%= i + 1 %>" name="<%= data.shopItems[i].heading[data.language] %>" type="number" min="0" max="99" step="1" <% if (data.selected == (i + 1)) { %> value="1" <% } else { %>
+          <input class="form__input form__number-input itemCount" id="itemCount<%= i + 1 %>" name="count" type="number" min="0" max="99" step="1" <% if (data.selected == (i + 1)) { %> value="1" <% } else { %>
             value="0" <% } %>>
+            <input name="name" type="hidden" value="<%= data.shopItems[i].heading[data.language] %>">
           <a class="signBtn" id="plusBtn<%= i + 1 %>" tabindex="0">
             <i class="form__sign-btn fas fa-plus-circle"></i>
           </a>
         </div>
         <div class="order__box">
           <p><strong class="greyout"><span class="price" id="price<%= i + 1 %>"><%= data.shopItems[i].price %></span>€</strong></p>
-          <input class="form__hidden-input" id="hiddenPrice<%= i + 1 %>" name="<%= data.pageInfo.miscellaneous[3] %>" type="number" value="<%= data.shopItems[i].price %>" aria-hidden>
+          <input class="form__hidden-input" id="hiddenPrice<%= i + 1 %>" name="price" type="number" value="<%= data.shopItems[i].price %>" aria-hidden>
         </div>
         <% } %>
+        <input name="language" type="hidden" value="<%= data.language %>">
       </div>
       <div class="order__box">
         <h2 class="heading heading--tertiary"><%= data.pageInfo.miscellaneous[1] %>: <span id="sum">0</span> €</h2>
-        <input class="form__hidden-input" id="hiddenSum" name="<%= data.pageInfo.miscellaneous[4] %>" type="number" min="1" required oninvalid="this.setCustomValidity('<%= data.pageInfo.miscellaneous[5] %>')" oninput="setCustomValidity('')"
+        <input class="form__hidden-input" id="hiddenSum" name="total" type="number" min="1" required oninvalid="this.setCustomValidity('<%= data.pageInfo.miscellaneous[5] %>')" oninput="setCustomValidity('')"
           aria-hidden>
       </div>
 

@@ -3,25 +3,24 @@
 // This module sets up an e-mail sending procedure.
 // The necessary information is hidden in the .env file.
 
-// Require the nodemailer module.
+// Require the mailgun-js module.
 
-const nodemailer = require("nodemailer");
+const mailgun = require("mailgun-js");
 
 // setup an e-mail transporter.
+// The delicate details are located in the .env file.
 
-const transporter = nodemailer.createTransport({
-  service: process.env.NODEMAILER_SERVICE
+const mg = mailgun({
+  apiKey: process.env.MG_API_KEY,
+  domain: process.env.MG_DOMAIN
 });
 
 // Function for sending the email using the specified options.
 
-const send = (mailOptions) => {
-  transporter.sendMail(mailOptions, function(err, info) {
-    if (err) throw err;
+const send = (data) => {
+  mg.messages().send(data, (error, body) => {
   });
-
 };
-
 
 // Export the function.
 
