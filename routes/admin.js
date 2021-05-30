@@ -26,7 +26,7 @@ const reqData = require("./../reqData");
 // The route /admin will redirect to the /admin/home page.
 
 router.get("/", async (req, res) => {
-  if (req.session.loggedIn === true) {
+  if (req.session.loggedIn) {
   res.redirect("/admin/home");
 } else {
   res.redirect("/login");
@@ -34,7 +34,7 @@ router.get("/", async (req, res) => {
 });
 
 router.get("/home", async (req, res) => {
-  if (req.session.loggedIn === true) {
+  if (req.session.loggedIn) {
   const data = await reqData("admin-home");
   res.render("admin/home", {
     data: data
@@ -45,7 +45,7 @@ router.get("/home", async (req, res) => {
 });
 
 router.get("/about", async (req, res) => {
-  if (req.session.loggedIn === true) {
+  if (req.session.loggedIn) {
   const data = await reqData("admin-about");
   res.render("admin/about", {
     data: data
@@ -56,7 +56,7 @@ router.get("/about", async (req, res) => {
 });
 
 router.get("/members", async (req, res) => {
-  if (req.session.loggedIn === true) {
+  if (req.session.loggedIn) {
   const data = await reqData("admin-members");
   res.render("admin/members", {
     data: data
@@ -67,7 +67,7 @@ router.get("/members", async (req, res) => {
 });
 
 router.get("/conductors", async (req, res) => {
-  if (req.session.loggedIn === true) {
+  if (req.session.loggedIn) {
   const data = await reqData("admin-conductors");
   res.render("admin/conductors", {
     data: data
@@ -78,7 +78,7 @@ router.get("/conductors", async (req, res) => {
 });
 
 router.get("/history", async (req, res) => {
-  if (req.session.loggedIn === true) {
+  if (req.session.loggedIn) {
   const data = await reqData("admin-history");
   res.render("admin/history", {
     data: data
@@ -89,7 +89,7 @@ router.get("/history", async (req, res) => {
 });
 
 router.get("/media", async (req, res) => {
-  if (req.session.loggedIn === true) {
+  if (req.session.loggedIn) {
   const data = await reqData("admin-media");
   res.render("admin/media", {
     data: data
@@ -100,7 +100,7 @@ router.get("/media", async (req, res) => {
 });
 
 router.get("/sponsors", async (req, res) => {
-  if (req.session.loggedIn === true) {
+  if (req.session.loggedIn) {
   const data = await reqData("admin-sponsors");
   res.render("admin/sponsors", {
     data: data
@@ -111,7 +111,7 @@ router.get("/sponsors", async (req, res) => {
 });
 
 router.get("/events", async (req, res) => {
-  if (req.session.loggedIn === true) {
+  if (req.session.loggedIn) {
   const data = await reqData("admin-events");
   res.render("admin/events", {
     data: data
@@ -122,7 +122,7 @@ router.get("/events", async (req, res) => {
 });
 
 router.get("/contact", async (req, res) => {
-  if (req.session.loggedIn === true) {
+  if (req.session.loggedIn) {
   const data = await reqData("admin-contact");
   res.render("admin/contact", {
     data: data
@@ -133,7 +133,7 @@ router.get("/contact", async (req, res) => {
 });
 
 router.get("/shop", async (req, res) => {
-  if (req.session.loggedIn === true) {
+  if (req.session.loggedIn) {
   const data = await reqData("admin-shop");
   res.render("admin/shop", {
     data: data
@@ -144,7 +144,7 @@ router.get("/shop", async (req, res) => {
 });
 
 router.get("/order", async (req, res) => {
-  if (req.session.loggedIn === true) {
+  if (req.session.loggedIn) {
   const data = await reqData("admin-order");
   res.render("admin/order", {
     data: data
@@ -155,7 +155,7 @@ router.get("/order", async (req, res) => {
 });
 
 router.get("/archive", async (req, res) => {
-  if (req.session.loggedIn === true) {
+  if (req.session.loggedIn) {
   const data = await reqData("admin-archive");
   res.render("admin/archive", {
     data: data
