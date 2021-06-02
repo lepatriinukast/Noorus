@@ -73,7 +73,6 @@ const pageTypes = {
     // Listen to clicks, touches and keystrokes, and evoke the handler.
 
     window.addEventListener("click", handler);
-    window.addEventListener("touchend", handler);
     window.addEventListener("keydown", (event) => {
       if (event.key !== "Tab") {
         handler(event);
@@ -101,23 +100,6 @@ const pageTypes = {
     // Listen to clicks, touches and keystrokes on the page and depending on event target call the appropriate function.
 
     window.addEventListener("click", (event) => {
-      removeMessages();
-      if (event.target === document.getElementById("hamburgerButton") || event.target === document.getElementById("hamburgerButton").parentNode) {
-        toggleAdminMenu();
-      } else if (event.target.classList.contains("dataAddBtn")) {
-        ajax.post(event);
-      } else if (event.target.classList.contains("dataRestoreBtn")) {
-        ajax.restore(event);
-      } else if (event.target.classList.contains("dataArchiveBtn")) {
-        ajax.archive(event);
-      } else if (event.target.classList.contains("dataDeleteBtn")) {
-        createDeleteMessage(event);
-      } else if (event.target === document.getElementById("logoutBtn")) {
-        ajax.logout(event);
-      }
-    });
-
-    window.addEventListener("touchend", (event) => {
       removeMessages();
       if (event.target === document.getElementById("hamburgerButton") || event.target === document.getElementById("hamburgerButton").parentNode) {
         toggleAdminMenu();
@@ -269,14 +251,6 @@ const pageTypes = {
     // If the click or touch occured on one of the number buttons, change the value of the corresponding item count input.
 
     window.addEventListener("click", (event) => {
-      if (event.target.classList.contains("signBtn") || event.target.parentNode.classList.contains("signBtn")) {
-        event.preventDefault();
-        changeCount(event.target);
-        calculateSum();
-      }
-    });
-
-    window.addEventListener("touch", (event) => {
       if (event.target.classList.contains("signBtn") || event.target.parentNode.classList.contains("signBtn")) {
         event.preventDefault();
         changeCount(event.target);
