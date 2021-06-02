@@ -23,6 +23,14 @@ const getFields = require("./../apiFunctions/getFields");
 
 const fields = getFields("conductors");
 
+// Require the express-session middleware configuration from the config folder.
+
+const session = require("./../config/session");
+
+// Setup the express-session framework as middleware for the router object.
+
+router.use(session);
+
 
 
 
@@ -34,18 +42,39 @@ router.route("/intro")
 
   // Update the intro part of the conductors section.
 
-  .put(upload().text, async (req, res) => {
+  .put(async (req, res) => {
 
-    // Multer makes the user-inputted data available in the req.body variable.
-    // Pass that into the function that updates the database along with the name of the database table.
-    // The third argument is an index that denotes the position of the relevant entry in the database table.
-    // The function is asynchronous so use the await keyword.
+    // Only handle the request if the user is logged in.
 
-    await apiController.update.text(req.body, "intros", 1);
+    if (req.session.loggedIn) {
 
-    // Send a response back to the browser.
+      // Upload the form data using multer.
 
-    res.send("OK!");
+      await upload().text(req, res, async (err) => {
+
+        // In case of an error on upload, throw the error.
+
+        if (err) throw err;
+
+        // Multer makes the user-inputted data available in the req.body variable.
+        // Pass that into the function that updates the database along with the name of the database table.
+        // The third argument is an index that denotes the position of the relevant entry in the database table.
+        // The function is asynchronous so use the await keyword.
+
+        await apiController.update.text(req.body, "intros", 1);
+      });
+
+      // Send a response back to the browser.
+
+      res.send("OK!");
+
+      // If the user is not logged in, send back a "403" status code, denying access.
+
+    } else {
+
+      res.status("403");
+      res.send("Access denied");
+    }
   });
 
 
@@ -61,17 +90,29 @@ router.route("/sections")
 
   .post(async (req, res) => {
 
-    // Call the function that create a new entry to the specified database table.
-    // The function is asynchronous, so use the await keyword.
-    // In this case the function needs to be called twice,
-    // because new entries will be created to two different tables.
+    // Only handle the request if the user is logged in.
 
-    await apiController.create("conductors_images");
-    await apiController.create("conductors_sections");
+    if (req.session.loggedIn) {
 
-    // Send a response back to the browser.
+      // Call the function that create a new entry to the specified database table.
+      // The function is asynchronous, so use the await keyword.
+      // In this case the function needs to be called twice,
+      // because new entries will be created to two different tables.
 
-    res.send("OK");
+      await apiController.create("conductors_images");
+      await apiController.create("conductors_sections");
+
+      // Send a response back to the browser.
+
+      res.send("OK");
+
+      // If the user is not logged in, send back a "403" status code, denying access.
+
+    } else {
+
+      res.status("403");
+      res.send("Access denied");
+    }
   });
 
 
@@ -85,31 +126,51 @@ router.route("/sections/:id")
 
   // Update the sections of the conductors part of the about page.
 
-  .put(upload(fields).multipart, async (req, res) => {
+  .put(async (req, res) => {
 
-    // Call the function that updates images.
-    // Provide the function with the req.files variable where the uploaded files are stored
-    // and a selector string, which the function is able to use to locate the correct database table and inputs.
-    // The function is asynchronous, so the await keyword has to be used.
+    // Only handle the request if the user is logged in.
 
-    if (req.files) {
+    if (req.session.loggedIn) {
 
-      await apiController.update.dynamicImages(req.files, "conductors");
+      // Upload the form data using multer.
 
+      await upload(fields).multipart(req, res, async (err) => {
+
+        // In case of an error on upload, throw the error.
+
+        if (err) throw err;
+
+        // Call the function that updates images.
+        // Provide the function with the req.files variable where the uploaded files are stored
+        // and a selector string, which the function is able to use to locate the correct database table and inputs.
+        // The function is asynchronous, so the await keyword has to be used.
+
+        if (req.files) {
+
+          await apiController.update.dynamicImages(req.files, "conductors");
+        }
+
+        // Multer makes the user-inputted data available in the req.body variable.
+        // Pass that into the function that updates the database along with the name of the database table.
+        // This route updates the section specified in the custom parameter id.
+        // Thos custom parameter also indicates the position in which the relevant section can be found in the database table
+        // (deduct 1 from this number, because js is 0-based).
+        // The function is asynchronous so use the await keyword.
+
+        await apiController.update.section(req.body, "conductors_sections", (req.params.id - 1));
+      });
+
+      // Send a response back to the browser.
+
+      res.send("OK!");
+
+      // If the user is not logged in, send back a "403" status code, denying access.
+
+    } else {
+
+      res.status("403");
+      res.send("Access denied");
     }
-
-    // Multer makes the user-inputted data available in the req.body variable.
-    // Pass that into the function that updates the database along with the name of the database table.
-    // This route updates the section specified in the custom parameter id.
-    // Thos custom parameter also indicates the position in which the relevant section can be found in the database table
-    // (deduct 1 from this number, because js is 0-based).
-    // The function is asynchronous so use the await keyword.
-
-    await apiController.update.section(req.body, "conductors_sections", (req.params.id - 1));
-
-    // Send a response back to the browser.
-
-    res.send("OK!");
   })
 
 
@@ -117,17 +178,29 @@ router.route("/sections/:id")
 
   .delete(async (req, res) => {
 
-    // Call the function that deletes the specified entry from the specified database table.
-    // The index for locating the entry in the table can be found in the api endpoint.
-    // Also make this index 0-based.
-    // Call the function twice to delete entries from two different tables.
+    // Only handle the request if the user is logged in.
 
-    await apiController.delete("conductors_sections", req.params.id - 1);
-    await apiController.delete("conductors_images", req.params.id - 1);
+    if (req.session.loggedIn) {
 
-    // Send a response back to the browser.
+      // Call the function that deletes the specified entry from the specified database table.
+      // The index for locating the entry in the table can be found in the api endpoint.
+      // Also make this index 0-based.
+      // Call the function twice to delete entries from two different tables.
 
-    res.send("OK!");
+      await apiController.delete("conductors_sections", req.params.id - 1);
+      await apiController.delete("conductors_images", req.params.id - 1);
+
+      // Send a response back to the browser.
+
+      res.send("OK!");
+
+      // If the user is not logged in, send back a "403" status code, denying access.
+
+    } else {
+
+      res.status("403");
+      res.send("Access denied");
+    }
   });
 
 // Export the router to the server file.

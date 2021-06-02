@@ -43,7 +43,7 @@ router.route("/")
 
   // Extract the inputted username and password from the data.
 
-  const user = req.body.user;
+  const username = req.body.username;
   const password = req.body.password;
 
   // Query the database for the username and password hash.
@@ -52,7 +52,7 @@ router.route("/")
 
     // Obtain the username and hash from the database.
 
-    const loadedUser = result[0].user;
+    const loadedUsername = result[0].username;
     const hash = result[0].password;
 
     // Use bcrypt to compare the inputted password with the hash obtained from the database.
@@ -66,7 +66,7 @@ router.route("/")
 
       // Check if the credentials in the database match those posted from the client-side.
 
-      if (result[0].user === user && comparison === true) {
+      if (result[0].username === username && comparison === true) {
 
         // If yes, create a session with these credentials.
 
