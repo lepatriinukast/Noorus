@@ -18,6 +18,7 @@ const getPageInfo = (templateName, language) => {
       pageTitle: routeInfo.pageTitles[templateName][language],
       aboutSubheadings: routeInfo.aboutSubheadings[language],
       buttonText: routeInfo.buttonText[language],
+      mainCTAText: routeInfo.mainCTAText[language],
       navigation: {
         linkTexts: routeInfo.navigation.linkTexts[language],
         ariaLabels: routeInfo.navigation.ariaLabels[language],
