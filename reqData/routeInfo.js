@@ -56,6 +56,10 @@ const routeInfo = {
     est: "Loe edasi",
     en: "Read more"
   },
+  mainCTAText: {
+    est: "Liitu kooriga!",
+    en: "Join the choir!"
+  },
   navigation: {
     linkTexts: {
       est: ["Koorist", "Sündmused", "Kontakt", "Pood", "EN"],
